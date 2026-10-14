@@ -95,61 +95,81 @@ def sheet(parts, size, small=False):
     return out, box[:2]
 
 
-# Every mob faces left: head on the left, its side face beside it, the body behind.
+# Every mob faces left, seen three-quarters as in the mascot avatars: the head big and
+# turned to us, a narrow darker band of its side behind it, the body behind that, and short
+# legs tucked under the body.
+
+
+def front(tex, x, y, w, h, scale=2):
+    return region(tex, x, y, w, h, scale, scale)
+
+
+def side(tex, x, y, w, h, scale=2):
+    """A head's side face, squeezed to a narrow band: half its width, darker."""
+    im = tex.crop((x, y, x + w, y + h))
+    im = im.resize((max(2, (w * scale) // 4), h * scale), Image.NEAREST)
+    return region(im, 0, 0, im.width, im.height, shade=0.7)
+
+
+def feet(tex, x, y, w, h, rows=3, shade=1.0):
+    """The bottom of a leg's front face: the hoof or paw that shows under the body."""
+    return region(tex, x, y + h - rows, w, rows, shade=shade)
+
+
+def legs(tex, leg, under, y, rows=3):
+    """Four short legs: a front and a back pair, the far leg of each darker and set back."""
+    x0, x1 = under
+    lx, ly, lw, lh = leg
+    far = feet(tex, lx, ly, lw, lh, rows, 0.7)
+    near = feet(tex, lx, ly, lw, lh, rows)
+    return [(far, x0 + 2, y, False), (far, x1 + 2, y, False), (near, x0, y, False), (near, x1, y, False)]
 
 
 def cow(tex):
-    head = region(tex, 6, 6, 8, 8, 2, 2)
-    side = region(tex, 0, 6, 6, 8, 1, 2, 0.72)
+    head = front(tex, 6, 6, 8, 8)
+    band = side(tex, 0, 6, 6, 8)
     horn = region(tex, 23, 1, 1, 3, 2, 1)
     body = region(tex, 18, 14, 10, 18, rotate=True)
-    leg = region(tex, 0, 26, 4, 6)
-    back = region(tex, 0, 26, 4, 6, shade=0.7)
     return [
-        (back, 16, 17, False), (back, 27, 17, False),
-        (body, 12, 7, False),
-        (leg, 13, 18, False), (leg, 24, 18, False),
-        (horn, 0, 0, True), (horn, 14, 0, True),
-        (side, 17, 2, True), (head, 0, 2, True),
-    ], (32, 24)
+        *legs(tex, (4, 20, 4, 12), (10, 21), 21)[:2],
+        (body, 9, 11, False),
+        *legs(tex, (4, 20, 4, 12), (10, 21), 21)[2:],
+        (horn, 1, 0, True), (horn, 13, 0, True),
+        (band, 16, 2, True), (head, 0, 2, True),
+    ], (28, 25)
 
 
 def pig(tex):
-    head = region(tex, 8, 8, 8, 8, 2, 2)
-    snout = region(tex, 17, 17, 4, 3, 2, 2)
-    side = region(tex, 0, 8, 8, 8, 1, 2, 0.72)
+    head = front(tex, 8, 8, 8, 8)
+    band = side(tex, 0, 8, 8, 8)
+    snout = front(tex, 17, 17, 4, 3)
     body = region(tex, 28, 16, 8, 16, rotate=True)
-    leg = region(tex, 0, 20, 4, 4)
-    back = region(tex, 0, 20, 4, 4, shade=0.7)
+    lg = legs(tex, (4, 20, 4, 6), (10, 20), 14)
     return [
-        (back, 15, 18, False), (back, 26, 18, False),
-        (body, 12, 9, False),
-        (leg, 12, 19, False), (leg, 23, 19, False),
-        (side, 17, 2, True), (head, 0, 2, True), (snout, 4, 11, True),
-    ], (30, 23)
+        *lg[:2], (body, 9, 6, False), *lg[2:],
+        (band, 16, 0, True), (head, 0, 0, True), (snout, 4, 9, True),
+    ], (27, 18)
 
 
 def sheep(tex, fur):
-    wool = region(fur, 6, 6, 6, 6, 2, 2)
-    face = region(tex, 8, 9, 6, 5, 2, 2)
-    side = region(fur, 0, 6, 6, 6, 1, 2, 0.75)
-    body = region(fur, 28, 14, 6, 16, rotate=True)
-    body = body.resize((body.width, body.height * 2), Image.NEAREST)
-    leg = region(tex, 0, 27, 4, 5)
-    back = region(tex, 0, 27, 4, 5, shade=0.7)
+    face = front(tex, 8, 8, 6, 6)
+    band = side(fur, 0, 6, 6, 6)
+    body = region(fur, 28, 14, 6, 16, rotate=True).resize((18, 10), Image.NEAREST)
+    lg = legs(tex, (4, 20, 4, 12), (10, 20), 14)
     return [
-        (back, 15, 18, False), (back, 25, 18, False),
-        (body, 11, 6, False),
-        (leg, 12, 19, False), (leg, 22, 19, False),
-        (side, 13, 1, True), (wool, 1, 1, True), (face, 1, 5, True),
-    ], (29, 24)
+        *lg[:2], (body, 8, 4, False), *lg[2:],
+        (band, 12, 0, True), (face, 0, 0, True),
+    ], (27, 18)
 
 
 def horse(tex):
-    """A horse seen from the side, facing left: long legs, the neck raised, the head on top.
-    Its parts are the model's side faces (1.21.4 horse layout), drawn at their own size."""
-    head = region(tex, 0, 20, 7, 5, flip=True)
-    mouth = region(tex, 0, 30, 5, 5, flip=True)
+    """Side on: long legs, the neck raised, and the head one tilted rectangle, muzzle down."""
+    muzzle = tex.crop((0, 30, 5, 35)).transpose(Image.Transpose.FLIP_LEFT_RIGHT)
+    skull = tex.crop((0, 20, 7, 25)).transpose(Image.Transpose.FLIP_LEFT_RIGHT)
+    head = Image.new('RGBA', (12, 5))
+    head.paste(muzzle, (0, 0))
+    head.paste(skull, (5, 0))
+    head = head.rotate(40, resample=Image.NEAREST, expand=True)
     ear = region(tex, 19, 17, 2, 3)
     neck = region(tex, 0, 42, 7, 12, flip=True)
     mane = region(tex, 56, 40, 4, 16, shade=0.8)
@@ -158,85 +178,83 @@ def horse(tex):
     leg = region(tex, 48, 25, 4, 11)
     back = region(tex, 48, 25, 4, 11, shade=0.7)
     return [
-        (tail, 29, 12, False),
-        (back, 11, 21, False), (back, 26, 21, False),
-        (body, 8, 13, False),
-        (leg, 8, 22, False), (leg, 23, 22, False),
-        (mane, 11, 2, True), (neck, 6, 4, True),
-        (ear, 9, 0, True), (head, 4, 2, True), (mouth, 1, 5, True),
-    ], (33, 33)
+        (tail, 29, 13, False),
+        (back, 11, 22, False), (back, 26, 22, False),
+        (body, 8, 14, False),
+        (leg, 8, 23, False), (leg, 23, 23, False),
+        (mane, 13, 4, True), (neck, 8, 6, True),
+        (ear, 12, 0, True), (head, 0, 1, True),
+    ], (33, 34)
 
 
 def villager(tex):
     # The head with its hat layer (a profession's hat), front and side.
     head = Image.alpha_composite(tex.crop((8, 8, 16, 18)), tex.crop((40, 8, 48, 18)))
     head = head.resize((16, 20), Image.NEAREST)
-    side = Image.alpha_composite(tex.crop((0, 8, 8, 18)), tex.crop((32, 8, 40, 18)))
-    side = region(side, 0, 0, 8, 10, 1, 2, 0.72)
-    nose = region(tex, 24, 2, 2, 4, 2, 2)
+    band = Image.alpha_composite(tex.crop((0, 8, 8, 18)), tex.crop((32, 8, 40, 18)))
+    band = side(band, 0, 0, 8, 10)
+    nose = front(tex, 26, 2, 2, 4)
     robe = region(tex, 6, 44, 8, 14)
     robe_side = region(tex, 0, 44, 3, 14, shade=0.72)
     arms = region(tex, 44, 42, 8, 4)
     return [
-        (robe_side, 13, 20, False), (robe, 5, 20, False), (arms, 5, 23, False),
-        (side, 16, 0, True), (head, 0, 0, True), (nose, 0, 12, True),
-    ], (26, 36)
+        (robe_side, 12, 20, False), (robe, 4, 20, False), (arms, 4, 23, False),
+        (band, 16, 0, True), (head, 0, 0, True), (nose, 6, 11, True),
+    ], (22, 35)
 
 
 def golem(tex):
-    head = region(tex, 8, 8, 8, 10, 2, 2)
-    side = region(tex, 0, 8, 8, 10, 1, 2, 0.72)
-    nose = region(tex, 24, 2, 2, 4, 2, 2)
+    head = front(tex, 8, 8, 8, 10)
+    band = side(tex, 0, 8, 8, 10)
+    nose = front(tex, 26, 2, 2, 4)
     body = region(tex, 11, 51, 18, 12)
     arm = region(tex, 66, 27, 4, 16)
     leg = region(tex, 42, 13, 6, 8)
+    far_arm = region(tex, 66, 27, 4, 16, shade=0.7)
     return [
-        (leg, 8, 30, False), (leg, 16, 30, False),
-        (arm, 1, 19, False), (arm, 25, 19, False),
-        (body, 5, 19, False),
-        (side, 18, 0, True), (head, 2, 0, True), (nose, 2, 12, True),
-    ], (30, 38)
+        (leg, 6, 30, False), (leg, 14, 30, False),
+        (far_arm, 18, 19, False),
+        (body, 3, 19, False),
+        (arm, 0, 19, False),
+        (band, 16, 0, True), (head, 0, 0, True), (nose, 6, 11, True),
+    ], (28, 38)
 
 
 def humanoid(tex, arm, leg, reach=False):
     """Zombies and skeletons: the player's layout, as the mascot avatar draws a player."""
-    ox = 7 if reach else 0
-    head = region(tex, 8, 8, 8, 8, 2, 2)
-    side = region(tex, 0, 8, 8, 8, 1, 2, 0.72)
+    ox = 6 if reach else 0
+    head = front(tex, 8, 8, 8, 8)
+    band = side(tex, 0, 8, 8, 8)
     body = region(tex, 20, 20, 8, 7)
     lw = leg[2]
-    front = region(tex, leg[0], leg[1] + 8, lw, 4)
-    behind = region(tex, leg[0], leg[1] + 8, lw, 4, shade=0.75)
+    near = region(tex, leg[0], leg[1] + 8, lw, 4)
+    far = region(tex, leg[0], leg[1] + 8, lw, 4, shade=0.75)
+    parts = [(far, ox + 7, 23, False), (near, ox + 4, 23, False), (body, ox + 3, 16, False)]
     if reach:
-        # A zombie's arms, held out in front at the height of the chest.
-        a = region(tex, arm[0], arm[1], arm[2], 10, rotate=True)
-        arms = [(region(tex, arm[0], arm[1], arm[2], 10, rotate=True, shade=0.75), 1, 15, False),
-                (a, 0, 18, False)]
-    else:
-        a = region(tex, arm[0], arm[1], arm[2], 7)
-        arms = [(region(tex, arm[0], arm[1], arm[2], 7, shade=0.75), ox + 13 - arm[2] // 2, 17, False),
-                (a, ox + 5 - arm[2], 17, False)]
-    parts = [
-        (behind, ox + 9, 23, False), (front, ox + 8 - lw, 23, False),
-        (body, ox + 4, 16, False),
-        (side, ox + 16, 0, True), (head, ox, 0, True),
-    ]
-    # Arms reaching forward are in front of everything; arms at the sides go behind the head.
-    return (parts + arms if reach else parts[:3] + arms + parts[3:]), (26 + ox, 30)
+        # A zombie's arms, held out in front from the shoulders: the hand ends on the left.
+        a = region(tex, arm[0], arm[1], arm[2], 10)
+        a = a.transpose(Image.Transpose.ROTATE_270)
+        far_arm = region(a, 0, 0, a.width, a.height, shade=0.75)
+        return [(far_arm, ox - 4, 15, False), *parts, (a, ox - 6, 17, False),
+                (band, ox + 16, 0, True), (head, ox, 0, True)], (22 + ox, 30)
+    a = region(tex, arm[0], arm[1], arm[2], 7)
+    far_arm = region(tex, arm[0], arm[1], arm[2], 7, shade=0.75)
+    return [(far_arm, 11, 17, False), *parts, (a, 3 - arm[2], 17, False),
+            (band, 16, 0, True), (head, 0, 0, True)], (22, 30)
 
 
 def creeper(tex):
-    head = region(tex, 8, 8, 8, 8, 2, 2)
-    side = region(tex, 0, 8, 8, 8, 1, 2, 0.72)
+    head = front(tex, 8, 8, 8, 8)
+    band = side(tex, 0, 8, 8, 8)
     body = region(tex, 20, 20, 8, 9)
-    leg = region(tex, 4, 20, 4, 5)
-    back = region(tex, 4, 20, 4, 5, shade=0.7)
+    far = feet(tex, 4, 20, 4, 6, 4, 0.7)
+    near = feet(tex, 4, 20, 4, 6, 4)
     return [
-        (back, 9, 25, False), (back, 14, 25, False),
-        (body, 6, 16, False),
-        (leg, 4, 25, False), (leg, 11, 25, False),
-        (side, 16, 0, True), (head, 0, 0, True),
-    ], (26, 32)
+        (far, 6, 25, False), (far, 10, 25, False),
+        (body, 4, 16, False),
+        (near, 3, 25, False), (near, 9, 25, False),
+        (band, 16, 0, True), (head, 0, 0, True),
+    ], (22, 30)
 
 
 def chicken(tex):
@@ -254,17 +272,23 @@ def chicken(tex):
 
 
 def bee(tex):
-    face = region(tex, 10, 10, 7, 7, 2, 2)
-    side = region(tex, 0, 10, 10, 7, 1, 2, 0.8)
-    wing = region(tex, 8, 18, 6, 4)
+    """Small, as a bee is: its face at the texture's own size, the wings folded on its back."""
+    face = front(tex, 10, 10, 7, 7, 1)
+    band = side(tex, 0, 10, 10, 7, 1)
+    # The wing's own colour, the lightest of its texture, as a small folded wing.
+    pixels = [p for p in tex.crop((8, 18, 15, 23)).get_flattened_data() if p[3]]
+    light = max(pixels, key=lambda p: p[0] + p[1] + p[2])
+    wing = Image.new('RGBA', (3, 3), light)
     return [
-        (side, 13, 3, True), (wing, 15, 0, False),
-        (face, 0, 3, True),
-    ], (23, 18)
+        (band, 7, 2, True),
+        (region(wing, 0, 0, 3, 3, shade=0.85), 5, 0, True),
+        (face, 0, 2, True),
+        (wing, 2, 0, True),
+    ], (11, 10)
 
 
 # Where a rider's seat is on a horse, in the parts' coordinates: the middle of its back.
-SADDLE = (20, 13)
+SADDLE = (20, 14)
 
 
 def main():
