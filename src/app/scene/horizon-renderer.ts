@@ -9,6 +9,7 @@
  * from the same preset move in step.
  */
 import { BIRD_FRAMES, PALETTE, RGB, SPRITES, SpriteName } from './sprites';
+import { Figure, WALK_FRAMES, WALK_FRAME_H, WALK_FRAME_MS, WALK_FRAME_W } from './figures';
 import { SceneSpec } from './scenes';
 
 type Canvas = HTMLCanvasElement;
@@ -30,6 +31,8 @@ interface Mob {
   phase: number;
   nametag: boolean;
   floats: boolean;
+  /** Index of the player figure drawn for it, or -1 for a pixel sprite. */
+  figure: number;
 }
 
 interface Bird {
@@ -134,6 +137,8 @@ export class HorizonRenderer {
     private readonly spec: SceneSpec,
     readonly width: number,
     readonly height: number,
+    /** Players drawn from real skins; without them, the pixel sprites stand in. */
+    private readonly figures: Figure[] = [],
   ) {
     const rand = mulberry32(spec.seed);
     this.sky = this.buildSky(rand);
@@ -296,6 +301,7 @@ export class HorizonRenderer {
 
   private placeMobs(rand: () => number) {
     const { width: w } = this;
+    let players = 0;
     this.spec.layers.forEach((layer, index) => {
       for (const group of layer.mobs ?? []) {
         const [from, to] = group.spread ?? [0.04, 0.96];
@@ -315,6 +321,10 @@ export class HorizonRenderer {
             phase: rand() * Math.PI * 2,
             nametag: /^(player|rider|boat)/.test(group.sprite),
             floats: !!layer.water,
+            figure:
+              this.figures.length && /^(player|rider|boat)/.test(group.sprite)
+                ? players++ % this.figures.length
+                : -1,
           });
         }
       }
@@ -376,11 +386,11 @@ export class HorizonRenderer {
     const x = mob.x0 + mob.wander * Math.sin(angle);
     const flip = mob.wander > 0 ? Math.cos(angle) < 0 : mob.phase > Math.PI;
     const xi = Math.max(0, Math.min(this.width - 1, Math.round(x)));
-    const img = this.sprite(mob.sprite, layer.scale, layer.haze * 0.8, flip);
     const bob = mob.floats ? Math.round(Math.sin(t * 1.6 + mob.phase) * 0.6) : 0;
-    const left = Math.round(xi - img.width / 2);
-    const top = layer.surface[xi] - img.height + (mob.floats ? layer.scale : 0) + bob;
-    ctx.drawImage(img, left, top);
+    const top =
+      mob.figure >= 0
+        ? this.drawFigure(ctx, mob, layer, xi, flip, t, bob)
+        : this.drawSprite(ctx, mob, layer, xi, flip, bob);
     if (mob.nametag) {
       const s = Math.max(1, Math.round(layer.scale / 2));
       const tw = 6 + 2 * s;
@@ -412,6 +422,103 @@ export class HorizonRenderer {
         }),
       );
     }
+  }
+
+  /** Draws a pixel sprite standing at `xi`; returns the top of what was drawn. */
+  private drawSprite(
+    ctx: CanvasRenderingContext2D,
+    mob: Mob,
+    layer: BuiltLayer,
+    xi: number,
+    flip: boolean,
+    bob: number,
+  ): number {
+    const img = this.sprite(mob.sprite, layer.scale, layer.haze * 0.8, flip);
+    const top = layer.surface[xi] - img.height + (mob.floats ? layer.scale : 0) + bob;
+    ctx.drawImage(img, Math.round(xi - img.width / 2), top);
+    return top;
+  }
+
+  /**
+   * Draws a player from its skin: walking, on a horse or in a boat. A player is eight
+   * pixels of the layer tall, as the pixel sprites' scale goes. Returns the top.
+   */
+  private drawFigure(
+    ctx: CanvasRenderingContext2D,
+    mob: Mob,
+    layer: BuiltLayer,
+    xi: number,
+    flip: boolean,
+    t: number,
+    bob: number,
+  ): number {
+    const s = layer.scale;
+    const haze = layer.haze * 0.8;
+    const ground = layer.surface[xi];
+
+    if (mob.sprite === 'rider' || mob.sprite === 'boat') {
+      // Head and chest only (20 of the skin's 32 rows): the legs are in the saddle or the hull.
+      const seat = this.sprite(mob.sprite === 'rider' ? 'horse' : 'hull', s, haze, flip);
+      const seatLeft = Math.round(xi - seat.width / 2);
+      const seatTop = ground - seat.height + (mob.floats ? s : 0) + bob;
+      const upper = this.figureImage(mob.figure, 'body', 0, Math.round(5 * s), haze, flip);
+      const along = mob.sprite === 'rider' ? (flip ? 0.6 : 0.4) : 0.5;
+      const left = Math.round(seatLeft + seat.width * along - upper.width / 2);
+      const top = seatTop + (mob.sprite === 'rider' ? 2 * s : s) - upper.height;
+      ctx.drawImage(upper, left, top);
+      ctx.drawImage(seat, seatLeft, seatTop);
+      return top;
+    }
+
+    const frame =
+      mob.wander > 0 ? Math.floor((t * 1000) / WALK_FRAME_MS + mob.phase * 5) % WALK_FRAMES : 0;
+    const img = this.figureImage(mob.figure, 'walk', frame, Math.round(9 * s), haze, flip);
+    const top = ground - img.height + Math.round(s / 2);
+    ctx.drawImage(img, Math.round(xi - img.width / 2), top);
+    return top;
+  }
+
+  /** A skin figure shrunk to `height`, its pixels made whole and faded into the haze. */
+  private figureImage(
+    index: number,
+    kind: 'walk' | 'body',
+    frame: number,
+    height: number,
+    haze: number,
+    flip: boolean,
+  ): Canvas {
+    const key = `fig:${index}:${kind}:${frame}:${height}:${haze.toFixed(3)}:${flip}`;
+    let c = this.spriteCache.get(key);
+    if (c) return c;
+    const figure = this.figures[index];
+    const [src, sx, sy, sw, sh] =
+      kind === 'walk'
+        ? [figure.walk, frame * WALK_FRAME_W, 0, WALK_FRAME_W, WALK_FRAME_H]
+        : [figure.body, 0, 0, 16, 20];
+    const w = Math.max(1, Math.round((sw * height) / sh));
+    c = makeCanvas(w, height);
+    const ctx = c.getContext('2d', { willReadFrequently: true })!;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    if (flip) {
+      ctx.translate(w, 0);
+      ctx.scale(-1, 1);
+    }
+    ctx.drawImage(src, sx, sy, sw, sh, 0, 0, w, height);
+    const data = ctx.getImageData(0, 0, w, height);
+    const px = data.data;
+    const fog = this.spec.fog;
+    for (let i = 0; i < px.length; i += 4) {
+      if (px[i + 3] < 96) {
+        px[i + 3] = 0;
+        continue;
+      }
+      px[i + 3] = 255;
+      for (let k = 0; k < 3; k++) px[i + k] = px[i + k] + (fog[k] - px[i + k]) * haze;
+    }
+    ctx.putImageData(data, 0, 0);
+    this.spriteCache.set(key, c);
+    return c;
   }
 
   private sprite(name: SpriteName, scale: number, haze: number, flip: boolean): Canvas {

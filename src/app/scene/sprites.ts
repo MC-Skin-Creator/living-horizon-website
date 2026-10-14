@@ -46,7 +46,8 @@ export type SpriteName =
   | 'tower'
   | 'tree'
   | 'treeSmall'
-  | 'bird';
+  | 'bird'
+  | 'hull';
 
 const horse = ['......ee', '.....eEE', 'eEEEEEEE', '.EEEEEE.', '.E....E.', '.e....e.'];
 
@@ -90,6 +91,7 @@ export const SPRITES: Record<SpriteName, string[]> = {
   tree: ['.lLl.', 'lLlLl', 'lllLl', '.lll.', '..t..', '..t..'],
   treeSmall: ['lL', 'll', '.t'],
   bird: ['K...K', '.K.K.', '..K..'],
+  hull: ['B.....B', 'BBBBBBB'],
 };
 
 /** Two frames of a bird's wings: up, then down. */

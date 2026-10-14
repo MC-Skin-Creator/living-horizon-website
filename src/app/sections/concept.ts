@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FigureView } from '../scene/figure';
 import { Sprite } from '../scene/sprite';
 import { SpriteName } from '../scene/sprites';
 import { Icon, IconName } from '../shared/icon';
@@ -7,12 +8,14 @@ import { Reveal } from '../shared/reveal';
 interface Figure {
   sprite: SpriteName;
   flip?: boolean;
+  /** A player, drawn from this skin (1 to 5) instead of the sprite. */
+  skin?: number;
 }
 
 @Component({
   selector: 'lh-concept',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Sprite, Icon, Reveal],
+  imports: [Sprite, FigureView, Icon, Reveal],
   template: `
     <section class="section" id="what">
       <div class="container">
@@ -33,7 +36,7 @@ interface Figure {
           aria-label="Diagram: without Living Horizon, mobs only exist within your render distance and the far terrain is empty. With it, mobs, players and birds live across the far terrain up to the horizon."
         >
           <div class="axis" aria-hidden="true">
-            <span class="you"><lh-sprite name="player" [scale]="3" /> You</span>
+            <span class="you"><lh-figure [skin]="1" [walk]="false" [height]="28" /> You</span>
             <span class="zone z1">Your render distance</span>
             <span class="zone z2">Far terrain · Distant Horizons / Voxy</span>
             <span class="zone z3">Horizon</span>
@@ -44,7 +47,11 @@ interface Figure {
             <div class="cells">
               <div class="cell z1">
                 @for (f of near; track $index) {
-                  <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="4" />
+                  @if (f.skin) {
+                    <lh-figure [skin]="f.skin" [flip]="!!f.flip" [height]="36" />
+                  } @else {
+                    <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="4" />
+                  }
                 }
               </div>
               <div class="cell z2 empty"><span>empty</span></div>
@@ -57,12 +64,20 @@ interface Figure {
             <div class="cells">
               <div class="cell z1">
                 @for (f of near; track $index) {
-                  <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="4" />
+                  @if (f.skin) {
+                    <lh-figure [skin]="f.skin" [flip]="!!f.flip" [height]="36" />
+                  } @else {
+                    <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="4" />
+                  }
                 }
               </div>
               <div class="cell z2">
                 @for (f of mid; track $index) {
-                  <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="3" [fade]="0.25" />
+                  @if (f.skin) {
+                    <lh-figure [skin]="f.skin" [flip]="!!f.flip" [height]="27" [fade]="0.25" />
+                  } @else {
+                    <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="3" [fade]="0.25" />
+                  }
                 }
                 <span class="birds"
                   ><lh-sprite name="bird" [scale]="2" /><lh-sprite
@@ -72,7 +87,11 @@ interface Figure {
               </div>
               <div class="cell z3">
                 @for (f of far; track $index) {
-                  <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="2" [fade]="0.5" />
+                  @if (f.skin) {
+                    <lh-figure [skin]="f.skin" [flip]="!!f.flip" [height]="18" [fade]="0.5" />
+                  } @else {
+                    <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="2" [fade]="0.5" />
+                  }
                 }
               </div>
             </div>
@@ -100,18 +119,22 @@ interface Figure {
   styleUrl: './concept.scss',
 })
 export class Concept {
-  protected readonly near: Figure[] = [{ sprite: 'cow' }, { sprite: 'sheep', flip: true }];
+  protected readonly near: Figure[] = [
+    { sprite: 'cow' },
+    { sprite: 'player', skin: 2 },
+    { sprite: 'sheep', flip: true },
+  ];
   protected readonly mid: Figure[] = [
     { sprite: 'villager' },
     { sprite: 'golem' },
+    { sprite: 'player', skin: 3 },
     { sprite: 'villager', flip: true },
-    { sprite: 'rider' },
     { sprite: 'sheep', flip: true },
-    { sprite: 'player2' },
+    { sprite: 'player', skin: 4, flip: true },
   ];
   protected readonly far: Figure[] = [
     { sprite: 'cow' },
-    { sprite: 'player3' },
+    { sprite: 'player', skin: 5 },
     { sprite: 'horse', flip: true },
   ];
 

@@ -9,6 +9,7 @@ import {
   input,
   viewChild,
 } from '@angular/core';
+import { Figure, loadFigures } from './figures';
 import { HorizonRenderer } from './horizon-renderer';
 import { SCENES, SceneId } from './scenes';
 
@@ -52,6 +53,7 @@ export class HorizonScene {
   private readonly canvas = viewChild<ElementRef<HTMLCanvasElement>>('canvas');
   private renderer: HorizonRenderer | null = null;
   private builtScene: SceneId | null = null;
+  private figures: Figure[] = [];
   private visible = false;
   private frame = 0;
   private last = 0;
@@ -75,6 +77,12 @@ export class HorizonScene {
         cancelAnimationFrame(this.frame);
       });
       this.rebuild();
+      // The players are drawn from skins: draw again once they are loaded.
+      void loadFigures().then((figures) => {
+        this.figures = figures;
+        this.builtScene = null;
+        this.rebuild();
+      });
     });
 
     // Rebuild when the scene or its shape changes; redraw when life is switched.
@@ -110,7 +118,7 @@ export class HorizonScene {
     this.builtScene = scene;
     canvas.nativeElement.width = width;
     canvas.nativeElement.height = height;
-    this.renderer = new HorizonRenderer(SCENES[scene], width, height);
+    this.renderer = new HorizonRenderer(SCENES[scene], width, height, this.figures);
     this.paint();
     this.schedule();
   }
