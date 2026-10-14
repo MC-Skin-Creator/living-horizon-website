@@ -36,7 +36,7 @@ interface Figure {
           aria-label="Diagram: without Living Horizon, mobs only exist within your render distance and the far terrain is empty. With it, mobs, players and birds live across the far terrain up to the horizon."
         >
           <div class="axis" aria-hidden="true">
-            <span class="you"><lh-figure [skin]="1" [walk]="false" [pixel]="1" /> You</span>
+            <span class="you"><lh-figure [skin]="1" kind="drops" [pixel]="1" /> You</span>
             <span class="zone z1">Your render distance</span>
             <span class="zone z2">Far terrain · Distant Horizons / Voxy</span>
             <span class="zone z3">Horizon</span>

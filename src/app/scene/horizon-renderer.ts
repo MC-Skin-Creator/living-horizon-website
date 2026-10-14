@@ -9,10 +9,16 @@
  * from the same preset move in step.
  */
 import { BIRD_FRAMES, PALETTE, RGB, SPRITES, SpriteName } from './sprites';
-import { Figure, WALK_FRAMES, WALK_FRAME_H, WALK_FRAME_MS, WALK_FRAME_W } from './figures';
-
-/** Rows of the walk avatar kept for a seated player: head and chest. */
-const SEATED_ROWS = 15;
+import {
+  DROPS_H,
+  DROPS_W,
+  Figure,
+  FigureKind,
+  MASCOT_FRAMES,
+  MASCOT_FRAME_MS,
+  MASCOT_H,
+  MASCOT_W,
+} from './figures';
 import { SceneSpec } from './scenes';
 
 type Canvas = HTMLCanvasElement;
@@ -344,19 +350,18 @@ export class HorizonRenderer {
         for (let i = 0; i < count; i++) {
           let x0 = w * (from + rand() * (to - from));
           if (group.onPeak) x0 = this.peak(index, w * from, w * to);
+          const player = this.figures.length > 0 && /^(player|rider|boat)/.test(group.sprite);
           this.mobs.push({
             layer: index,
             sprite: group.sprite,
             x0,
-            wander: group.still ? 0 : (4 + rand() * 10) * layer.scale,
+            // Mascots bounce on the spot rather than walk.
+            wander: group.still ? 0 : (player ? 0.3 : 1) * (4 + rand() * 10) * layer.scale,
             speed: 0.08 + rand() * 0.22,
             phase: rand() * Math.PI * 2,
             nametag: /^(player|rider|boat)/.test(group.sprite),
             floats: !!layer.water,
-            figure:
-              this.figures.length && /^(player|rider|boat)/.test(group.sprite)
-                ? players++ % this.figures.length
-                : -1,
+            figure: player ? players++ % this.figures.length : -1,
           });
         }
       }
@@ -508,18 +513,19 @@ export class HorizonRenderer {
       const seatLeft = Math.round(xi - seat.width / 2);
       const seatTop = ground - seat.height + (mob.floats ? s : 0) + bob;
       band.drawImage(seat, seatLeft, seatTop);
-      // Head and chest only: the legs are in the saddle or the hull.
-      const img = this.figureImage(mob.figure, 0, SEATED_ROWS, haze, flip);
+      // The drops avatar, head and shoulders: the legs are in the saddle or the hull.
+      const img = this.figureImage(mob.figure, 'drops', 0, haze, flip);
       const along = mob.sprite === 'rider' ? (flip ? 0.62 : 0.38) : 0.5;
       const cx = (seatLeft + seat.width * along) * k;
       const bottom = (seatTop + (mob.sprite === 'rider' ? 2 * s : s)) * k;
-      players.push(() => this.blitFigure(target, img, cx, bottom, p, layer.haze));
+      // A step smaller than a standing player, to sit on a horse's back.
+      const ps = Math.max(1, p - 1);
+      players.push(() => this.blitFigure(target, img, cx, bottom, ps, layer.haze));
       return;
     }
 
-    const frame =
-      mob.wander > 0 ? Math.floor((t * 1000) / WALK_FRAME_MS + mob.phase * 5) % WALK_FRAMES : 0;
-    const img = this.figureImage(mob.figure, frame, WALK_FRAME_H, haze, flip);
+    const frame = Math.floor((t * 1000) / MASCOT_FRAME_MS + mob.phase * 5) % MASCOT_FRAMES;
+    const img = this.figureImage(mob.figure, 'mascot', frame, haze, flip);
     // The bottom row of the avatar is its outline: let it sink into the grass.
     players.push(() => this.blitFigure(target, img, xi * k, ground * k + p, p, layer.haze));
   }
@@ -547,25 +553,25 @@ export class HorizonRenderer {
     target.fillRect(tx + 2 * p, ty + p, tw - 4 * p, p);
   }
 
-  /** One frame of a skin's walk, `rows` rows from the top, faded into the haze. */
+  /** One frame of a skin's avatar, faded into the haze. */
   private figureImage(
     index: number,
+    kind: FigureKind,
     frame: number,
-    rows: number,
     haze: number,
     flip: boolean,
   ): Canvas {
-    const key = `fig:${index}:${frame}:${rows}:${haze.toFixed(3)}:${flip}`;
+    const key = `fig:${index}:${kind}:${frame}:${haze.toFixed(3)}:${flip}`;
     let c = this.spriteCache.get(key);
     if (c) return c;
-    const w = WALK_FRAME_W;
+    const [w, rows] = kind === 'mascot' ? [MASCOT_W, MASCOT_H] : [DROPS_W, DROPS_H];
     c = makeCanvas(w, rows);
     const ctx = c.getContext('2d', { willReadFrequently: true })!;
     if (flip) {
       ctx.translate(w, 0);
       ctx.scale(-1, 1);
     }
-    ctx.drawImage(this.figures[index].walk, frame * w, 0, w, rows, 0, 0, w, rows);
+    ctx.drawImage(this.figures[index][kind], frame * w, 0, w, rows, 0, 0, w, rows);
     const data = ctx.getImageData(0, 0, w, rows);
     const px = data.data;
     const fog = this.spec.fog;

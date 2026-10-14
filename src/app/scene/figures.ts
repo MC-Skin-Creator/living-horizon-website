@@ -1,24 +1,30 @@
 /*
  * The players of the illustrations: skins made with MC Skin Creator (mcskincreator.app),
- * exported there as avatars ("Walk", animated, and "Full body") and packed into
- * public/img/figures/, one pixel per pixel of the avatar: `skin-N-walk.png` is the walk
- * cycle, frames side by side; `skin-N-body.png` the figure seen from the front.
+ * exported there as avatars and packed into public/img/figures/, one pixel per pixel of the
+ * avatar (the export's 15 or 17 px blocks):
+ * - `skin-N-mascot.png`: the "Mascot" avatar, its animation's frames side by side;
+ * - `skin-N-drops.png`: the "Drops" avatar, head and shoulders, for seated players.
  */
 
 export const FIGURE_COUNT = 5;
-export const WALK_FRAMES = 14;
-/** Size of a frame: the avatar's own pixels (17 px blocks of the 512 px export). */
-export const WALK_FRAME_W = 17;
-export const WALK_FRAME_H = 23;
-/** Delay between two frames of the walk, as exported. */
-export const WALK_FRAME_MS = 70;
+
+export const MASCOT_FRAMES = 8;
+export const MASCOT_W = 27;
+export const MASCOT_H = 27;
+/** Delay between two frames of the mascot, as exported. */
+export const MASCOT_FRAME_MS = 80;
+
+export const DROPS_W = 22;
+export const DROPS_H = 23;
+
+export type FigureKind = 'mascot' | 'drops';
 
 export interface Figure {
-  walk: HTMLImageElement;
-  body: HTMLImageElement;
+  mascot: HTMLImageElement;
+  drops: HTMLImageElement;
 }
 
-export const figureUrl = (n: number, kind: 'walk' | 'body') => `img/figures/skin-${n}-${kind}.png`;
+export const figureUrl = (n: number, kind: FigureKind) => `img/figures/skin-${n}-${kind}.png`;
 
 let loading: Promise<Figure[]> | null = null;
 
@@ -35,8 +41,8 @@ function image(src: string): Promise<HTMLImageElement> {
 export function loadFigures(): Promise<Figure[]> {
   loading ??= Promise.all(
     Array.from({ length: FIGURE_COUNT }, async (_, i) => ({
-      walk: await image(figureUrl(i + 1, 'walk')),
-      body: await image(figureUrl(i + 1, 'body')),
+      mascot: await image(figureUrl(i + 1, 'mascot')),
+      drops: await image(figureUrl(i + 1, 'drops')),
     })),
   ).catch(() => []);
   return loading;

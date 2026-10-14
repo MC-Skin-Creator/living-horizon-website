@@ -1,14 +1,23 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { WALK_FRAMES, WALK_FRAME_H, WALK_FRAME_MS, WALK_FRAME_W, figureUrl } from './figures';
+import {
+  DROPS_H,
+  DROPS_W,
+  FigureKind,
+  MASCOT_FRAMES,
+  MASCOT_FRAME_MS,
+  MASCOT_H,
+  MASCOT_W,
+  figureUrl,
+} from './figures';
 
-/** A player of the illustrations, from its skin: walking, or standing seen from the front. */
+/** A player of the illustrations, from its skin: the animated mascot, or the drops bust. */
 @Component({
   selector: 'lh-figure',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '',
   host: {
     'aria-hidden': 'true',
-    '[class.walking]': 'walk()',
+    '[class.animated]': "kind() === 'mascot' && animate()",
     '[class.flip]': 'flip()',
     '[style.width.px]': 'width()',
     '[style.height.px]': 'height()',
@@ -25,23 +34,21 @@ import { WALK_FRAMES, WALK_FRAME_H, WALK_FRAME_MS, WALK_FRAME_W, figureUrl } fro
       flex: none;
       background-repeat: no-repeat;
       background-position: 0 0;
-    }
-    :host {
       image-rendering: pixelated;
     }
     :host(.flip) {
       transform: scaleX(-1);
     }
-    :host(.walking) {
-      animation: walk var(--duration) steps(${WALK_FRAMES}) infinite;
+    :host(.animated) {
+      animation: frames var(--duration) steps(${MASCOT_FRAMES}) infinite;
     }
-    @keyframes walk {
+    @keyframes frames {
       to {
-        background-position-x: calc(var(--step) * -${WALK_FRAMES});
+        background-position-x: calc(var(--step) * -${MASCOT_FRAMES});
       }
     }
     @media (prefers-reduced-motion: reduce) {
-      :host(.walking) {
+      :host(.animated) {
         animation: none;
       }
     }
@@ -50,20 +57,25 @@ import { WALK_FRAMES, WALK_FRAME_H, WALK_FRAME_MS, WALK_FRAME_W, figureUrl } fro
 export class FigureView {
   /** 1 to 5. */
   readonly skin = input.required<number>();
+  readonly kind = input<FigureKind>('mascot');
+  readonly animate = input(true);
   /** Screen pixels per pixel of the avatar: whole, so that it stays sharp. */
   readonly pixel = input(2);
-  readonly walk = input(true);
   readonly flip = input(false);
   readonly fade = input(0);
 
-  protected readonly duration = WALK_FRAMES * WALK_FRAME_MS;
+  protected readonly duration = MASCOT_FRAMES * MASCOT_FRAME_MS;
 
-  protected readonly width = computed(() => (this.walk() ? WALK_FRAME_W : 16) * this.pixel());
-  protected readonly height = computed(() => (this.walk() ? WALK_FRAME_H : 32) * this.pixel());
-  protected readonly image = computed(
-    () => `url(${figureUrl(this.skin(), this.walk() ? 'walk' : 'body')})`,
+  protected readonly width = computed(
+    () => (this.kind() === 'mascot' ? MASCOT_W : DROPS_W) * this.pixel(),
   );
+  protected readonly height = computed(
+    () => (this.kind() === 'mascot' ? MASCOT_H : DROPS_H) * this.pixel(),
+  );
+  protected readonly image = computed(() => `url(${figureUrl(this.skin(), this.kind())})`);
   protected readonly size = computed(() =>
-    this.walk() ? `${this.width() * WALK_FRAMES}px ${this.height()}px` : '100% 100%',
+    this.kind() === 'mascot'
+      ? `${this.width() * MASCOT_FRAMES}px ${this.height()}px`
+      : `${this.width()}px ${this.height()}px`,
   );
 }

@@ -39,11 +39,12 @@ The deploy workflow refreshes the snapshot before every build and once a day.
   performance section). Until then the slots say "Benchmark pending" — never invent numbers.
 - **Players**: the people in the illustrations are skins made with
   [MC Skin Creator](https://mcskincreator.app/) (sources in `art/skins/`), exported there as
-  avatars — *Walk* (animated GIF, transparent, 512 px) and *Full body* — and packed into
-  `public/img/figures/skin-N-walk.png` (the 14 frames side by side, 17×23 each: the export's
-  own pixels, 17 px blocks at 512 px) and `skin-N-body.png` (16×32). To add one, export both,
-  pack them the same way and raise
-  `FIGURE_COUNT` in `src/app/scene/figures.ts`.
+  avatars (transparent, 512 px): *Mascot* (animated GIF) for players standing in the
+  landscape, *Drops* for riders and boaters. They are packed into `public/img/figures/` one
+  pixel per pixel of the avatar, so they stay sharp: `skin-N-mascot.png` (the 8 frames side
+  by side, 27×27 each, from 15 px blocks) and `skin-N-drops.png` (22×23, from 17 px blocks).
+  To add one, export both, pack them the same way and raise `FIGURE_COUNT` in
+  `src/app/scene/figures.ts`.
 - **Screenshots**: the before / after slider draws stylised illustrations
   (`src/app/scene/`). To use real shots, put them in `public/img/` and fill
   `SITE.screenshots` (`village`, `ridge`, `coast`; same framing, mod off then on).
