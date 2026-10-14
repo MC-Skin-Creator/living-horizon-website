@@ -28,6 +28,7 @@ export const PALETTE: Record<string, RGB> = {
   l: [52, 104, 44], // leaves
   L: [70, 128, 56], // leaves, light
   B: [120, 84, 50], // boat
+  Y: [236, 196, 64], // chicken legs, bees
 };
 
 export type SpriteName =
@@ -47,7 +48,12 @@ export type SpriteName =
   | 'tree'
   | 'treeSmall'
   | 'bird'
-  | 'hull';
+  | 'hull'
+  | 'chicken'
+  | 'creeper'
+  | 'zombie'
+  | 'skeleton'
+  | 'bee';
 
 const horse = ['......ee', '.....eEE', 'eEEEEEEE', '.EEEEEE.', '.E....E.', '.e....e.'];
 
@@ -92,6 +98,11 @@ export const SPRITES: Record<SpriteName, string[]> = {
   treeSmall: ['lL', 'll', '.t'],
   bird: ['K...K', '.K.K.', '..K..'],
   hull: ['B.....B', 'BBBBBBB'],
+  chicken: ['WW..', 'WWWW', '.YY.'],
+  creeper: ['LL', 'lL', 'LL', 'LL', 'll'],
+  zombie: ['ll', 'LL', 'CC', 'CC', 'UU', 'UU'],
+  skeleton: ['GG', 'gg', 'GG', 'g.', 'GG'],
+  bee: ['YK', 'YY'],
 };
 
 /** Two frames of a bird's wings: up, then down. */

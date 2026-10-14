@@ -42,8 +42,13 @@ export const MOB_SHEETS: Partial<Record<string, string[]>> = {
   pig: ['pig'],
   horse: ['horse-brown', 'horse-chestnut', 'horse-white'],
   rider: ['horse-brown', 'horse-chestnut', 'horse-white'],
-  villager: ['villager-farmer', 'villager-librarian', 'villager-shepherd'],
+  villager: ['villager-farmer', 'villager-librarian', 'villager-cleric', 'villager-fisherman'],
   golem: ['golem'],
+  chicken: ['chicken'],
+  creeper: ['creeper'],
+  zombie: ['zombie'],
+  skeleton: ['skeleton'],
+  bee: ['bee'],
 };
 
 export interface Figures {

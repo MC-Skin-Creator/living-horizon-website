@@ -139,14 +139,15 @@ export class Concept {
     { sprite: 'villager', mob: 'villager-farmer' },
     { sprite: 'golem', mob: 'golem' },
     { sprite: 'player', skin: 3 },
+    { sprite: 'chicken', mob: 'chicken' },
     { sprite: 'villager', mob: 'villager-librarian' },
-    { sprite: 'sheep', mob: 'sheep', flip: true },
+    { sprite: 'creeper', mob: 'creeper', flip: true },
     { sprite: 'player', skin: 4, flip: true },
   ];
   protected readonly far: Figure[] = [
-    { sprite: 'cow', mob: 'cow' },
-    { sprite: 'villager', mob: 'villager-shepherd' },
+    { sprite: 'villager', mob: 'villager-cleric' },
     { sprite: 'horse', mob: 'horse-white', flip: true },
+    { sprite: 'skeleton', mob: 'skeleton' },
   ];
 
   protected readonly features: { icon: IconName; title: string; text: string }[] = [

@@ -454,7 +454,10 @@ export class HorizonRenderer {
     if (mob.sheet) {
       const p = this.pixel(layer, k);
       const img = this.mobImage(mob.sheet, this.mobFrame(mob, t), layer.haze * 0.8, !flip);
-      players.push(() => this.blit(target, img, xi * k, layer.surface[xi] * k + p, p));
+      // Bees fly above the grass, bobbing.
+      const lift = mob.sprite === 'bee' ? (6 + Math.sin(t * 3 + mob.phase) * 1.5) * layer.scale : 0;
+      const bottom = (layer.surface[xi] - lift) * k + p;
+      players.push(() => this.blit(target, img, xi * k, bottom, p));
       return;
     }
     const top = this.drawSprite(band, mob, layer, xi, flip, bob);
