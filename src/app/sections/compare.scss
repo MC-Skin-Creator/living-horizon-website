@@ -1,0 +1,125 @@
+.section {
+  overflow: hidden;
+}
+
+.glow {
+  position: absolute;
+  inset: 10% -10% auto;
+  height: 70%;
+  background:
+    radial-gradient(50% 50% at 30% 50%, rgb(124 196 255 / 0.12), transparent 70%),
+    radial-gradient(45% 50% at 70% 50%, rgb(255 140 92 / 0.12), transparent 70%);
+  pointer-events: none;
+  filter: blur(20px);
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 22px;
+  padding: 5px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+
+  button {
+    min-height: 40px;
+    padding: 8px 16px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--muted);
+    font: 600 0.92rem var(--font-body);
+    cursor: pointer;
+    transition:
+      background 0.2s,
+      color 0.2s;
+
+    &:hover {
+      color: var(--text);
+    }
+
+    &.on {
+      background: var(--text);
+      color: var(--bg);
+    }
+  }
+}
+
+.stage {
+  position: relative;
+  max-width: 1080px;
+  margin-inline: auto;
+}
+
+.legend {
+  max-width: 1080px;
+  margin: 18px auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+
+  .scene-text {
+    color: var(--muted);
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.sw {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+
+  &.near {
+    background: var(--grass);
+  }
+
+  &.far {
+    background: var(--dusk);
+  }
+}
+
+.note {
+  max-width: 1080px;
+  margin: 22px auto 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px dashed var(--line-strong);
+  color: var(--dim);
+  font-size: 0.88rem;
+
+  lh-icon {
+    width: 18px;
+    height: 18px;
+    flex: none;
+  }
+
+  a {
+    color: var(--muted);
+  }
+}

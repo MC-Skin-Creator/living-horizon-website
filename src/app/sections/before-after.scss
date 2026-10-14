@@ -1,0 +1,134 @@
+:host {
+  display: block;
+}
+
+.frame {
+  --pos: 50%;
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  box-shadow:
+    0 30px 80px -30px rgb(0 0 0 / 0.8),
+    0 0 0 6px rgb(255 255 255 / 0.03);
+  background: #1b2340;
+  user-select: none;
+  touch-action: pan-y;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+
+  lh-horizon,
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.after {
+  clip-path: inset(0 0 0 var(--pos));
+}
+
+.badge {
+  position: absolute;
+  top: 14px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font: 0.7rem var(--font-pixel);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: rgb(10 13 28 / 0.72);
+  border: 1px solid rgb(255 255 255 / 0.16);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+
+  &.left {
+    left: 14px;
+    color: var(--muted);
+  }
+
+  &.right {
+    right: 14px;
+    color: var(--sun);
+  }
+}
+
+.handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--pos);
+  width: 3px;
+  margin-left: -1.5px;
+  background: #fff;
+  box-shadow: 0 0 18px rgb(0 0 0 / 0.5);
+  pointer-events: none;
+}
+
+.knob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: #fff;
+  color: #1a1d2e;
+  font: 700 1.1rem/1 var(--font-display);
+  letter-spacing: 2px;
+  box-shadow:
+    0 4px 0 #b9bccb,
+    0 10px 30px rgb(0 0 0 / 0.45);
+}
+
+input[type='range'] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: ew-resize;
+  -webkit-appearance: none;
+  appearance: none;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 48px;
+    height: 100vh;
+  }
+}
+
+.frame:has(input:focus-visible) .knob {
+  outline: 3px solid var(--sun);
+  outline-offset: 3px;
+}
+
+@media (max-width: 560px) {
+  .badge {
+    top: 8px;
+    font-size: 0.58rem;
+    padding: 4px 8px;
+
+    &.left {
+      left: 8px;
+    }
+
+    &.right {
+      right: 8px;
+    }
+  }
+
+  .knob {
+    width: 38px;
+    height: 38px;
+    font-size: 0.95rem;
+  }
+}

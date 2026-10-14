@@ -1,0 +1,129 @@
+:host {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  transition:
+    background 0.3s,
+    border-color 0.3s,
+    backdrop-filter 0.3s;
+  border-bottom: 1px solid transparent;
+}
+
+:host(.scrolled),
+:host(.open) {
+  background: rgb(10 13 28 / 0.78);
+  backdrop-filter: blur(14px) saturate(140%);
+  border-bottom-color: var(--line);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 68px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font: 700 1.05rem var(--font-display);
+  letter-spacing: -0.01em;
+  margin-right: auto;
+
+  img {
+    border-radius: 8px;
+    image-rendering: auto;
+  }
+}
+
+.tag {
+  font: 0.62rem var(--font-pixel);
+  text-transform: uppercase;
+  color: #1d0f0c;
+  background: var(--sun);
+  padding: 3px 6px 2px;
+  border-radius: 4px;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  a:not(.btn) {
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--muted);
+    text-decoration: none;
+    transition:
+      color 0.2s,
+      background 0.2s;
+
+    &:hover {
+      color: var(--text);
+      background: var(--surface);
+    }
+  }
+
+  .btn {
+    margin-left: 8px;
+  }
+}
+
+.icon-link lh-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  place-items: center;
+
+  lh-icon {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+@media (max-width: 1020px) {
+  .toggle {
+    display: grid;
+  }
+
+  .links {
+    position: absolute;
+    inset: 68px 0 auto;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    padding: 12px var(--gutter) 20px;
+    background: rgb(10 13 28 / 0.96);
+    border-bottom: 1px solid var(--line);
+    display: none;
+
+    a:not(.btn) {
+      padding: 12px;
+      font-size: 1rem;
+    }
+
+    .btn {
+      margin: 10px 0 0;
+    }
+  }
+
+  :host(.open) .links {
+    display: flex;
+  }
+}
