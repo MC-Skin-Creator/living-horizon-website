@@ -40,8 +40,9 @@ The deploy workflow refreshes the snapshot before every build and once a day.
 - **Players**: the people in the illustrations are skins made with
   [MC Skin Creator](https://mcskincreator.app/) (sources in `art/skins/`), exported there as
   avatars — *Walk* (animated GIF, transparent, 512 px) and *Full body* — and packed into
-  `public/img/figures/skin-N-walk.png` (the 14 frames side by side, 47×64 each) and
-  `skin-N-body.png` (16×32). To add one, export both, pack them the same way and raise
+  `public/img/figures/skin-N-walk.png` (the 14 frames side by side, 17×23 each: the export's
+  own pixels, 17 px blocks at 512 px) and `skin-N-body.png` (16×32). To add one, export both,
+  pack them the same way and raise
   `FIGURE_COUNT` in `src/app/scene/figures.ts`.
 - **Screenshots**: the before / after slider draws stylised illustrations
   (`src/app/scene/`). To use real shots, put them in `public/img/` and fill

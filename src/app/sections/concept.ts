@@ -36,7 +36,7 @@ interface Figure {
           aria-label="Diagram: without Living Horizon, mobs only exist within your render distance and the far terrain is empty. With it, mobs, players and birds live across the far terrain up to the horizon."
         >
           <div class="axis" aria-hidden="true">
-            <span class="you"><lh-figure [skin]="1" [walk]="false" [height]="28" /> You</span>
+            <span class="you"><lh-figure [skin]="1" [walk]="false" [pixel]="1" /> You</span>
             <span class="zone z1">Your render distance</span>
             <span class="zone z2">Far terrain · Distant Horizons / Voxy</span>
             <span class="zone z3">Horizon</span>
@@ -48,9 +48,9 @@ interface Figure {
               <div class="cell z1">
                 @for (f of near; track $index) {
                   @if (f.skin) {
-                    <lh-figure [skin]="f.skin" [flip]="!!f.flip" [height]="36" />
+                    <lh-figure [skin]="f.skin" [flip]="!!f.flip" [pixel]="2" />
                   } @else {
-                    <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="4" />
+                    <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="6" />
                   }
                 }
               </div>
@@ -65,16 +65,16 @@ interface Figure {
               <div class="cell z1">
                 @for (f of near; track $index) {
                   @if (f.skin) {
-                    <lh-figure [skin]="f.skin" [flip]="!!f.flip" [height]="36" />
+                    <lh-figure [skin]="f.skin" [flip]="!!f.flip" [pixel]="2" />
                   } @else {
-                    <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="4" />
+                    <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="6" />
                   }
                 }
               </div>
               <div class="cell z2">
                 @for (f of mid; track $index) {
                   @if (f.skin) {
-                    <lh-figure [skin]="f.skin" [flip]="!!f.flip" [height]="27" [fade]="0.25" />
+                    <lh-figure [skin]="f.skin" [flip]="!!f.flip" [pixel]="1" [fade]="0.25" />
                   } @else {
                     <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="3" [fade]="0.25" />
                   }
@@ -88,7 +88,7 @@ interface Figure {
               <div class="cell z3">
                 @for (f of far; track $index) {
                   @if (f.skin) {
-                    <lh-figure [skin]="f.skin" [flip]="!!f.flip" [height]="18" [fade]="0.5" />
+                    <lh-figure [skin]="f.skin" [flip]="!!f.flip" [pixel]="1" [fade]="0.5" />
                   } @else {
                     <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="2" [fade]="0.5" />
                   }
@@ -134,7 +134,7 @@ export class Concept {
   ];
   protected readonly far: Figure[] = [
     { sprite: 'cow' },
-    { sprite: 'player', skin: 5 },
+    { sprite: 'villager' },
     { sprite: 'horse', flip: true },
   ];
 

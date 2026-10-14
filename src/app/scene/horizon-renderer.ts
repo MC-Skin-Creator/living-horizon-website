@@ -10,6 +10,9 @@
  */
 import { BIRD_FRAMES, PALETTE, RGB, SPRITES, SpriteName } from './sprites';
 import { Figure, WALK_FRAMES, WALK_FRAME_H, WALK_FRAME_MS, WALK_FRAME_W } from './figures';
+
+/** Rows of the walk avatar kept for a seated player: head and chest. */
+const SEATED_ROWS = 15;
 import { SceneSpec } from './scenes';
 
 type Canvas = HTMLCanvasElement;
@@ -132,6 +135,8 @@ export class HorizonRenderer {
   private readonly birds: Bird[] = [];
   private readonly clouds: Cloud[] = [];
   private readonly spriteCache = new Map<string, Canvas>();
+  /** Low-resolution work surface: one band of the scene at a time, before it is scaled up. */
+  private readonly band: Canvas;
 
   constructor(
     private readonly spec: SceneSpec,
@@ -141,6 +146,7 @@ export class HorizonRenderer {
     private readonly figures: Figure[] = [],
   ) {
     const rand = mulberry32(spec.seed);
+    this.band = makeCanvas(width, height);
     this.sky = this.buildSky(rand);
     this.buildClouds(rand);
     spec.layers.forEach((layer, i) => this.layers.push(this.buildLayer(i, rand)));
@@ -148,18 +154,44 @@ export class HorizonRenderer {
     this.placeBirds(rand);
   }
 
-  /** Draws the scene at `t` seconds. */
-  draw(ctx: CanvasRenderingContext2D, t: number, alive: boolean) {
-    ctx.imageSmoothingEnabled = false;
-    ctx.clearRect(0, 0, this.width, this.height);
-    ctx.drawImage(this.sky, 0, 0);
-    this.drawClouds(ctx, t);
+  /**
+   * Draws the scene at `t` seconds into `target`, a canvas of any size: the scene's pixels
+   * are scaled up whole, band by band, and the players drawn from skins go between the
+   * bands at the canvas's own resolution, so that their pixels stay sharp.
+   */
+  draw(target: CanvasRenderingContext2D, t: number, alive: boolean) {
+    const { width: w, height: h } = this;
+    const tw = target.canvas.width;
+    const th = target.canvas.height;
+    const k = tw / w;
+    const band = context(this.band);
+    const flush = () => target.drawImage(this.band, 0, 0, w, h, 0, 0, tw, th);
+    target.imageSmoothingEnabled = false;
+    target.clearRect(0, 0, tw, th);
+
+    band.clearRect(0, 0, w, h);
+    band.drawImage(this.sky, 0, 0);
+    this.drawClouds(band, t);
+    flush();
+
     this.layers.forEach((layer, i) => {
-      ctx.drawImage(layer.canvas, 0, 0);
-      if (!alive && !layer.vanilla) return;
-      for (const mob of this.mobs) if (mob.layer === i) this.drawMob(ctx, mob, layer, t);
+      band.clearRect(0, 0, w, h);
+      band.drawImage(layer.canvas, 0, 0);
+      const players: (() => void)[] = [];
+      if (alive || layer.vanilla) {
+        for (const mob of this.mobs) {
+          if (mob.layer === i) this.drawMob(band, target, k, mob, layer, t, players);
+        }
+      }
+      flush();
+      for (const draw of players) draw();
     });
-    if (alive) this.drawBirds(ctx, t);
+
+    if (alive) {
+      band.clearRect(0, 0, w, h);
+      this.drawBirds(band, t);
+      flush();
+    }
   }
 
   private buildSky(rand: () => number): Canvas {
@@ -381,25 +413,34 @@ export class HorizonRenderer {
     }
   }
 
-  private drawMob(ctx: CanvasRenderingContext2D, mob: Mob, layer: BuiltLayer, t: number) {
+  private drawMob(
+    band: CanvasRenderingContext2D,
+    target: CanvasRenderingContext2D,
+    k: number,
+    mob: Mob,
+    layer: BuiltLayer,
+    t: number,
+    players: (() => void)[],
+  ) {
     const angle = t * mob.speed + mob.phase;
     const x = mob.x0 + mob.wander * Math.sin(angle);
     const flip = mob.wander > 0 ? Math.cos(angle) < 0 : mob.phase > Math.PI;
     const xi = Math.max(0, Math.min(this.width - 1, Math.round(x)));
     const bob = mob.floats ? Math.round(Math.sin(t * 1.6 + mob.phase) * 0.6) : 0;
-    const top =
-      mob.figure >= 0
-        ? this.drawFigure(ctx, mob, layer, xi, flip, t, bob)
-        : this.drawSprite(ctx, mob, layer, xi, flip, bob);
+    if (mob.figure >= 0) {
+      this.drawFigure(band, target, k, mob, layer, xi, flip, t, bob, players);
+      return;
+    }
+    const top = this.drawSprite(band, mob, layer, xi, flip, bob);
     if (mob.nametag) {
       const s = Math.max(1, Math.round(layer.scale / 2));
       const tw = 6 + 2 * s;
       const tx = Math.round(xi - tw / 2);
       const ty = top - 2 - 2 * s;
-      ctx.fillStyle = 'rgba(0,0,0,0.45)';
-      ctx.fillRect(tx, ty, tw, 1 + 2 * s);
-      ctx.fillStyle = `rgba(255,255,255,${0.85 - layer.haze * 0.4})`;
-      ctx.fillRect(tx + 1, ty + s, tw - 2, 1);
+      band.fillStyle = 'rgba(0,0,0,0.45)';
+      band.fillRect(tx, ty, tw, 1 + 2 * s);
+      band.fillStyle = `rgba(255,255,255,${0.85 - layer.haze * 0.4})`;
+      band.fillRect(tx + 1, ty + s, tw - 2, 1);
     }
   }
 
@@ -440,81 +481,97 @@ export class HorizonRenderer {
   }
 
   /**
-   * Draws a player from its skin: walking, on a horse or in a boat. A player is eight
-   * pixels of the layer tall, as the pixel sprites' scale goes. Returns the top.
+   * A player from its skin: walking, on a horse or in a boat. The horse and the hull are
+   * pixel sprites of the band; the player is queued in `players`, drawn after the band at
+   * the canvas's resolution, `p` canvas pixels per pixel of the avatar.
    */
   private drawFigure(
-    ctx: CanvasRenderingContext2D,
+    band: CanvasRenderingContext2D,
+    target: CanvasRenderingContext2D,
+    k: number,
     mob: Mob,
     layer: BuiltLayer,
     xi: number,
     flip: boolean,
     t: number,
     bob: number,
-  ): number {
+    players: (() => void)[],
+  ) {
     const s = layer.scale;
     const haze = layer.haze * 0.8;
     const ground = layer.surface[xi];
+    // About the height of the pixel sprites of the layer, in whole pixels.
+    const p = Math.max(1, Math.round((s * k) / 2.6));
 
     if (mob.sprite === 'rider' || mob.sprite === 'boat') {
-      // Head and chest only (20 of the skin's 32 rows): the legs are in the saddle or the hull.
       const seat = this.sprite(mob.sprite === 'rider' ? 'horse' : 'hull', s, haze, flip);
       const seatLeft = Math.round(xi - seat.width / 2);
       const seatTop = ground - seat.height + (mob.floats ? s : 0) + bob;
-      const upper = this.figureImage(mob.figure, 'body', 0, Math.round(5 * s), haze, flip);
-      const along = mob.sprite === 'rider' ? (flip ? 0.6 : 0.4) : 0.5;
-      const left = Math.round(seatLeft + seat.width * along - upper.width / 2);
-      const top = seatTop + (mob.sprite === 'rider' ? 2 * s : s) - upper.height;
-      ctx.drawImage(upper, left, top);
-      ctx.drawImage(seat, seatLeft, seatTop);
-      return top;
+      band.drawImage(seat, seatLeft, seatTop);
+      // Head and chest only: the legs are in the saddle or the hull.
+      const img = this.figureImage(mob.figure, 0, SEATED_ROWS, haze, flip);
+      const along = mob.sprite === 'rider' ? (flip ? 0.62 : 0.38) : 0.5;
+      const cx = (seatLeft + seat.width * along) * k;
+      const bottom = (seatTop + (mob.sprite === 'rider' ? 2 * s : s)) * k;
+      players.push(() => this.blitFigure(target, img, cx, bottom, p, layer.haze));
+      return;
     }
 
     const frame =
       mob.wander > 0 ? Math.floor((t * 1000) / WALK_FRAME_MS + mob.phase * 5) % WALK_FRAMES : 0;
-    const img = this.figureImage(mob.figure, 'walk', frame, Math.round(9 * s), haze, flip);
-    const top = ground - img.height + Math.round(s / 2);
-    ctx.drawImage(img, Math.round(xi - img.width / 2), top);
-    return top;
+    const img = this.figureImage(mob.figure, frame, WALK_FRAME_H, haze, flip);
+    // The bottom row of the avatar is its outline: let it sink into the grass.
+    players.push(() => this.blitFigure(target, img, xi * k, ground * k + p, p, layer.haze));
   }
 
-  /** A skin figure shrunk to `height`, its pixels made whole and faded into the haze. */
+  private blitFigure(
+    target: CanvasRenderingContext2D,
+    img: Canvas,
+    cx: number,
+    bottom: number,
+    p: number,
+    haze: number,
+  ) {
+    const w = img.width * p;
+    const h = img.height * p;
+    const left = Math.round(cx - w / 2);
+    const top = Math.round(bottom) - h;
+    target.drawImage(img, left, top, w, h);
+    // Name tag.
+    const tw = 12 * p;
+    const tx = Math.round(cx - tw / 2);
+    const ty = top - 5 * p;
+    target.fillStyle = 'rgba(0,0,0,0.45)';
+    target.fillRect(tx, ty, tw, 3 * p);
+    target.fillStyle = `rgba(255,255,255,${0.85 - haze * 0.4})`;
+    target.fillRect(tx + 2 * p, ty + p, tw - 4 * p, p);
+  }
+
+  /** One frame of a skin's walk, `rows` rows from the top, faded into the haze. */
   private figureImage(
     index: number,
-    kind: 'walk' | 'body',
     frame: number,
-    height: number,
+    rows: number,
     haze: number,
     flip: boolean,
   ): Canvas {
-    const key = `fig:${index}:${kind}:${frame}:${height}:${haze.toFixed(3)}:${flip}`;
+    const key = `fig:${index}:${frame}:${rows}:${haze.toFixed(3)}:${flip}`;
     let c = this.spriteCache.get(key);
     if (c) return c;
-    const figure = this.figures[index];
-    const [src, sx, sy, sw, sh] =
-      kind === 'walk'
-        ? [figure.walk, frame * WALK_FRAME_W, 0, WALK_FRAME_W, WALK_FRAME_H]
-        : [figure.body, 0, 0, 16, 20];
-    const w = Math.max(1, Math.round((sw * height) / sh));
-    c = makeCanvas(w, height);
+    const w = WALK_FRAME_W;
+    c = makeCanvas(w, rows);
     const ctx = c.getContext('2d', { willReadFrequently: true })!;
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high';
     if (flip) {
       ctx.translate(w, 0);
       ctx.scale(-1, 1);
     }
-    ctx.drawImage(src, sx, sy, sw, sh, 0, 0, w, height);
-    const data = ctx.getImageData(0, 0, w, height);
+    ctx.drawImage(this.figures[index].walk, frame * w, 0, w, rows, 0, 0, w, rows);
+    const data = ctx.getImageData(0, 0, w, rows);
     const px = data.data;
     const fog = this.spec.fog;
     for (let i = 0; i < px.length; i += 4) {
-      if (px[i + 3] < 96) {
-        px[i + 3] = 0;
-        continue;
-      }
-      px[i + 3] = 255;
-      for (let k = 0; k < 3; k++) px[i + k] = px[i + k] + (fog[k] - px[i + k]) * haze;
+      if (!px[i + 3]) continue;
+      for (let ch = 0; ch < 3; ch++) px[i + ch] += (fog[ch] - px[i + ch]) * haze;
     }
     ctx.putImageData(data, 0, 0);
     this.spriteCache.set(key, c);

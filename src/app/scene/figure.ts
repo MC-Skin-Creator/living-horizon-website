@@ -26,7 +26,7 @@ import { WALK_FRAMES, WALK_FRAME_H, WALK_FRAME_MS, WALK_FRAME_W, figureUrl } fro
       background-repeat: no-repeat;
       background-position: 0 0;
     }
-    :host(:not(.walking)) {
+    :host {
       image-rendering: pixelated;
     }
     :host(.flip) {
@@ -50,18 +50,16 @@ import { WALK_FRAMES, WALK_FRAME_H, WALK_FRAME_MS, WALK_FRAME_W, figureUrl } fro
 export class FigureView {
   /** 1 to 5. */
   readonly skin = input.required<number>();
-  readonly height = input(36);
+  /** Screen pixels per pixel of the avatar: whole, so that it stays sharp. */
+  readonly pixel = input(2);
   readonly walk = input(true);
   readonly flip = input(false);
   readonly fade = input(0);
 
   protected readonly duration = WALK_FRAMES * WALK_FRAME_MS;
 
-  protected readonly width = computed(() =>
-    Math.round(
-      ((this.walk() ? WALK_FRAME_W : 16) * this.height()) / (this.walk() ? WALK_FRAME_H : 32),
-    ),
-  );
+  protected readonly width = computed(() => (this.walk() ? WALK_FRAME_W : 16) * this.pixel());
+  protected readonly height = computed(() => (this.walk() ? WALK_FRAME_H : 32) * this.pixel());
   protected readonly image = computed(
     () => `url(${figureUrl(this.skin(), this.walk() ? 'walk' : 'body')})`,
   );
