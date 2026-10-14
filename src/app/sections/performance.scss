@@ -1,0 +1,148 @@
+.section {
+  background:
+    radial-gradient(60% 50% at 0% 30%, rgb(127 214 138 / 0.06), transparent 70%),
+    linear-gradient(180deg, transparent, var(--bg-deep) 40%, var(--bg-deep) 70%, transparent);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(24px, 5vw, 64px);
+  align-items: start;
+
+  .section-head {
+    position: sticky;
+    top: 110px;
+    margin-bottom: 0;
+  }
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.point {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+
+  h3 {
+    font-size: 1.08rem;
+    margin-bottom: 6px;
+  }
+
+  p {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+}
+
+.icon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  color: var(--grass);
+  background: rgb(127 214 138 / 0.12);
+
+  lh-icon {
+    width: 21px;
+    height: 21px;
+  }
+}
+
+.bench {
+  margin-top: clamp(28px, 4vw, 44px);
+  display: grid;
+  gap: 18px;
+  justify-items: start;
+}
+
+.bench-head {
+  display: grid;
+  gap: 6px;
+
+  h3 {
+    font-size: 1.25rem;
+  }
+
+  p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    max-width: 760px;
+  }
+
+  code {
+    font-size: 0.88em;
+    padding: 1px 6px;
+    border-radius: 6px;
+    background: var(--surface-2);
+    color: var(--text);
+  }
+}
+
+.slots {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.slot {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px dashed var(--line-strong);
+  background: rgb(255 255 255 / 0.015);
+
+  &.filled {
+    border-style: solid;
+    background: var(--surface);
+  }
+
+  .label {
+    font: 0.68rem var(--font-pixel);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--dim);
+  }
+
+  .value {
+    font: 700 2rem/1.1 var(--font-display);
+
+    &.pending {
+      color: var(--dim);
+    }
+  }
+
+  .hint {
+    font-size: 0.84rem;
+    color: var(--dim);
+  }
+}
+
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: 1fr;
+
+    .section-head {
+      position: static;
+      margin-bottom: 8px;
+    }
+  }
+
+  .slots {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}
