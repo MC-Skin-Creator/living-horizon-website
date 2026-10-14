@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FigureView } from '../scene/figure';
+import { MobView } from '../scene/mob';
 import { Sprite } from '../scene/sprite';
 import { SpriteName } from '../scene/sprites';
 import { Icon, IconName } from '../shared/icon';
@@ -10,12 +11,14 @@ interface Figure {
   flip?: boolean;
   /** A player, drawn from this skin (1 to 5) instead of the sprite. */
   skin?: number;
+  /** A mob of the game, drawn from this sheet (see scripts/mobs.py) instead of the sprite. */
+  mob?: string;
 }
 
 @Component({
   selector: 'lh-concept',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Sprite, FigureView, Icon, Reveal],
+  imports: [Sprite, FigureView, MobView, Icon, Reveal],
   template: `
     <section class="section" id="what">
       <div class="container">
@@ -49,6 +52,8 @@ interface Figure {
                 @for (f of near; track $index) {
                   @if (f.skin) {
                     <lh-figure [skin]="f.skin" [flip]="!!f.flip" [pixel]="2" />
+                  } @else if (f.mob) {
+                    <lh-mob [name]="f.mob" [flip]="!!f.flip" [pixel]="2" />
                   } @else {
                     <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="6" />
                   }
@@ -66,6 +71,8 @@ interface Figure {
                 @for (f of near; track $index) {
                   @if (f.skin) {
                     <lh-figure [skin]="f.skin" [flip]="!!f.flip" [pixel]="2" />
+                  } @else if (f.mob) {
+                    <lh-mob [name]="f.mob" [flip]="!!f.flip" [pixel]="2" />
                   } @else {
                     <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="6" />
                   }
@@ -75,6 +82,8 @@ interface Figure {
                 @for (f of mid; track $index) {
                   @if (f.skin) {
                     <lh-figure [skin]="f.skin" [flip]="!!f.flip" [pixel]="1" [fade]="0.25" />
+                  } @else if (f.mob) {
+                    <lh-mob [name]="f.mob" [flip]="!!f.flip" [pixel]="1" [fade]="0.25" />
                   } @else {
                     <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="3" [fade]="0.25" />
                   }
@@ -89,6 +98,8 @@ interface Figure {
                 @for (f of far; track $index) {
                   @if (f.skin) {
                     <lh-figure [skin]="f.skin" [flip]="!!f.flip" [pixel]="1" [fade]="0.5" />
+                  } @else if (f.mob) {
+                    <lh-mob [name]="f.mob" [flip]="!!f.flip" [pixel]="1" [fade]="0.5" />
                   } @else {
                     <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="2" [fade]="0.5" />
                   }
@@ -120,22 +131,22 @@ interface Figure {
 })
 export class Concept {
   protected readonly near: Figure[] = [
-    { sprite: 'cow' },
+    { sprite: 'cow', mob: 'cow', flip: true },
     { sprite: 'player', skin: 2 },
-    { sprite: 'sheep', flip: true },
+    { sprite: 'sheep', mob: 'sheep' },
   ];
   protected readonly mid: Figure[] = [
-    { sprite: 'villager' },
-    { sprite: 'golem' },
+    { sprite: 'villager', mob: 'villager-farmer' },
+    { sprite: 'golem', mob: 'golem' },
     { sprite: 'player', skin: 3 },
-    { sprite: 'villager', flip: true },
-    { sprite: 'sheep', flip: true },
+    { sprite: 'villager', mob: 'villager-librarian' },
+    { sprite: 'sheep', mob: 'sheep', flip: true },
     { sprite: 'player', skin: 4, flip: true },
   ];
   protected readonly far: Figure[] = [
-    { sprite: 'cow' },
-    { sprite: 'villager' },
-    { sprite: 'horse', flip: true },
+    { sprite: 'cow', mob: 'cow' },
+    { sprite: 'villager', mob: 'villager-shepherd' },
+    { sprite: 'horse', mob: 'horse-white', flip: true },
   ];
 
   protected readonly features: { icon: IconName; title: string; text: string }[] = [

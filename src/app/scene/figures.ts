@@ -4,7 +4,12 @@
  * avatar (the export's 15 or 17 px blocks):
  * - `skin-N-mascot.png`: the "Mascot" avatar, its animation's frames side by side;
  * - `skin-N-drops.png`: the "Drops" avatar, head and shoulders, for seated players.
+ *
+ * The mobs are drawn in the same style from the game's own textures by scripts/mobs.py,
+ * into public/img/mobs/ (sizes in mob-sheets.ts).
  */
+
+import { MOB_SIZES } from './mob-sheets';
 
 export const FIGURE_COUNT = 5;
 
@@ -25,8 +30,28 @@ export interface Figure {
 }
 
 export const figureUrl = (n: number, kind: FigureKind) => `img/figures/skin-${n}-${kind}.png`;
+export const mobUrl = (name: string) => `img/mobs/${name}.png`;
 
-let loading: Promise<Figure[]> | null = null;
+/** Delay between two frames of a mob: a slow nod. */
+export const MOB_FRAME_MS = 140;
+
+/** The mob sheets that stand in for each pixel sprite; a mob takes one of the variants. */
+export const MOB_SHEETS: Partial<Record<string, string[]>> = {
+  cow: ['cow'],
+  sheep: ['sheep'],
+  pig: ['pig'],
+  horse: ['horse-brown', 'horse-chestnut', 'horse-white'],
+  rider: ['horse-brown', 'horse-chestnut', 'horse-white'],
+  villager: ['villager-farmer', 'villager-librarian', 'villager-shepherd'],
+  golem: ['golem'],
+};
+
+export interface Figures {
+  players: Figure[];
+  mobs: Record<string, HTMLImageElement>;
+}
+
+let loading: Promise<Figures> | null = null;
 
 function image(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -37,13 +62,20 @@ function image(src: string): Promise<HTMLImageElement> {
   });
 }
 
-/** Loads every figure once. Resolves to an empty list if they cannot be loaded. */
-export function loadFigures(): Promise<Figure[]> {
-  loading ??= Promise.all(
-    Array.from({ length: FIGURE_COUNT }, async (_, i) => ({
-      mascot: await image(figureUrl(i + 1, 'mascot')),
-      drops: await image(figureUrl(i + 1, 'drops')),
-    })),
-  ).catch(() => []);
+/** Loads every figure once. A part that cannot be loaded is left empty. */
+export function loadFigures(): Promise<Figures> {
+  loading ??= Promise.all([
+    Promise.all(
+      Array.from({ length: FIGURE_COUNT }, async (_, i) => ({
+        mascot: await image(figureUrl(i + 1, 'mascot')),
+        drops: await image(figureUrl(i + 1, 'drops')),
+      })),
+    ).catch(() => [] as Figure[]),
+    Promise.all(
+      Object.keys(MOB_SIZES).map(async (name) => [name, await image(mobUrl(name))] as const),
+    )
+      .then((pairs) => Object.fromEntries(pairs))
+      .catch(() => ({})),
+  ]).then(([players, mobs]) => ({ players, mobs }));
   return loading;
 }

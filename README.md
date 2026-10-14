@@ -45,6 +45,11 @@ The deploy workflow refreshes the snapshot before every build and once a day.
   by side, 27×27 each, from 15 px blocks) and `skin-N-drops.png` (22×23, from 17 px blocks).
   To add one, export both, pack them the same way and raise `FIGURE_COUNT` in
   `src/app/scene/figures.ts`.
+- **Mobs**: cows, sheep, pigs, horses, villagers and iron golems are drawn in the same
+  mascot style from the game's own textures by `scripts/mobs.py`, which writes
+  `public/img/mobs/` and `src/app/scene/mob-sheets.ts`. Run it with the official 1.21.4
+  client jar (from Mojang's launcher metadata):
+  `python3 scripts/mobs.py client.jar`. The textures belong to Mojang Studios.
 - **Screenshots**: the before / after slider draws stylised illustrations
   (`src/app/scene/`). To use real shots, put them in `public/img/` and fill
   `SITE.screenshots` (`village`, `ridge`, `coast`; same framing, mod off then on).

@@ -9,7 +9,7 @@ import {
   input,
   viewChild,
 } from '@angular/core';
-import { Figure, loadFigures } from './figures';
+import { Figures, loadFigures } from './figures';
 import { HorizonRenderer } from './horizon-renderer';
 import { SCENES, SceneId } from './scenes';
 
@@ -51,7 +51,7 @@ export class HorizonScene {
   private readonly canvas = viewChild<ElementRef<HTMLCanvasElement>>('canvas');
   private renderer: HorizonRenderer | null = null;
   private builtScene: SceneId | null = null;
-  private figures: Figure[] = [];
+  private figures: Figures = { players: [], mobs: {} };
   private visible = false;
   private frame = 0;
   private last = 0;
