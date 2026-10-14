@@ -140,15 +140,18 @@ def cow(tex):
 
 
 def pig(tex):
-    head = front(tex, 8, 8, 8, 8)
-    band = side(tex, 0, 8, 8, 8)
-    snout = front(tex, 17, 17, 4, 3)
+    head = region(tex, 8, 8, 8, 8, 2, 2)
+    snout = region(tex, 17, 17, 4, 3, 2, 2)
+    band = region(tex, 0, 8, 8, 8, 1, 2, 0.72)
     body = region(tex, 28, 16, 8, 16, rotate=True)
-    lg = legs(tex, (4, 20, 4, 6), (10, 20), 14)
+    leg = region(tex, 0, 20, 4, 4)
+    back = region(tex, 0, 20, 4, 4, shade=0.7)
     return [
-        *lg[:2], (body, 9, 6, False), *lg[2:],
-        (band, 16, 0, True), (head, 0, 0, True), (snout, 4, 9, True),
-    ], (27, 18)
+        (back, 15, 18, False), (back, 26, 18, False),
+        (body, 12, 9, False),
+        (leg, 12, 19, False), (leg, 23, 19, False),
+        (band, 17, 2, True), (head, 0, 2, True), (snout, 4, 11, True),
+    ], (30, 23)
 
 
 def sheep(tex, fur):
@@ -199,7 +202,7 @@ def villager(tex):
     arms = region(tex, 44, 42, 8, 4)
     return [
         (robe_side, 12, 20, False), (robe, 4, 20, False), (arms, 4, 23, False),
-        (band, 16, 0, True), (head, 0, 0, True), (nose, 6, 11, True),
+        (band, 16, 0, True), (head, 0, 0, True), (nose, 6, 15, True),
     ], (22, 35)
 
 
@@ -216,12 +219,13 @@ def golem(tex):
         (far_arm, 18, 19, False),
         (body, 3, 19, False),
         (arm, 0, 19, False),
-        (band, 16, 0, True), (head, 0, 0, True), (nose, 6, 11, True),
+        (band, 16, 0, True), (head, 0, 0, True), (nose, 6, 15, True),
     ], (28, 38)
 
 
 def humanoid(tex, arm, leg, reach=False):
-    """Zombies and skeletons: the player's layout, as the mascot avatar draws a player."""
+    """Zombies and skeletons: the player's layout, as the mascot avatar draws a player. The
+    body stands under the back of the head, so that the head sits forward."""
     ox = 6 if reach else 0
     head = front(tex, 8, 8, 8, 8)
     band = side(tex, 0, 8, 8, 8)
@@ -229,17 +233,18 @@ def humanoid(tex, arm, leg, reach=False):
     lw = leg[2]
     near = region(tex, leg[0], leg[1] + 8, lw, 4)
     far = region(tex, leg[0], leg[1] + 8, lw, 4, shade=0.75)
-    parts = [(far, ox + 7, 23, False), (near, ox + 4, 23, False), (body, ox + 3, 16, False)]
+    bx = ox + 7
+    parts = [(far, bx + 4, 23, False), (near, bx + 1, 23, False), (body, bx, 16, False)]
     if reach:
         # A zombie's arms, held out in front from the shoulders: the hand ends on the left.
         a = region(tex, arm[0], arm[1], arm[2], 10)
         a = a.transpose(Image.Transpose.ROTATE_270)
         far_arm = region(a, 0, 0, a.width, a.height, shade=0.75)
-        return [(far_arm, ox - 4, 15, False), *parts, (a, ox - 6, 17, False),
+        return [(far_arm, bx - 8, 15, False), *parts, (a, bx - 10, 17, False),
                 (band, ox + 16, 0, True), (head, ox, 0, True)], (22 + ox, 30)
     a = region(tex, arm[0], arm[1], arm[2], 7)
     far_arm = region(tex, arm[0], arm[1], arm[2], 7, shade=0.75)
-    return [(far_arm, 11, 17, False), *parts, (a, 3 - arm[2], 17, False),
+    return [(far_arm, bx + 8, 17, False), *parts, (a, bx - arm[2], 17, False),
             (band, 16, 0, True), (head, 0, 0, True)], (22, 30)
 
 
@@ -250,9 +255,9 @@ def creeper(tex):
     far = feet(tex, 4, 20, 4, 6, 4, 0.7)
     near = feet(tex, 4, 20, 4, 6, 4)
     return [
-        (far, 6, 25, False), (far, 10, 25, False),
-        (body, 4, 16, False),
-        (near, 3, 25, False), (near, 9, 25, False),
+        (far, 9, 25, False), (far, 14, 25, False),
+        (body, 7, 16, False),
+        (near, 6, 25, False), (near, 12, 25, False),
         (band, 16, 0, True), (head, 0, 0, True),
     ], (22, 30)
 
