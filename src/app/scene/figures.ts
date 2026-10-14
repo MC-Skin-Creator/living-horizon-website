@@ -5,8 +5,8 @@
  * - `skin-N-mascot.png`: the "Mascot" avatar, its animation's frames side by side;
  * - `skin-N-drops.png`: the "Drops" avatar, head and shoulders, for seated players.
  *
- * The mobs are drawn in the same style from the game's own textures by scripts/mobs.py,
- * into public/img/mobs/ (sizes in mob-sheets.ts).
+ * The mobs are drawn from the game's own models and textures by scripts/mobs.py, into
+ * public/img/mobs/ (sizes in mob-sheets.ts).
  */
 
 import { MOB_SIZES } from './mob-sheets';

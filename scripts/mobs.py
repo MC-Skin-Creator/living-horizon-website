@@ -1,337 +1,477 @@
 """
-Builds the mobs of the illustrations from the game's own textures, in the style of MC Skin
-Creator's "Mascot" avatar: a big head (front face at twice the size, its side face beside it,
-darker), a small body, a black outline around every part, and a short animation.
+Builds the mobs of the illustrations from the game itself: its own 3D models and its own
+textures, drawn as small pixel-art figures with a black outline, like the players' avatars.
 
     python3 scripts/mobs.py <minecraft client jar>
 
-The client jar is the official one (1.21.4 layouts), downloaded from Mojang's launcher
-metadata. Writes public/img/mobs/<name>.png, the frames side by side, one pixel per pixel,
-and <name>-small.png at half size for the mobs far away, and src/app/scene/mob-sheets.ts,
-their sizes.
+The client jar is the official one, 26.3 (its classes are not obfuscated), downloaded from
+Mojang's launcher metadata. `javap` (any JDK) must be on the path, and Pillow and NumPy
+installed. Nothing is drawn by eye: each model is read from the method that builds it in the
+game (`CowModel.createBodyLayer`...) by replaying its bytecode, so every box, pivot,
+rotation and texture offset is the game's. The model is then posed, seen from the front (or
+the side, for the long animals) and a little from above, and drawn one pixel per pixel of
+its texture.
+
+Writes public/img/mobs/<name>.png, the frames side by side, <name>-small.png at half size
+for the mobs far away, and src/app/scene/mob-sheets.ts, their sizes.
 """
 
 import io
+import math
+import re
+import subprocess
 import sys
 import zipfile
+from collections import Counter
 from pathlib import Path
 
+import numpy as np
 from PIL import Image
 
 FRAMES = 8
-# Head offset per frame: a slow nod, as when grazing or looking around.
-NOD = [0, 0, 0, 1, 1, 1, 0, 0]
 BLACK = (24, 20, 24, 255)
-
-ROOT = 'assets/minecraft/textures/entity/'
-
-
-def load(jar: zipfile.ZipFile, *paths: str) -> Image.Image:
-    """The texture of the first path, with the others laid over it (villager overlays)."""
-    base = None
-    for p in paths:
-        im = Image.open(io.BytesIO(jar.read(ROOT + p))).convert('RGBA')
-        base = im if base is None else Image.alpha_composite(base, im)
-    return base
+TEXTURES = 'assets/minecraft/textures/entity/'
+MODELS = 'net/minecraft/client/model/'
 
 
-def region(tex, x, y, w, h, sx=1, sy=1, shade=1.0, rotate=False, flip=False):
-    """A face of a box of the model: its pixels, scaled by whole numbers, maybe shaded."""
-    im = tex.crop((x, y, x + w, y + h))
-    if rotate:
-        im = im.transpose(Image.Transpose.ROTATE_90)
-    if flip:
-        im = im.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
-    im = im.resize((im.width * sx, im.height * sy), Image.NEAREST)
-    if shade != 1.0:
-        px = im.load()
-        for j in range(im.height):
-            for i in range(im.width):
-                r, g, b, a = px[i, j]
-                px[i, j] = (int(r * shade), int(g * shade), int(b * shade), a)
-    return im
+# --- The game's models ----------------------------------------------------------------------
+#
+# A model is built by a static method out of CubeListBuilder, PartPose and PartDefinition
+# calls. `javap -c` prints its bytecode; the few instructions those methods use are replayed
+# here, the builders standing in as small Python objects.
 
 
-def outlined(part: Image.Image) -> Image.Image:
-    """The part with a one-pixel black outline around its shape."""
-    w, h = part.size
-    out = Image.new('RGBA', (w + 2, h + 2), (0, 0, 0, 0))
-    alpha = part.getchannel('A')
-    for dx in (0, 1, 2):
-        for dy in (0, 1, 2):
-            out.paste(BLACK, (dx, dy, dx + w, dy + h), alpha.point(lambda a: 255 if a > 0 else 0))
-    out.alpha_composite(part, (1, 1))
+class Deform:
+    def __init__(self, x, y=None, z=None):
+        self.g = (x, x if y is None else y, x if z is None else z)
+
+
+class Cubes:
+    def __init__(self):
+        self.cubes, self.uv, self.mirror = [], (0, 0), False
+
+
+class Pose:
+    def __init__(self, x=0.0, y=0.0, z=0.0, xr=0.0, yr=0.0, zr=0.0):
+        self.pos, self.rot = (x, y, z), (xr, yr, zr)
+
+
+class Part:
+    def __init__(self, cubes, pose):
+        self.cubes, self.pose, self.children = cubes, pose, {}
+
+
+class Mesh:
+    def __init__(self):
+        self.root = Part([], Pose())
+
+
+class Layer:
+    def __init__(self, mesh, w, h):
+        self.root = mesh.root
+
+
+def arg_count(desc):
+    inner, n, i = desc[1:desc.index(')')], 0, 0
+    while i < len(inner):
+        while inner[i] == '[':
+            i += 1
+        if inner[i] == 'L':
+            i = inner.index(';', i)
+        n, i = n + 1, i + 1
+    return n
+
+
+class Bytecode:
+    LINE = re.compile(r'^\s+(\d+): (\w+)\s*(.*?)\s*(?://\s*(.*))?$')
+    HEAD = re.compile(r'^  \S.*?([\w$]+)\(.*\);$')
+
+    def __init__(self, jar):
+        self.jar, self.classes = jar, {}
+
+    def methods(self, cls):
+        if cls not in self.classes:
+            text = subprocess.run(['javap', '-c', '-p', '-s', '-cp', self.jar, cls.replace('/', '.')],
+                                  capture_output=True, text=True, check=True).stdout
+            methods, name, code = {}, None, None
+            for line in text.splitlines():
+                head = self.HEAD.match(line)
+                if head:
+                    name, code = head.group(1), None
+                elif line.strip().startswith('descriptor:') and name:
+                    code = methods[name + line.split(':', 1)[1].strip()] = []
+                elif code is not None and (m := self.LINE.match(line)):
+                    code.append((int(m.group(1)), m.group(2), m.group(3).rstrip(','), m.group(4) or ''))
+            self.classes[cls] = methods
+        return self.classes[cls]
+
+    def call(self, cls, method, args):
+        code = self.methods(cls)[method]
+        at = {off: i for i, (off, *_) in enumerate(code)}
+        local, stack, i = dict(enumerate(args)), [], 0
+        while True:
+            off, op, arg, note = code[i]
+            i += 1
+            if op[:5] in ('aload', 'fload', 'iload'):
+                stack.append(local[int(op[6:]) if '_' in op else int(arg)])
+            elif op[:6] in ('astore', 'fstore', 'istore'):
+                local[int(op[7:]) if '_' in op else int(arg)] = stack.pop()
+            elif op[:6] in ('iconst', 'fconst'):
+                stack.append(-1 if op.endswith('m1') else int(op[-1]))
+            elif op in ('bipush', 'sipush'):
+                stack.append(int(arg))
+            elif op.startswith('ldc'):
+                kind, value = note.split(' ', 1)
+                stack.append(value if kind == 'String' else float(value.rstrip('fd')) if kind in ('float', 'double') else int(value))
+            elif op in ('fadd', 'fsub', 'fmul', 'fdiv', 'iadd', 'isub', 'imul'):
+                b, a = stack.pop(), stack.pop()
+                stack.append(a + b if op[1:] == 'add' else a - b if op[1:] == 'sub' else a * b if op[1:] == 'mul' else a / b)
+            elif op in ('fneg', 'ineg'):
+                stack.append(-stack.pop())
+            elif op in ('i2f', 'f2d', 'd2f', 'checkcast'):
+                pass
+            elif op == 'dup':
+                stack.append(stack[-1])
+            elif op == 'pop':
+                stack.pop()
+            elif op == 'new':
+                stack.append(None)
+            elif op == 'goto':
+                i = at[int(arg)]
+            elif op in ('ifeq', 'ifne'):
+                if (stack.pop() == 0) == (op == 'ifeq'):
+                    i = at[int(arg)]
+            elif op in ('areturn', 'freturn', 'ireturn'):
+                return stack.pop()
+            elif op == 'return':
+                return None
+            elif op == 'getstatic' and note.split()[-1].split(':')[0].endswith('CubeDeformation.NONE'):
+                stack.append(Deform(0.0))
+            elif op == 'getstatic' and note.split()[-1].split(':')[0].endswith('PartPose.ZERO'):
+                stack.append(Pose())
+            elif op.startswith('invoke'):
+                self.invoke(cls, op, note, stack)
+            else:
+                raise ValueError(f'{cls}.{method} at {off}: {op} {arg} {note}')
+
+    def invoke(self, cls, op, note, stack):
+        name, desc = note.split(' ', 1)[1].split(':', 1)
+        owner, _, name = name.rpartition('.')
+        owner, name = owner or cls, name.strip('"')
+        n = arg_count(desc)
+        args = stack[len(stack) - n:] if n else []
+        del stack[len(stack) - n:]
+        this = stack.pop() if op != 'invokestatic' else None
+        short = owner.rsplit('/', 1)[-1] + '.' + name
+        if name == '<init>':
+            # `new X; dup; <args>; invokespecial <init>`: the copy left on the stack becomes it.
+            stack[-1] = {'MeshDefinition': Mesh, 'CubeDeformation': Deform}[short.split('.')[0]](*args)
+            return
+        if short == 'MeshDefinition.getRoot':
+            result = this.root
+        elif short == 'CubeListBuilder.create':
+            result = Cubes()
+        elif short == 'CubeListBuilder.texOffs':
+            this.uv, result = tuple(args), this
+        elif short == 'CubeListBuilder.mirror':
+            this.mirror, result = (bool(args[0]) if args else True), this
+        elif short == 'CubeListBuilder.addBox':
+            nums = [a for a in args if isinstance(a, (int, float))]
+            grow = next((a.g for a in args if isinstance(a, Deform)), (0.0, 0.0, 0.0))
+            mirror, uv = this.mirror, this.uv
+            if desc.startswith('(Ljava/lang/String;FFFIIIII)'):
+                uv, nums = (nums[6], nums[7]), nums[:6]
+            elif desc.startswith('(FFFFFFZ)'):
+                mirror = bool(nums[6])
+            this.cubes.append({'box': [float(x) for x in nums[:6]], 'uv': uv, 'grow': grow, 'mirror': mirror})
+            result = this
+        elif short in ('PartPose.offset', 'PartPose.offsetAndRotation'):
+            result = Pose(*args)
+        elif short == 'PartPose.rotation':
+            result = Pose(0, 0, 0, *args)
+        elif short in ('PartPose.x', 'PartPose.y', 'PartPose.z'):
+            result = this.pos['xyz'.index(name)]
+        elif short == 'CubeDeformation.extend':
+            result = Deform(*(g + args[0] for g in this.g))
+        elif short == 'PartDefinition.addOrReplaceChild':
+            result = this.children[args[0]] = Part(args[1].cubes, args[2])
+        elif short == 'PartDefinition.getChild':
+            result = this.children[args[0]]
+        elif short == 'LayerDefinition.create':
+            result = Layer(*args)
+        elif owner.startswith(MODELS) and '/geom/' not in owner:
+            result = self.call(owner, name + desc, args)
+        else:
+            raise ValueError(f'unknown call {owner}.{name}{desc}')
+        if not desc.endswith(')V'):
+            stack.append(result)
+
+    def model(self, cls, method, *args):
+        """The root part a model method builds, called with `args` (a CubeDeformation is
+        given as Deform(0.0))."""
+        cls = MODELS + cls
+        key = next(k for k in self.methods(cls) if k.startswith(method + '('))
+        out = self.call(cls, key, list(args))
+        return out.root
+
+
+# --- Drawing --------------------------------------------------------------------------------
+
+
+def rotation(xr, yr, zr):
+    """The game's order: z, then y, then x."""
+    cx, sx, cy, sy, cz, sz = math.cos(xr), math.sin(xr), math.cos(yr), math.sin(yr), math.cos(zr), math.sin(zr)
+    rx = np.array([[1, 0, 0], [0, cx, -sx], [0, sx, cx]])
+    ry = np.array([[cy, 0, sy], [0, 1, 0], [-sy, 0, cy]])
+    rz = np.array([[cz, -sz, 0], [sz, cz, 0], [0, 0, 1]])
+    return rz @ ry @ rx
+
+
+def box_faces(cube):
+    """The six faces of a box as the game lays them out on its texture: for each, the corners
+    at the top left, top right and bottom left of its texture rectangle, the rectangle
+    (u0, v0, u1, v1) and the outward normal. Model y points down."""
+    x, y, z, w, h, d = cube['box']
+    gx, gy, gz = cube['grow']
+    x0, y0, z0, x1, y1, z1 = x - gx, y - gy, z - gz, x + w + gx, y + h + gy, z + d + gz
+    sx = 1
+    if cube['mirror']:
+        x0, x1, sx = x1, x0, -1
+    u, v = cube['uv']
+    P = lambda a, b, c: np.array([a, b, c], float)
+    return [
+        ((P(x0, y0, z1), P(x1, y0, z1), P(x0, y0, z0)), (u + d, v, u + d + w, v + d), (0, -1, 0)),
+        ((P(x0, y1, z1), P(x1, y1, z1), P(x0, y1, z0)), (u + d + w, v, u + d + 2 * w, v + d), (0, 1, 0)),
+        ((P(x0, y0, z1), P(x0, y0, z0), P(x0, y1, z1)), (u, v + d, u + d, v + d + h), (-sx, 0, 0)),
+        ((P(x0, y0, z0), P(x1, y0, z0), P(x0, y1, z0)), (u + d, v + d, u + d + w, v + d + h), (0, 0, -1)),
+        ((P(x1, y0, z0), P(x1, y0, z1), P(x1, y1, z0)), (u + d + w, v + d, u + 2 * d + w, v + d + h), (sx, 0, 0)),
+        ((P(x1, y0, z1), P(x0, y0, z1), P(x1, y1, z1)), (u + 2 * d + w, v + d, u + 2 * d + 2 * w, v + d + h), (0, 0, 1)),
+    ]
+
+
+def collect(part, tex, pose, M, t, group, out, moved=True):
+    """Every face of the part and its children, placed. `pose` moves the parts it names
+    (extra rotation 'xr', 'yr', 'zr' and offset 'dx', 'dy', 'dz', as the game's animations
+    do). A part takes its name as its group if it is the root's child or named in `pose`;
+    the others belong to their parent's, which moves them along."""
+    p = pose.get(group, {}) if moved else {}
+    px, py, pz = (a + p.get(k, 0) for a, k in zip(part.pose.pos, ('dx', 'dy', 'dz')))
+    rot = (a + p.get(k, 0) for a, k in zip(part.pose.rot, ('xr', 'yr', 'zr')))
+    t = t + M @ np.array([px, py, pz])
+    M = M @ rotation(*rot)
+    for cube in part.cubes:
+        for corners, uv, normal in box_faces(cube):
+            out.append(([t + M @ c for c in corners], uv, M @ np.array(normal, float), tex, group))
+    for name, child in part.children.items():
+        own = group == '' or name in pose
+        collect(child, tex, pose, M, t, name if own else group, out, own)
     return out
 
 
-def half(im: Image.Image) -> Image.Image:
-    """Every other pixel: a part scaled up twice comes back to the texture's own pixels."""
-    return im.resize((max(1, (im.width + 1) // 2), max(1, (im.height + 1) // 2)), Image.NEAREST)
+class View:
+    """An oblique view, the mob looking to the left. `front`: it looks at us, its right side
+    shows to the right, squeezed by `k`; otherwise it is seen from that side, its face
+    squeezed by `k`. `lift` shows a little of the tops."""
+
+    def __init__(self, front, k=0.5, lift=0.3):
+        self.front = front
+        self.A = np.array([[1, 0, k], [0, 1, -lift]] if front else [[k, 0, 1], [lift, 1, 0]], float)
+        d = np.cross(self.A[0], self.A[1])
+        self.d = d / np.linalg.norm(d)
+
+    def project(self, p):
+        return np.array([*(self.A @ p), self.d @ p])
+
+    def brightness(self, n):
+        """Faces turned to us keep their colours, the others darken: the top a little, the
+        side more, as in the avatars."""
+        n = n / (np.linalg.norm(n) or 1)
+        facing, side = (-n[2], n[0]) if self.front else (n[0], -n[2])
+        w = np.array([max(facing, 0), max(side, 0), max(-n[1], 0), max(n[1], 0)]) ** 2
+        return float((w * [1.0, 0.72, 0.9, 0.5]).sum() / w.sum()) if w.sum() else 0.6
 
 
-def compose(parts, size, frame, small=False):
-    """Parts are drawn back to front: (image, x, y, nods). `small`: everything at half size,
-    the outline still one pixel wide, for the mobs far away."""
-    w, h = size
-    canvas = Image.new('RGBA', (w + 2, h + 3), (0, 0, 0, 0))
-    for im, x, y, nods in parts:
-        if small:
-            im, x, y = half(im), x // 2, y // 2
-        o = outlined(im)
-        canvas.alpha_composite(o, (x, y + (NOD[frame] if nods else 0)))
-    return canvas
+FRONT = View(True)
+SIDE = View(False)
 
 
-def sheet(parts, size, small=False):
-    """The frames side by side, cropped to what any of them covers. Returns the crop's corner."""
-    frames = [compose(parts, size, f, small) for f in range(FRAMES)]
-    boxes = [f.getbbox() for f in frames]
-    box = (min(b[0] for b in boxes), min(b[1] for b in boxes),
-           max(b[2] for b in boxes), max(b[3] for b in boxes))
-    frames = [f.crop(box) for f in frames]
-    out = Image.new('RGBA', (frames[0].width * FRAMES, frames[0].height))
-    for i, f in enumerate(frames):
-        out.paste(f, (i * f.width, 0))
-    return out, box[:2]
+def rasterise(faces, view, scale, lo, size, ss):
+    """Draws the faces with a depth buffer at ss x ss samples per pixel, then keeps each
+    pixel's most common colour, if the faces cover enough of it. Also returns which group
+    each pixel shows."""
+    W, H = size
+    colour = np.zeros((H * ss, W * ss, 4), np.uint8)
+    depth = np.full((H * ss, W * ss), np.inf)
+    owner = np.full((H * ss, W * ss), -1)
+    groups = []
+    for cs, (u0, v0, u1, v1), normal, tex, group in faces:
+        o, a, b = (view.project(c) * scale for c in cs)
+        e1, e2 = (a - o)[:2], (b - o)[:2]
+        det = e1[0] * e2[1] - e1[1] * e2[0]
+        if abs(det) < 1e-9:
+            continue
+        corners = np.array([o, a, b, a + b - o])[:, :2]
+        x0, y0 = np.maximum(np.floor((corners.min(0) - lo) * ss).astype(int), 0)
+        x1, y1 = np.ceil((corners.max(0) - lo) * ss).astype(int)
+        ys, xs = np.mgrid[y0:y1, x0:x1]
+        sx = (xs + 0.5) / ss + lo[0] - o[0]
+        sy = (ys + 0.5) / ss + lo[1] - o[1]
+        s = (sx * e2[1] - sy * e2[0]) / det
+        t = (e1[0] * sy - e1[1] * sx) / det
+        inside = (s >= 0) & (s < 1) & (t >= 0) & (t < 1)
+        if not inside.any():
+            continue
+        z = o[2] + s * (a[2] - o[2]) + t * (b[2] - o[2])
+        th, tw = tex.shape[:2]
+        tu = np.clip(np.floor(u0 + np.clip(s, 0, 0.9999) * (u1 - u0)), 0, tw - 1).astype(int)
+        tv = np.clip(np.floor(v0 + np.clip(t, 0, 0.9999) * (v1 - v0)), 0, th - 1).astype(int)
+        pix = tex[tv, tu]
+        region = (slice(y0, y1), slice(x0, x1))
+        keep = inside & (pix[..., 3] > 0) & (z < depth[region] - 1e-6)
+        lit = pix.astype(float)
+        lit[..., :3] *= view.brightness(normal)
+        if group not in groups:
+            groups.append(group)
+        colour[region][keep] = np.clip(lit, 0, 255).astype(np.uint8)[keep]
+        depth[region][keep] = z[keep]
+        owner[region][keep] = groups.index(group)
+    img = np.zeros((H, W, 4), np.uint8)
+    part = np.full((H, W), -1)
+    for y in range(H):
+        for x in range(W):
+            block = colour[y * ss:(y + 1) * ss, x * ss:(x + 1) * ss].reshape(-1, 4)
+            who = owner[y * ss:(y + 1) * ss, x * ss:(x + 1) * ss].reshape(-1)
+            solid = block[:, 3] > 0
+            if solid.sum() < ss * ss * 0.4:
+                continue
+            img[y, x] = Counter(map(tuple, block[solid])).most_common(1)[0][0]
+            part[y, x] = Counter(who[solid].tolist()).most_common(1)[0][0]
+    return img, part, groups
 
 
-# Every mob faces left, seen three-quarters as in the mascot avatars: the head big and
-# turned to us, a narrow darker band of its side behind it, the body behind that, and short
-# legs tucked under the body.
+def outline(img, part, groups, inner):
+    """A black line one pixel wide around the figure, and around the groups in `inner` (the
+    head) where they stand in front of another part."""
+    H, W = part.shape
+    out = np.zeros((H + 2, W + 2, 4), np.uint8)
+    out[1:-1, 1:-1] = img
+    who = np.full((H + 2, W + 2), -1)
+    who[1:-1, 1:-1] = part
+    filled = who >= 0
+    ids = [groups.index(g) for g in inner if g in groups]
+    edge = np.zeros_like(filled)
+    for dy, dx in ((0, 1), (0, -1), (1, 0), (-1, 0)):
+        nb = np.roll(np.roll(who, dy, 0), dx, 1)
+        edge |= ~filled & (nb >= 0)
+        if ids:
+            edge |= filled & np.isin(nb, ids) & ~np.isin(who, ids)
+    out[edge] = BLACK
+    return Image.fromarray(out, 'RGBA')
 
 
-def front(tex, x, y, w, h, scale=2):
-    return region(tex, x, y, w, h, scale, scale)
+# --- The mobs -------------------------------------------------------------------------------
+
+# A slow nod, one pixel down and back, as when grazing or looking around.
+NOD = [0, 0, 0, 1, 1, 1, 0, 0]
 
 
-def side(tex, x, y, w, h, scale=2):
-    """A head's side face, squeezed to a narrow band: half its width, darker."""
-    im = tex.crop((x, y, x + w, y + h))
-    im = im.resize((max(2, (w * scale) // 4), h * scale), Image.NEAREST)
-    return region(im, 0, 0, im.width, im.height, shade=0.7)
+def nod(part='head'):
+    return lambda f: {part: {'dy': NOD[f]}}
 
 
-def feet(tex, x, y, w, h, rows=3, shade=1.0):
-    """The bottom of a leg's front face: the hoof or paw that shows under the body."""
-    return region(tex, x, y + h - rows, w, rows, shade=shade)
+def zombie(f):
+    # AnimationUtils.animateZombieArms, not attacking: both arms held out at -pi / 2.25.
+    return {'head': {'dy': NOD[f]}, 'right_arm': {'xr': -math.pi / 2.25}, 'left_arm': {'xr': -math.pi / 2.25}}
 
 
-def legs(tex, leg, under, y, rows=3):
-    """Four short legs: a front and a back pair, the far leg of each darker and set back."""
-    x0, x1 = under
-    lx, ly, lw, lh = leg
-    far = feet(tex, lx, ly, lw, lh, rows, 0.7)
-    near = feet(tex, lx, ly, lw, lh, rows)
-    return [(far, x0 + 2, y, False), (far, x1 + 2, y, False), (near, x0, y, False), (near, x1, y, False)]
+def bee(f):
+    # BeeModel.setupAnim, flying: the wings beat around z, opposite each other.
+    beat = math.pi * 0.15 * (1 if f % 2 else -1)
+    return {'right_wing': {'zr': beat}, 'left_wing': {'zr': -beat}}
 
 
-def cow(tex):
-    head = front(tex, 6, 6, 8, 8)
-    band = side(tex, 0, 6, 6, 8)
-    horn = region(tex, 23, 1, 1, 3, 2, 1)
-    body = region(tex, 18, 14, 10, 18, rotate=True)
-    return [
-        *legs(tex, (4, 20, 4, 12), (10, 21), 21)[:2],
-        (body, 9, 11, False),
-        *legs(tex, (4, 20, 4, 12), (10, 21), 21)[2:],
-        (horn, 1, 0, True), (horn, 13, 0, True),
-        (band, 16, 2, True), (head, 0, 2, True),
-    ], (28, 25)
+class Mob:
+    def __init__(self, layers, view, pose, scale=1.0, inner=('head',)):
+        self.layers, self.view, self.pose, self.scale, self.inner = layers, view, pose, scale, inner
 
+    def faces(self, frame):
+        # A layer's MeshTransformer.scaling: the whole model sized around its feet.
+        M = np.eye(3) * self.scale
+        t = np.array([0.0, 24 * (1 - self.scale), 0.0])
+        out = []
+        for root, tex in self.layers:
+            collect(root, tex, self.pose(frame), M, t, '', out, moved=False)
+        return out
 
-def pig(tex):
-    head = region(tex, 8, 8, 8, 8, 2, 2)
-    snout = region(tex, 17, 17, 4, 3, 2, 2)
-    band = region(tex, 0, 8, 8, 8, 1, 2, 0.72)
-    body = region(tex, 28, 16, 8, 16, rotate=True)
-    leg = region(tex, 0, 20, 4, 4)
-    back = region(tex, 0, 20, 4, 4, shade=0.7)
-    return [
-        (back, 15, 18, False), (back, 26, 18, False),
-        (body, 12, 9, False),
-        (leg, 12, 19, False), (leg, 23, 19, False),
-        (band, 17, 2, True), (head, 0, 2, True), (snout, 4, 11, True),
-    ], (30, 23)
-
-
-def sheep(tex, fur):
-    face = front(tex, 8, 8, 6, 6)
-    band = side(fur, 0, 6, 6, 6)
-    body = region(fur, 28, 14, 6, 16, rotate=True).resize((18, 10), Image.NEAREST)
-    lg = legs(tex, (4, 20, 4, 12), (10, 20), 14)
-    return [
-        *lg[:2], (body, 8, 4, False), *lg[2:],
-        (band, 12, 0, True), (face, 0, 0, True),
-    ], (27, 18)
-
-
-def horse(tex):
-    """Side on: long legs, the neck raised, and the head one tilted rectangle, muzzle down."""
-    muzzle = tex.crop((0, 30, 5, 35)).transpose(Image.Transpose.FLIP_LEFT_RIGHT)
-    skull = tex.crop((0, 20, 7, 25)).transpose(Image.Transpose.FLIP_LEFT_RIGHT)
-    head = Image.new('RGBA', (12, 5))
-    head.paste(muzzle, (0, 0))
-    head.paste(skull, (5, 0))
-    head = head.rotate(40, resample=Image.NEAREST, expand=True)
-    ear = region(tex, 19, 17, 2, 3)
-    neck = region(tex, 0, 42, 7, 12, flip=True)
-    mane = region(tex, 56, 40, 4, 16, shade=0.8)
-    body = region(tex, 0, 54, 22, 10, flip=True)
-    tail = region(tex, 42, 40, 4, 12, shade=0.85)
-    leg = region(tex, 48, 25, 4, 11)
-    back = region(tex, 48, 25, 4, 11, shade=0.7)
-    return [
-        (tail, 29, 13, False),
-        (back, 11, 22, False), (back, 26, 22, False),
-        (body, 8, 14, False),
-        (leg, 8, 23, False), (leg, 23, 23, False),
-        (mane, 13, 4, True), (neck, 8, 6, True),
-        (ear, 12, 0, True), (head, 0, 1, True),
-    ], (33, 34)
-
-
-def villager(tex):
-    # The head with its hat layer (a profession's hat), front and side.
-    head = Image.alpha_composite(tex.crop((8, 8, 16, 18)), tex.crop((40, 8, 48, 18)))
-    head = head.resize((16, 20), Image.NEAREST)
-    band = Image.alpha_composite(tex.crop((0, 8, 8, 18)), tex.crop((32, 8, 40, 18)))
-    band = side(band, 0, 0, 8, 10)
-    nose = front(tex, 26, 2, 2, 4)
-    robe = region(tex, 6, 44, 8, 14)
-    robe_side = region(tex, 0, 44, 3, 14, shade=0.72)
-    arms = region(tex, 44, 42, 8, 4)
-    return [
-        (robe_side, 12, 20, False), (robe, 4, 20, False), (arms, 4, 23, False),
-        (band, 16, 0, True), (head, 0, 0, True), (nose, 6, 15, True),
-    ], (22, 35)
-
-
-def golem(tex):
-    head = front(tex, 8, 8, 8, 10)
-    band = side(tex, 0, 8, 8, 10)
-    nose = front(tex, 26, 2, 2, 4)
-    body = region(tex, 11, 51, 18, 12)
-    arm = region(tex, 66, 27, 4, 16)
-    leg = region(tex, 42, 13, 6, 8)
-    far_arm = region(tex, 66, 27, 4, 16, shade=0.7)
-    return [
-        (leg, 6, 30, False), (leg, 14, 30, False),
-        (far_arm, 18, 19, False),
-        (body, 3, 19, False),
-        (arm, 0, 19, False),
-        (band, 16, 0, True), (head, 0, 0, True), (nose, 6, 15, True),
-    ], (28, 38)
-
-
-def humanoid(tex, arm, leg, reach=False):
-    """Zombies and skeletons: the player's layout, as the mascot avatar draws a player. The
-    body stands under the back of the head, so that the head sits forward."""
-    ox = 6 if reach else 0
-    head = front(tex, 8, 8, 8, 8)
-    band = side(tex, 0, 8, 8, 8)
-    body = region(tex, 20, 20, 8, 7)
-    lw = leg[2]
-    near = region(tex, leg[0], leg[1] + 8, lw, 4)
-    far = region(tex, leg[0], leg[1] + 8, lw, 4, shade=0.75)
-    bx = ox + 7
-    parts = [(far, bx + 4, 23, False), (near, bx + 1, 23, False), (body, bx, 16, False)]
-    if reach:
-        # A zombie's arms, held out in front from the shoulders: the hand ends on the left.
-        a = region(tex, arm[0], arm[1], arm[2], 10)
-        a = a.transpose(Image.Transpose.ROTATE_270)
-        far_arm = region(a, 0, 0, a.width, a.height, shade=0.75)
-        return [(far_arm, bx - 8, 15, False), *parts, (a, bx - 10, 17, False),
-                (band, ox + 16, 0, True), (head, ox, 0, True)], (22 + ox, 30)
-    a = region(tex, arm[0], arm[1], arm[2], 7)
-    far_arm = region(tex, arm[0], arm[1], arm[2], 7, shade=0.75)
-    return [(far_arm, bx + 8, 17, False), *parts, (a, bx - arm[2], 17, False),
-            (band, 16, 0, True), (head, 0, 0, True)], (22, 30)
-
-
-def creeper(tex):
-    head = front(tex, 8, 8, 8, 8)
-    band = side(tex, 0, 8, 8, 8)
-    body = region(tex, 20, 20, 8, 9)
-    far = feet(tex, 4, 20, 4, 6, 4, 0.7)
-    near = feet(tex, 4, 20, 4, 6, 4)
-    return [
-        (far, 9, 25, False), (far, 14, 25, False),
-        (body, 7, 16, False),
-        (near, 6, 25, False), (near, 12, 25, False),
-        (band, 16, 0, True), (head, 0, 0, True),
-    ], (22, 30)
-
-
-def chicken(tex):
-    head = region(tex, 3, 3, 4, 6, 2, 2)
-    beak = region(tex, 16, 2, 4, 2, 2, 1)
-    wattle = region(tex, 16, 6, 2, 2, 2, 2)
-    body = region(tex, 6, 15, 6, 8, 2, 2, rotate=True)
-    wing = region(tex, 24, 19, 6, 4, 2, 2, 0.88)
-    leg = region(tex, 35, 3, 3, 5)
-    return [
-        (leg, 9, 16, False), (leg, 15, 16, False),
-        (body, 5, 5, False), (wing, 9, 7, False),
-        (head, 1, 0, True), (beak, 0, 6, True), (wattle, 3, 8, True),
-    ], (23, 22)
-
-
-def bee(tex):
-    """Small, as a bee is: its face at the texture's own size, the wings folded on its back."""
-    face = front(tex, 10, 10, 7, 7, 1)
-    band = side(tex, 0, 10, 10, 7, 1)
-    # The wing's own colour, the lightest of its texture, as a small folded wing.
-    pixels = [p for p in tex.crop((8, 18, 15, 23)).get_flattened_data() if p[3]]
-    light = max(pixels, key=lambda p: p[0] + p[1] + p[2])
-    wing = Image.new('RGBA', (3, 3), light)
-    return [
-        (band, 7, 2, True),
-        (region(wing, 0, 0, 3, 3, shade=0.85), 5, 0, True),
-        (face, 0, 2, True),
-        (wing, 2, 0, True),
-    ], (11, 10)
-
-
-# Where a rider's seat is on a horse, in the parts' coordinates: the middle of its back.
-SADDLE = (20, 14)
+    def sheet(self, scale, ss):
+        frames = [self.faces(f) for f in range(FRAMES)]
+        pts = np.array([self.view.project(c)[:2] * scale for faces in frames for cs, *_ in faces for c in cs])
+        lo = np.floor(pts.min(0)) - 1
+        size = tuple((np.ceil(pts.max(0)) + 1 - lo).astype(int))
+        images = [outline(*rasterise(faces, self.view, scale, lo, size, ss), self.inner) for faces in frames]
+        boxes = [im.getbbox() for im in images]
+        box = (min(b[0] for b in boxes), min(b[1] for b in boxes), max(b[2] for b in boxes), max(b[3] for b in boxes))
+        out = Image.new('RGBA', ((box[2] - box[0]) * FRAMES, box[3] - box[1]))
+        for i, im in enumerate(images):
+            out.paste(im.crop(box), (i * (box[2] - box[0]), 0))
+        # Where a model point lands on the sheet: from the image's corner (`lo`, then the
+        # outline's pixel), less the crop.
+        place = lambda p: tuple(np.round(self.view.A @ (np.array(p) * self.scale + [0, 24 * (1 - self.scale), 0]) * scale - lo + 1 - box[:2]).astype(int))
+        return out, place
 
 
 def main():
-    jar = zipfile.ZipFile(sys.argv[1])
+    jar = sys.argv[1]
+    zf = zipfile.ZipFile(jar)
+    code = Bytecode(jar)
+
+    def tex(*paths):
+        """The texture, with the others laid over it (a villager's biome and profession)."""
+        base = None
+        for p in paths:
+            im = Image.open(io.BytesIO(zf.read(TEXTURES + p + '.png'))).convert('RGBA')
+            base = im if base is None else Image.alpha_composite(base, im)
+        return np.asarray(base)
+
+    none = Deform(0.0)
+    cow = code.model('animal/cow/CowModel', 'createBodyLayer')
+    pig = code.model('animal/pig/PigModel', 'createBodyLayer', none)
+    sheep = code.model('animal/sheep/SheepModel', 'createBodyLayer')
+    wool = code.model('animal/sheep/SheepFurModel', 'createFurLayer')
+    horse = code.model('animal/equine/AbstractEquineModel', 'createBodyMesh', none)
+    villager = code.model('npc/VillagerModel', 'createBodyModel')
+    mobs = {
+        'cow': Mob([(cow, tex('cow/cow_temperate'))], SIDE, nod()),
+        'pig': Mob([(pig, tex('pig/pig_temperate'))], SIDE, nod()),
+        'sheep': Mob([(sheep, tex('sheep/sheep')), (wool, tex('sheep/sheep_wool'))], SIDE, nod()),
+        # LayerDefinitions: the horse's layer is scaled by 1.1, the villager's by 0.9375.
+        **{f'horse-{coat}': Mob([(horse, tex(f'horse/horse_{coat}'))], SIDE, nod('head_parts'), 1.1, ('head_parts',))
+           for coat in ('brown', 'chestnut', 'white')},
+        **{f'villager-{job}': Mob([(villager, tex('villager/villager', 'villager/type/plains', f'villager/profession/{job}'))],
+                                  FRONT, nod(), 0.9375)
+           for job in ('farmer', 'librarian', 'cleric', 'fisherman')},
+        'golem': Mob([(code.model('animal/golem/IronGolemModel', 'createBodyLayer'), tex('iron_golem/iron_golem'))], FRONT, nod()),
+        'chicken': Mob([(code.model('animal/chicken/AdultChickenModel', 'createBodyLayer'), tex('chicken/chicken_temperate'))], SIDE, nod()),
+        'creeper': Mob([(code.model('monster/creeper/CreeperModel', 'createBodyLayer', none), tex('creeper/creeper'))], FRONT, nod()),
+        'zombie': Mob([(code.model('HumanoidModel', 'createMesh', none, 0.0), tex('zombie/zombie'))], FRONT, zombie),
+        'skeleton': Mob([(code.model('monster/skeleton/SkeletonModel', 'createBodyLayer'), tex('skeleton/skeleton'))], FRONT, nod()),
+        'bee': Mob([(code.model('animal/bee/AdultBeeModel', 'createBodyLayer'), tex('bee/bee'))], SIDE, bee, inner=()),
+    }
+
     out = Path('public/img/mobs')
     out.mkdir(parents=True, exist_ok=True)
-    mobs = {
-        'cow': cow(load(jar, 'cow/cow.png')),
-        'pig': pig(load(jar, 'pig/pig.png')),
-        'sheep': sheep(load(jar, 'sheep/sheep.png'), load(jar, 'sheep/sheep_fur.png')),
-        'horse-brown': horse(load(jar, 'horse/horse_brown.png')),
-        'horse-chestnut': horse(load(jar, 'horse/horse_chestnut.png')),
-        'horse-white': horse(load(jar, 'horse/horse_white.png')),
-        **{
-            f'villager-{job}': villager(
-                load(jar, 'villager/villager.png', 'villager/type/plains.png', f'villager/profession/{job}.png')
-            )
-            for job in ('farmer', 'librarian', 'cleric', 'fisherman')
-        },
-        'golem': golem(load(jar, 'iron_golem/iron_golem.png')),
-        'chicken': chicken(load(jar, 'chicken.png')),
-        'creeper': creeper(load(jar, 'creeper/creeper.png')),
-        'zombie': humanoid(load(jar, 'zombie/zombie.png'), (44, 20, 4), (4, 20, 4), reach=True),
-        'skeleton': humanoid(load(jar, 'skeleton/skeleton.png'), (42, 18, 2), (2, 18, 2)),
-        'bee': bee(load(jar, 'bee/bee.png')),
-    }
-    sizes = []
-    saddle = {}
-    for name, (parts, size) in mobs.items():
+    sizes, saddle = [], {}
+    for name, mob in mobs.items():
         for small in (False, True):
             key = name + ('-small' if small else '')
-            s, (x0, y0) = sheet(parts, size, small)
-            s.save(out / f'{key}.png', optimize=True)
-            sizes.append(f"  '{key}': [{s.width // FRAMES}, {s.height}],")
+            sheet, place = mob.sheet(0.5 if small else 1.0, 8 if small else 6)
+            sheet.save(out / f'{key}.png', optimize=True)
+            quoted = f"'{key}'" if '-' in key else key  # as Prettier writes object keys
+            sizes.append(f"  {quoted}: [{sheet.width // FRAMES}, {sheet.height}],")
             if name.startswith('horse'):
-                d = 2 if small else 1
-                saddle[small] = (SADDLE[0] // d - x0, SADDLE[1] // d - y0)
-            print(key, s.width // FRAMES, s.height)
+                # The seat: the top of the body (offset y 11, box from -8, grown 0.05), at its middle.
+                saddle[small] = place((0, 2.95, -1))
+            print(key, sheet.width // FRAMES, sheet.height)
     Path('src/app/scene/mob-sheets.ts').write_text(
         '// Written by scripts/mobs.py: the size of a frame of each mob sheet, and where a\n'
         '// rider sits on the horses. Every sheet faces left and has '

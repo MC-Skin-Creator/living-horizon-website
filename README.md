@@ -47,11 +47,12 @@ The deploy workflow refreshes the snapshot before every build and once a day.
   the half-size versions the far planes use, and raise `FIGURE_COUNT` in
   `src/app/scene/figures.ts`.
 - **Mobs**: cows, sheep, pigs, chickens, horses, villagers, iron golems, bees, creepers,
-  zombies and skeletons are drawn in the same
-  mascot style from the game's own textures by `scripts/mobs.py`, which writes
-  `public/img/mobs/` and `src/app/scene/mob-sheets.ts`. Run it with the official 1.21.4
-  client jar (from Mojang's launcher metadata):
-  `python3 scripts/mobs.py client.jar`. The textures belong to Mojang Studios.
+  zombies and skeletons are built by `scripts/mobs.py` from the game itself: it reads each
+  model out of the method that builds it in the client (by replaying its bytecode, through
+  `javap`), poses it, and draws it one pixel per pixel of its texture, with the players'
+  black outline. It writes `public/img/mobs/` and `src/app/scene/mob-sheets.ts`. Run it with
+  the official 26.3 client jar (from Mojang's launcher metadata), a JDK, Pillow and NumPy:
+  `python3 scripts/mobs.py client.jar`. The models and textures belong to Mojang Studios.
 - **Screenshots**: the before / after slider draws stylised illustrations
   (`src/app/scene/`). To use real shots, put them in `public/img/` and fill
   `SITE.screenshots` (`village`, `ridge`, `coast`; same framing, mod off then on).
