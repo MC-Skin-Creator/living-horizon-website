@@ -7,7 +7,8 @@ darker), a small body, a black outline around every part, and a short animation.
 
 The client jar is the official one (1.21.4 layouts), downloaded from Mojang's launcher
 metadata. Writes public/img/mobs/<name>.png, the frames side by side, one pixel per pixel,
-and src/app/scene/mob-sheets.ts, their sizes.
+and <name>-small.png at half size for the mobs far away, and src/app/scene/mob-sheets.ts,
+their sizes.
 """
 
 import io
@@ -63,19 +64,27 @@ def outlined(part: Image.Image) -> Image.Image:
     return out
 
 
-def compose(parts, size, frame):
-    """Parts are drawn back to front: (image, x, y, nods)."""
+def half(im: Image.Image) -> Image.Image:
+    """Every other pixel: a part scaled up twice comes back to the texture's own pixels."""
+    return im.resize((max(1, (im.width + 1) // 2), max(1, (im.height + 1) // 2)), Image.NEAREST)
+
+
+def compose(parts, size, frame, small=False):
+    """Parts are drawn back to front: (image, x, y, nods). `small`: everything at half size,
+    the outline still one pixel wide, for the mobs far away."""
     w, h = size
     canvas = Image.new('RGBA', (w + 2, h + 3), (0, 0, 0, 0))
     for im, x, y, nods in parts:
+        if small:
+            im, x, y = half(im), x // 2, y // 2
         o = outlined(im)
         canvas.alpha_composite(o, (x, y + (NOD[frame] if nods else 0)))
     return canvas
 
 
-def sheet(parts, size):
+def sheet(parts, size, small=False):
     """The frames side by side, cropped to what any of them covers. Returns the crop's corner."""
-    frames = [compose(parts, size, f) for f in range(FRAMES)]
+    frames = [compose(parts, size, f, small) for f in range(FRAMES)]
     boxes = [f.getbbox() for f in frames]
     box = (min(b[0] for b in boxes), min(b[1] for b in boxes),
            max(b[2] for b in boxes), max(b[3] for b in boxes))
@@ -283,14 +292,17 @@ def main():
         'bee': bee(load(jar, 'bee/bee.png')),
     }
     sizes = []
-    saddle = None
+    saddle = {}
     for name, (parts, size) in mobs.items():
-        s, (x0, y0) = sheet(parts, size)
-        s.save(out / f'{name}.png', optimize=True)
-        sizes.append(f"  '{name}': [{s.width // FRAMES}, {s.height}],")
-        if name.startswith('horse'):
-            saddle = (SADDLE[0] - x0, SADDLE[1] - y0)
-        print(name, s.width // FRAMES, s.height)
+        for small in (False, True):
+            key = name + ('-small' if small else '')
+            s, (x0, y0) = sheet(parts, size, small)
+            s.save(out / f'{key}.png', optimize=True)
+            sizes.append(f"  '{key}': [{s.width // FRAMES}, {s.height}],")
+            if name.startswith('horse'):
+                d = 2 if small else 1
+                saddle[small] = (SADDLE[0] // d - x0, SADDLE[1] // d - y0)
+            print(key, s.width // FRAMES, s.height)
     Path('src/app/scene/mob-sheets.ts').write_text(
         '// Written by scripts/mobs.py: the size of a frame of each mob sheet, and where a\n'
         '// rider sits on the horses. Every sheet faces left and has '
@@ -298,7 +310,9 @@ def main():
         + f'export const MOB_FRAMES = {FRAMES};\n\n'
         + 'export const MOB_SIZES: Record<string, [number, number]> = {\n'
         + '\n'.join(sizes) + '\n};\n\n'
-        + f'export const SADDLE = {{ x: {saddle[0]}, y: {saddle[1]} }};\n'
+        + '/** Where a rider sits on a horse sheet, full size and small. */\n'
+        + f'export const SADDLE = {{ x: {saddle[False][0]}, y: {saddle[False][1]} }};\n'
+        + f'export const SADDLE_SMALL = {{ x: {saddle[True][0]}, y: {saddle[True][1]} }};\n'
     )
 
 

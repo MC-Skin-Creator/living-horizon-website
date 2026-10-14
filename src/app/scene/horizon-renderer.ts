@@ -10,18 +10,15 @@
  */
 import { BIRD_FRAMES, PALETTE, RGB, SPRITES, SpriteName } from './sprites';
 import {
-  DROPS_H,
-  DROPS_W,
+  FIGURE_SIZES,
   FigureKind,
   Figures,
   MOB_FRAME_MS,
   MOB_SHEETS,
   MASCOT_FRAMES,
   MASCOT_FRAME_MS,
-  MASCOT_H,
-  MASCOT_W,
 } from './figures';
-import { MOB_FRAMES, MOB_SIZES, SADDLE } from './mob-sheets';
+import { MOB_FRAMES, MOB_SIZES, SADDLE, SADDLE_SMALL } from './mob-sheets';
 import { SceneSpec } from './scenes';
 
 type Canvas = HTMLCanvasElement;
@@ -452,8 +449,9 @@ export class HorizonRenderer {
       return;
     }
     if (mob.sheet) {
-      const p = this.pixel(layer, k);
-      const img = this.mobImage(mob.sheet, this.mobFrame(mob, t), layer.haze * 0.8, !flip);
+      const { p, small } = this.size(layer, k);
+      const sheet = mob.sheet + (small ? '-small' : '');
+      const img = this.mobImage(sheet, this.mobFrame(mob, t), layer.haze * 0.8, !flip);
       // Bees fly above the grass, bobbing.
       const lift = mob.sprite === 'bee' ? (6 + Math.sin(t * 3 + mob.phase) * 1.5) * layer.scale : 0;
       const bottom = (layer.surface[xi] - lift) * k + p;
@@ -529,19 +527,23 @@ export class HorizonRenderer {
     const s = layer.scale;
     const haze = layer.haze * 0.8;
     const ground = layer.surface[xi];
-    const p = this.pixel(layer, k);
+    const { p, small } = this.size(layer, k);
+    const drops: FigureKind = small ? 'drops-small' : 'drops';
 
     if (mob.sprite === 'rider' && mob.sheet) {
       // On a horse of the game: the rider's drops bust in the saddle.
-      const horse = this.mobImage(mob.sheet, this.mobFrame(mob, t), haze, !flip);
+      const sheet = mob.sheet + (small ? '-small' : '');
+      const saddle = small ? SADDLE_SMALL : SADDLE;
+      const horse = this.mobImage(sheet, this.mobFrame(mob, t), haze, !flip);
       const bottom = ground * k + p;
       const left = Math.round(xi * k - (horse.width * p) / 2);
       const top = Math.round(bottom) - horse.height * p;
-      const sx = flip ? SADDLE.x : horse.width - SADDLE.x;
-      const img = this.figureImage(mob.figure, 'drops', 0, haze, flip);
+      const sx = flip ? saddle.x : horse.width - saddle.x;
+      const img = this.figureImage(mob.figure, drops, 0, haze, flip);
+      const sink = small ? 2 : 3;
       players.push(() => {
         this.blit(target, horse, xi * k, bottom, p);
-        this.blitFigure(target, img, left + sx * p, top + (SADDLE.y + 3) * p, p, layer.haze);
+        this.blitFigure(target, img, left + sx * p, top + (saddle.y + sink) * p, p, layer.haze);
       });
       return;
     }
@@ -552,25 +554,27 @@ export class HorizonRenderer {
       const seatTop = ground - seat.height + (mob.floats ? s : 0) + bob;
       band.drawImage(seat, seatLeft, seatTop);
       // The drops avatar, head and shoulders: the legs are in the saddle or the hull.
-      const img = this.figureImage(mob.figure, 'drops', 0, haze, flip);
+      const img = this.figureImage(mob.figure, drops, 0, haze, flip);
       const along = mob.sprite === 'rider' ? (flip ? 0.62 : 0.38) : 0.5;
       const cx = (seatLeft + seat.width * along) * k;
       const bottom = (seatTop + (mob.sprite === 'rider' ? 2 * s : s)) * k;
-      // A step smaller than a standing player, to sit on a horse's back.
-      const ps = Math.max(1, p - 1);
-      players.push(() => this.blitFigure(target, img, cx, bottom, ps, layer.haze));
+      players.push(() => this.blitFigure(target, img, cx, bottom, p, layer.haze));
       return;
     }
 
     const frame = Math.floor((t * 1000) / MASCOT_FRAME_MS + mob.phase * 5) % MASCOT_FRAMES;
-    const img = this.figureImage(mob.figure, 'mascot', frame, haze, flip);
+    const img = this.figureImage(mob.figure, small ? 'mascot-small' : 'mascot', frame, haze, flip);
     // The bottom row of the avatar is its outline: let it sink into the grass.
     players.push(() => this.blitFigure(target, img, xi * k, ground * k + p, p, layer.haze));
   }
 
-  /** Canvas pixels per pixel of an avatar on this layer: whole, about the sprites' size. */
-  private pixel(layer: BuiltLayer, k: number): number {
-    return Math.max(1, Math.round((layer.scale * k) / 4));
+  /**
+   * How big the avatars of a layer are drawn: `p` canvas pixels per pixel, always whole so
+   * that they stay sharp, and the half-size sheets (`small`) for the far planes.
+   */
+  private size(layer: BuiltLayer, k: number): { p: number; small: boolean } {
+    const e = (layer.scale * k) / 6.5;
+    return e < 0.75 ? { p: 1, small: true } : { p: Math.max(1, Math.round(e)), small: false };
   }
 
   private mobFrame(mob: Mob, t: number): number {
@@ -601,8 +605,8 @@ export class HorizonRenderer {
     haze: number,
   ) {
     const top = this.blit(target, img, cx, bottom, p);
-    // Name tag.
-    const tw = 12 * p;
+    // Name tag, narrower above the half-size avatars.
+    const tw = (img.height < 20 ? 8 : 12) * p;
     const tx = Math.round(cx - tw / 2);
     const ty = top - 5 * p;
     target.fillStyle = 'rgba(0,0,0,0.45)';
@@ -622,7 +626,7 @@ export class HorizonRenderer {
     const key = `fig:${index}:${kind}:${frame}:${haze.toFixed(3)}:${flip}`;
     let c = this.spriteCache.get(key);
     if (c) return c;
-    const [w, rows] = kind === 'mascot' ? [MASCOT_W, MASCOT_H] : [DROPS_W, DROPS_H];
+    const [w, rows] = FIGURE_SIZES[kind];
     c = makeCanvas(w, rows);
     const ctx = c.getContext('2d', { willReadFrequently: true })!;
     if (flip) {

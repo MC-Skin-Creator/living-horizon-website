@@ -22,12 +22,17 @@ export const MASCOT_FRAME_MS = 80;
 export const DROPS_W = 22;
 export const DROPS_H = 23;
 
-export type FigureKind = 'mascot' | 'drops';
+/** `-small`: half size, for the far planes (scripts/figures.py). */
+export type FigureKind = 'mascot' | 'drops' | 'mascot-small' | 'drops-small';
 
-export interface Figure {
-  mascot: HTMLImageElement;
-  drops: HTMLImageElement;
-}
+export const FIGURE_SIZES: Record<FigureKind, [number, number]> = {
+  mascot: [MASCOT_W, MASCOT_H],
+  drops: [DROPS_W, DROPS_H],
+  'mascot-small': [16, 16],
+  'drops-small': [13, 14],
+};
+
+export type Figure = Record<FigureKind, HTMLImageElement>;
 
 export const figureUrl = (n: number, kind: FigureKind) => `img/figures/skin-${n}-${kind}.png`;
 export const mobUrl = (name: string) => `img/mobs/${name}.png`;
@@ -71,10 +76,11 @@ function image(src: string): Promise<HTMLImageElement> {
 export function loadFigures(): Promise<Figures> {
   loading ??= Promise.all([
     Promise.all(
-      Array.from({ length: FIGURE_COUNT }, async (_, i) => ({
-        mascot: await image(figureUrl(i + 1, 'mascot')),
-        drops: await image(figureUrl(i + 1, 'drops')),
-      })),
+      Array.from({ length: FIGURE_COUNT }, async (_, i) => {
+        const kinds = Object.keys(FIGURE_SIZES) as FigureKind[];
+        const images = await Promise.all(kinds.map((kind) => image(figureUrl(i + 1, kind))));
+        return Object.fromEntries(kinds.map((kind, j) => [kind, images[j]])) as Figure;
+      }),
     ).catch(() => [] as Figure[]),
     Promise.all(
       Object.keys(MOB_SIZES).map(async (name) => [name, await image(mobUrl(name))] as const),
