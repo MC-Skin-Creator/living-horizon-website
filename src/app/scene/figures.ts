@@ -75,21 +75,27 @@ function image(src: string): Promise<HTMLImageElement> {
   });
 }
 
-/** Loads every figure once. A part that cannot be loaded is left empty. */
+/**
+ * Loads every figure once. A skin or a sheet that cannot be loaded is left out, the others
+ * are still drawn.
+ */
 export function loadFigures(): Promise<Figures> {
+  const kinds = Object.keys(FIGURE_SIZES) as FigureKind[];
   loading ??= Promise.all([
     Promise.all(
       SKINS.map(async (skin) => {
-        const kinds = Object.keys(FIGURE_SIZES) as FigureKind[];
         const images = await Promise.all(kinds.map((kind) => image(figureUrl(skin, kind))));
         return Object.fromEntries(kinds.map((kind, j) => [kind, images[j]])) as Figure;
-      }),
-    ).catch(() => [] as Figure[]),
+      }).map((p) => p.catch(() => null)),
+    ).then((players) => players.filter((f): f is Figure => f !== null)),
     Promise.all(
-      Object.keys(MOB_SIZES).map(async (name) => [name, await image(mobUrl(name))] as const),
-    )
-      .then((pairs) => Object.fromEntries(pairs))
-      .catch(() => ({})),
+      Object.keys(MOB_SIZES).map((name) =>
+        image(mobUrl(name)).then(
+          (img) => [name, img] as const,
+          () => null,
+        ),
+      ),
+    ).then((pairs) => Object.fromEntries(pairs.filter((p) => p !== null))),
   ]).then(([players, mobs]) => ({ players, mobs }));
   return loading;
 }

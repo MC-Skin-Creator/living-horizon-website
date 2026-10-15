@@ -80,7 +80,7 @@ const SLOTS: { label: string; hint: string }[] = [
                   <strong class="value">{{ b.value }}</strong>
                   <span class="hint">{{ b.context }}</span>
                 } @else {
-                  <strong class="value pending">—</strong>
+                  <strong class="value pending">?</strong>
                   <span class="hint">Benchmark pending · {{ s.hint }}</span>
                 }
               </div>

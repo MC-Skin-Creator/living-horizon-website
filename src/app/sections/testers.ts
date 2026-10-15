@@ -28,7 +28,7 @@ import { Reveal } from '../shared/reveal';
             <p class="lede">
               Living Horizon is young and runs on a lot of combinations: game versions, loaders,
               Distant Horizons and Voxy versions, shader packs, other mods. Not all of them have
-              been tried yet. If you play with it, tell us how it runs — good or bad, every report
+              been tried yet. If you play with it, tell us how it runs, good or bad: every report
               counts.
             </p>
 

@@ -73,7 +73,7 @@ import { Reveal } from '../shared/reveal';
               <li>
                 <span class="st tested"><lh-icon name="check" /></span> Seen working in a world
               </li>
-              <li><span class="st untested">?</span> Starts — needs testers</li>
+              <li><span class="st untested">?</span> Starts, needs testers</li>
             </ul>
           </div>
 

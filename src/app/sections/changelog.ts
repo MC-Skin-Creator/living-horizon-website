@@ -29,7 +29,8 @@ const PREVIEW_ENTRIES = 3;
             <code>{{ p.text }}</code>
           }
           @default {
-            {{ p.text }}
+            <!-- In a container: no space is added around the text, it carries its own. -->
+            <ng-container>{{ p.text }}</ng-container>
           }
         }
       }
@@ -74,9 +75,11 @@ const PREVIEW_ENTRIES = 3;
                               @if (e.subject.length) {
                                 <span class="subject"
                                   ><ng-container
-                                    *ngTemplateOutlet="inline; context: { $implicit: e.subject }"
-                                /></span>
-                                —
+                                    *ngTemplateOutlet="
+                                      inline;
+                                      context: { $implicit: e.subject }
+                                    " /></span
+                                >:
                               }
                               <ng-container
                                 *ngTemplateOutlet="inline; context: { $implicit: e.body }"

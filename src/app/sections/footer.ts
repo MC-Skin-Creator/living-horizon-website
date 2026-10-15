@@ -19,7 +19,7 @@ import { Icon } from '../shared/icon';
             </a>
             <p>Gives life to the distance. A client-side mod for Minecraft Java Edition.</p>
             <p class="beta">
-              <span class="beta-dot"></span> Beta — expect bugs, and tell us about them.
+              <span class="beta-dot"></span> Beta: expect bugs, and tell us about them.
             </p>
           </div>
 
