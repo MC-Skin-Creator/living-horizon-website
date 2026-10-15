@@ -14,7 +14,12 @@ export interface Benchmark {
   context: string;
 }
 
-export interface SceneScreenshots {
+export interface Screenshots {
+  id: string;
+  /** The tab's name. */
+  title: string;
+  /** One sentence under the slider: the settings and what to look for. */
+  text: string;
   /** Real in-game shots, same framing, mod off then on. Paths relative to `public/`. */
   before: string;
   after: string;
@@ -63,8 +68,23 @@ export const SITE = {
   benchmarks: [] as Benchmark[],
 
   /**
-   * Real screenshots for the before / after slider, by scene id. A scene without an
-   * entry is drawn as a stylised illustration.
+   * Real in-game screenshots for the before / after slider. They come first, the stylised
+   * illustrations after them.
    */
-  screenshots: {} as Partial<Record<'village' | 'ridge' | 'coast', SceneScreenshots>>,
+  screenshots: [
+    {
+      id: 'shaders',
+      title: 'In game · Shaders',
+      text: 'With a shader pack, render and simulation distance 12: the animals on the far hills are back.',
+      before: 'img/compare/shaders-before.webp',
+      after: 'img/compare/shaders-after.webp',
+    },
+    {
+      id: 'vanilla',
+      title: 'In game · Vanilla',
+      text: 'No shaders, render and simulation distance 12: herds of cows and horses fill the far plains.',
+      before: 'img/compare/vanilla-before.webp',
+      after: 'img/compare/vanilla-after.webp',
+    },
+  ] as Screenshots[],
 };

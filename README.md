@@ -58,9 +58,9 @@ The deploy workflow refreshes the snapshot before every build and once a day.
   a creeper, the horizon, hills and mountains behind him, each with a figure and birds. Run
   it like `scripts/mobs.py`, with the client jar. It writes the site's icons and
   `art/logo/icon.png`, which the mod ships as `assets/livinghorizon/icon.png`.
-- **Screenshots**: the before / after slider draws stylised illustrations
-  (`src/app/scene/`). To use real shots, put them in `public/img/` and fill
-  `SITE.screenshots` (`village`, `ridge`, `coast`; same framing, mod off then on).
+- **Screenshots**: the before / after slider opens on real in-game screenshots, listed in
+  `SITE.screenshots` (title, one sentence, and the two shots in `public/img/compare/`, same
+  framing, mod off then on), then shows the stylised illustrations (`src/app/scene/`).
 
 ## Deploy
 
