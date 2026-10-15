@@ -74,9 +74,11 @@ const PREVIEW_ENTRIES = 3;
                               @if (e.subject.length) {
                                 <span class="subject"
                                   ><ng-container
-                                    *ngTemplateOutlet="inline; context: { $implicit: e.subject }"
-                                /></span>
-                                —
+                                    *ngTemplateOutlet="
+                                      inline;
+                                      context: { $implicit: e.subject }
+                                    " /></span
+                                >:
                               }
                               <ng-container
                                 *ngTemplateOutlet="inline; context: { $implicit: e.body }"

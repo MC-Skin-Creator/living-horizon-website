@@ -33,7 +33,7 @@ import { Icon } from '../shared/icon';
         </h1>
 
         <p class="lede">
-          Animals, villagers, birds and other players keep living on the horizon — far past your
+          Animals, villagers, birds and other players keep living on the horizon, far past your
           render distance, right on the far terrain of
           <strong class="mod"
             ><img src="img/logos/distant-horizons.webp" alt="" width="20" height="20" />Distant

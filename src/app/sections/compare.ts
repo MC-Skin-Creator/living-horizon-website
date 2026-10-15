@@ -79,8 +79,8 @@ const TABS: Tab[] = [
           <p class="scene-text">{{ current().text }}</p>
           @if (illustrated()) {
             <ul>
-              <li><span class="sw near"></span> Your render distance — alive either way</li>
-              <li><span class="sw far"></span> Far terrain — empty without the mod</li>
+              <li><span class="sw near"></span> Your render distance: alive either way</li>
+              <li><span class="sw far"></span> Far terrain: empty without the mod</li>
             </ul>
           }
         </div>
@@ -89,8 +89,8 @@ const TABS: Tab[] = [
           <p class="note" lhReveal>
             <lh-icon name="film" />
             <span
-              >Stylised illustration of the effect. The first tabs are real in-game screenshots —
-              got a good one of your own?
+              >Stylised illustration of the effect. The first tabs are real in-game screenshots. Got
+              a good one of your own?
               <a [href]="site.links.discord" target="_blank" rel="noopener">Share it on Discord</a
               >.</span
             >

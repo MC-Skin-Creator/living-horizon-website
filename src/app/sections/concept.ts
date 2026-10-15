@@ -28,7 +28,7 @@ interface Figure {
           <h2>Your render distance ends. <span class="accent">The world doesn't.</span></h2>
           <p>
             Minecraft stops drawing mobs and players a few chunks away. Far-terrain mods stretch the
-            land to the horizon — but it stays empty and still. Living Horizon fills it back with
+            land to the horizon, but it stays empty and still. Living Horizon fills it back with
             life.
           </p>
         </header>
@@ -161,7 +161,7 @@ export class Concept {
     {
       icon: 'eye',
       title: 'Mobs and players, far away',
-      text: 'Animals graze, villagers wander around far-off villages, and other players keep walking — with their skin, armour and whatever they ride.',
+      text: 'Animals graze, villagers wander around far-off villages, and other players keep walking, with their skin, armour and whatever they ride.',
     },
     {
       icon: 'mountain',
