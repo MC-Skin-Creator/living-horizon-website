@@ -10,24 +10,26 @@
   align-content: start;
   gap: 12px;
   overflow: hidden;
+  border-color: color-mix(in srgb, var(--tone) 30%, var(--line));
   background:
     radial-gradient(
       90% 70% at 0% 0%,
-      color-mix(in srgb, var(--tone) 10%, transparent),
+      color-mix(in srgb, var(--tone) 18%, transparent),
       transparent 70%
     ),
     linear-gradient(180deg, rgb(255 255 255 / 0.05), rgb(255 255 255 / 0.02));
 
+  // The colours of each mod's own logo: Distant Horizons' blue, Voxy's green.
   &.dh {
-    --tone: var(--sky);
+    --tone: #3082d6;
   }
 
   &.voxy {
-    --tone: var(--dusk);
+    --tone: #6be96f;
   }
 
   &.vanilla {
-    --tone: var(--grass);
+    --tone: var(--sun);
   }
 
   h3 {
@@ -44,7 +46,8 @@
     gap: 6px;
     font-weight: 600;
     font-size: 0.92rem;
-    color: var(--tone);
+    // Lightened a little so the darker blue still reads on the dark card.
+    color: color-mix(in srgb, var(--tone) 75%, white);
     text-decoration: none;
 
     lh-icon {
@@ -63,6 +66,13 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 4px;
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--tone) 40%, transparent);
 }
 
 .icon {

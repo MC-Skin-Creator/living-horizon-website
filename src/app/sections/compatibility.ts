@@ -26,7 +26,17 @@ import { Reveal } from '../shared/reveal';
           @for (w of works; track w.title; let i = $index) {
             <article class="card work" [class]="w.tone" [lhReveal]="i * 80">
               <div class="top">
-                <span class="icon"><lh-icon [name]="w.icon" /></span>
+                @if (w.logo) {
+                  <img
+                    class="logo"
+                    [src]="w.logo"
+                    [alt]="w.title + ' logo'"
+                    width="48"
+                    height="48"
+                  />
+                } @else {
+                  <span class="icon"><lh-icon [name]="w.icon" /></span>
+                }
                 <span class="ok"><lh-icon name="check" /> Works</span>
               </div>
               <h3>{{ w.title }}</h3>
@@ -146,6 +156,8 @@ export class Compatibility {
 
   protected readonly works: {
     icon: IconName;
+    /** The mod's own logo, shown instead of the icon. */
+    logo?: string;
     tone: string;
     title: string;
     text: string;
@@ -154,6 +166,7 @@ export class Compatibility {
   }[] = [
     {
       icon: 'mountain',
+      logo: 'img/logos/distant-horizons.webp',
       tone: 'dh',
       title: 'Distant Horizons',
       text: 'Mobs and players are drawn on its far terrain and hide behind its hills. From Distant Horizons 2.3 on.',
@@ -162,6 +175,7 @@ export class Compatibility {
     },
     {
       icon: 'layers',
+      logo: 'img/logos/voxy.webp',
       tone: 'voxy',
       title: 'Voxy',
       text: "The horizon of Voxy's terrain comes alive: grazing animals, far villages, players on the move.",

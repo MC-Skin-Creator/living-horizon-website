@@ -161,3 +161,16 @@ h1 {
     flex: 1 1 auto;
   }
 }
+
+.mod {
+  white-space: nowrap;
+
+  img {
+    display: inline-block;
+    width: 1.15em;
+    height: 1.15em;
+    margin-right: 0.3em;
+    border-radius: 4px;
+    vertical-align: -0.2em;
+  }
+}

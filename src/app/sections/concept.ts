@@ -42,7 +42,13 @@ interface Figure {
           <div class="axis" aria-hidden="true">
             <span class="you"><lh-figure skin="steve" kind="drops" [pixel]="1" /> You</span>
             <span class="zone z1">Your render distance</span>
-            <span class="zone z2">Far terrain · Distant Horizons / Voxy</span>
+            <span class="zone z2"
+              >Far terrain ·
+              <img src="img/logos/distant-horizons.webp" alt="" width="16" height="16" />
+              Distant Horizons /
+              <img src="img/logos/voxy.webp" alt="" width="16" height="16" />
+              Voxy</span
+            >
             <span class="zone z3">Horizon</span>
           </div>
 
