@@ -38,6 +38,8 @@ export type SliderScene = 'village' | 'ridge' | 'coast';
             [label]="'Without Living Horizon: ' + description()"
           />
         }
+        <!-- Inside its picture: the other one covers it as the handle moves over it. -->
+        <span class="badge left">Without the mod</span>
       </div>
       <div class="layer after">
         @if (shots(); as s) {
@@ -55,10 +57,8 @@ export type SliderScene = 'village' | 'ridge' | 'coast';
             [label]="'With Living Horizon: ' + description()"
           />
         }
+        <span class="badge right">With Living Horizon</span>
       </div>
-
-      <span class="badge left">Without the mod</span>
-      <span class="badge right">With Living Horizon</span>
 
       <div class="handle" aria-hidden="true"><span class="knob">‹ ›</span></div>
 
