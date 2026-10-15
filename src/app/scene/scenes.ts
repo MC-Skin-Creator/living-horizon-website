@@ -258,6 +258,7 @@ export const SCENES: Record<SceneId, SceneSpec> = {
         trees: 0.12,
         mobs: [
           { sprite: 'sheep', count: 1, spread: [0.12, 0.2], fixed: true },
+          { sprite: 'player', count: 1, spread: [0.46, 0.52], fixed: true },
           { sprite: 'cow', count: 1, spread: [0.8, 0.9], fixed: true },
         ],
       },
@@ -433,7 +434,7 @@ export const SCENES: Record<SceneId, SceneSpec> = {
         body: [212, 194, 138],
         top: [230, 214, 160],
         topRows: 1,
-        mobs: [{ sprite: 'sheep', count: 1, spread: [0.62, 0.7], fixed: true }],
+        mobs: [{ sprite: 'player', count: 1, spread: [0.62, 0.7], fixed: true }],
       },
     ],
     birds: [

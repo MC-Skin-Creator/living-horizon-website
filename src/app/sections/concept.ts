@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FigureView } from '../scene/figure';
+import { Skin } from '../scene/figures';
 import { MobView } from '../scene/mob';
 import { Sprite } from '../scene/sprite';
 import { SpriteName } from '../scene/sprites';
@@ -9,8 +10,8 @@ import { Reveal } from '../shared/reveal';
 interface Figure {
   sprite: SpriteName;
   flip?: boolean;
-  /** A player, drawn from this skin (1 to 5) instead of the sprite. */
-  skin?: number;
+  /** A player, drawn from this skin instead of the sprite. */
+  skin?: Skin;
   /** A mob of the game, drawn from this sheet (see scripts/mobs.py) instead of the sprite. */
   mob?: string;
 }
@@ -39,7 +40,7 @@ interface Figure {
           aria-label="Diagram: without Living Horizon, mobs only exist within your render distance and the far terrain is empty. With it, mobs, players and birds live across the far terrain up to the horizon."
         >
           <div class="axis" aria-hidden="true">
-            <span class="you"><lh-figure [skin]="1" kind="drops" [pixel]="1" /> You</span>
+            <span class="you"><lh-figure skin="steve" kind="drops" [pixel]="1" /> You</span>
             <span class="zone z1">Your render distance</span>
             <span class="zone z2">Far terrain · Distant Horizons / Voxy</span>
             <span class="zone z3">Horizon</span>
@@ -132,7 +133,7 @@ interface Figure {
 export class Concept {
   protected readonly near: Figure[] = [
     { sprite: 'cow', mob: 'cow', flip: true },
-    { sprite: 'player', skin: 2 },
+    { sprite: 'player', skin: 'steve' },
     { sprite: 'sheep', mob: 'sheep' },
   ];
   protected readonly mid: Figure[] = [

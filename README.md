@@ -43,9 +43,10 @@ The deploy workflow refreshes the snapshot before every build and once a day.
   landscape, *Drops* for riders and boaters. They are packed into `public/img/figures/` one
   pixel per pixel of the avatar, so they stay sharp: `skin-N-mascot.png` (the 8 frames side
   by side, 27×27 each, from 15 px blocks) and `skin-N-drops.png` (22×23, from 17 px blocks).
-  To add one, export both, pack them the same way, run `python3 scripts/figures.py` for
-  the half-size versions the far planes use, and raise `FIGURE_COUNT` in
-  `src/app/scene/figures.ts`.
+  Steve (`skin-steve-*`, from `art/skins/steve.png`) is the player of the nearest plane;
+  the others take turns behind him. To add one, export both, pack them the same way, run
+  `python3 scripts/figures.py` for the half-size versions the far planes use, and add it to
+  `SKINS` in `src/app/scene/figures.ts`.
 - **Mobs**: cows, sheep, pigs, chickens, horses, villagers, iron golems, bees, creepers,
   zombies and skeletons are built by `scripts/mobs.py` from the game itself: it reads each
   model out of the method that builds it in the client (by replaying its bytecode, through
