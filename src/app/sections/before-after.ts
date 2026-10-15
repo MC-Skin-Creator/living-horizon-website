@@ -3,19 +3,18 @@ import {
   Component,
   ElementRef,
   afterNextRender,
-  computed,
   inject,
   input,
   signal,
 } from '@angular/core';
-import { SITE } from '../config/site';
+import { Screenshots } from '../config/site';
 import { HorizonScene } from '../scene/horizon-scene';
 
-type SliderScene = 'village' | 'ridge' | 'coast';
+export type SliderScene = 'village' | 'ridge' | 'coast';
 
 /**
- * The same view without and with the mod, split by a handle. Real screenshots are used
- * when `SITE.screenshots` has them for this scene; otherwise the stylised illustration.
+ * The same view without and with the mod, split by a handle: a pair of real screenshots
+ * (`shots`), or else the stylised illustration of `scene`.
  */
 @Component({
   selector: 'lh-before-after',
@@ -25,33 +24,41 @@ type SliderScene = 'village' | 'ridge' | 'coast';
     <div class="frame" [style.--pos.%]="pos()">
       <div class="layer before">
         @if (shots(); as s) {
-          <img [src]="s.before" alt="In-game screenshot without Living Horizon" loading="lazy" />
+          <img
+            [src]="s.before"
+            [alt]="'In-game screenshot without Living Horizon. ' + s.text"
+            loading="lazy"
+          />
         } @else {
           <lh-horizon
-            [scene]="scene()"
+            [scene]="scene() ?? 'village'"
             [aspect]="16 / 9"
             [resolution]="225"
             [alive]="false"
             [label]="'Without Living Horizon: ' + description()"
           />
         }
+        <!-- Inside its picture: the other one covers it as the handle moves over it. -->
+        <span class="badge left">Without the mod</span>
       </div>
       <div class="layer after">
         @if (shots(); as s) {
-          <img [src]="s.after" alt="In-game screenshot with Living Horizon" loading="lazy" />
+          <img
+            [src]="s.after"
+            [alt]="'In-game screenshot with Living Horizon. ' + s.text"
+            loading="lazy"
+          />
         } @else {
           <lh-horizon
-            [scene]="scene()"
+            [scene]="scene() ?? 'village'"
             [aspect]="16 / 9"
             [resolution]="225"
             [alive]="true"
             [label]="'With Living Horizon: ' + description()"
           />
         }
+        <span class="badge right">With Living Horizon</span>
       </div>
-
-      <span class="badge left">Without the mod</span>
-      <span class="badge right">With Living Horizon</span>
 
       <div class="handle" aria-hidden="true"><span class="knob">‹ ›</span></div>
 
@@ -70,11 +77,11 @@ type SliderScene = 'village' | 'ridge' | 'coast';
   styleUrl: './before-after.scss',
 })
 export class BeforeAfter {
-  readonly scene = input.required<SliderScene>();
+  readonly scene = input<SliderScene | null>(null);
+  readonly shots = input<Screenshots | null>(null);
   readonly description = input('');
 
   protected readonly pos = signal(50);
-  protected readonly shots = computed(() => SITE.screenshots[this.scene()] ?? null);
   protected touched = false;
 
   constructor() {

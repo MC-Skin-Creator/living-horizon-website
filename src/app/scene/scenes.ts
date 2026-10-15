@@ -105,6 +105,8 @@ export const SCENES: Record<SceneId, SceneSpec> = {
           { sprite: 'golem', count: 1, spread: [0.2, 0.28] },
           { sprite: 'cow', count: 3, spread: [0.48, 0.64] },
           { sprite: 'sheep', count: 3, spread: [0.76, 0.92] },
+          { sprite: 'chicken', count: 2, spread: [0.3, 0.38] },
+          { sprite: 'zombie', count: 1, spread: [0.66, 0.72] },
         ],
       },
       {
@@ -123,6 +125,8 @@ export const SCENES: Record<SceneId, SceneSpec> = {
           { sprite: 'horse', count: 2, spread: [0.06, 0.2] },
           { sprite: 'sheep', count: 3, spread: [0.68, 0.86] },
           { sprite: 'pig', count: 2, spread: [0.86, 0.98] },
+          { sprite: 'creeper', count: 1, spread: [0.24, 0.32] },
+          { sprite: 'skeleton', count: 1, spread: [0.72, 0.78] },
         ],
       },
       {
@@ -139,6 +143,7 @@ export const SCENES: Record<SceneId, SceneSpec> = {
           { sprite: 'cow', count: 2, spread: [0.04, 0.26] },
           { sprite: 'player3', count: 1, spread: [0.58, 0.72], fixed: true },
           { sprite: 'sheep', count: 2, spread: [0.78, 0.96] },
+          { sprite: 'chicken', count: 2, spread: [0.32, 0.46] },
         ],
       },
       {
@@ -217,6 +222,8 @@ export const SCENES: Record<SceneId, SceneSpec> = {
           { sprite: 'golem', count: 1, spread: [0.38, 0.48] },
           { sprite: 'horse', count: 2, spread: [0.72, 0.86] },
           { sprite: 'player', count: 1, spread: [0.6, 0.68], fixed: true },
+          { sprite: 'chicken', count: 3, spread: [0.3, 0.56] },
+          { sprite: 'bee', count: 2, spread: [0.58, 0.7] },
         ],
       },
       {
@@ -233,6 +240,8 @@ export const SCENES: Record<SceneId, SceneSpec> = {
           { sprite: 'sheep', count: 3, spread: [0.08, 0.26] },
           { sprite: 'pig', count: 2, spread: [0.4, 0.52] },
           { sprite: 'cow', count: 2, spread: [0.62, 0.8] },
+          { sprite: 'chicken', count: 2, spread: [0.3, 0.38] },
+          { sprite: 'bee', count: 2, spread: [0.5, 0.6] },
         ],
       },
       {
@@ -294,6 +303,8 @@ export const SCENES: Record<SceneId, SceneSpec> = {
           { sprite: 'player2', count: 1, spread: [0.12, 0.26] },
           { sprite: 'horse', count: 2, spread: [0.6, 0.78] },
           { sprite: 'sheep', count: 2, spread: [0.3, 0.42] },
+          { sprite: 'skeleton', count: 1, spread: [0.48, 0.56] },
+          { sprite: 'zombie', count: 1, spread: [0.82, 0.9] },
         ],
       },
       {
@@ -311,6 +322,7 @@ export const SCENES: Record<SceneId, SceneSpec> = {
           { sprite: 'player3', count: 1, spread: [0.56, 0.68] },
           { sprite: 'player', count: 1, spread: [0.7, 0.8] },
           { sprite: 'cow', count: 2, spread: [0.84, 0.97] },
+          { sprite: 'creeper', count: 1, spread: [0.44, 0.52] },
         ],
       },
       {
@@ -372,6 +384,7 @@ export const SCENES: Record<SceneId, SceneSpec> = {
         mobs: [
           { sprite: 'villager', count: 3, spread: [0.52, 0.7] },
           { sprite: 'sheep', count: 2, spread: [0.12, 0.3] },
+          { sprite: 'chicken', count: 2, spread: [0.74, 0.82] },
         ],
       },
       {
@@ -405,6 +418,8 @@ export const SCENES: Record<SceneId, SceneSpec> = {
         mobs: [
           { sprite: 'sheep', count: 2, spread: [0.04, 0.22] },
           { sprite: 'player3', count: 1, spread: [0.26, 0.34], fixed: true },
+          { sprite: 'chicken', count: 2, spread: [0.06, 0.2] },
+          { sprite: 'bee', count: 2, spread: [0.1, 0.3] },
         ],
       },
       {

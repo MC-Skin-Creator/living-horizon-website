@@ -9,6 +9,7 @@ import {
   input,
   viewChild,
 } from '@angular/core';
+import { Figures, loadFigures } from './figures';
 import { HorizonRenderer } from './horizon-renderer';
 import { SCENES, SceneId } from './scenes';
 
@@ -34,8 +35,6 @@ const FRAME_MS = 1000 / 15;
       display: block;
       width: 100%;
       height: 100%;
-      image-rendering: pixelated;
-      image-rendering: crisp-edges;
     }
   `,
 })
@@ -52,6 +51,7 @@ export class HorizonScene {
   private readonly canvas = viewChild<ElementRef<HTMLCanvasElement>>('canvas');
   private renderer: HorizonRenderer | null = null;
   private builtScene: SceneId | null = null;
+  private figures: Figures = { players: [], mobs: {} };
   private visible = false;
   private frame = 0;
   private last = 0;
@@ -75,6 +75,12 @@ export class HorizonScene {
         cancelAnimationFrame(this.frame);
       });
       this.rebuild();
+      // The players are drawn from skins: draw again once they are loaded.
+      void loadFigures().then((figures) => {
+        this.figures = figures;
+        this.builtScene = null;
+        this.rebuild();
+      });
     });
 
     // Rebuild when the scene or its shape changes; redraw when life is switched.
@@ -94,23 +100,32 @@ export class HorizonScene {
 
   private rebuild() {
     const el = this.host.nativeElement;
-    const canvas = this.canvas?.();
+    const canvas = this.canvas?.()?.nativeElement;
     if (!canvas || !el.clientWidth) return;
+    // The canvas has the resolution of the screen: the scene's pixels are scaled up into
+    // it whole, and the players are drawn at its own resolution, sharp.
+    const dpr = Math.min(3, window.devicePixelRatio || 1);
+    const deviceW = Math.round(el.clientWidth * dpr);
+    const deviceH = Math.round(el.clientHeight * dpr);
+    const resized = canvas.width !== deviceW || canvas.height !== deviceH;
+    if (resized) {
+      canvas.width = deviceW;
+      canvas.height = deviceH;
+    }
     const height = this.resolution();
     const aspect = this.aspect() ?? el.clientWidth / Math.max(1, el.clientHeight);
     const width = Math.max(60, Math.round(height * aspect));
     const scene = this.scene();
     if (
-      this.builtScene === scene &&
-      this.renderer?.width === width &&
-      this.renderer.height === height
+      this.builtScene !== scene ||
+      this.renderer?.width !== width ||
+      this.renderer.height !== height
     ) {
+      this.builtScene = scene;
+      this.renderer = new HorizonRenderer(SCENES[scene], width, height, this.figures);
+    } else if (!resized) {
       return;
     }
-    this.builtScene = scene;
-    canvas.nativeElement.width = width;
-    canvas.nativeElement.height = height;
-    this.renderer = new HorizonRenderer(SCENES[scene], width, height);
     this.paint();
     this.schedule();
   }

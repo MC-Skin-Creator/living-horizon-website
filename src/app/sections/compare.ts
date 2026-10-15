@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
-import { SITE } from '../config/site';
-import { BeforeAfter } from './before-after';
+import { SITE, Screenshots } from '../config/site';
+import { BeforeAfter, SliderScene } from './before-after';
 import { Icon } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
 
-const SCENES = [
+/** The stylised illustrations, after the real screenshots. */
+const SCENES: { id: SliderScene; title: string; text: string }[] = [
   {
     id: 'village',
     title: 'Village on the plains',
@@ -20,7 +21,20 @@ const SCENES = [
     title: 'Coast at midday',
     text: 'Boats out at sea, villagers on the far shore, gulls over the water.',
   },
-] as const;
+];
+
+interface Tab {
+  id: string;
+  title: string;
+  text: string;
+  shots: Screenshots | null;
+  scene: SliderScene | null;
+}
+
+const TABS: Tab[] = [
+  ...SITE.screenshots.map((s) => ({ ...s, shots: s, scene: null })),
+  ...SCENES.map((s) => ({ ...s, shots: null, scene: s.id })),
+];
 
 @Component({
   selector: 'lh-compare',
@@ -40,7 +54,7 @@ const SCENES = [
         </header>
 
         <div class="tabs" role="tablist" aria-label="Scenes" lhReveal>
-          @for (s of scenes; track s.id) {
+          @for (s of tabs; track s.id) {
             <button
               type="button"
               role="tab"
@@ -54,23 +68,29 @@ const SCENES = [
         </div>
 
         <div class="stage" lhReveal>
-          <lh-before-after [scene]="active()" [description]="current().text" />
+          <lh-before-after
+            [shots]="current().shots"
+            [scene]="current().scene"
+            [description]="current().text"
+          />
         </div>
 
         <div class="legend" lhReveal>
           <p class="scene-text">{{ current().text }}</p>
-          <ul>
-            <li><span class="sw near"></span> Your render distance — alive either way</li>
-            <li><span class="sw far"></span> Far terrain — empty without the mod</li>
-          </ul>
+          @if (illustrated()) {
+            <ul>
+              <li><span class="sw near"></span> Your render distance — alive either way</li>
+              <li><span class="sw far"></span> Far terrain — empty without the mod</li>
+            </ul>
+          }
         </div>
 
         @if (illustrated()) {
           <p class="note" lhReveal>
             <lh-icon name="film" />
             <span
-              >Stylised illustration of the effect. In-game screenshots and clips are on the way —
-              got a good one?
+              >Stylised illustration of the effect. The first tabs are real in-game screenshots —
+              got a good one of your own?
               <a [href]="site.links.discord" target="_blank" rel="noopener">Share it on Discord</a
               >.</span
             >
@@ -83,8 +103,8 @@ const SCENES = [
 })
 export class Compare {
   protected readonly site = SITE;
-  protected readonly scenes = SCENES;
-  protected readonly active = signal<(typeof SCENES)[number]['id']>('village');
-  protected readonly current = computed(() => SCENES.find((s) => s.id === this.active())!);
-  protected readonly illustrated = computed(() => !SITE.screenshots[this.active()]);
+  protected readonly tabs = TABS;
+  protected readonly active = signal(TABS[0].id);
+  protected readonly current = computed(() => TABS.find((s) => s.id === this.active())!);
+  protected readonly illustrated = computed(() => !this.current().shots);
 }

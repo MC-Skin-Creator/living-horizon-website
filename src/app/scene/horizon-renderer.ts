@@ -9,6 +9,16 @@
  * from the same preset move in step.
  */
 import { BIRD_FRAMES, PALETTE, RGB, SPRITES, SpriteName } from './sprites';
+import {
+  FIGURE_SIZES,
+  FigureKind,
+  Figures,
+  MOB_FRAME_MS,
+  MOB_SHEETS,
+  MASCOT_FRAMES,
+  MASCOT_FRAME_MS,
+} from './figures';
+import { MOB_FRAMES, MOB_SIZES, SADDLE, SADDLE_SMALL } from './mob-sheets';
 import { SceneSpec } from './scenes';
 
 type Canvas = HTMLCanvasElement;
@@ -30,6 +40,10 @@ interface Mob {
   phase: number;
   nametag: boolean;
   floats: boolean;
+  /** Index of the player figure drawn for it, or -1 for a pixel sprite. */
+  figure: number;
+  /** The mob sheet drawn for it (a rider's horse), or null for a pixel sprite. */
+  sheet: string | null;
 }
 
 interface Bird {
@@ -129,13 +143,18 @@ export class HorizonRenderer {
   private readonly birds: Bird[] = [];
   private readonly clouds: Cloud[] = [];
   private readonly spriteCache = new Map<string, Canvas>();
+  /** Low-resolution work surface: one band of the scene at a time, before it is scaled up. */
+  private readonly band: Canvas;
 
   constructor(
     private readonly spec: SceneSpec,
     readonly width: number,
     readonly height: number,
+    /** Players drawn from real skins; without them, the pixel sprites stand in. */
+    private readonly figures: Figures = { players: [], mobs: {} },
   ) {
     const rand = mulberry32(spec.seed);
+    this.band = makeCanvas(width, height);
     this.sky = this.buildSky(rand);
     this.buildClouds(rand);
     spec.layers.forEach((layer, i) => this.layers.push(this.buildLayer(i, rand)));
@@ -143,18 +162,44 @@ export class HorizonRenderer {
     this.placeBirds(rand);
   }
 
-  /** Draws the scene at `t` seconds. */
-  draw(ctx: CanvasRenderingContext2D, t: number, alive: boolean) {
-    ctx.imageSmoothingEnabled = false;
-    ctx.clearRect(0, 0, this.width, this.height);
-    ctx.drawImage(this.sky, 0, 0);
-    this.drawClouds(ctx, t);
+  /**
+   * Draws the scene at `t` seconds into `target`, a canvas of any size: the scene's pixels
+   * are scaled up whole, band by band, and the players drawn from skins go between the
+   * bands at the canvas's own resolution, so that their pixels stay sharp.
+   */
+  draw(target: CanvasRenderingContext2D, t: number, alive: boolean) {
+    const { width: w, height: h } = this;
+    const tw = target.canvas.width;
+    const th = target.canvas.height;
+    const k = tw / w;
+    const band = context(this.band);
+    const flush = () => target.drawImage(this.band, 0, 0, w, h, 0, 0, tw, th);
+    target.imageSmoothingEnabled = false;
+    target.clearRect(0, 0, tw, th);
+
+    band.clearRect(0, 0, w, h);
+    band.drawImage(this.sky, 0, 0);
+    this.drawClouds(band, t);
+    flush();
+
     this.layers.forEach((layer, i) => {
-      ctx.drawImage(layer.canvas, 0, 0);
-      if (!alive && !layer.vanilla) return;
-      for (const mob of this.mobs) if (mob.layer === i) this.drawMob(ctx, mob, layer, t);
+      band.clearRect(0, 0, w, h);
+      band.drawImage(layer.canvas, 0, 0);
+      const players: (() => void)[] = [];
+      if (alive || layer.vanilla) {
+        for (const mob of this.mobs) {
+          if (mob.layer === i) this.drawMob(band, target, k, mob, layer, t, players);
+        }
+      }
+      flush();
+      for (const draw of players) draw();
     });
-    if (alive) this.drawBirds(ctx, t);
+
+    if (alive) {
+      band.clearRect(0, 0, w, h);
+      this.drawBirds(band, t);
+      flush();
+    }
   }
 
   private buildSky(rand: () => number): Canvas {
@@ -296,6 +341,16 @@ export class HorizonRenderer {
 
   private placeMobs(rand: () => number) {
     const { width: w } = this;
+    let players = 0;
+    const variants = new Map<string, number>();
+    const sheetFor = (sprite: string) => {
+      const options = (MOB_SHEETS[sprite] ?? []).filter((n) => this.figures.mobs[n]);
+      if (!options.length) return null;
+      const n = variants.get(sprite) ?? 0;
+      variants.set(sprite, n + 1);
+      return options[n % options.length];
+    };
+    const roster = this.figures.players;
     this.spec.layers.forEach((layer, index) => {
       for (const group of layer.mobs ?? []) {
         const [from, to] = group.spread ?? [0.04, 0.96];
@@ -306,15 +361,19 @@ export class HorizonRenderer {
         for (let i = 0; i < count; i++) {
           let x0 = w * (from + rand() * (to - from));
           if (group.onPeak) x0 = this.peak(index, w * from, w * to);
+          const player = roster.length > 0 && /^(player|rider|boat)/.test(group.sprite);
           this.mobs.push({
             layer: index,
             sprite: group.sprite,
             x0,
-            wander: group.still ? 0 : (4 + rand() * 10) * layer.scale,
+            // Mascots bounce on the spot rather than walk.
+            wander: group.still ? 0 : (player ? 0.3 : 1) * (4 + rand() * 10) * layer.scale,
             speed: 0.08 + rand() * 0.22,
             phase: rand() * Math.PI * 2,
             nametag: /^(player|rider|boat)/.test(group.sprite),
             floats: !!layer.water,
+            figure: player ? players++ % roster.length : -1,
+            sheet: sheetFor(group.sprite),
           });
         }
       }
@@ -371,25 +430,44 @@ export class HorizonRenderer {
     }
   }
 
-  private drawMob(ctx: CanvasRenderingContext2D, mob: Mob, layer: BuiltLayer, t: number) {
+  private drawMob(
+    band: CanvasRenderingContext2D,
+    target: CanvasRenderingContext2D,
+    k: number,
+    mob: Mob,
+    layer: BuiltLayer,
+    t: number,
+    players: (() => void)[],
+  ) {
     const angle = t * mob.speed + mob.phase;
     const x = mob.x0 + mob.wander * Math.sin(angle);
     const flip = mob.wander > 0 ? Math.cos(angle) < 0 : mob.phase > Math.PI;
     const xi = Math.max(0, Math.min(this.width - 1, Math.round(x)));
-    const img = this.sprite(mob.sprite, layer.scale, layer.haze * 0.8, flip);
     const bob = mob.floats ? Math.round(Math.sin(t * 1.6 + mob.phase) * 0.6) : 0;
-    const left = Math.round(xi - img.width / 2);
-    const top = layer.surface[xi] - img.height + (mob.floats ? layer.scale : 0) + bob;
-    ctx.drawImage(img, left, top);
+    if (mob.figure >= 0) {
+      this.drawFigure(band, target, k, mob, layer, xi, flip, t, bob, players);
+      return;
+    }
+    if (mob.sheet) {
+      const { p, small } = this.size(layer, k);
+      const sheet = mob.sheet + (small ? '-small' : '');
+      const img = this.mobImage(sheet, this.mobFrame(mob, t), layer.haze * 0.8, !flip);
+      // Bees fly above the grass, bobbing.
+      const lift = mob.sprite === 'bee' ? (6 + Math.sin(t * 3 + mob.phase) * 1.5) * layer.scale : 0;
+      const bottom = (layer.surface[xi] - lift) * k + p;
+      players.push(() => this.blit(target, img, xi * k, bottom, p));
+      return;
+    }
+    const top = this.drawSprite(band, mob, layer, xi, flip, bob);
     if (mob.nametag) {
       const s = Math.max(1, Math.round(layer.scale / 2));
       const tw = 6 + 2 * s;
       const tx = Math.round(xi - tw / 2);
       const ty = top - 2 - 2 * s;
-      ctx.fillStyle = 'rgba(0,0,0,0.45)';
-      ctx.fillRect(tx, ty, tw, 1 + 2 * s);
-      ctx.fillStyle = `rgba(255,255,255,${0.85 - layer.haze * 0.4})`;
-      ctx.fillRect(tx + 1, ty + s, tw - 2, 1);
+      band.fillStyle = 'rgba(0,0,0,0.45)';
+      band.fillRect(tx, ty, tw, 1 + 2 * s);
+      band.fillStyle = `rgba(255,255,255,${0.85 - layer.haze * 0.4})`;
+      band.fillRect(tx + 1, ty + s, tw - 2, 1);
     }
   }
 
@@ -412,6 +490,182 @@ export class HorizonRenderer {
         }),
       );
     }
+  }
+
+  /** Draws a pixel sprite standing at `xi`; returns the top of what was drawn. */
+  private drawSprite(
+    ctx: CanvasRenderingContext2D,
+    mob: Mob,
+    layer: BuiltLayer,
+    xi: number,
+    flip: boolean,
+    bob: number,
+  ): number {
+    const img = this.sprite(mob.sprite, layer.scale, layer.haze * 0.8, flip);
+    const top = layer.surface[xi] - img.height + (mob.floats ? layer.scale : 0) + bob;
+    ctx.drawImage(img, Math.round(xi - img.width / 2), top);
+    return top;
+  }
+
+  /**
+   * A player from its skin: walking, on a horse or in a boat. The horse and the hull are
+   * pixel sprites of the band; the player is queued in `players`, drawn after the band at
+   * the canvas's resolution, `p` canvas pixels per pixel of the avatar.
+   */
+  private drawFigure(
+    band: CanvasRenderingContext2D,
+    target: CanvasRenderingContext2D,
+    k: number,
+    mob: Mob,
+    layer: BuiltLayer,
+    xi: number,
+    flip: boolean,
+    t: number,
+    bob: number,
+    players: (() => void)[],
+  ) {
+    const s = layer.scale;
+    const haze = layer.haze * 0.8;
+    const ground = layer.surface[xi];
+    const { p, small } = this.size(layer, k);
+    const drops: FigureKind = small ? 'drops-small' : 'drops';
+
+    if (mob.sprite === 'rider' && mob.sheet) {
+      // On a horse of the game: the rider's drops bust in the saddle.
+      const sheet = mob.sheet + (small ? '-small' : '');
+      const saddle = small ? SADDLE_SMALL : SADDLE;
+      const horse = this.mobImage(sheet, this.mobFrame(mob, t), haze, !flip);
+      const bottom = ground * k + p;
+      const left = Math.round(xi * k - (horse.width * p) / 2);
+      const top = Math.round(bottom) - horse.height * p;
+      const sx = flip ? saddle.x : horse.width - saddle.x;
+      const img = this.figureImage(mob.figure, drops, 0, haze, flip);
+      const sink = small ? 2 : 3;
+      players.push(() => {
+        this.blit(target, horse, xi * k, bottom, p);
+        this.blitFigure(target, img, left + sx * p, top + (saddle.y + sink) * p, p, layer.haze);
+      });
+      return;
+    }
+
+    if (mob.sprite === 'rider' || mob.sprite === 'boat') {
+      const seat = this.sprite(mob.sprite === 'rider' ? 'horse' : 'hull', s, haze, flip);
+      const seatLeft = Math.round(xi - seat.width / 2);
+      const seatTop = ground - seat.height + (mob.floats ? s : 0) + bob;
+      band.drawImage(seat, seatLeft, seatTop);
+      // The drops avatar, head and shoulders: the legs are in the saddle or the hull.
+      const img = this.figureImage(mob.figure, drops, 0, haze, flip);
+      const along = mob.sprite === 'rider' ? (flip ? 0.62 : 0.38) : 0.5;
+      const cx = (seatLeft + seat.width * along) * k;
+      const bottom = (seatTop + (mob.sprite === 'rider' ? 2 * s : s)) * k;
+      players.push(() => this.blitFigure(target, img, cx, bottom, p, layer.haze));
+      return;
+    }
+
+    const frame = Math.floor((t * 1000) / MASCOT_FRAME_MS + mob.phase * 5) % MASCOT_FRAMES;
+    const img = this.figureImage(mob.figure, small ? 'mascot-small' : 'mascot', frame, haze, flip);
+    // The bottom row of the avatar is its outline: let it sink into the grass.
+    players.push(() => this.blitFigure(target, img, xi * k, ground * k + p, p, layer.haze));
+  }
+
+  /**
+   * How big the avatars of a layer are drawn: `p` canvas pixels per pixel, always whole so
+   * that they stay sharp, and the half-size sheets (`small`) for the far planes.
+   */
+  private size(layer: BuiltLayer, k: number): { p: number; small: boolean } {
+    const e = (layer.scale * k) / 6.5;
+    return e < 0.75 ? { p: 1, small: true } : { p: Math.max(1, Math.round(e)), small: false };
+  }
+
+  private mobFrame(mob: Mob, t: number): number {
+    return Math.floor((t * 1000) / MOB_FRAME_MS + mob.phase * 5) % MOB_FRAMES;
+  }
+
+  /** Draws `img` scaled by `p`, centred on `cx`, standing on `bottom`; returns its top. */
+  private blit(
+    target: CanvasRenderingContext2D,
+    img: Canvas,
+    cx: number,
+    bottom: number,
+    p: number,
+  ): number {
+    const w = img.width * p;
+    const h = img.height * p;
+    const top = Math.round(bottom) - h;
+    target.drawImage(img, Math.round(cx - w / 2), top, w, h);
+    return top;
+  }
+
+  private blitFigure(
+    target: CanvasRenderingContext2D,
+    img: Canvas,
+    cx: number,
+    bottom: number,
+    p: number,
+    haze: number,
+  ) {
+    const top = this.blit(target, img, cx, bottom, p);
+    // Name tag, narrower above the half-size avatars.
+    const tw = (img.height < 20 ? 8 : 12) * p;
+    const tx = Math.round(cx - tw / 2);
+    const ty = top - 5 * p;
+    target.fillStyle = 'rgba(0,0,0,0.45)';
+    target.fillRect(tx, ty, tw, 3 * p);
+    target.fillStyle = `rgba(255,255,255,${0.85 - haze * 0.4})`;
+    target.fillRect(tx + 2 * p, ty + p, tw - 4 * p, p);
+  }
+
+  /** One frame of a skin's avatar, faded into the haze. */
+  private figureImage(
+    index: number,
+    kind: FigureKind,
+    frame: number,
+    haze: number,
+    flip: boolean,
+  ): Canvas {
+    const key = `fig:${index}:${kind}:${frame}:${haze.toFixed(3)}:${flip}`;
+    let c = this.spriteCache.get(key);
+    if (c) return c;
+    const [w, rows] = FIGURE_SIZES[kind];
+    c = makeCanvas(w, rows);
+    const ctx = c.getContext('2d', { willReadFrequently: true })!;
+    if (flip) {
+      ctx.translate(w, 0);
+      ctx.scale(-1, 1);
+    }
+    ctx.drawImage(this.figures.players[index][kind], frame * w, 0, w, rows, 0, 0, w, rows);
+    this.fade(ctx, w, rows, haze);
+    this.spriteCache.set(key, c);
+    return c;
+  }
+
+  /** One frame of a mob sheet, faded into the haze. Sheets face left: `flip` turns it right. */
+  private mobImage(name: string, frame: number, haze: number, flip: boolean): Canvas {
+    const key = `mob:${name}:${frame}:${haze.toFixed(3)}:${flip}`;
+    let c = this.spriteCache.get(key);
+    if (c) return c;
+    const [w, h] = MOB_SIZES[name];
+    c = makeCanvas(w, h);
+    const ctx = c.getContext('2d', { willReadFrequently: true })!;
+    if (flip) {
+      ctx.translate(w, 0);
+      ctx.scale(-1, 1);
+    }
+    ctx.drawImage(this.figures.mobs[name], frame * w, 0, w, h, 0, 0, w, h);
+    this.fade(ctx, w, h, haze);
+    this.spriteCache.set(key, c);
+    return c;
+  }
+
+  private fade(ctx: CanvasRenderingContext2D, w: number, h: number, haze: number) {
+    const data = ctx.getImageData(0, 0, w, h);
+    const px = data.data;
+    const fog = this.spec.fog;
+    for (let i = 0; i < px.length; i += 4) {
+      if (!px[i + 3]) continue;
+      for (let ch = 0; ch < 3; ch++) px[i + ch] += (fog[ch] - px[i + ch]) * haze;
+    }
+    ctx.putImageData(data, 0, 0);
   }
 
   private sprite(name: SpriteName, scale: number, haze: number, flip: boolean): Canvas {

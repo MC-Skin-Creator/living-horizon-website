@@ -37,9 +37,30 @@ The deploy workflow refreshes the snapshot before every build and once a day.
 - Links, platform ids, fallbacks: `src/app/config/site.ts`.
 - **Benchmarks**: add real measurements to `SITE.benchmarks` (label matching a slot of the
   performance section). Until then the slots say "Benchmark pending" — never invent numbers.
-- **Screenshots**: the before / after slider draws stylised illustrations
-  (`src/app/scene/`). To use real shots, put them in `public/img/` and fill
-  `SITE.screenshots` (`village`, `ridge`, `coast`; same framing, mod off then on).
+- **Players**: the people in the illustrations are skins made with
+  [MC Skin Creator](https://mcskincreator.app/) (sources in `art/skins/`), exported there as
+  avatars (transparent, 512 px): *Mascot* (animated GIF) for players standing in the
+  landscape, *Drops* for riders and boaters. They are packed into `public/img/figures/` one
+  pixel per pixel of the avatar, so they stay sharp: `skin-N-mascot.png` (the 8 frames side
+  by side, 27×27 each, from 15 px blocks) and `skin-N-drops.png` (22×23, from 17 px blocks).
+  To add one, export both, pack them the same way, run `python3 scripts/figures.py` for
+  the half-size versions the far planes use, and raise `FIGURE_COUNT` in
+  `src/app/scene/figures.ts`.
+- **Mobs**: cows, sheep, pigs, chickens, horses, villagers, iron golems, bees, creepers,
+  zombies and skeletons are built by `scripts/mobs.py` from the game itself: it reads each
+  model out of the method that builds it in the client (by replaying its bytecode, through
+  `javap`), poses it, and draws it one pixel per pixel of its texture, with the players'
+  black outline. It writes `public/img/mobs/` and `src/app/scene/mob-sheets.ts`. Run it with
+  the official 26.3 client jar (from Mojang's launcher metadata), a JDK, Pillow and NumPy:
+  `python3 scripts/mobs.py client.jar`. The models and textures belong to Mojang Studios.
+- **Icon**: `scripts/logo.py` draws the mod's icon from the same figures: Steve in front
+  (his skin in `art/skins/steve.png`, its Mascot avatar packed in `art/logo/steve-mascot.png`),
+  a creeper, the horizon, hills and mountains behind him, each with a figure and birds. Run
+  it like `scripts/mobs.py`, with the client jar. It writes the site's icons and
+  `art/logo/icon.png`, which the mod ships as `assets/livinghorizon/icon.png`.
+- **Screenshots**: the before / after slider opens on real in-game screenshots, listed in
+  `SITE.screenshots` (title, one sentence, and the two shots in `public/img/compare/`, same
+  framing, mod off then on), then shows the stylised illustrations (`src/app/scene/`).
 
 ## Deploy
 
