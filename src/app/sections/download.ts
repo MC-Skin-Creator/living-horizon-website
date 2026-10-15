@@ -152,7 +152,9 @@ import { Reveal } from '../shared/reveal';
                 target="_blank"
                 rel="noopener"
               >
-                <span class="mark" [class]="p.tone">{{ p.short }}</span>
+                <span class="mark" [class]="p.tone"
+                  ><img [src]="p.logo" [alt]="p.name + ' logo'" width="26" height="26"
+                /></span>
                 <span class="pinfo">
                   <strong>{{ p.name }}</strong>
                   <span>{{ p.detail }}</span>
@@ -209,7 +211,7 @@ export class Download {
     return [
       {
         name: 'CurseForge',
-        short: 'CF',
+        logo: 'img/logos/curseforge.svg',
         tone: 'cf',
         url: SITE.links.curseforge,
         detail: count(d.curseforge),
@@ -217,7 +219,7 @@ export class Download {
       },
       {
         name: 'Modrinth',
-        short: 'MR',
+        logo: 'img/logos/modrinth.svg',
         tone: 'mr',
         url: SITE.links.modrinth,
         detail: listed === false ? 'Coming soon' : listed ? count(d.modrinth) : 'Checking…',
@@ -225,7 +227,7 @@ export class Download {
       },
       {
         name: 'GitHub Releases',
-        short: 'GH',
+        logo: 'img/logos/github.svg',
         tone: 'gh',
         url: SITE.links.releases,
         detail: `${count(d.github)} · every file`,
@@ -233,7 +235,7 @@ export class Download {
       },
       {
         name: 'Nexus Mods',
-        short: 'NX',
+        logo: 'img/logos/nexusmods.png',
         tone: 'nx',
         url: SITE.links.nexus,
         detail: 'Mod page',
