@@ -4,6 +4,7 @@
  * avatar (the export's 15 or 17 px blocks):
  * - `skin-N-mascot.png`: the "Mascot" avatar, its animation's frames side by side;
  * - `skin-N-drops.png`: the "Drops" avatar, head and shoulders, for seated players.
+ * `skin-steve-*` is Steve (art/skins/steve.png), the player of the foreground.
  *
  * The mobs are drawn from the game's own models and textures by scripts/mobs.py, into
  * public/img/mobs/ (sizes in mob-sheets.ts).
@@ -11,7 +12,9 @@
 
 import { MOB_SIZES } from './mob-sheets';
 
-export const FIGURE_COUNT = 5;
+/** The skins, Steve first: the players' figures are loaded in this order. */
+export const SKINS = ['steve', 1, 2, 3, 4, 5] as const;
+export type Skin = (typeof SKINS)[number];
 
 export const MASCOT_FRAMES = 8;
 export const MASCOT_W = 27;
@@ -34,7 +37,7 @@ export const FIGURE_SIZES: Record<FigureKind, [number, number]> = {
 
 export type Figure = Record<FigureKind, HTMLImageElement>;
 
-export const figureUrl = (n: number, kind: FigureKind) => `img/figures/skin-${n}-${kind}.png`;
+export const figureUrl = (skin: Skin, kind: FigureKind) => `img/figures/skin-${skin}-${kind}.png`;
 export const mobUrl = (name: string) => `img/mobs/${name}.png`;
 
 /** Delay between two frames of a mob: a slow nod. */
@@ -76,9 +79,9 @@ function image(src: string): Promise<HTMLImageElement> {
 export function loadFigures(): Promise<Figures> {
   loading ??= Promise.all([
     Promise.all(
-      Array.from({ length: FIGURE_COUNT }, async (_, i) => {
+      SKINS.map(async (skin) => {
         const kinds = Object.keys(FIGURE_SIZES) as FigureKind[];
-        const images = await Promise.all(kinds.map((kind) => image(figureUrl(i + 1, kind))));
+        const images = await Promise.all(kinds.map((kind) => image(figureUrl(skin, kind))));
         return Object.fromEntries(kinds.map((kind, j) => [kind, images[j]])) as Figure;
       }),
     ).catch(() => [] as Figure[]),

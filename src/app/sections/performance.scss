@@ -56,6 +56,10 @@
 
 .bench {
   margin-top: clamp(28px, 4vw, 44px);
+
+  &.alone {
+    margin-top: 0;
+  }
   display: grid;
   gap: 18px;
   justify-items: start;
@@ -124,6 +128,29 @@
     font-size: 0.84rem;
     color: var(--dim);
   }
+
+  // A single measured value: the number big on the left, its setup beside it.
+  &.filled:only-child {
+    grid-column: 1 / -1;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: clamp(20px, 4vw, 48px);
+    align-items: center;
+    padding: clamp(20px, 3vw, 30px);
+
+    .value {
+      grid-row: 2;
+      font-size: clamp(2.8rem, 6vw, 4.2rem);
+      color: var(--grass);
+    }
+
+    .hint {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      max-width: 620px;
+      font-size: 1rem;
+      color: var(--muted);
+    }
+  }
 }
 
 @media (max-width: 960px) {
@@ -144,5 +171,14 @@
 @media (max-width: 560px) {
   .cards {
     grid-template-columns: 1fr;
+  }
+
+  .slot.filled:only-child {
+    grid-template-columns: 1fr;
+
+    .hint {
+      grid-column: 1;
+      grid-row: auto;
+    }
   }
 }

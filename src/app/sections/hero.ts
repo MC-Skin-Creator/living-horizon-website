@@ -34,8 +34,15 @@ import { Icon } from '../shared/icon';
 
         <p class="lede">
           Animals, villagers, birds and other players keep living on the horizon — far past your
-          render distance, right on the far terrain of <strong>Distant Horizons</strong> and
-          <strong>Voxy</strong>. No far-terrain mod? It works in vanilla too.
+          render distance, right on the far terrain of
+          <strong class="mod"
+            ><img src="img/logos/distant-horizons.webp" alt="" width="20" height="20" />Distant
+            Horizons</strong
+          >
+          and
+          <strong class="mod"
+            ><img src="img/logos/voxy.webp" alt="" width="20" height="20" />Voxy</strong
+          >. No far-terrain mod? It works in vanilla too.
         </p>
 
         <div class="ctas">
@@ -76,10 +83,6 @@ import { Icon } from '../shared/icon';
             <span class="v">{{ loaderNames() }}</span>
           </li>
         </ul>
-      </div>
-
-      <div class="callout" aria-hidden="true">
-        <span class="dot"></span> Past your render distance, still alive
       </div>
     </section>
   `,

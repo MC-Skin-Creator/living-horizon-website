@@ -43,9 +43,10 @@ The deploy workflow refreshes the snapshot before every build and once a day.
   landscape, *Drops* for riders and boaters. They are packed into `public/img/figures/` one
   pixel per pixel of the avatar, so they stay sharp: `skin-N-mascot.png` (the 8 frames side
   by side, 27×27 each, from 15 px blocks) and `skin-N-drops.png` (22×23, from 17 px blocks).
-  To add one, export both, pack them the same way, run `python3 scripts/figures.py` for
-  the half-size versions the far planes use, and raise `FIGURE_COUNT` in
-  `src/app/scene/figures.ts`.
+  Steve (`skin-steve-*`, from `art/skins/steve.png`) is the player of the nearest plane;
+  the others take turns behind him. To add one, export both, pack them the same way, run
+  `python3 scripts/figures.py` for the half-size versions the far planes use, and add it to
+  `SKINS` in `src/app/scene/figures.ts`.
 - **Mobs**: cows, sheep, pigs, chickens, horses, villagers, iron golems, bees, creepers,
   zombies and skeletons are built by `scripts/mobs.py` from the game itself: it reads each
   model out of the method that builds it in the client (by replaying its bytecode, through
@@ -58,6 +59,9 @@ The deploy workflow refreshes the snapshot before every build and once a day.
   a creeper, the horizon, hills and mountains behind him, each with a figure and birds. Run
   it like `scripts/mobs.py`, with the client jar. It writes the site's icons and
   `art/logo/icon.png`, which the mod ships as `assets/livinghorizon/icon.png`.
+- **Logos**: `public/img/logos/` holds the Distant Horizons and Voxy logos, from their
+  Modrinth pages, shown where the site names them; the compatibility cards take their
+  colours (Distant Horizons' blue, Voxy's green). They belong to their authors.
 - **Screenshots**: the before / after slider opens on real in-game screenshots, listed in
   `SITE.screenshots` (title, one sentence, and the two shots in `public/img/compare/`, same
   framing, mod off then on), then shows the stylised illustrations (`src/app/scene/`).

@@ -65,7 +65,14 @@ export const SITE = {
    * Real measurements only. While this list is empty the performance section shows
    * empty slots inviting players to share theirs, never a made-up number.
    */
-  benchmarks: [] as Benchmark[],
+  benchmarks: [
+    {
+      label: 'FPS gain',
+      value: '+25 %',
+      context:
+        '120 → 150 FPS for the same view of the distance: a shorter render distance with Living Horizon drawing the mobs beyond it, against the game drawing that far itself. Measured by the author.',
+    },
+  ] as Benchmark[],
 
   /**
    * Real in-game screenshots for the before / after slider. They come first, the stylised

@@ -3,9 +3,11 @@ import {
   Component,
   ElementRef,
   afterNextRender,
+  effect,
   inject,
   input,
   signal,
+  untracked,
 } from '@angular/core';
 import { Screenshots } from '../config/site';
 import { HorizonScene } from '../scene/horizon-scene';
@@ -83,21 +85,32 @@ export class BeforeAfter {
 
   protected readonly pos = signal(50);
   protected touched = false;
+  /** Once seen, every new view (a tab change) sweeps the handle again. */
+  private seen = false;
+  /** The current sweep; a new one stops the one before it. */
+  private run = 0;
 
   constructor() {
     const el = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
     afterNextRender(() => {
-      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      // Once, when first seen: sweep the handle to show it can be moved.
+      // When first seen: sweep the handle to show it can be moved.
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (!entry.isIntersecting) return;
           observer.disconnect();
+          this.seen = true;
           this.sweep();
         },
         { threshold: 0.6 },
       );
       observer.observe(el);
+    });
+    effect(() => {
+      this.scene();
+      this.shots();
+      untracked(() => {
+        if (this.seen) this.sweep();
+      });
     });
   }
 
@@ -107,11 +120,16 @@ export class BeforeAfter {
   }
 
   private sweep() {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const run = ++this.run;
+    this.touched = false;
+    this.pos.set(50);
     const keys = [50, 22, 78, 50];
     const duration = 2600;
-    const start = performance.now();
+    let start = 0;
     const step = (now: number) => {
-      if (this.touched) return;
+      if (this.touched || run !== this.run) return;
+      start ||= now;
       const t = Math.min(1, (now - start) / duration);
       const seg = Math.min(keys.length - 2, Math.floor(t * (keys.length - 1)));
       const local = t * (keys.length - 1) - seg;

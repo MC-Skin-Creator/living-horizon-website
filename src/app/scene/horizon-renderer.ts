@@ -38,7 +38,6 @@ interface Mob {
   wander: number;
   speed: number;
   phase: number;
-  nametag: boolean;
   floats: boolean;
   /** Index of the player figure drawn for it, or -1 for a pixel sprite. */
   figure: number;
@@ -351,6 +350,13 @@ export class HorizonRenderer {
       return options[n % options.length];
     };
     const roster = this.figures.players;
+    const isPlayer = (sprite: string) => /^(player|rider|boat)/.test(sprite);
+    // Steve (the first skin) is the player of the nearest plane that has one; the other
+    // skins take turns everywhere else.
+    let front = -1;
+    this.spec.layers.forEach((layer, index) => {
+      if (layer.mobs?.some((g) => isPlayer(g.sprite))) front = index;
+    });
     this.spec.layers.forEach((layer, index) => {
       for (const group of layer.mobs ?? []) {
         const [from, to] = group.spread ?? [0.04, 0.96];
@@ -361,7 +367,7 @@ export class HorizonRenderer {
         for (let i = 0; i < count; i++) {
           let x0 = w * (from + rand() * (to - from));
           if (group.onPeak) x0 = this.peak(index, w * from, w * to);
-          const player = roster.length > 0 && /^(player|rider|boat)/.test(group.sprite);
+          const player = roster.length > 0 && isPlayer(group.sprite);
           this.mobs.push({
             layer: index,
             sprite: group.sprite,
@@ -370,9 +376,12 @@ export class HorizonRenderer {
             wander: group.still ? 0 : (player ? 0.3 : 1) * (4 + rand() * 10) * layer.scale,
             speed: 0.08 + rand() * 0.22,
             phase: rand() * Math.PI * 2,
-            nametag: /^(player|rider|boat)/.test(group.sprite),
             floats: !!layer.water,
-            figure: player ? players++ % roster.length : -1,
+            figure: !player
+              ? -1
+              : index === front || roster.length === 1
+                ? 0
+                : 1 + (players++ % (roster.length - 1)),
             sheet: sheetFor(group.sprite),
           });
         }
@@ -458,17 +467,7 @@ export class HorizonRenderer {
       players.push(() => this.blit(target, img, xi * k, bottom, p));
       return;
     }
-    const top = this.drawSprite(band, mob, layer, xi, flip, bob);
-    if (mob.nametag) {
-      const s = Math.max(1, Math.round(layer.scale / 2));
-      const tw = 6 + 2 * s;
-      const tx = Math.round(xi - tw / 2);
-      const ty = top - 2 - 2 * s;
-      band.fillStyle = 'rgba(0,0,0,0.45)';
-      band.fillRect(tx, ty, tw, 1 + 2 * s);
-      band.fillStyle = `rgba(255,255,255,${0.85 - layer.haze * 0.4})`;
-      band.fillRect(tx + 1, ty + s, tw - 2, 1);
-    }
+    this.drawSprite(band, mob, layer, xi, flip, bob);
   }
 
   private drawBirds(ctx: CanvasRenderingContext2D, t: number) {
@@ -543,7 +542,7 @@ export class HorizonRenderer {
       const sink = small ? 2 : 3;
       players.push(() => {
         this.blit(target, horse, xi * k, bottom, p);
-        this.blitFigure(target, img, left + sx * p, top + (saddle.y + sink) * p, p, layer.haze);
+        this.blit(target, img, left + sx * p, top + (saddle.y + sink) * p, p);
       });
       return;
     }
@@ -558,22 +557,23 @@ export class HorizonRenderer {
       const along = mob.sprite === 'rider' ? (flip ? 0.62 : 0.38) : 0.5;
       const cx = (seatLeft + seat.width * along) * k;
       const bottom = (seatTop + (mob.sprite === 'rider' ? 2 * s : s)) * k;
-      players.push(() => this.blitFigure(target, img, cx, bottom, p, layer.haze));
+      players.push(() => this.blit(target, img, cx, bottom, p));
       return;
     }
 
     const frame = Math.floor((t * 1000) / MASCOT_FRAME_MS + mob.phase * 5) % MASCOT_FRAMES;
     const img = this.figureImage(mob.figure, small ? 'mascot-small' : 'mascot', frame, haze, flip);
     // The bottom row of the avatar is its outline: let it sink into the grass.
-    players.push(() => this.blitFigure(target, img, xi * k, ground * k + p, p, layer.haze));
+    players.push(() => this.blit(target, img, xi * k, ground * k + p, p));
   }
 
   /**
    * How big the avatars of a layer are drawn: `p` canvas pixels per pixel, always whole so
-   * that they stay sharp, and the half-size sheets (`small`) for the far planes.
+   * that they stay sharp, and the half-size sheets (`small`) for the far planes. The
+   * foreground (the game's own render distance) is much bigger: right in front of you.
    */
   private size(layer: BuiltLayer, k: number): { p: number; small: boolean } {
-    const e = (layer.scale * k) / 6.5;
+    const e = ((layer.vanilla ? 2.6 : 1) * layer.scale * k) / 6.5;
     return e < 0.75 ? { p: 1, small: true } : { p: Math.max(1, Math.round(e)), small: false };
   }
 
@@ -594,25 +594,6 @@ export class HorizonRenderer {
     const top = Math.round(bottom) - h;
     target.drawImage(img, Math.round(cx - w / 2), top, w, h);
     return top;
-  }
-
-  private blitFigure(
-    target: CanvasRenderingContext2D,
-    img: Canvas,
-    cx: number,
-    bottom: number,
-    p: number,
-    haze: number,
-  ) {
-    const top = this.blit(target, img, cx, bottom, p);
-    // Name tag, narrower above the half-size avatars.
-    const tw = (img.height < 20 ? 8 : 12) * p;
-    const tx = Math.round(cx - tw / 2);
-    const ty = top - 5 * p;
-    target.fillStyle = 'rgba(0,0,0,0.45)';
-    target.fillRect(tx, ty, tw, 3 * p);
-    target.fillStyle = `rgba(255,255,255,${0.85 - haze * 0.4})`;
-    target.fillRect(tx + 2 * p, ty + p, tw - 4 * p, p);
   }
 
   /** One frame of a skin's avatar, faded into the haze. */

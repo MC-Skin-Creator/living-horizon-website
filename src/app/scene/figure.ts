@@ -7,6 +7,7 @@ import {
   MASCOT_FRAME_MS,
   MASCOT_H,
   MASCOT_W,
+  Skin,
   figureUrl,
 } from './figures';
 
@@ -55,8 +56,7 @@ import {
   `,
 })
 export class FigureView {
-  /** 1 to 5. */
-  readonly skin = input.required<number>();
+  readonly skin = input.required<Skin>();
   readonly kind = input<FigureKind>('mascot');
   readonly animate = input(true);
   /** Screen pixels per pixel of the avatar: whole, so that it stays sharp. */
