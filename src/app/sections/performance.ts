@@ -3,9 +3,18 @@ import { Benchmark, SITE } from '../config/site';
 import { Icon, IconName } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
 
-/** The measurements the section is laid out for. Each one fills from `SITE.benchmarks`. */
+/**
+ * The "Optimized rendering" explanation above the numbers. Off for now: the section shows
+ * the measured stats alone.
+ */
+const SHOW_DESIGN = false;
+
+/**
+ * The measurements the section is laid out for. Each one fills from `SITE.benchmarks`;
+ * once one is measured, only the measured ones are shown.
+ */
 const SLOTS: { label: string; hint: string }[] = [
-  { label: 'FPS impact', hint: 'with the mod on vs off' },
+  { label: 'FPS gain', hint: 'the mod drawing the distance instead of the game' },
   { label: 'Mobs on the horizon', hint: 'drawn at once' },
   { label: 'Distance covered', hint: 'past the render distance' },
   { label: 'Frame cost', hint: 'from the debug panel' },
@@ -17,32 +26,40 @@ const SLOTS: { label: string; hint: string }[] = [
   imports: [Icon, Reveal],
   template: `
     <section class="section" id="performance">
-      <div class="container grid">
-        <header class="section-head" lhReveal>
-          <span class="eyebrow">Optimized rendering</span>
-          <h2>A living horizon that <span class="accent">doesn't eat your frames.</span></h2>
-          <p>
-            Living Horizon is designed from the start to stay light: far figures are drawn the cheap
-            way, and only when they can be seen. That lets you lower your render and simulation
-            distance and still keep the world alive.
-          </p>
-        </header>
+      @if (showDesign) {
+        <div class="container grid">
+          <header class="section-head" lhReveal>
+            <span class="eyebrow">Optimized rendering</span>
+            <h2>A living horizon that <span class="accent">doesn't eat your frames.</span></h2>
+            <p>
+              Living Horizon is designed from the start to stay light: far figures are drawn the
+              cheap way, and only when they can be seen. That lets you lower your render and
+              simulation distance and still keep the world alive.
+            </p>
+          </header>
 
-        <div class="cards">
-          @for (c of cards; track c.title; let i = $index) {
-            <article class="card point" [lhReveal]="i * 60">
-              <span class="icon"><lh-icon [name]="c.icon" /></span>
-              <div>
-                <h3>{{ c.title }}</h3>
-                <p>{{ c.text }}</p>
-              </div>
-            </article>
-          }
+          <div class="cards">
+            @for (c of cards; track c.title; let i = $index) {
+              <article class="card point" [lhReveal]="i * 60">
+                <span class="icon"><lh-icon [name]="c.icon" /></span>
+                <div>
+                  <h3>{{ c.title }}</h3>
+                  <p>{{ c.text }}</p>
+                </div>
+              </article>
+            }
+          </div>
         </div>
-      </div>
+      }
 
       <div class="container">
-        <div class="bench card" lhReveal>
+        @if (!showDesign) {
+          <header class="section-head" lhReveal>
+            <span class="eyebrow">Performance</span>
+            <h2>A living horizon that <span class="accent">gives you frames back.</span></h2>
+          </header>
+        }
+        <div class="bench card" [class.alone]="!showDesign" lhReveal>
           <div class="bench-head">
             <h3>By the numbers</h3>
             <p>
@@ -56,7 +73,7 @@ const SLOTS: { label: string; hint: string }[] = [
             </p>
           </div>
           <div class="slots">
-            @for (s of slots; track s.label) {
+            @for (s of shown; track s.label) {
               <div class="slot" [class.filled]="!!s.bench">
                 <span class="label">{{ s.label }}</span>
                 @if (s.bench; as b) {
@@ -81,12 +98,14 @@ const SLOTS: { label: string; hint: string }[] = [
   styleUrl: './performance.scss',
 })
 export class Performance {
+  protected readonly showDesign = SHOW_DESIGN;
   protected readonly discord = SITE.links.discord;
   protected readonly hasNumbers = SITE.benchmarks.length > 0;
   protected readonly slots = SLOTS.map((s) => ({
     ...s,
     bench: SITE.benchmarks.find((b: Benchmark) => b.label === s.label) ?? null,
   }));
+  protected readonly shown = this.hasNumbers ? this.slots.filter((s) => s.bench) : this.slots;
 
   protected readonly cards: { icon: IconName; title: string; text: string }[] = [
     {
