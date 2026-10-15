@@ -53,6 +53,11 @@ The deploy workflow refreshes the snapshot before every build and once a day.
   black outline. It writes `public/img/mobs/` and `src/app/scene/mob-sheets.ts`. Run it with
   the official 26.3 client jar (from Mojang's launcher metadata), a JDK, Pillow and NumPy:
   `python3 scripts/mobs.py client.jar`. The models and textures belong to Mojang Studios.
+- **Icon**: `scripts/logo.py` draws the mod's icon from the same figures: Steve in front
+  (his skin in `art/skins/steve.png`, its Mascot avatar packed in `art/logo/steve-mascot.png`),
+  a creeper, the horizon, hills and mountains behind him, each with a figure and birds. Run
+  it like `scripts/mobs.py`, with the client jar. It writes the site's icons and
+  `art/logo/icon.png`, which the mod ships as `assets/livinghorizon/icon.png`.
 - **Screenshots**: the before / after slider draws stylised illustrations
   (`src/app/scene/`). To use real shots, put them in `public/img/` and fill
   `SITE.screenshots` (`village`, `ridge`, `coast`; same framing, mod off then on).
