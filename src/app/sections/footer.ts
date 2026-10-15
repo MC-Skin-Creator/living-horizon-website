@@ -32,10 +32,18 @@ import { Icon } from '../shared/icon';
           </nav>
           <nav aria-label="Download">
             <h3>Download</h3>
-            <a [href]="site.links.curseforge" target="_blank" rel="noopener">CurseForge</a>
-            <a [href]="site.links.modrinth" target="_blank" rel="noopener">Modrinth</a>
-            <a [href]="site.links.nexus" target="_blank" rel="noopener">Nexus Mods</a>
-            <a [href]="site.links.releases" target="_blank" rel="noopener">GitHub Releases</a>
+            <a [href]="site.links.curseforge" target="_blank" rel="noopener"
+              ><img src="img/logos/curseforge.svg" alt="" width="16" height="16" />CurseForge</a
+            >
+            <a [href]="site.links.modrinth" target="_blank" rel="noopener"
+              ><img src="img/logos/modrinth.svg" alt="" width="16" height="16" />Modrinth</a
+            >
+            <a [href]="site.links.nexus" target="_blank" rel="noopener"
+              ><img src="img/logos/nexusmods.png" alt="" width="16" height="16" />Nexus Mods</a
+            >
+            <a [href]="site.links.releases" target="_blank" rel="noopener"
+              ><img src="img/logos/github.svg" alt="" width="16" height="16" />GitHub Releases</a
+            >
           </nav>
           <nav aria-label="Community">
             <h3>Community</h3>

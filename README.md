@@ -61,7 +61,9 @@ The deploy workflow refreshes the snapshot before every build and once a day.
   `art/logo/icon.png`, which the mod ships as `assets/livinghorizon/icon.png`.
 - **Logos**: `public/img/logos/` holds the Distant Horizons and Voxy logos, from their
   Modrinth pages, shown where the site names them; the compatibility cards take their
-  colours (Distant Horizons' blue, Voxy's green). They belong to their authors.
+  colours (Distant Horizons' blue, Voxy's green). The CurseForge, Modrinth and GitHub marks
+  come from [Simple Icons](https://simpleicons.org/) in their brand colours, the Nexus Mods
+  one from its site's icon; they mark the download platforms. All belong to their owners.
 - **Screenshots**: the before / after slider opens on real in-game screenshots, listed in
   `SITE.screenshots` (title, one sentence, and the two shots in `public/img/compare/`, same
   framing, mod off then on), then shows the stylised illustrations (`src/app/scene/`).

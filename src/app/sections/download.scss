@@ -270,25 +270,34 @@ select {
   display: grid;
   place-items: center;
   border-radius: 10px;
-  font: 0.8rem var(--font-pixel);
-  color: #fff;
+  // Each platform's official mark on a tile tinted with its colour.
+  background: color-mix(in srgb, var(--brand) 14%, #0d1120);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--brand) 35%, transparent);
+
+  img {
+    width: 26px;
+    height: 26px;
+  }
 
   &.cf {
-    background: #f16436;
+    --brand: #f16436;
   }
 
   &.mr {
-    background: #1bd96a;
-    color: #06240f;
+    --brand: #1bd96a;
   }
 
   &.gh {
-    background: #2b3245;
+    --brand: #ffffff;
   }
 
   &.nx {
-    background: #d98f40;
-    color: #241406;
+    --brand: #fb923c;
+
+    img {
+      width: 32px;
+      height: 32px;
+    }
   }
 }
 
