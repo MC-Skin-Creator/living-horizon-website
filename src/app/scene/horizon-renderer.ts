@@ -149,7 +149,7 @@ export class HorizonRenderer {
     private readonly spec: SceneSpec,
     readonly width: number,
     readonly height: number,
-    /** Players drawn from real skins; without them, the pixel sprites stand in. */
+    /** Players drawn from real skins and the game's mobs; a mob without its image is left out. */
     private readonly figures: Figures = { players: [], mobs: {} },
   ) {
     const rand = mulberry32(spec.seed);
@@ -368,6 +368,11 @@ export class HorizonRenderer {
           let x0 = w * (from + rand() * (to - from));
           if (group.onPeak) x0 = this.peak(index, w * from, w * to);
           const player = roster.length > 0 && isPlayer(group.sprite);
+          const sheet = sheetFor(group.sprite);
+          // Only the figures from skins and the game's mobs are drawn: until their images
+          // are loaded (or if one cannot be), the mob is left out rather than drawn as an
+          // old pixel sprite.
+          if (!player && !sheet) continue;
           this.mobs.push({
             layer: index,
             sprite: group.sprite,
@@ -382,7 +387,7 @@ export class HorizonRenderer {
               : index === front || roster.length === 1
                 ? 0
                 : 1 + (players++ % (roster.length - 1)),
-            sheet: sheetFor(group.sprite),
+            sheet,
           });
         }
       }
