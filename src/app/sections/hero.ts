@@ -77,10 +77,6 @@ import { Icon } from '../shared/icon';
           </li>
         </ul>
       </div>
-
-      <div class="callout" aria-hidden="true">
-        <span class="dot"></span> Past your render distance, still alive
-      </div>
     </section>
   `,
   styleUrl: './hero.scss',

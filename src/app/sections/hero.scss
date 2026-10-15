@@ -135,47 +135,6 @@ h1 {
   }
 }
 
-.callout {
-  position: absolute;
-  right: 9%;
-  top: 58%;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #fff;
-  background: rgb(10 13 28 / 0.55);
-  border: 1px solid rgb(255 255 255 / 0.2);
-  backdrop-filter: blur(6px);
-  pointer-events: none;
-
-  &::after {
-    content: '';
-    position: absolute;
-    left: 22px;
-    top: 100%;
-    width: 1px;
-    height: 7vh;
-    background: linear-gradient(rgb(255 255 255 / 0.7), rgb(255 255 255 / 0));
-  }
-
-  .dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 2px;
-    background: var(--grass);
-  }
-}
-
-@media (max-width: 1100px) {
-  .callout {
-    display: none;
-  }
-}
-
 @media (max-width: 640px) {
   .facts {
     display: grid;
