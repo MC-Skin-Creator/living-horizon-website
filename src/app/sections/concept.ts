@@ -51,11 +51,11 @@ interface Figure {
               <div class="cell z1">
                 @for (f of near; track $index) {
                   @if (f.skin) {
-                    <lh-figure [skin]="f.skin" [flip]="!!f.flip" [pixel]="2" />
+                    <lh-figure [skin]="f.skin" [flip]="!!f.flip" [pixel]="1" />
                   } @else if (f.mob) {
-                    <lh-mob [name]="f.mob" [flip]="!!f.flip" [pixel]="2" />
+                    <lh-mob [name]="f.mob" [flip]="!!f.flip" [pixel]="1" />
                   } @else {
-                    <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="6" />
+                    <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="3" />
                   }
                 }
               </div>
@@ -70,11 +70,11 @@ interface Figure {
               <div class="cell z1">
                 @for (f of near; track $index) {
                   @if (f.skin) {
-                    <lh-figure [skin]="f.skin" [flip]="!!f.flip" [pixel]="2" />
+                    <lh-figure [skin]="f.skin" [flip]="!!f.flip" [pixel]="1" />
                   } @else if (f.mob) {
-                    <lh-mob [name]="f.mob" [flip]="!!f.flip" [pixel]="2" />
+                    <lh-mob [name]="f.mob" [flip]="!!f.flip" [pixel]="1" />
                   } @else {
-                    <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="6" />
+                    <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="3" />
                   }
                 }
               </div>
@@ -101,7 +101,7 @@ interface Figure {
                   } @else if (f.mob) {
                     <lh-mob [name]="f.mob" [flip]="!!f.flip" [pixel]="1" [fade]="0.5" />
                   } @else {
-                    <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="2" [fade]="0.5" />
+                    <lh-sprite [name]="f.sprite" [flip]="!!f.flip" [scale]="3" [fade]="0.5" />
                   }
                 }
               </div>
