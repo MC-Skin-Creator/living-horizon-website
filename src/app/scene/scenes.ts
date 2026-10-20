@@ -42,6 +42,11 @@ export interface LayerSpec {
   water?: boolean;
   /** Within the game's render distance: alive with or without the mod. */
   vanilla?: boolean;
+  /**
+   * So far that its mobs are only shapes: drawn a size smaller than on the nearer planes, in
+   * the colour of the layer's own terrain, a shade darker.
+   */
+  silhouettes?: boolean;
   buildings?: { sprite: SpriteName; count: number; spread: [number, number] }[];
   mobs?: MobGroup[];
 }
@@ -88,7 +93,24 @@ export const SCENES: Record<SceneId, SceneSpec> = {
     fog: [196, 112, 146],
     clouds: { count: 1.2, speed: 1.6, color: [255, 176, 180], alpha: 0.4 },
     layers: [
-      { depth: 0, base: 0.65, amp: 0.07, wavelength: 36, step: 1, scale: 1, body: [96, 70, 136] },
+      {
+        depth: 0,
+        base: 0.65,
+        amp: 0.07,
+        wavelength: 36,
+        step: 1,
+        scale: 1,
+        body: [96, 70, 136],
+        silhouettes: true,
+        // Where the mountains stand against the sunset, right of the text.
+        mobs: [
+          { sprite: 'cow', count: 3, spread: [0.5, 0.6] },
+          { sprite: 'horse', count: 2, spread: [0.64, 0.74] },
+          { sprite: 'villager', count: 2, spread: [0.76, 0.8] },
+          { sprite: 'sheep', count: 4, spread: [0.82, 0.92] },
+          { sprite: 'pig', count: 2, spread: [0.93, 0.99] },
+        ],
+      },
       {
         depth: 0.3,
         base: 0.705,
