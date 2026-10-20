@@ -62,7 +62,8 @@ The deploy workflow refreshes the snapshot before every build and once a day.
 - **Title and cover**: `public/img/brand/` holds the 3D titles (*Minecraft* above *Living
   Horizon* for the hero, *Living Horizon* alone for the footer) and the cover with the crowd
   of heads, from the [media kit](https://github.com/MC-Skin-Creator/media-kit)
-  (`out/media-kit/living-horizon-media-kit/`, the *mix couchant* logos), trimmed and saved as
+  (`out/media-kit/living-horizon-media-kit/`: `living-horizon_ruban_mix-couchant.png` for the hero,
+  `living-horizon_seul_ligne-3D_mix-couchant.png` for the footer), trimmed and saved as
   WebP. `public/img/og-cover.jpg` is that cover cut to 1200×629 for link previews.
 - **Features and servers**: the feature cards are in `src/app/sections/features.ts`, the
   multiplayer section and its table (what works in single player, on LAN, on a server with or

@@ -34,7 +34,7 @@ import { Icon } from '../shared/icon';
             srcset="img/brand/title-minecraft-800.webp 800w, img/brand/title-minecraft.webp 1600w"
             sizes="(max-width: 700px) 92vw, 640px"
             width="1600"
-            height="425"
+            height="447"
             alt="Minecraft Living Horizon"
             fetchpriority="high"
           />
