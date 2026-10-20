@@ -208,7 +208,7 @@ export class Features {
       title: 'Built to stay light',
       text: 'Far mobs have no AI: they play ready-made animations that fit the ground. Very far away, they become flat pictures of themselves.',
       points: [
-        'Mobs hidden behind hills are not drawn',
+        'Occlusion culling: mobs hidden behind hills are not drawn',
         'Lower your simulation distance and keep a living world',
         'Simplified Entities: many more mobs for the same cost',
       ],

@@ -140,6 +140,12 @@
   position: absolute;
   display: flex;
   gap: 8px;
+  animation: glide 4.48s ease-in-out infinite alternate;
+
+  &.loose {
+    animation-duration: 2.24s;
+    animation-direction: alternate-reverse;
+  }
 
   &.v {
     top: 26px;
@@ -254,6 +260,7 @@
     position: absolute;
     left: 80%;
     top: -2px;
+    animation: knob 4.48s ease-in-out infinite;
     bottom: -2px;
     width: 10px;
     background: #c6c6c6;
@@ -346,5 +353,36 @@
 @media (max-width: 640px) {
   .grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* The slow moves of the birds and the settings, a loop of the mobs' and players' steps. */
+@keyframes glide {
+  from {
+    transform: translate(-14px, 3px);
+  }
+  50% {
+    transform: translate(0, -3px);
+  }
+  to {
+    transform: translate(14px, 2px);
+  }
+}
+
+@keyframes knob {
+  0%,
+  100% {
+    left: 80%;
+  }
+  45%,
+  55% {
+    left: 35%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flock,
+  .slider i {
+    animation: none;
   }
 }
