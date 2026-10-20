@@ -56,8 +56,8 @@ export const SITE = {
 
   /** Shown until a source answers, or if none does. */
   fallback: {
-    version: '0.5.0',
-    date: '2026-10-13',
+    version: '0.10.0',
+    date: '2026-10-20',
     mcRange: '1.20 – 26.3',
   },
 

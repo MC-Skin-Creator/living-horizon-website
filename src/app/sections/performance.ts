@@ -124,9 +124,9 @@ export class Performance {
       text: 'Low, Normal, High and Ultra set the number of mobs, their range and the birds in one go. The defaults are the balanced choice.',
     },
     {
-      icon: 'server-off',
-      title: 'Nothing on the server',
-      text: 'Client-side only. It uses what your game already receives, so servers carry no extra load.',
+      icon: 'server',
+      title: 'Light on the server',
+      text: "Every animation runs on the players' games. A server with the mod only shares positions.",
     },
   ];
 }

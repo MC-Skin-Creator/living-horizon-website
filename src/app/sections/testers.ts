@@ -36,6 +36,7 @@ import { Reveal } from '../shared/reveal';
               <li><lh-icon name="check" /> Your Minecraft version and loader</li>
               <li><lh-icon name="check" /> Distant Horizons or Voxy, and their version</li>
               <li><lh-icon name="check" /> Shader pack, if any (Photon, Complementary…)</li>
+              <li><lh-icon name="check" /> Single player, LAN or server, with the mod or not</li>
               <li><lh-icon name="check" /> A screenshot of what you see</li>
             </ul>
 
@@ -121,6 +122,7 @@ export class Testers {
       '**Loader:** Fabric / Quilt / NeoForge / Forge',
       '**Distant Horizons or Voxy (and version):** ',
       '**Shader pack (and Iris version):** ',
+      '**Where:** single player / LAN / server with the mod / server without the mod',
       '**Other mods:** ',
       '',
       '**How does it run?** (works / something looks wrong / crash)',

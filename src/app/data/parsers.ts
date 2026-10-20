@@ -131,10 +131,6 @@ export function jarName(version: string, row: TargetRow, loader: Loader): string
   return `livinghorizon-${version}+mc${row.fileVersion}${loader === 'fabric' ? '' : '-' + loader}.jar`;
 }
 
-export function dataPackName(version: string, row: TargetRow): string {
-  return `livinghorizon-datapack-${version}+mc${row.fileVersion}.zip`;
-}
-
 const GROUP_KINDS: Record<string, ChangeGroup['kind']> = {
   new: 'new',
   improved: 'improved',

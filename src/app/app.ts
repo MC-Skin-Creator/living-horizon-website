@@ -4,10 +4,12 @@ import { Compare } from './sections/compare';
 import { Compatibility } from './sections/compatibility';
 import { Concept } from './sections/concept';
 import { Download } from './sections/download';
+import { Features } from './sections/features';
 import { Footer } from './sections/footer';
 import { Hero } from './sections/hero';
 import { Nav } from './sections/nav';
 import { Performance } from './sections/performance';
+import { Servers } from './sections/servers';
 import { Testers } from './sections/testers';
 
 @Component({
@@ -17,7 +19,9 @@ import { Testers } from './sections/testers';
     Nav,
     Hero,
     Concept,
+    Features,
     Compare,
+    Servers,
     Compatibility,
     Performance,
     Testers,
@@ -30,7 +34,9 @@ import { Testers } from './sections/testers';
     <main>
       <lh-hero />
       <lh-concept />
+      <lh-features />
       <lh-compare />
+      <lh-servers />
       <lh-compatibility />
       <lh-performance />
       <lh-testers />

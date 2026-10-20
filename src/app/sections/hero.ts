@@ -21,14 +21,23 @@ import { Icon } from '../shared/icon';
       <div class="shade" aria-hidden="true"></div>
 
       <div class="container inner">
-        <a class="pill beta" href="#testers">
-          <span class="beta-dot"></span>
-          Beta · v{{ data.version() }} · we're looking for testers
+        <a class="pill news" href="#servers">
+          <span class="tag">New</span>
+          The mod now runs on servers too
           <lh-icon name="arrow-right" />
         </a>
 
         <h1>
-          <span class="name">Living Horizon</span>
+          <img
+            class="title"
+            src="img/brand/title-minecraft.webp"
+            srcset="img/brand/title-minecraft-800.webp 800w, img/brand/title-minecraft.webp 1600w"
+            sizes="(max-width: 700px) 92vw, 640px"
+            width="1600"
+            height="425"
+            alt="Minecraft Living Horizon"
+            fetchpriority="high"
+          />
           <span class="tagline">Gives life to <span class="accent">the distance.</span></span>
         </h1>
 
@@ -42,7 +51,7 @@ import { Icon } from '../shared/icon';
           and
           <strong class="mod"
             ><img src="img/logos/voxy.webp" alt="" width="20" height="20" />Voxy</strong
-          >. No far-terrain mod? It works in vanilla too.
+          >, or in vanilla. In single player, on LAN, and on servers.
         </p>
 
         <div class="ctas">

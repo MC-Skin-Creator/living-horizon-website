@@ -1,0 +1,350 @@
+#features {
+  padding-top: clamp(24px, 4vw, 48px);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+  transition:
+    border-color 0.25s,
+    transform 0.25s var(--ease-out);
+
+  &:hover {
+    border-color: var(--line-strong);
+    transform: translateY(-3px);
+  }
+}
+
+/* A small piece of the horizon at the top of each card. */
+.stage {
+  --sky-top: #231c52;
+  --sky-low: #6b4a86;
+  position: relative;
+  height: 150px;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--sky-top), var(--sky-low));
+  border-bottom: 1px solid var(--line);
+}
+
+.f-players .stage {
+  --sky-top: #1d2b5c;
+  --sky-low: #5a6fa8;
+}
+
+.f-offline .stage {
+  --sky-top: #0c1030;
+  --sky-low: #2c2a5a;
+}
+
+.f-birds .stage {
+  --sky-top: #2a5d9c;
+  --sky-low: #9cc4e4;
+}
+
+.f-light .stage,
+.f-settings .stage {
+  --sky-top: #161b36;
+  --sky-low: #24294a;
+}
+
+.ground {
+  position: absolute;
+  inset-inline: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-evenly;
+  padding-inline: 14px;
+
+  /* A hazy ridge behind, where the far figures stand. */
+  &.far {
+    bottom: 24px;
+    padding-bottom: 12px;
+    justify-content: space-around;
+    background: linear-gradient(
+      180deg,
+      transparent calc(100% - 12px),
+      rgb(150 120 170 / 0.55) calc(100% - 12px)
+    );
+  }
+
+  &.near {
+    bottom: 0;
+    height: 24px;
+    align-items: flex-start;
+    /* Grass over dirt, the game's blocks seen from the side. */
+    background: linear-gradient(180deg, #5aa63f 0 6px, #6e4b2e 6px);
+
+    > * {
+      transform: translateY(-100%);
+      margin-top: 6px;
+    }
+  }
+}
+
+.f-offline .ground.near {
+  background: linear-gradient(180deg, #3f6b38 0 6px, #46301f 6px);
+}
+
+.tagged {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.nametag {
+  padding: 1px 5px;
+  background: rgb(0 0 0 / 0.45);
+  color: #fff;
+  font: 0.6rem var(--font-pixel);
+  white-space: nowrap;
+
+  em {
+    font-style: normal;
+    color: #b8b8b8;
+  }
+}
+
+.mount {
+  position: relative;
+  display: inline-block;
+
+  lh-figure {
+    position: absolute;
+    left: 50%;
+    top: -15px;
+    transform: translateX(-60%);
+  }
+}
+
+.moon {
+  position: absolute;
+  top: 18px;
+  right: 26px;
+  width: 22px;
+  height: 22px;
+  background: #e9ecf6;
+  box-shadow: 0 0 24px rgb(233 236 246 / 0.5);
+}
+
+.flock {
+  position: absolute;
+  display: flex;
+  gap: 8px;
+
+  &.v {
+    top: 26px;
+    left: 18%;
+
+    lh-sprite:nth-child(1),
+    lh-sprite:nth-child(5) {
+      margin-top: 16px;
+    }
+
+    lh-sprite:nth-child(2),
+    lh-sprite:nth-child(4) {
+      margin-top: 8px;
+    }
+  }
+
+  &.loose {
+    top: 50px;
+    right: 14%;
+    gap: 14px;
+    opacity: 0.7;
+
+    lh-sprite:nth-child(2) {
+      margin-top: -8px;
+    }
+  }
+}
+
+.swap {
+  height: 100%;
+  padding-inline: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+
+  figure {
+    margin: 0;
+    display: grid;
+    justify-items: center;
+    align-content: end;
+    gap: 8px;
+    height: 112px;
+  }
+
+  figcaption {
+    max-width: 130px;
+    text-align: center;
+    font: 0.6rem var(--font-pixel);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  > lh-icon {
+    width: 22px;
+    height: 22px;
+    color: var(--sun);
+  }
+}
+
+/* A sketch of the settings screen. */
+.panel {
+  height: 100%;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 10px;
+  padding-inline: 20px;
+}
+
+.panel-title {
+  font: 0.62rem var(--font-pixel);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.seg {
+  display: flex;
+  border: 2px solid #000;
+  background: #6f6f6f;
+  font: 0.68rem var(--font-pixel);
+
+  span {
+    padding: 6px 10px;
+    color: #e0e0e0;
+    border-right: 2px solid #3a3a3a;
+    box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.25);
+
+    &:last-child {
+      border-right: 0;
+    }
+  }
+
+  .on {
+    background: var(--grad-sun);
+    color: #1d0f0c;
+  }
+}
+
+.slider {
+  position: relative;
+  width: min(250px, 100%);
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #000;
+  background: #3a3a3a;
+
+  i {
+    position: absolute;
+    left: 80%;
+    top: -2px;
+    bottom: -2px;
+    width: 10px;
+    background: #c6c6c6;
+    border: 2px solid #000;
+  }
+
+  b {
+    position: relative;
+    font: 400 0.6rem var(--font-pixel);
+    color: #fff;
+    text-shadow: 1px 1px 0 #3f3f3f;
+  }
+}
+
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px 24px 24px;
+
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.16rem;
+
+    lh-icon {
+      width: 20px;
+      height: 20px;
+      color: var(--sun);
+    }
+  }
+
+  > p {
+    color: var(--muted);
+    font-size: 0.96rem;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 6px;
+    font-size: 0.92rem;
+
+    li {
+      display: flex;
+      gap: 8px;
+      align-items: baseline;
+    }
+
+    lh-icon {
+      width: 15px;
+      height: 15px;
+      color: var(--grass);
+      transform: translateY(2px);
+    }
+  }
+}
+
+.where {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  font-size: 0.84rem;
+  color: var(--sky);
+
+  lh-icon {
+    width: 14px;
+    height: 14px;
+    transform: translateY(2px);
+  }
+
+  &.everywhere {
+    color: var(--dusk);
+  }
+}
+
+@media (max-width: 1020px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

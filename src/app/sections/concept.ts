@@ -4,7 +4,6 @@ import { Skin } from '../scene/figures';
 import { MobView } from '../scene/mob';
 import { Sprite } from '../scene/sprite';
 import { SpriteName } from '../scene/sprites';
-import { Icon, IconName } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
 
 interface Figure {
@@ -19,7 +18,7 @@ interface Figure {
 @Component({
   selector: 'lh-concept',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Sprite, FigureView, MobView, Icon, Reveal],
+  imports: [Sprite, FigureView, MobView, Reveal],
   template: `
     <section class="section" id="what">
       <div class="container">
@@ -115,22 +114,6 @@ interface Figure {
             </div>
           </div>
         </div>
-
-        <div class="features">
-          @for (f of features; track f.title; let i = $index) {
-            <article class="card feature" [lhReveal]="i * 80">
-              <span class="icon"><lh-icon [name]="f.icon" /></span>
-              <h3>{{ f.title }}</h3>
-              <p>{{ f.text }}</p>
-            </article>
-          }
-        </div>
-
-        <ul class="extras" lhReveal aria-label="Also in the mod">
-          @for (e of extras; track e) {
-            <li><lh-icon name="sparkles" /> {{ e }}</li>
-          }
-        </ul>
       </div>
     </section>
   `,
@@ -155,35 +138,5 @@ export class Concept {
     { sprite: 'villager', mob: 'villager-cleric' },
     { sprite: 'horse', mob: 'horse-white', flip: true },
     { sprite: 'skeleton', mob: 'skeleton' },
-  ];
-
-  protected readonly features: { icon: IconName; title: string; text: string }[] = [
-    {
-      icon: 'eye',
-      title: 'Mobs and players, far away',
-      text: 'Animals graze, villagers wander around far-off villages, and other players keep walking, with their skin, armour and whatever they ride.',
-    },
-    {
-      icon: 'mountain',
-      title: 'On Distant Horizons and Voxy',
-      text: 'Figures stand on the far terrain and hide behind its hills pixel by pixel, shader packs included. Something that was not possible before.',
-    },
-    {
-      icon: 'box',
-      title: 'Vanilla works too',
-      text: 'No far-terrain mod? Keep your render and simulation distance low and the horizon still feels alive, at any render distance.',
-    },
-    {
-      icon: 'feather',
-      title: 'Built to stay light',
-      text: 'Far figures are drawn the cheap way, and only when you can see them. Client-side only: nothing is sent to the server.',
-    },
-  ];
-
-  protected readonly extras = [
-    'Birds in the sky: flocks, geese in a V, gulls on the coast',
-    'Players who log off stay asleep where they left',
-    'Optional data pack for exact positions on servers',
-    'Everything can be configured',
   ];
 }

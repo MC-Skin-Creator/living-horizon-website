@@ -59,6 +59,14 @@ The deploy workflow refreshes the snapshot before every build and once a day.
   a creeper, the horizon, hills and mountains behind him, each with a figure and birds. Run
   it like `scripts/mobs.py`, with the client jar. It writes the site's icons and
   `art/logo/icon.png`, which the mod ships as `assets/livinghorizon/icon.png`.
+- **Title and cover**: `public/img/brand/` holds the 3D titles (*Minecraft* above *Living
+  Horizon* for the hero, *Living Horizon* alone for the footer) and the cover with the crowd
+  of heads, from the [media kit](https://github.com/MC-Skin-Creator/media-kit)
+  (`out/media-kit/living-horizon-media-kit/`, the *mix couchant* logos), trimmed and saved as
+  WebP. `public/img/og-cover.jpg` is that cover cut to 1200×629 for link previews.
+- **Features and servers**: the feature cards are in `src/app/sections/features.ts`, the
+  multiplayer section and its table (what works in single player, on LAN, on a server with or
+  without the mod) in `src/app/sections/servers.ts`. Keep both in step with the mod's README.
 - **Logos**: `public/img/logos/` holds the Distant Horizons and Voxy logos, from their
   Modrinth pages, shown where the site names them; the compatibility cards take their
   colours (Distant Horizons' blue, Voxy's green). The CurseForge, Modrinth and GitHub marks

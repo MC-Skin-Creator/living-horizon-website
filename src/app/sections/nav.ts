@@ -52,8 +52,9 @@ export class Nav {
   protected readonly scrolled = signal(false);
   protected readonly open = signal(false);
   protected readonly links = [
-    { href: '#what', label: 'What it does' },
+    { href: '#features', label: 'Features' },
     { href: '#compare', label: 'Before / after' },
+    { href: '#servers', label: 'Servers' },
     { href: '#compatibility', label: 'Compatibility' },
     { href: '#changelog', label: 'Changelog' },
     { href: '#testers', label: 'Testers' },
