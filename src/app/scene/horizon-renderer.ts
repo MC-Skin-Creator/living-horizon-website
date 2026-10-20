@@ -23,12 +23,17 @@ import { SceneSpec } from './scenes';
 
 type Canvas = HTMLCanvasElement;
 
+/** How big the mobs of a `silhouettes` layer are, next to those of the nearer planes. */
+const SHAPE_SIZE = 0.45;
+
 interface BuiltLayer {
   surface: Int16Array;
   canvas: Canvas;
   haze: number;
   scale: number;
   vanilla: boolean;
+  /** The colour of its mobs' shapes, for a layer drawn as `silhouettes`. */
+  tint: RGB | null;
 }
 
 interface Mob {
@@ -335,7 +340,9 @@ export class HorizonRenderer {
         decorate(b.sprite, w * (from + ((to - from) * (i + 0.5)) / b.count) + (rand() - 0.5) * 6);
     }
 
-    return { surface, canvas: c, haze, scale, vanilla: !!layer.vanilla };
+    // As far as the terrain itself, a shade darker so that the shapes read against it.
+    const tint = layer.silhouettes ? shade(mix(layer.body, spec.fog, haze), 0.8) : null;
+    return { surface, canvas: c, haze, scale, vanilla: !!layer.vanilla, tint };
   }
 
   private placeMobs(rand: () => number) {
@@ -460,6 +467,15 @@ export class HorizonRenderer {
     const bob = mob.floats ? Math.round(Math.sin(t * 1.6 + mob.phase) * 0.6) : 0;
     if (mob.figure >= 0) {
       this.drawFigure(band, target, k, mob, layer, xi, flip, t, bob, players);
+      return;
+    }
+    if (mob.sheet && layer.tint) {
+      // Smaller than on the nearer planes: the sheet they would draw, shrunk.
+      const { p, small } = this.size(layer, k);
+      const sheet = mob.sheet + (small ? '-small' : '');
+      const img = this.shapeImage(sheet, this.mobFrame(mob, t), !flip, layer.tint);
+      const bottom = layer.surface[xi] * k + p;
+      players.push(() => this.blit(target, img, xi * k, bottom, p));
       return;
     }
     if (mob.sheet) {
@@ -639,6 +655,41 @@ export class HorizonRenderer {
     }
     ctx.drawImage(this.figures.mobs[name], frame * w, 0, w, h, 0, 0, w, h);
     this.fade(ctx, w, h, haze);
+    this.spriteCache.set(key, c);
+    return c;
+  }
+
+  /**
+   * One frame of a mob sheet as a flat shape of one colour, `SHAPE_SIZE` of its size, for
+   * the farthest planes: only its outline and its walk are left. A pixel is kept where the
+   * mob covers at least half of the area it stands for.
+   */
+  private shapeImage(name: string, frame: number, flip: boolean, tint: RGB): Canvas {
+    const key = `shape:${name}:${frame}:${flip}:${tint.join(',')}`;
+    let c = this.spriteCache.get(key);
+    if (c) return c;
+    const src = this.mobImage(name, frame, 0, flip);
+    const { width: sw, height: sh } = src;
+    const alpha = src
+      .getContext('2d', { willReadFrequently: true })!
+      .getImageData(0, 0, sw, sh).data;
+    const w = Math.max(1, Math.round(sw * SHAPE_SIZE));
+    const h = Math.max(1, Math.round(sh * SHAPE_SIZE));
+    c = makeCanvas(w, h);
+    const ctx = context(c);
+    ctx.fillStyle = rgb(tint);
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        const x0 = Math.floor((x * sw) / w);
+        const x1 = Math.max(x0 + 1, Math.floor(((x + 1) * sw) / w));
+        const y0 = Math.floor((y * sh) / h);
+        const y1 = Math.max(y0 + 1, Math.floor(((y + 1) * sh) / h));
+        let solid = 0;
+        for (let sy = y0; sy < y1; sy++)
+          for (let sx = x0; sx < x1; sx++) if (alpha[(sy * sw + sx) * 4 + 3] > 96) solid++;
+        if (solid * 2 >= (x1 - x0) * (y1 - y0)) ctx.fillRect(x, y, 1, 1);
+      }
+    }
     this.spriteCache.set(key, c);
     return c;
   }
