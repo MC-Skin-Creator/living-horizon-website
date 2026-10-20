@@ -15,9 +15,19 @@ import { Icon } from '../shared/icon';
           <div class="brand">
             <a href="#top" class="logo">
               <img src="img/icon-128.webp" alt="" width="44" height="44" loading="lazy" />
-              <span>Living Horizon</span>
+              <img
+                class="wordmark"
+                src="img/brand/title.webp"
+                alt="Living Horizon"
+                width="640"
+                height="81"
+                loading="lazy"
+              />
             </a>
-            <p>Gives life to the distance. A client-side mod for Minecraft Java Edition.</p>
+            <p>
+              Gives life to the distance. A mod for Minecraft Java Edition, for your game and your
+              server.
+            </p>
             <p class="beta">
               <span class="beta-dot"></span> Beta: expect bugs, and tell us about them.
             </p>
@@ -106,6 +116,11 @@ import { Icon } from '../shared/icon';
     }
     .logo img {
       border-radius: 10px;
+    }
+    .logo .wordmark {
+      width: 230px;
+      height: auto;
+      border-radius: 0;
     }
     .beta {
       display: inline-flex;

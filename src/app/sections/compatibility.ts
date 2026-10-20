@@ -54,8 +54,12 @@ import { Reveal } from '../shared/reveal';
           <span class="pill"
             ><lh-icon name="sparkles" /> Iris shader packs (Photon, Complementary…)</span
           >
-          <span class="pill"><lh-icon name="server-off" /> Client-side, any server</span>
-          <span class="pill"><lh-icon name="box" /> Optional data pack for exact positions</span>
+          <span class="pill"
+            ><lh-icon name="server" /> Same jar on servers, or join any server without it</span
+          >
+          <span class="pill"
+            ><lh-icon name="sliders" /> Settings in Sodium's Video Settings (0.8+)</span
+          >
         </div>
 
         <div class="matrix card" lhReveal>

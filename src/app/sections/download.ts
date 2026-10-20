@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { SITE } from '../config/site';
 import { LOADERS, LOADER_NAMES, Loader } from '../data/models';
-import { dataPackName, jarName } from '../data/parsers';
+import { jarName } from '../data/parsers';
 import { ProjectData } from '../data/project-data';
 import { CountPipe, DayPipe } from '../shared/format';
 import { Icon } from '../shared/icon';
@@ -25,7 +25,7 @@ import { Reveal } from '../shared/reveal';
           <span class="eyebrow">Download</span>
           <h2>Get <span class="accent">Living Horizon</span></h2>
           <p>
-            Free, client-side, one jar per game version and loader. Drop it in your
+            Free, one jar per game version and loader, for your game and your server. Drop it in the
             <code>mods</code> folder and the horizon comes alive.
           </p>
         </header>
@@ -112,9 +112,7 @@ import { Reveal } from '../shared/reveal';
                 {{ jarDirect() ? 'Download the jar' : 'Get it from the release page' }}
               </a>
               <div class="secondary">
-                @if (packUrl(); as pack) {
-                  <a [href]="pack">Data pack (optional, for servers)</a>
-                }
+                <a href="#servers">The same jar goes on your server</a>
                 <a [href]="site.links.curseforge" target="_blank" rel="noopener"
                   >or get it on CurseForge</a
                 >
@@ -195,13 +193,6 @@ export class Download {
   protected readonly jarUrl = computed(
     () => this.asset()?.browser_download_url ?? this.data.latest()?.url ?? SITE.links.releases,
   );
-
-  protected readonly packUrl = computed(() => {
-    const row = this.row();
-    if (!row) return null;
-    const name = dataPackName(this.data.version(), row);
-    return this.data.latest()?.assets.find((a) => a.name === name)?.browser_download_url ?? null;
-  });
 
   protected readonly platforms = computed(() => {
     const d = this.data.downloads();

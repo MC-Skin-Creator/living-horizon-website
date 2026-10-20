@@ -15,7 +15,10 @@ export type IconName =
   | 'feather'
   | 'gauge'
   | 'sliders'
+  | 'server'
   | 'server-off'
+  | 'shield'
+  | 'wifi'
   | 'users'
   | 'sparkles'
   | 'calendar'
@@ -113,6 +116,19 @@ export type IconName =
               <circle cx="16" cy="6" r="2" />
               <circle cx="10" cy="12" r="2" />
               <circle cx="18" cy="18" r="2" />
+            }
+            @case ('server') {
+              <rect x="3" y="4" width="18" height="7" rx="2" />
+              <rect x="3" y="13" width="18" height="7" rx="2" />
+              <path d="M7 7.5h.01M7 16.5h.01" />
+            }
+            @case ('shield') {
+              <path d="M12 3 4 6v6c0 4.5 3.4 8.2 8 9 4.6-.8 8-4.5 8-9V6l-8-3Z" />
+            }
+            @case ('wifi') {
+              <path
+                d="M2 9a15 15 0 0 1 20 0M5.5 12.5a10 10 0 0 1 13 0M9 16a5 5 0 0 1 6 0M12 19.5h.01"
+              />
             }
             @case ('server-off') {
               <rect x="3" y="4" width="18" height="7" rx="2" />
