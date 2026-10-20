@@ -24,7 +24,7 @@ import { SceneSpec } from './scenes';
 type Canvas = HTMLCanvasElement;
 
 /** How big the mobs of a `silhouettes` layer are, next to those of the nearer planes. */
-const SHAPE_SIZE = 0.6;
+const SHAPE_SIZE = 0.45;
 
 interface BuiltLayer {
   surface: Int16Array;

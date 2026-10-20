@@ -55,7 +55,7 @@ The deploy workflow refreshes the snapshot before every build and once a day.
   the official 26.3 client jar (from Mojang's launcher metadata), a JDK, Pillow and NumPy:
   `python3 scripts/mobs.py client.jar`. The models and textures belong to Mojang Studios.
   On a layer marked `silhouettes` in `src/app/scene/scenes.ts` (the hero's far mountains),
-  the mobs are drawn as walking shapes in the colour of the mountain, 60 % of the size they
+  the mobs are drawn as walking shapes in the colour of the mountain, 45 % of the size they
   have on the nearer hills.
 - **Icon**: `scripts/logo.py` draws the mod's icon from the same figures: Steve in front
   (his skin in `art/skins/steve.png`, its Mascot avatar packed in `art/logo/steve-mascot.png`),
