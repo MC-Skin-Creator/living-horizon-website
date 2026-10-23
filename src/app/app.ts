@@ -3,6 +3,7 @@ import { Changelog } from './sections/changelog';
 import { Compare } from './sections/compare';
 import { Compatibility } from './sections/compatibility';
 import { Concept } from './sections/concept';
+import { Contribute } from './sections/contribute';
 import { Download } from './sections/download';
 import { Features } from './sections/features';
 import { Footer } from './sections/footer';
@@ -25,6 +26,7 @@ import { Testers } from './sections/testers';
     Compatibility,
     Performance,
     Testers,
+    Contribute,
     Changelog,
     Download,
     Footer,
@@ -40,6 +42,7 @@ import { Testers } from './sections/testers';
       <lh-compatibility />
       <lh-performance />
       <lh-testers />
+      <lh-contribute />
       <lh-changelog />
       <lh-download />
     </main>

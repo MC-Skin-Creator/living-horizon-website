@@ -98,9 +98,13 @@ export interface ChangeEntry {
   body: Inline[];
 }
 
+export type ChangeSide = 'server' | 'client';
+
 export interface ChangeGroup {
   title: string;
   kind: 'new' | 'improved' | 'fixed' | 'other';
+  /** The `### Server` or `### Client` part it sits under; null in older versions. */
+  side: ChangeSide | null;
   entries: ChangeEntry[];
 }
 

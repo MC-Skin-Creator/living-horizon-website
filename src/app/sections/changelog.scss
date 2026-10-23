@@ -69,6 +69,27 @@
   min-width: 0;
 }
 
+.side {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font: 0.72rem var(--font-pixel);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text);
+
+  &:not(.first) {
+    margin-top: 8px;
+  }
+
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+}
+
 .group {
   display: grid;
   gap: 8px;
