@@ -31,6 +31,8 @@
   font: 700 1.05rem var(--font-display);
   letter-spacing: -0.01em;
   margin-right: auto;
+  white-space: nowrap;
+  flex-shrink: 0;
 
   img {
     border-radius: 8px;
@@ -97,9 +99,12 @@
   }
 }
 
-@media (max-width: 1140px) {
+// The menu button replaces the links when they do not fit on one line (`compact`, measured
+// by the component: the labels' length depends on the language).
+:host(.compact) {
   .toggle {
     display: grid;
+    order: 2;
   }
 
   .links {
@@ -123,7 +128,31 @@
     }
   }
 
-  :host(.open) .links {
+  .lang {
+    margin-left: 0;
+  }
+}
+
+:host(.compact.open) .links {
+  display: flex;
+}
+
+.lang {
+  margin-left: 4px;
+}
+
+// On phones the language button moves into the menu, at its end.
+.lang-in-menu {
+  display: none;
+  margin-top: 10px;
+}
+
+@media (max-width: 520px) {
+  .bar > .lang {
+    display: none;
+  }
+
+  :host(.compact) .lang-in-menu {
     display: flex;
   }
 }

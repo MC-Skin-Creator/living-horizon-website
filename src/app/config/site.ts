@@ -3,23 +3,23 @@
  * shown when no source answers. Edit this file to change a link or add a benchmark.
  */
 
+import type { Messages } from '../i18n/en';
+
 const REPO = 'https://github.com/MC-Skin-Creator/living-horizon';
 
 export interface Benchmark {
-  /** Short label, e.g. "FPS impact". */
-  label: string;
+  /**
+   * The slot of the performance section it fills (`performance.slots` of the dictionaries).
+   * How it was measured (hardware, settings, mods) is `performance.setups.<slot>` there.
+   */
+  slot: keyof Messages['performance']['slots'];
   /** The measured value, e.g. "-3 %". */
   value: string;
-  /** How it was measured: hardware, settings, mods. Shown under the value. */
-  context: string;
 }
 
 export interface Screenshots {
-  id: string;
-  /** The tab's name. */
-  title: string;
-  /** One sentence under the slider: the settings and what to look for. */
-  text: string;
+  /** Its tab's name and sentence are `compare.shots.<id>` in the dictionaries. */
+  id: keyof Messages['compare']['shots'];
   /** Real in-game shots, same framing, mod off then on. Paths relative to `public/`. */
   before: string;
   after: string;
@@ -62,17 +62,17 @@ export const SITE = {
   },
 
   /**
+   * The languages the mod's changelog is written in (`changelog/<code>.md`). The page shows
+   * the visitor's when there is one, else the English one.
+   */
+  changelogLanguages: ['en', 'fr'] as string[],
+  changelogFile: (code: string) => `${REPO}/blob/main/changelog/${code}.md`,
+
+  /**
    * Real measurements only. While this list is empty the performance section shows
    * empty slots inviting players to share theirs, never a made-up number.
    */
-  benchmarks: [
-    {
-      label: 'FPS gain',
-      value: '+25 %',
-      context:
-        '120 → 150 FPS for the same view of the distance: a shorter render distance with Living Horizon drawing the mobs beyond it, against the game drawing that far itself. Measured by the author.',
-    },
-  ] as Benchmark[],
+  benchmarks: [{ slot: 'fps', value: '+25 %' }] as Benchmark[],
 
   /**
    * Real in-game screenshots for the before / after slider. They come first, the stylised
@@ -81,15 +81,11 @@ export const SITE = {
   screenshots: [
     {
       id: 'shaders',
-      title: 'In game · Shaders',
-      text: 'With a shader pack, render and simulation distance 12: the animals on the far hills are back.',
       before: 'img/compare/shaders-before.webp',
       after: 'img/compare/shaders-after.webp',
     },
     {
       id: 'vanilla',
-      title: 'In game · Vanilla',
-      text: 'No shaders, render and simulation distance 12: herds of cows and horses fill the far plains.',
       before: 'img/compare/vanilla-before.webp',
       after: 'img/compare/vanilla-after.webp',
     },

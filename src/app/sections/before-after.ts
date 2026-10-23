@@ -10,6 +10,7 @@ import {
   untracked,
 } from '@angular/core';
 import { Screenshots } from '../config/site';
+import { I18n } from '../i18n/i18n';
 import { HorizonScene } from '../scene/horizon-scene';
 
 export type SliderScene = 'village' | 'ridge' | 'coast';
@@ -23,43 +24,36 @@ export type SliderScene = 'village' | 'ridge' | 'coast';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [HorizonScene],
   template: `
+    @let t = i18n.t().compare;
     <div class="frame" [style.--pos.%]="pos()">
       <div class="layer before">
         @if (shots(); as s) {
-          <img
-            [src]="s.before"
-            [alt]="'In-game screenshot without Living Horizon. ' + s.text"
-            loading="lazy"
-          />
+          <img [src]="s.before" [alt]="t.shotWithout(description())" loading="lazy" />
         } @else {
           <lh-horizon
             [scene]="scene() ?? 'village'"
             [aspect]="16 / 9"
             [resolution]="225"
             [alive]="false"
-            [label]="'Without Living Horizon: ' + description()"
+            [label]="t.sceneWithout(description())"
           />
         }
         <!-- Inside its picture: the other one covers it as the handle moves over it. -->
-        <span class="badge left">Without the mod</span>
+        <span class="badge left">{{ t.badgeWithout }}</span>
       </div>
       <div class="layer after">
         @if (shots(); as s) {
-          <img
-            [src]="s.after"
-            [alt]="'In-game screenshot with Living Horizon. ' + s.text"
-            loading="lazy"
-          />
+          <img [src]="s.after" [alt]="t.shotWith(description())" loading="lazy" />
         } @else {
           <lh-horizon
             [scene]="scene() ?? 'village'"
             [aspect]="16 / 9"
             [resolution]="225"
             [alive]="true"
-            [label]="'With Living Horizon: ' + description()"
+            [label]="t.sceneWith(description())"
           />
         }
-        <span class="badge right">With Living Horizon</span>
+        <span class="badge right">{{ t.badgeWith }}</span>
       </div>
 
       <div class="handle" aria-hidden="true"><span class="knob">‹ ›</span></div>
@@ -72,7 +66,7 @@ export type SliderScene = 'village' | 'ridge' | 'coast';
         [value]="pos()"
         (input)="onInput($event)"
         (pointerdown)="touched = true"
-        aria-label="Move to compare the view without and with Living Horizon"
+        [attr.aria-label]="t.slider"
       />
     </div>
   `,
@@ -82,6 +76,8 @@ export class BeforeAfter {
   readonly scene = input<SliderScene | null>(null);
   readonly shots = input<Screenshots | null>(null);
   readonly description = input('');
+
+  protected readonly i18n = inject(I18n);
 
   protected readonly pos = signal(50);
   protected touched = false;

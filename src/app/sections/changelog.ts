@@ -1,8 +1,10 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { SITE } from '../config/site';
-import { ChangeSide, ChangelogVersion, Inline } from '../data/models';
+import { ChangeGroup, ChangelogVersion, Inline } from '../data/models';
 import { ProjectData } from '../data/project-data';
+import { Messages } from '../i18n/en';
+import { I18n } from '../i18n/i18n';
 import { DayPipe } from '../shared/format';
 import { Icon } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
@@ -36,12 +38,15 @@ const PREVIEW_ENTRIES = 3;
       }
     </ng-template>
 
+    @let t = i18n.t().changelog;
     <section class="section" id="changelog">
       <div class="container">
         <header class="section-head" lhReveal>
-          <span class="eyebrow">Latest updates</span>
-          <h2>Shipping often, <span class="accent">fixing fast.</span></h2>
-          <p>Straight from the project's changelog on GitHub.</p>
+          <span class="eyebrow">{{ t.eyebrow }}</span>
+          <h2>
+            {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
+          </h2>
+          <p>{{ data.changelogLang() === i18n.lang() ? t.text : t.textEnglish }}</p>
         </header>
 
         @if (versions().length) {
@@ -51,7 +56,7 @@ const PREVIEW_ENTRIES = 3;
                 <div class="meta">
                   <span class="num">v{{ v.version }}</span>
                   @if (first) {
-                    <span class="new-tag">Latest</span>
+                    <span class="new-tag">{{ t.latest }}</span>
                   }
                   @if (v.date) {
                     <time [attr.datetime]="v.date"
@@ -60,7 +65,7 @@ const PREVIEW_ENTRIES = 3;
                   }
                   @if (releaseUrl(v.version); as url) {
                     <a class="rel" [href]="url" target="_blank" rel="noopener"
-                      >Release <lh-icon name="external"
+                      >{{ t.release }} <lh-icon name="external"
                     /></a>
                   }
                 </div>
@@ -68,10 +73,10 @@ const PREVIEW_ENTRIES = 3;
                   @for (g of v.groups; track g.side + g.title) {
                     @if (visible(v, g.entries.length, $index); as limit) {
                       @if (g.side && g.side !== v.groups[$index - 1]?.side) {
-                        <h3 class="side" [class.first]="$first">{{ sideNames[g.side] }}</h3>
+                        <h3 class="side" [class.first]="$first">{{ t.sides[g.side] }}</h3>
                       }
                       <div class="group">
-                        <span class="kind" [class]="g.kind">{{ g.title }}</span>
+                        <span class="kind" [class]="g.kind">{{ kindName(t, g) }}</span>
                         <ul>
                           @for (e of g.entries.slice(0, limit); track $index) {
                             <li>
@@ -95,7 +100,7 @@ const PREVIEW_ENTRIES = 3;
                   }
                   @if (hidden(v, first); as more) {
                     <button type="button" class="more" (click)="expand(v.version)">
-                      Show {{ more }} more {{ more === 1 ? 'change' : 'changes' }}
+                      {{ t.more(more) }}
                     </button>
                   }
                 </div>
@@ -103,19 +108,22 @@ const PREVIEW_ENTRIES = 3;
             }
           </ol>
         } @else if (data.settled()) {
-          <p class="card empty">
-            The changelog couldn't be loaded right now. It's always on GitHub.
-          </p>
+          <p class="card empty">{{ t.failed }}</p>
         } @else {
           <div class="card empty"><span class="skeleton" style="width: 70%"></span></div>
         }
 
         <div class="actions" lhReveal>
-          <a class="btn" [href]="site.links.changelog" target="_blank" rel="noopener">
-            View full changelog on GitHub <lh-icon name="arrow-right" />
+          <a
+            class="btn"
+            [href]="site.changelogFile(data.changelogLang())"
+            target="_blank"
+            rel="noopener"
+          >
+            {{ t.full }} <lh-icon name="arrow-right" />
           </a>
           <a class="btn ghost" [href]="site.links.releases" target="_blank" rel="noopener">
-            All releases <lh-icon name="external" />
+            {{ t.releases }} <lh-icon name="external" />
           </a>
         </div>
       </div>
@@ -126,10 +134,15 @@ const PREVIEW_ENTRIES = 3;
 export class Changelog {
   protected readonly site = SITE;
   protected readonly data = inject(ProjectData);
+  protected readonly i18n = inject(I18n);
   private readonly expanded = signal<ReadonlySet<string>>(new Set());
-  protected readonly sideNames: Record<ChangeSide, string> = { server: 'Server', client: 'Client' };
 
   protected readonly versions = computed(() => this.data.changelog().slice(0, SHOWN_VERSIONS));
+
+  /** New, Improved, Fixed in the page's language; any other group keeps its own title. */
+  protected kindName(t: Messages['changelog'], g: ChangeGroup): string {
+    return g.kind === 'other' ? g.title : t.kinds[g.kind];
+  }
 
   protected asInline(parts: unknown): Inline[] {
     return parts as Inline[];

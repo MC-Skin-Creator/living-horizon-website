@@ -10,6 +10,7 @@ import { SITE } from '../config/site';
 import { LOADERS, LOADER_NAMES, Loader } from '../data/models';
 import { jarName } from '../data/parsers';
 import { ProjectData } from '../data/project-data';
+import { I18n } from '../i18n/i18n';
 import { CountPipe, DayPipe } from '../shared/format';
 import { Icon } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
@@ -19,33 +20,35 @@ import { Reveal } from '../shared/reveal';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Icon, Reveal, CountPipe, DayPipe],
   template: `
+    @let t = i18n.t().download;
     <section class="section" id="download">
       <div class="container">
         <header class="section-head center" lhReveal>
-          <span class="eyebrow">Download</span>
-          <h2>Get <span class="accent">Living Horizon</span></h2>
-          <p>
-            Free, one jar per game version and loader, for your game and your server. Drop it in the
-            <code>mods</code> folder and the horizon comes alive.
-          </p>
+          <span class="eyebrow">{{ t.eyebrow }}</span>
+          <h2>
+            {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
+          </h2>
+          <p>{{ t.text.before }} <code>mods</code> {{ t.text.after }}</p>
         </header>
 
         <div class="layout">
           <div class="card picker" lhReveal>
             <div class="release">
               <div>
-                <span class="label">Latest release</span>
+                <span class="label">{{ t.latest }}</span>
                 <strong class="ver">v{{ data.version() }}</strong>
               </div>
               <div class="badges">
-                <span class="badge beta"><span class="beta-dot"></span> Beta</span>
+                <span class="badge beta"
+                  ><span class="beta-dot"></span> {{ i18n.t().common.beta }}</span
+                >
                 <span class="badge">{{ data.updatedAt() | day }}</span>
               </div>
             </div>
 
             @if (data.targets().length) {
               <div class="field">
-                <label for="mc-version">Minecraft version</label>
+                <label for="mc-version">{{ t.version }}</label>
                 <div class="select">
                   <select id="mc-version" [value]="rowKey()" (change)="pickRow($event)">
                     @for (row of data.targets(); track row.key) {
@@ -58,7 +61,7 @@ import { Reveal } from '../shared/reveal';
               </div>
 
               <div class="field">
-                <span class="label-text" id="loader-label">Loader</span>
+                <span class="label-text" id="loader-label">{{ t.loader }}</span>
                 <div class="seg" role="radiogroup" aria-labelledby="loader-label">
                   @for (l of loaders; track l) {
                     <button
@@ -83,21 +86,20 @@ import { Reveal } from '../shared/reveal';
                     <span class="needs">
                       Java {{ r.java }}
                       @if (loader() === 'fabric' || loader() === 'quilt') {
-                        · needs the
+                        {{ t.needs.before }}
                         <a [href]="site.links.fabricApi" target="_blank" rel="noopener"
                           >Fabric API</a
                         >
+                        {{ t.needs.after }}
                       }
                     </span>
                   </div>
                   @if (r.loaders[loader()] === 'untested') {
-                    <span
-                      class="flag"
-                      title="This build starts in the game but nobody has reported it drawing in a world yet"
-                      >Needs testers</span
-                    >
+                    <span class="flag" [title]="t.untested">{{
+                      i18n.t().common.needsTesters
+                    }}</span>
                   } @else {
-                    <span class="flag ok">Tested</span>
+                    <span class="flag ok">{{ i18n.t().common.tested }}</span>
                   }
                 </div>
               }
@@ -109,30 +111,30 @@ import { Reveal } from '../shared/reveal';
                 rel="noopener"
               >
                 <lh-icon name="download" />
-                {{ jarDirect() ? 'Download the jar' : 'Get it from the release page' }}
+                {{ jarDirect() ? t.jar : t.releasePage }}
               </a>
               <div class="secondary">
-                <a href="#servers">The same jar goes on your server</a>
-                <a [href]="site.links.curseforge" target="_blank" rel="noopener"
-                  >or get it on CurseForge</a
-                >
+                <a href="#servers">{{ t.sameJar }}</a>
+                <a [href]="site.links.curseforge" target="_blank" rel="noopener">{{
+                  t.curseforge
+                }}</a>
               </div>
             } @else {
-              <p class="muted">Pick your file on the release page or on CurseForge.</p>
+              <p class="muted">{{ t.pick }}</p>
               <a
                 class="btn primary wide"
                 [href]="data.latest()?.url ?? site.links.releases"
                 target="_blank"
                 rel="noopener"
               >
-                <lh-icon name="download" /> Latest release
+                <lh-icon name="download" /> {{ t.latest }}
               </a>
             }
           </div>
 
           <div class="platforms" [lhReveal]="100">
             <div class="total">
-              <span class="label">Downloads, all platforms</span>
+              <span class="label">{{ t.total }}</span>
               <strong>
                 @if (data.downloads().total; as t) {
                   {{ t | count }}
@@ -151,7 +153,7 @@ import { Reveal } from '../shared/reveal';
                 rel="noopener"
               >
                 <span class="mark" [class]="p.tone"
-                  ><img [src]="p.logo" [alt]="p.name + ' logo'" width="26" height="26"
+                  ><img [src]="p.logo" [alt]="i18n.t().common.logo(p.name)" width="26" height="26"
                 /></span>
                 <span class="pinfo">
                   <strong>{{ p.name }}</strong>
@@ -170,6 +172,7 @@ import { Reveal } from '../shared/reveal';
 export class Download {
   protected readonly site = SITE;
   protected readonly data = inject(ProjectData);
+  protected readonly i18n = inject(I18n);
   protected readonly loaders = LOADERS;
   protected readonly names = LOADER_NAMES;
 
@@ -196,8 +199,8 @@ export class Download {
 
   protected readonly platforms = computed(() => {
     const d = this.data.downloads();
-    const count = (n: number | null) =>
-      n === null ? 'Downloads not available' : `${new Intl.NumberFormat('en').format(n)} downloads`;
+    const t = this.i18n.t().download;
+    const count = (n: number | null) => (n === null ? t.noCount : t.count(n));
     const listed = this.data.modrinthListed();
     return [
       {
@@ -213,7 +216,7 @@ export class Download {
         logo: 'img/logos/modrinth.svg',
         tone: 'mr',
         url: SITE.links.modrinth,
-        detail: listed === false ? 'Coming soon' : listed ? count(d.modrinth) : 'Checking…',
+        detail: listed === false ? t.soon : listed ? count(d.modrinth) : t.checking,
         soon: listed === false,
       },
       {
@@ -221,7 +224,7 @@ export class Download {
         logo: 'img/logos/github.svg',
         tone: 'gh',
         url: SITE.links.releases,
-        detail: `${count(d.github)} · every file`,
+        detail: `${count(d.github)} · ${t.everyFile}`,
         soon: false,
       },
       {
@@ -229,7 +232,7 @@ export class Download {
         logo: 'img/logos/nexusmods.png',
         tone: 'nx',
         url: SITE.links.nexus,
-        detail: 'Mod page',
+        detail: t.modPage,
         soon: false,
       },
     ];

@@ -1,28 +1,33 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Messages } from '../i18n/en';
+import { I18n } from '../i18n/i18n';
 import { Icon, IconName } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
 
-/** One cell of the table: a tick, a cross, a dash, or a few words. */
-type Cell = 'yes' | 'no' | 'none' | string;
+type ServerTexts = Messages['servers'];
 
-const PLACES = ['Single player', 'LAN world', 'Server with the mod', 'Server without the mod'];
+/** One cell of the table: a tick, a cross, a dash, or a few words of `servers.cells`. */
+type Cell = 'yes' | 'no' | 'none' | { words: keyof ServerTexts['cells'] };
+
+/** The column of "Server with the mod", highlighted. */
+const WITH_MOD = 2;
 
 @Component({
   selector: 'lh-servers',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Icon, Reveal],
   template: `
-    <section class="section" id="servers">
+    @let t = i18n.t().servers;
+    <div class="part" id="servers">
       <div class="glow" aria-hidden="true"></div>
       <div class="container">
         <div class="intro">
-          <header class="section-head" lhReveal>
-            <span class="eyebrow">Multiplayer</span>
-            <h2>Put it on your server. <span class="accent">Everyone sees everyone.</span></h2>
-            <p>
-              The same jar runs on servers. The server shares where every player is, the mobs around
-              them and the players who logged off, with everyone who has the mod.
-            </p>
+          <header class="section-head sub" lhReveal>
+            <span class="eyebrow">{{ t.eyebrow }}</span>
+            <h2>
+              {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
+            </h2>
+            <p>{{ t.text }}</p>
           </header>
 
           <figure class="cover" [lhReveal]="80">
@@ -31,66 +36,70 @@ const PLACES = ['Single player', 'LAN world', 'Server with the mod', 'Server wit
               width="1280"
               height="720"
               loading="lazy"
-              alt="The Living Horizon title in front of a crowd of player and mob heads."
+              [alt]="t.cover"
             />
-            <figcaption><span class="tag">New</span> Server support, since 0.10.0</figcaption>
+            <figcaption>
+              <span class="tag">{{ i18n.t().common.new }}</span> {{ t.since('0.10.0') }}
+            </figcaption>
           </figure>
         </div>
 
         <ol class="steps">
-          @for (s of steps; track s.title; let i = $index) {
+          @for (s of steps; track s.key; let i = $index) {
             <li class="card step" [lhReveal]="i * 80">
               <span class="num">{{ i + 1 }}</span>
               <span class="icon"><lh-icon [name]="s.icon" /></span>
-              <h3>{{ s.title }}</h3>
-              <p>{{ s.text }}</p>
+              <h3>{{ t.steps[s.key].title }}</h3>
+              <p>{{ t.steps[s.key].text }}</p>
             </li>
           }
         </ol>
 
         <div class="card matrix" lhReveal>
           <div class="matrix-head">
-            <h3>What you see, where you play</h3>
-            <p>
-              Everything works in single player. On a server, the mod on the server does the rest.
-            </p>
+            <h3>{{ t.matrixTitle }}</h3>
+            <p>{{ t.matrixText }}</p>
           </div>
-          <div class="scroll" tabindex="0" role="region" aria-label="Features by place of play">
+          <div class="scroll" tabindex="0" role="region" [attr.aria-label]="t.matrixLabel">
             <table>
               <thead>
                 <tr>
-                  <th scope="col"><span class="visually-hidden">Feature</span></th>
-                  @for (p of places; track p) {
-                    <th scope="col" [class.hl]="p === 'Server with the mod'">{{ p }}</th>
+                  <th scope="col">
+                    <span class="visually-hidden">{{ t.feature }}</span>
+                  </th>
+                  @for (p of t.places; track $index) {
+                    <th scope="col" [class.hl]="$index === withMod">{{ p }}</th>
                   }
                 </tr>
               </thead>
               <tbody>
                 @for (row of rows; track row.feature) {
                   <tr>
-                    <th scope="row">{{ row.feature }}</th>
+                    <th scope="row">{{ t.rows[row.feature] }}</th>
                     @for (c of row.cells; track $index) {
-                      <td [class.hl]="$index === 2" [attr.data-place]="places[$index]">
-                        @switch (c) {
+                      <td [class.hl]="$index === withMod" [attr.data-place]="t.places[$index]">
+                        @switch (kind(c)) {
                           @case ('yes') {
                             <span class="st yes"
-                              ><lh-icon name="check" /><span class="visually-hidden"
-                                >Yes</span
-                              ></span
+                              ><lh-icon name="check" /><span class="visually-hidden">{{
+                                t.yes
+                              }}</span></span
                             >
                           }
                           @case ('no') {
                             <span class="st no"
-                              ><lh-icon name="close" /><span class="visually-hidden">No</span></span
+                              ><lh-icon name="close" /><span class="visually-hidden">{{
+                                t.no
+                              }}</span></span
                             >
                           }
                           @case ('none') {
-                            <span class="st none" title="No other players"
-                              >–<span class="visually-hidden">Not applicable</span></span
+                            <span class="st none" [title]="t.noOthers"
+                              >–<span class="visually-hidden">{{ t.notApplicable }}</span></span
                             >
                           }
                           @default {
-                            <span class="words">{{ c }}</span>
+                            <span class="words">{{ words(t, c) }}</span>
                           }
                         }
                       </td>
@@ -103,72 +112,54 @@ const PLACES = ['Single player', 'LAN world', 'Server with the mod', 'Server wit
         </div>
 
         <ul class="notes">
-          @for (n of notes; track n.title; let i = $index) {
+          @for (n of notes; track n.key; let i = $index) {
             <li [lhReveal]="i * 60">
               <lh-icon [name]="n.icon" />
               <div>
-                <strong>{{ n.title }}</strong>
-                <span>{{ n.text }}</span>
+                <strong>{{ t.notes[n.key].title }}</strong>
+                <span>{{ t.notes[n.key].text }}</span>
               </div>
             </li>
           }
         </ul>
       </div>
-    </section>
+    </div>
   `,
   styleUrl: './servers.scss',
 })
 export class Servers {
-  protected readonly places = PLACES;
+  protected readonly i18n = inject(I18n);
+  protected readonly withMod = WITH_MOD;
 
-  protected readonly steps: { icon: IconName; title: string; text: string }[] = [
-    {
-      icon: 'download',
-      title: "Drop the jar in the server's mods folder",
-      text: "The same file as for your game, for the server's Minecraft version and loader, plus the Fabric API on Fabric and Quilt. Keep it up to date on both sides.",
-    },
-    {
-      icon: 'server',
-      title: 'Start the server',
-      text: 'Nothing to set up. The server keeps what it shares in the world folder, so it is still there after a restart.',
-    },
-    {
-      icon: 'users',
-      title: 'Players with the mod see everyone',
-      text: 'Every player at any distance, with their skin, armour and mount, and the mobs around them, even ones they never met.',
-    },
+  protected readonly steps: { key: keyof ServerTexts['steps']; icon: IconName }[] = [
+    { key: 'jar', icon: 'download' },
+    { key: 'start', icon: 'server' },
+    { key: 'see', icon: 'users' },
   ];
 
-  protected readonly rows: { feature: string; cells: Cell[] }[] = [
-    { feature: 'Mobs on the horizon', cells: ['yes', 'yes', 'yes', 'Only the mobs you met'] },
-    { feature: 'Players at any distance', cells: ['none', 'yes', 'yes', 'no'] },
+  /** Single player, LAN world, server with the mod, server without it. */
+  protected readonly rows: { feature: keyof ServerTexts['rows']; cells: Cell[] }[] = [
+    { feature: 'mobs', cells: ['yes', 'yes', 'yes', { words: 'mobsMet' }] },
+    { feature: 'players', cells: ['none', 'yes', 'yes', 'no'] },
     {
-      feature: 'Players who logged off',
-      cells: ['yes', 'yes', 'Even those who left before you joined', 'Only those you saw leave'],
+      feature: 'offline',
+      cells: ['yes', 'yes', { words: 'offlineEven' }, { words: 'offlineSeen' }],
     },
-    { feature: 'Birds', cells: ['yes', 'yes', 'yes', 'yes'] },
+    { feature: 'birds', cells: ['yes', 'yes', 'yes', 'yes'] },
   ];
 
-  protected readonly notes: { icon: IconName; title: string; text: string }[] = [
-    {
-      icon: 'wifi',
-      title: 'LAN: nothing to install',
-      text: "A world opened to LAN shares everything through the host's game.",
-    },
-    {
-      icon: 'check',
-      title: 'Anyone can join',
-      text: 'Players without the mod can still join. The server sends them nothing.',
-    },
-    {
-      icon: 'shield',
-      title: 'Tell your players',
-      text: "The server shares every player's position with the players who have the mod.",
-    },
-    {
-      icon: 'box',
-      title: 'Used the data pack?',
-      text: "Remove it from the world's datapacks folder: the mod on the server replaces it.",
-    },
+  protected readonly notes: { key: keyof ServerTexts['notes']; icon: IconName }[] = [
+    { key: 'lan', icon: 'wifi' },
+    { key: 'join', icon: 'check' },
+    { key: 'tell', icon: 'shield' },
+    { key: 'datapack', icon: 'box' },
   ];
+
+  protected kind(cell: Cell): 'yes' | 'no' | 'none' | 'words' {
+    return typeof cell === 'string' ? cell : 'words';
+  }
+
+  protected words(t: ServerTexts, cell: Cell): string {
+    return typeof cell === 'string' ? '' : t.cells[cell.words];
+  }
 }
