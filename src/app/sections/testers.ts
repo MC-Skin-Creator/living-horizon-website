@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { SITE } from '../config/site';
 import { LOADERS, LOADER_NAMES } from '../data/models';
 import { ProjectData } from '../data/project-data';
+import { I18n } from '../i18n/i18n';
 import { HorizonScene } from '../scene/horizon-scene';
 import { Icon } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
@@ -11,6 +12,7 @@ import { Reveal } from '../shared/reveal';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Icon, Reveal, HorizonScene],
   template: `
+    @let t = i18n.t().testers;
     <section class="section" id="testers">
       <div class="container">
         <div class="panel" lhReveal>
@@ -23,69 +25,57 @@ import { Reveal } from '../shared/reveal';
           />
 
           <div class="copy">
-            <span class="eyebrow">Currently in beta</span>
-            <h2>Help bring the horizon to life.</h2>
-            <p class="lede">
-              Living Horizon is young and runs on a lot of combinations: game versions, loaders,
-              Distant Horizons and Voxy versions, shader packs, other mods. Not all of them have
-              been tried yet. If you play with it, tell us how it runs, good or bad: every report
-              counts.
-            </p>
+            <span class="eyebrow">{{ t.eyebrow }}</span>
+            <h2>{{ t.title }}</h2>
+            <p class="lede">{{ t.lede }}</p>
 
             <ul class="asks">
-              <li><lh-icon name="check" /> Your Minecraft version and loader</li>
-              <li><lh-icon name="check" /> Distant Horizons or Voxy, and their version</li>
-              <li><lh-icon name="check" /> Shader pack, if any (Photon, Complementary…)</li>
-              <li><lh-icon name="check" /> Single player, LAN or server, with the mod or not</li>
-              <li><lh-icon name="check" /> A screenshot of what you see</li>
+              @for (ask of t.asks; track $index) {
+                <li><lh-icon name="check" /> {{ ask }}</li>
+              }
             </ul>
 
             <div class="ctas">
               <a class="btn primary" [href]="reportUrl()" target="_blank" rel="noopener">
-                <lh-icon name="flask" /> Report compatibility
+                <lh-icon name="flask" /> {{ t.report }}
               </a>
               <a class="btn discord" [href]="site.links.discord" target="_blank" rel="noopener">
-                <lh-icon name="discord" /> Join the Discord
+                <lh-icon name="discord" /> {{ t.discord }}
               </a>
               <a class="btn" [href]="site.links.newIssue" target="_blank" rel="noopener">
-                <lh-icon name="bug" /> Open an issue
+                <lh-icon name="bug" /> {{ t.issue }}
               </a>
             </div>
           </div>
 
-          <aside class="status card" aria-label="Testing status">
+          <aside class="status card" [attr.aria-label]="t.status">
             @if (data.targets().length) {
               <p class="big">
                 <strong>{{ data.targetStats().untested }}</strong>
-                <span>of {{ data.targetStats().builds }} builds still need a first tester</span>
+                <span>{{ t.waiting(data.targetStats().builds) }}</span>
               </p>
               <div
                 class="bar"
                 role="img"
-                [attr.aria-label]="
-                  data.targetStats().tested +
-                  ' builds seen working, ' +
-                  data.targetStats().untested +
-                  ' waiting'
-                "
+                [attr.aria-label]="t.bar(data.targetStats().tested, data.targetStats().untested)"
               >
                 <span class="tested" [style.width.%]="testedShare()"></span>
               </div>
               <div class="bar-key">
-                <span><i class="tested"></i> Seen working</span>
-                <span><i class="untested"></i> Waiting for you</span>
+                <span><i class="tested"></i> {{ t.seen }}</span>
+                <span><i class="untested"></i> {{ t.yours }}</span>
               </div>
-              <h3>Most wanted</h3>
+              <h3>{{ t.wanted }}</h3>
               <ul class="wanted">
                 @for (w of wanted(); track w) {
                   <li>{{ w }}</li>
                 }
               </ul>
             } @else {
-              <p class="big"><strong>Every</strong> <span>setup tells us something new</span></p>
-              <p class="muted">
-                Untested combinations show up here as soon as the project data loads.
+              <p class="big">
+                <strong>{{ t.every }}</strong> <span>{{ t.everyRest }}</span>
               </p>
+              <p class="muted">{{ t.loading }}</p>
             }
           </aside>
         </div>
@@ -97,6 +87,7 @@ import { Reveal } from '../shared/reveal';
 export class Testers {
   protected readonly site = SITE;
   protected readonly data = inject(ProjectData);
+  protected readonly i18n = inject(I18n);
 
   protected readonly testedShare = computed(() => {
     const s = this.data.targetStats();
@@ -114,6 +105,7 @@ export class Testers {
     return out.slice(0, 6);
   });
 
+  /** In English, the language of the issues. */
   protected readonly reportUrl = computed(() => {
     const version = this.data.version();
     const body = [

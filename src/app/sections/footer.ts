@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SITE } from '../config/site';
+import { ProjectData } from '../data/project-data';
+import { I18n } from '../i18n/i18n';
 import { Icon } from '../shared/icon';
 
 @Component({
@@ -7,6 +9,7 @@ import { Icon } from '../shared/icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Icon],
   template: `
+    @let t = i18n.t();
     <footer>
       <div class="container">
         <div class="top">
@@ -22,24 +25,21 @@ import { Icon } from '../shared/icon';
                 loading="lazy"
               />
             </a>
-            <p>
-              Gives life to the distance. A mod for Minecraft Java Edition, for your game and your
-              server.
-            </p>
-            <p class="beta">
-              <span class="beta-dot"></span> Beta: expect bugs, and tell us about them.
-            </p>
+            <p>{{ t.footer.tagline }}</p>
+            <p class="beta"><span class="beta-dot"></span> {{ t.footer.beta }}</p>
           </div>
 
-          <nav aria-label="Project">
-            <h3>Project</h3>
+          <nav [attr.aria-label]="t.footer.project">
+            <h3>{{ t.footer.project }}</h3>
             <a [href]="site.links.github" target="_blank" rel="noopener">GitHub</a>
-            <a [href]="site.links.changelog" target="_blank" rel="noopener">Changelog</a>
-            <a [href]="site.links.readme" target="_blank" rel="noopener">Documentation</a>
-            <a [href]="site.links.license" target="_blank" rel="noopener">License</a>
+            <a [href]="site.changelogFile(data.changelogLang())" target="_blank" rel="noopener">{{
+              t.common.changelog
+            }}</a>
+            <a [href]="site.links.readme" target="_blank" rel="noopener">{{ t.footer.docs }}</a>
+            <a [href]="site.links.license" target="_blank" rel="noopener">{{ t.footer.license }}</a>
           </nav>
-          <nav aria-label="Download">
-            <h3>Download</h3>
+          <nav [attr.aria-label]="t.common.download">
+            <h3>{{ t.common.download }}</h3>
             <a [href]="site.links.curseforge" target="_blank" rel="noopener"
               ><img src="img/logos/curseforge.svg" alt="" width="16" height="16" />CurseForge</a
             >
@@ -53,27 +53,24 @@ import { Icon } from '../shared/icon';
               ><img src="img/logos/github.svg" alt="" width="16" height="16" />GitHub Releases</a
             >
           </nav>
-          <nav aria-label="Community">
-            <h3>Community</h3>
+          <nav [attr.aria-label]="t.footer.community">
+            <h3>{{ t.footer.community }}</h3>
             <a [href]="site.links.discord" target="_blank" rel="noopener"
               ><lh-icon name="discord" /> Discord</a
             >
             <a [href]="site.links.issues" target="_blank" rel="noopener"
-              ><lh-icon name="bug" /> Report a bug</a
+              ><lh-icon name="bug" /> {{ t.footer.bug }}</a
             >
-            <a href="#testers"><lh-icon name="flask" /> Become a tester</a>
+            <a href="#testers"><lh-icon name="flask" /> {{ t.common.becomeTester }}</a>
             <a [href]="site.links.contributing" target="_blank" rel="noopener"
-              ><lh-icon name="github" /> Contribute</a
+              ><lh-icon name="github" /> {{ t.footer.contribute }}</a
             >
           </nav>
         </div>
 
         <div class="bottom">
           <p>© {{ year }} {{ site.author }} · Living Horizon</p>
-          <p>
-            Not an official Minecraft product. Not approved by or associated with Mojang or
-            Microsoft.
-          </p>
+          <p>{{ t.footer.official }}</p>
         </div>
       </div>
     </footer>
@@ -174,5 +171,7 @@ import { Icon } from '../shared/icon';
 })
 export class Footer {
   protected readonly site = SITE;
+  protected readonly data = inject(ProjectData);
+  protected readonly i18n = inject(I18n);
   protected readonly year = new Date().getFullYear();
 }

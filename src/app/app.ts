@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Changelog } from './sections/changelog';
-import { Compare } from './sections/compare';
 import { Compatibility } from './sections/compatibility';
 import { Concept } from './sections/concept';
 import { Contribute } from './sections/contribute';
@@ -10,7 +9,6 @@ import { Footer } from './sections/footer';
 import { Hero } from './sections/hero';
 import { Nav } from './sections/nav';
 import { Performance } from './sections/performance';
-import { Servers } from './sections/servers';
 import { Testers } from './sections/testers';
 
 @Component({
@@ -21,8 +19,6 @@ import { Testers } from './sections/testers';
     Hero,
     Concept,
     Features,
-    Compare,
-    Servers,
     Compatibility,
     Performance,
     Testers,
@@ -37,8 +33,6 @@ import { Testers } from './sections/testers';
       <lh-hero />
       <lh-concept />
       <lh-features />
-      <lh-compare />
-      <lh-servers />
       <lh-compatibility />
       <lh-performance />
       <lh-testers />

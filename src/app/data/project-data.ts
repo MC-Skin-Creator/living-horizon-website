@@ -1,9 +1,11 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, computed, effect, inject, signal, untracked } from '@angular/core';
 import { SITE } from '../config/site';
+import { I18n } from '../i18n/i18n';
 import { LOADERS, RawData, Release, SourceState } from './models';
 import {
   compareVersions,
   githubDownloads,
+  isUpcoming,
   parseChangelog,
   parseReleases,
   parseTargets,
@@ -36,12 +38,22 @@ export class ProjectData {
 
   readonly releases = computed(() => parseReleases(this.raw().github));
   readonly latest = computed<Release | null>(() => this.releases()[0] ?? null);
-  readonly changelog = computed(() =>
-    parseChangelog(this.raw().changelog).filter((v) => !/^unreleased$/i.test(v.version)),
+
+  private readonly i18n = inject(I18n);
+  /** The mod's changelog in another language than English, once loaded. */
+  private readonly translatedChangelog = signal<{ lang: string; text: string } | null>(null);
+  /** The language the changelog is shown in: the page's when the mod has it, else English. */
+  readonly changelogLang = computed(() => {
+    const translated = this.translatedChangelog();
+    return translated?.lang === this.i18n.lang() ? translated.lang : 'en';
+  });
+  private readonly changelogVersions = computed(() =>
+    parseChangelog(
+      this.changelogLang() === 'en' ? this.raw().changelog : this.translatedChangelog()?.text,
+    ),
   );
-  readonly upcoming = computed(
-    () => parseChangelog(this.raw().changelog).find((v) => /^unreleased$/i.test(v.version)) ?? null,
-  );
+  readonly changelog = computed(() => this.changelogVersions().filter((v) => !isUpcoming(v)));
+  readonly upcoming = computed(() => this.changelogVersions().find(isUpcoming) ?? null);
   readonly targets = computed(() => parseTargets(this.raw().targetsToml));
   readonly targetStats = computed(() => targetStats(this.targets()));
 
@@ -91,6 +103,33 @@ export class ProjectData {
 
   constructor() {
     void this.load();
+    effect(() => {
+      const lang = this.i18n.lang();
+      if (lang !== 'en' && SITE.changelogLanguages.includes(lang)) {
+        untracked(() => void this.loadTranslatedChangelog(lang));
+      }
+    });
+  }
+
+  /** `changelog/<lang>.md`; the English one stays shown if it cannot be read. */
+  private async loadTranslatedChangelog(lang: string) {
+    const key = `changelog-${lang}`;
+    let text = readCache<string>(key);
+    if (text === undefined) {
+      const { owner, name, branch } = SITE.repo;
+      try {
+        const res = await fetch(
+          `https://raw.githubusercontent.com/${owner}/${name}/${branch}/changelog/${lang}.md`,
+          { signal: AbortSignal.timeout(10_000) },
+        );
+        if (!res.ok) return;
+        text = await res.text();
+        writeCache(key, text);
+      } catch {
+        return;
+      }
+    }
+    if (parseChangelog(text).length) this.translatedChangelog.set({ lang, text });
   }
 
   private async load() {

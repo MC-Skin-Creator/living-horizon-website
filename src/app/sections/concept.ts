@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FigureView } from '../scene/figure';
 import { Skin } from '../scene/figures';
 import { MobView } from '../scene/mob';
 import { Sprite } from '../scene/sprite';
 import { SpriteName } from '../scene/sprites';
+import { I18n } from '../i18n/i18n';
 import { Reveal } from '../shared/reveal';
 
 interface Figure {
@@ -20,39 +21,36 @@ interface Figure {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Sprite, FigureView, MobView, Reveal],
   template: `
+    @let t = i18n.t().concept;
     <section class="section" id="what">
       <div class="container">
         <header class="section-head" lhReveal>
-          <span class="eyebrow">What it does</span>
-          <h2>Your render distance ends. <span class="accent">The world doesn't.</span></h2>
-          <p>
-            Minecraft stops drawing mobs and players a few chunks away. Far-terrain mods stretch the
-            land to the horizon, but it stays empty and still. Living Horizon fills it back with
-            life.
-          </p>
+          <span class="eyebrow">{{ t.eyebrow }}</span>
+          <h2>
+            {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
+          </h2>
+          <p>{{ t.text }}</p>
         </header>
 
-        <div
-          class="diagram card"
-          lhReveal
-          role="figure"
-          aria-label="Diagram: without Living Horizon, mobs only exist within your render distance and the far terrain is empty. With it, mobs, players and birds live across the far terrain up to the horizon."
-        >
+        <div class="diagram card" lhReveal role="figure" [attr.aria-label]="t.diagram">
           <div class="axis" aria-hidden="true">
-            <span class="you"><lh-figure skin="steve" kind="drops" [pixel]="1" /> You</span>
-            <span class="zone z1">Your render distance</span>
+            <span class="you"><lh-figure skin="steve" kind="drops" [pixel]="1" /> {{ t.you }}</span>
+            <span class="zone z1">{{ t.renderDistance }}</span>
             <span class="zone z2"
-              >Far terrain ·
+              >{{ t.farTerrain }}
               <img src="img/logos/distant-horizons.webp" alt="" width="16" height="16" />
               Distant Horizons /
               <img src="img/logos/voxy.webp" alt="" width="16" height="16" />
               Voxy</span
             >
-            <span class="zone z3">Horizon</span>
+            <span class="zone z3">{{ t.horizon }}</span>
           </div>
 
           <div class="row">
-            <div class="row-label"><span class="off">Without</span> Living Horizon</div>
+            <div class="row-label">
+              {{ t.without.before }} <span class="off">{{ t.without.mark }}</span>
+              {{ t.without.after }}
+            </div>
             <div class="cells">
               <div class="cell z1">
                 @for (f of near; track $index) {
@@ -65,13 +63,19 @@ interface Figure {
                   }
                 }
               </div>
-              <div class="cell z2 empty"><span>empty</span></div>
-              <div class="cell z3 empty"><span>empty</span></div>
+              <div class="cell z2 empty">
+                <span>{{ t.empty }}</span>
+              </div>
+              <div class="cell z3 empty">
+                <span>{{ t.empty }}</span>
+              </div>
             </div>
           </div>
 
           <div class="row">
-            <div class="row-label"><span class="on">With</span> Living Horizon</div>
+            <div class="row-label">
+              {{ t.with.before }} <span class="on">{{ t.with.mark }}</span> {{ t.with.after }}
+            </div>
             <div class="cells">
               <div class="cell z1">
                 @for (f of near; track $index) {
@@ -120,6 +124,7 @@ interface Figure {
   styleUrl: './concept.scss',
 })
 export class Concept {
+  protected readonly i18n = inject(I18n);
   protected readonly near: Figure[] = [
     { sprite: 'cow', mob: 'cow', flip: true },
     { sprite: 'player', skin: 'steve' },

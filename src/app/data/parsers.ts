@@ -132,10 +132,14 @@ export function jarName(version: string, row: TargetRow, loader: Loader): string
   return `livinghorizon-${version}+mc${row.fileVersion}${loader === 'fabric' ? '' : '-' + loader}.jar`;
 }
 
+/** Group headings of every language the changelog is written in (`SITE.changelogLanguages`). */
 const GROUP_KINDS: Record<string, ChangeGroup['kind']> = {
   new: 'new',
   improved: 'improved',
   fixed: 'fixed',
+  nouveautés: 'new',
+  améliorations: 'improved',
+  corrections: 'fixed',
 };
 
 const SIDES: Record<string, ChangeSide> = {
@@ -144,8 +148,13 @@ const SIDES: Record<string, ChangeSide> = {
   client: 'client',
 };
 
+/** `## Unreleased`, `## Prochaine version`…: a heading that is not a version number. */
+export function isUpcoming(v: ChangelogVersion): boolean {
+  return !/^v?\d/i.test(v.version);
+}
+
 /**
- * Reads `changelog/en.md`: `## 0.5.0 — 2026-10-13` sections (and `## Unreleased`), each
+ * Reads `changelog/<lang>.md`: `## 0.5.0 — 2026-10-13` sections (and `## Unreleased`), each
  * with `### Server` and `### Client` parts holding `#### New`, `#### Improved` and
  * `#### Fixed` groups of `- **Subject** — text` bullets. Older versions have the groups
  * straight under the version, as `### New`… A group named twice in a part is merged.

@@ -22,7 +22,7 @@ lists them:
 | Data | Source |
 |---|---|
 | Latest version, date, release files, GitHub downloads | GitHub releases API (`-dev.N` builds skipped) |
-| Changelog | `changelog/en.md` of the mod repository |
+| Changelog | `changelog/en.md` of the mod repository, or `changelog/<lang>.md` when the mod has the visitor's language |
 | Minecraft versions, loaders, tested / needs testers | `stonecutter.properties.toml` of the mod (`mod.release_type = "alpha"` = needs testers) |
 | CurseForge downloads | api.cfwidget.com |
 | Modrinth downloads | Modrinth API (shows "Coming soon" while the project does not exist) |
@@ -32,11 +32,22 @@ The page first shows `public/data/snapshot.json`, then asks every source from th
 that fails keeps the snapshot; with neither, each section shows a fallback.
 The deploy workflow refreshes the snapshot before every build and once a day.
 
+## Languages
+
+The site speaks the 14 languages of the mod; the visitor picks one in the nav (the browser's
+is the default, `?lang=de` forces one). Every text lives in `src/app/i18n/`: `en.ts` is the
+source, and its shape is the type of the 13 other dictionaries, so a text missing in one of them
+fails the build. **Any text added or changed goes into every language in the same change** (see
+`CLAUDE.md`). Each language other than English is its own small chunk, loaded before the page
+starts so it never shows English first.
+
 ## Editing
 
-- Links, platform ids, fallbacks: `src/app/config/site.ts`.
-- **Benchmarks**: add real measurements to `SITE.benchmarks` (label matching a slot of the
-  performance section). Until then the slots say "Benchmark pending" — never invent numbers.
+- Links, platform ids, fallbacks: `src/app/config/site.ts`. Texts: `src/app/i18n/`, in every
+  language.
+- **Benchmarks**: add real measurements to `SITE.benchmarks` (`slot` of the performance
+  section and the value), and how it was measured to `performance.setups` of every dictionary.
+  Until then the slots say "Benchmark pending" — never invent numbers.
 - **Players**: the people in the illustrations are skins made with
   [MC Skin Creator](https://mcskincreator.app/) (sources in `art/skins/`), exported there as
   avatars (transparent, 512 px): *Mascot* (animated GIF) for players standing in the
@@ -70,15 +81,17 @@ The deploy workflow refreshes the snapshot before every build and once a day.
   WebP. `public/img/og-cover.jpg` is that cover cut to 1200×629 for link previews.
 - **Features and servers**: the feature cards are in `src/app/sections/features.ts`, the
   multiplayer section and its table (what works in single player, on LAN, on a server with or
-  without the mod) in `src/app/sections/servers.ts`. Keep both in step with the mod's README.
+  without the mod) in `src/app/sections/servers.ts`, their texts under `features` and `servers`
+  in the dictionaries. Keep both in step with the mod's README.
 - **Logos**: `public/img/logos/` holds the Distant Horizons and Voxy logos, from their
   Modrinth pages, shown where the site names them; the compatibility cards take their
   colours (Distant Horizons' blue, Voxy's green). The CurseForge, Modrinth and GitHub marks
   come from [Simple Icons](https://simpleicons.org/) in their brand colours, the Nexus Mods
   one from its site's icon; they mark the download platforms. All belong to their owners.
 - **Screenshots**: the before / after slider opens on real in-game screenshots, listed in
-  `SITE.screenshots` (title, one sentence, and the two shots in `public/img/compare/`, same
-  framing, mod off then on), then shows the stylised illustrations (`src/app/scene/`).
+  `SITE.screenshots` (the two shots in `public/img/compare/`, same framing, mod off then on;
+  the tab's title and sentence in `compare.shots` of every dictionary), then shows the
+  stylised illustrations (`src/app/scene/`).
 
 ## Deploy
 

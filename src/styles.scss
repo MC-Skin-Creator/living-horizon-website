@@ -142,6 +142,11 @@ p {
     font-size: clamp(2rem, 4.4vw, 3.1rem);
   }
 
+  // The heading of a part of a section (the features' before / after and multiplayer).
+  &.sub h3 {
+    font-size: clamp(1.7rem, 3.6vw, 2.5rem);
+  }
+
   p {
     color: var(--muted);
     font-size: 1.12rem;
@@ -199,8 +204,16 @@ p {
   white-space: nowrap;
 
   lh-icon {
+    flex-shrink: 0;
     width: 18px;
     height: 18px;
+  }
+
+  // Long labels in some languages: wrap rather than push the page wider.
+  @media (max-width: 600px) {
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
   }
 
   &:hover {
