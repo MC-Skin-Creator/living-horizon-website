@@ -1,5 +1,6 @@
 import {
   ChangeGroup,
+  ChangeSide,
   ChangelogVersion,
   GhRelease,
   Inline,
@@ -137,14 +138,23 @@ const GROUP_KINDS: Record<string, ChangeGroup['kind']> = {
   fixed: 'fixed',
 };
 
+const SIDES: Record<string, ChangeSide> = {
+  server: 'server',
+  serveur: 'server',
+  client: 'client',
+};
+
 /**
  * Reads `changelog/en.md`: `## 0.5.0 — 2026-10-13` sections (and `## Unreleased`), each
- * with `### New`, `### Improved`, `### Fixed` groups of `- **Subject** — text` bullets.
+ * with `### Server` and `### Client` parts holding `#### New`, `#### Improved` and
+ * `#### Fixed` groups of `- **Subject** — text` bullets. Older versions have the groups
+ * straight under the version, as `### New`… A group named twice in a part is merged.
  */
 export function parseChangelog(md: string | undefined): ChangelogVersion[] {
   if (!md) return [];
   const versions: ChangelogVersion[] = [];
   let current: ChangelogVersion | null = null;
+  let side: ChangeSide | null = null;
   let group: ChangeGroup | null = null;
   let bullet: string | null = null;
 
@@ -153,22 +163,37 @@ export function parseChangelog(md: string | undefined): ChangelogVersion[] {
     bullet = null;
   };
 
+  const openGroup = (title: string) => {
+    const kind = GROUP_KINDS[title.toLowerCase()] ?? 'other';
+    const same = current!.groups.find(
+      (g) => g.side === side && g.title.toLowerCase() === title.toLowerCase(),
+    );
+    group = same ?? { title, kind, side, entries: [] };
+    if (!same) current!.groups.push(group);
+  };
+
   for (const line of md.split(/\r?\n/)) {
-    const h2 = /^##\s+(.+?)\s*$/.exec(line);
-    if (h2 && !line.startsWith('###')) {
+    const heading = /^(#{2,4})\s+(.+?)\s*$/.exec(line);
+    if (heading) {
       flush();
-      const [name, date] = h2[1].split(/\s+[—–-]\s+/);
-      current = { version: name.trim(), date: date?.trim() ?? null, groups: [] };
-      versions.push(current);
-      group = null;
-      continue;
-    }
-    const h3 = /^###\s+(.+?)\s*$/.exec(line);
-    if (h3 && current) {
-      flush();
-      const title = h3[1];
-      group = { title, kind: GROUP_KINDS[title.toLowerCase()] ?? 'other', entries: [] };
-      current.groups.push(group);
+      const level = heading[1].length;
+      const title = heading[2];
+      if (level === 2) {
+        const [name, date] = title.split(/\s+[—–-]\s+/);
+        current = { version: name.trim(), date: date?.trim() ?? null, groups: [] };
+        versions.push(current);
+        side = null;
+        group = null;
+      } else if (!current) {
+        continue;
+      } else if (level === 3 && SIDES[title.toLowerCase()]) {
+        side = SIDES[title.toLowerCase()];
+        group = null;
+      } else {
+        // `### New` in older versions, `#### New` under a part.
+        if (level === 3) side = null;
+        openGroup(title);
+      }
       continue;
     }
     if (!group) continue;
@@ -183,7 +208,8 @@ export function parseChangelog(md: string | undefined): ChangelogVersion[] {
     }
   }
   flush();
-  return versions.filter((v) => v.groups.some((g) => g.entries.length));
+  for (const v of versions) v.groups = v.groups.filter((g) => g.entries.length);
+  return versions.filter((v) => v.groups.length);
 }
 
 function parseEntry(text: string) {

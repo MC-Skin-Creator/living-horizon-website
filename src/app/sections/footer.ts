@@ -1,13 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SITE } from '../config/site';
-import { ProjectData } from '../data/project-data';
-import { DayPipe } from '../shared/format';
 import { Icon } from '../shared/icon';
 
 @Component({
   selector: 'lh-footer',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, DayPipe],
+  imports: [Icon],
   template: `
     <footer>
       <div class="container">
@@ -76,12 +74,6 @@ import { Icon } from '../shared/icon';
             Not an official Minecraft product. Not approved by or associated with Mojang or
             Microsoft.
           </p>
-          @if (data.fetchedAt(); as at) {
-            <p class="data">
-              Project data: live from GitHub, CurseForge and Modrinth, with a copy from
-              {{ at | day }}.
-            </p>
-          }
         </div>
       </div>
     </footer>
@@ -165,9 +157,6 @@ import { Icon } from '../shared/icon';
       font-size: 0.82rem;
       color: var(--dim);
     }
-    .data {
-      flex-basis: 100%;
-    }
     @media (max-width: 860px) {
       .top {
         grid-template-columns: 1fr 1fr;
@@ -185,6 +174,5 @@ import { Icon } from '../shared/icon';
 })
 export class Footer {
   protected readonly site = SITE;
-  protected readonly data = inject(ProjectData);
   protected readonly year = new Date().getFullYear();
 }

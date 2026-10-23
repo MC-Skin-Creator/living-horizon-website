@@ -1,7 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { SITE } from '../config/site';
-import { ChangelogVersion, Inline } from '../data/models';
+import { ChangeSide, ChangelogVersion, Inline } from '../data/models';
 import { ProjectData } from '../data/project-data';
 import { DayPipe } from '../shared/format';
 import { Icon } from '../shared/icon';
@@ -65,8 +65,11 @@ const PREVIEW_ENTRIES = 3;
                   }
                 </div>
                 <div class="groups">
-                  @for (g of v.groups; track g.title) {
+                  @for (g of v.groups; track g.side + g.title) {
                     @if (visible(v, g.entries.length, $index); as limit) {
+                      @if (g.side && g.side !== v.groups[$index - 1]?.side) {
+                        <h3 class="side" [class.first]="$first">{{ sideNames[g.side] }}</h3>
+                      }
                       <div class="group">
                         <span class="kind" [class]="g.kind">{{ g.title }}</span>
                         <ul>
@@ -124,6 +127,7 @@ export class Changelog {
   protected readonly site = SITE;
   protected readonly data = inject(ProjectData);
   private readonly expanded = signal<ReadonlySet<string>>(new Set());
+  protected readonly sideNames: Record<ChangeSide, string> = { server: 'Server', client: 'Client' };
 
   protected readonly versions = computed(() => this.data.changelog().slice(0, SHOWN_VERSIONS));
 

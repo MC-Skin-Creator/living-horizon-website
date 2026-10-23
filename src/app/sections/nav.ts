@@ -58,6 +58,7 @@ export class Nav {
     { href: '#compatibility', label: 'Compatibility' },
     { href: '#changelog', label: 'Changelog' },
     { href: '#testers', label: 'Testers' },
+    { href: '#contribute', label: 'Contribute' },
   ];
 
   @HostListener('window:scroll')
