@@ -232,7 +232,7 @@ export class Download {
         logo: 'img/logos/nexusmods.png',
         tone: 'nx',
         url: SITE.links.nexus,
-        detail: t.modPage,
+        detail: count(d.nexus),
         soon: false,
       },
     ];

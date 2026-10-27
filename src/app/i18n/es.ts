@@ -480,7 +480,6 @@ export const es: Messages = {
     soon: 'Próximamente',
     checking: 'Comprobando…',
     everyFile: 'todos los archivos',
-    modPage: 'Página del mod',
   },
 
   footer: {

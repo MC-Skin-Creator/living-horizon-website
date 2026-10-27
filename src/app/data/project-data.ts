@@ -31,6 +31,7 @@ export class ProjectData {
     targetsToml: 'none',
     curseforge: 'none',
     modrinth: 'none',
+    nexus: 'none',
   });
   readonly settled = signal(false);
   /** When the bundled snapshot was taken. */
@@ -87,11 +88,13 @@ export class ProjectData {
     const curseforge = raw.curseforge?.downloads.total ?? null;
     const modrinth = raw.modrinth ? raw.modrinth.downloads : null;
     const github = githubDownloads(raw.github);
-    const known = [curseforge, modrinth, github].filter((n): n is number => n !== null);
+    const nexus = raw.nexus?.downloads ?? null;
+    const known = [curseforge, modrinth, github, nexus].filter((n): n is number => n !== null);
     return {
       curseforge,
       modrinth,
       github,
+      nexus,
       total: known.length ? known.reduce((a, b) => a + b, 0) : null,
     };
   });

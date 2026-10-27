@@ -457,7 +457,6 @@ export const tr: Messages = {
     soon: 'Yakında',
     checking: 'Kontrol ediliyor…',
     everyFile: 'her dosya',
-    modPage: 'Mod sayfası',
   },
 
   footer: {

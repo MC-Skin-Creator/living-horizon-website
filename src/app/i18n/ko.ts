@@ -459,7 +459,6 @@ export const ko: Messages = {
     soon: '곧 출시',
     checking: '확인 중…',
     everyFile: '모든 파일',
-    modPage: '모드 페이지',
   },
 
   footer: {

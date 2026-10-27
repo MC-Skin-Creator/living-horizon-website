@@ -459,7 +459,6 @@ export const ja: Messages = {
     soon: '近日公開',
     checking: '確認中…',
     everyFile: 'すべてのファイル',
-    modPage: 'MODページ',
   },
 
   footer: {

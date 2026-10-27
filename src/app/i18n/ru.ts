@@ -485,7 +485,6 @@ export const ru: Messages = {
     soon: 'Скоро',
     checking: 'Проверка…',
     everyFile: 'все файлы',
-    modPage: 'Страница мода',
   },
 
   footer: {

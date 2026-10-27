@@ -464,7 +464,6 @@ export const de: Messages = {
     soon: 'Bald verfügbar',
     checking: 'Wird geprüft…',
     everyFile: 'alle Dateien',
-    modPage: 'Mod-Seite',
   },
 
   footer: {

@@ -31,9 +31,9 @@ jobs:
 
       - run: npm ci
 
-      # Fresh copy of GitHub, CurseForge and Modrinth data, shown before the live
-      # answers arrive and kept when a source is unreachable. A failure keeps the
-      # committed snapshot.
+      # Fresh copy of GitHub, CurseForge, Modrinth and Nexus Mods data, shown before
+      # the live answers arrive and kept when a source is unreachable. A failure keeps
+      # the committed snapshot.
       - name: Refresh data snapshot
         run: npm run snapshot
         continue-on-error: true

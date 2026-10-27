@@ -3,12 +3,13 @@
  * Shared by the page and by `scripts/snapshot.ts`, which runs it under Node: keep this file
  * free of value imports and of TypeScript-only syntax (enums, namespaces).
  */
-import type { CfProject, GhRelease, MrProject, RawData } from './models';
+import type { CfProject, GhRelease, MrProject, NxMod, RawData } from './models';
 
 export interface ProjectRef {
   repo: { owner: string; name: string; branch: string };
   curseforgePath: string;
   modrinthSlug: string;
+  nexusMod: { gameId: number; modId: number };
 }
 
 export type SourceKey = Exclude<keyof RawData, 'fetchedAt'>;
@@ -17,6 +18,8 @@ export interface Source<K extends SourceKey> {
   key: K;
   url: (p: ProjectRef) => string;
   kind: 'json' | 'text';
+  /** A JSON body to POST instead of a GET (GraphQL APIs). */
+  body?: (p: ProjectRef) => unknown;
   /** A 404 that means "nothing there yet" rather than a failure. */
   notFoundValue?: RawData[K];
   trim: (body: any) => RawData[K];
@@ -104,6 +107,22 @@ export const SOURCES: { [K in SourceKey]: Source<K> } = {
       loaders: d.loaders ?? [],
     }),
   },
+  nexus: {
+    key: 'nexus',
+    kind: 'json',
+    // The public GraphQL API: no key needed, and it answers browsers of any origin.
+    url: () => 'https://api.nexusmods.com/v2/graphql',
+    body: (p) => ({
+      query: 'query ($ids: [CompositeIdInput!]!) { legacyMods(ids: $ids) { nodes { downloads } } }',
+      variables: { ids: [p.nexusMod] },
+    }),
+    trim: (d: any): NxMod => {
+      const mod = d.data?.legacyMods?.nodes?.[0];
+      // GraphQL answers errors with a 200: treat a missing mod as a failure, not as 0.
+      if (!mod) throw new Error('Nexus Mods: no such mod');
+      return { downloads: mod.downloads ?? 0 };
+    },
+  },
 };
 
 /** Fetches one source. Resolves to `undefined` when it cannot be reached. */
@@ -113,8 +132,13 @@ export async function fetchSource<K extends SourceKey>(
   init: RequestInit = {},
 ): Promise<RawData[K] | undefined> {
   try {
+    const payload = source.body?.(project);
+    const headers = new Headers(init.headers);
+    if (payload !== undefined) headers.set('Content-Type', 'application/json');
     const res = await fetch(source.url(project), {
       ...init,
+      headers,
+      ...(payload !== undefined && { method: 'POST', body: JSON.stringify(payload) }),
       signal: AbortSignal.timeout(10_000),
     });
     if (res.status === 404 && 'notFoundValue' in source) return source.notFoundValue;

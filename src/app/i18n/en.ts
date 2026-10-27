@@ -489,7 +489,6 @@ export const en = {
     soon: 'Coming soon',
     checking: 'Checking…',
     everyFile: 'every file',
-    modPage: 'Mod page',
   },
 
   footer: {

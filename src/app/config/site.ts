@@ -33,6 +33,8 @@ export const SITE = {
   repo: { owner: 'MC-Skin-Creator', name: 'living-horizon', branch: 'main' },
   curseforgePath: 'minecraft/mc-mods/living-horizon',
   modrinthSlug: 'living-horizon',
+  /** Nexus Mods ids: game 197 is Minecraft. */
+  nexusMod: { gameId: 197, modId: 1376 },
 
   links: {
     github: REPO,
