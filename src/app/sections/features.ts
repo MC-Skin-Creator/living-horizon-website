@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { I18n } from '../i18n/i18n';
 import { FigureView } from '../scene/figure';
-import { Compare } from './compare';
 import { Servers } from './servers';
 import { MobView } from '../scene/mob';
 import { Sprite } from '../scene/sprite';
@@ -21,7 +20,7 @@ interface Feature {
 @Component({
   selector: 'lh-features',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FigureView, MobView, Sprite, Icon, Reveal, Compare, Servers],
+  imports: [FigureView, MobView, Sprite, Icon, Reveal, Servers],
   template: `
     @let t = i18n.t().features;
     <section class="section" id="features">
@@ -150,8 +149,7 @@ interface Feature {
         </div>
       </div>
 
-      <!-- Parts of the features: the before / after slider, then multiplayer. -->
-      <lh-compare />
+      <!-- Part of the features: multiplayer. -->
       <lh-servers />
     </section>
   `,
