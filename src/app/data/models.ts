@@ -7,6 +7,7 @@ export interface RawData {
   curseforge?: CfProject;
   /** `null` when the platform answered that the project does not exist (yet). */
   modrinth?: MrProject | null;
+  nexus?: NxMod;
 }
 
 export interface GhAsset {
@@ -54,6 +55,10 @@ export interface MrProject {
   updated: string;
   game_versions: string[];
   loaders: string[];
+}
+
+export interface NxMod {
+  downloads: number;
 }
 
 export type Loader = 'fabric' | 'quilt' | 'neoforge' | 'forge';

@@ -26,6 +26,7 @@ lists them:
 | Minecraft versions, loaders, tested / needs testers | `stonecutter.properties.toml` of the mod (`mod.release_type = "alpha"` = needs testers) |
 | CurseForge downloads | api.cfwidget.com |
 | Modrinth downloads | Modrinth API (shows "Coming soon" while the project does not exist) |
+| Nexus Mods downloads | Nexus Mods GraphQL API (`api.nexusmods.com/v2/graphql`, no key) |
 
 The page first shows `public/data/snapshot.json`, then asks every source from the browser
 (cached 30 minutes in `localStorage`, GitHub allows 60 anonymous calls an hour). A source

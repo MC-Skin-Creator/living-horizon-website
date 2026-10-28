@@ -455,7 +455,6 @@ export const zhCN: Messages = {
     soon: '即将推出',
     checking: '检查中…',
     everyFile: '所有文件',
-    modPage: '模组页面',
   },
 
   footer: {

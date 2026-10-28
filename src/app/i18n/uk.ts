@@ -485,7 +485,6 @@ export const uk: Messages = {
     soon: 'Незабаром',
     checking: 'Перевірка…',
     everyFile: 'усі файли',
-    modPage: 'Сторінка мода',
   },
 
   footer: {

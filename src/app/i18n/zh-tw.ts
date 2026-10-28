@@ -455,7 +455,6 @@ export const zhTW: Messages = {
     soon: '即將推出',
     checking: '檢查中…',
     everyFile: '所有檔案',
-    modPage: '模組頁面',
   },
 
   footer: {

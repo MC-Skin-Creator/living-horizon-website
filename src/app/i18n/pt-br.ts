@@ -476,7 +476,6 @@ export const ptBR: Messages = {
     soon: 'Em breve',
     checking: 'Verificando…',
     everyFile: 'todos os arquivos',
-    modPage: 'Página do mod',
   },
 
   footer: {

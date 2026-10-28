@@ -483,7 +483,6 @@ export const fr: Messages = {
     soon: 'Bientôt',
     checking: 'Vérification…',
     everyFile: 'tous les fichiers',
-    modPage: 'Page du mod',
   },
 
   footer: {

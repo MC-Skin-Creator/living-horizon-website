@@ -464,7 +464,6 @@ export const it: Messages = {
     soon: 'In arrivo',
     checking: 'Verifica in corso…',
     everyFile: 'tutti i file',
-    modPage: 'Pagina della mod',
   },
 
   footer: {

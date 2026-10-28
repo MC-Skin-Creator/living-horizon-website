@@ -486,7 +486,6 @@ export const pl: Messages = {
     soon: 'Wkrótce',
     checking: 'Sprawdzanie…',
     everyFile: 'każdy plik',
-    modPage: 'Strona moda',
   },
 
   footer: {
