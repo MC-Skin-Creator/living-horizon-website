@@ -1,5 +1,6 @@
 import { Messages } from './en';
 import { plural } from './plural';
+import { questions } from './rich';
 
 const p = plural('de');
 
@@ -34,6 +35,7 @@ export const de: Messages = {
     compatibility: 'Kompatibilität',
     testers: 'Tester',
     contribute: 'Mitmachen',
+    faq: 'FAQ',
     download: (version: string) => `Download v${version}`,
   },
 
@@ -436,6 +438,275 @@ export const de: Messages = {
     failed: 'Das Changelog konnte gerade nicht geladen werden. Auf GitHub findest du es immer.',
     full: 'Ganzes Changelog auf GitHub',
     releases: 'Alle Releases',
+  },
+
+  faq: {
+    eyebrow: 'FAQ',
+    title: 'Fragen?',
+    accent: 'Antworten.',
+    text: 'Was Spieler am häufigsten fragen. Alles andere frag einfach auf dem Discord.',
+    groups: {
+      how: 'So funktioniert es',
+      compatibility: 'Kompatibilität',
+      performance: 'Leistung und Einstellungen',
+      multiplayer: 'Mehrspieler',
+      downloads: 'Downloads und Lizenz',
+      ai: 'KI',
+    },
+    questions: questions({
+      visual: {
+        q: 'Ist es nur optisch? Macht es Kreaturenfarmen kaputt?',
+        a: [
+          [
+            'Es ist rein optisch, ohne KI. Die echten Kreaturen verhalten sich wie ohne die Mod, Farmen, das Spawnen und die Kreaturenobergrenze ändern sich also nicht. Eine ferne Kreatur kannst du nicht schlagen.',
+          ],
+        ],
+      },
+      real: {
+        q: 'Sind die fernen Kreaturen echt oder zufällig platziert?',
+        a: [
+          [
+            'Es sind echte Kreaturen, dort, wo dein Spiel oder der Server sie zuletzt gesehen hat. Eine, die seitdem gestorben oder verschwunden ist, kann noch zu sehen sein, bis du in ihre Nähe kommst. Dann wird sie vergessen.',
+          ],
+        ],
+      },
+      simulation: {
+        q: 'Was ist der Unterschied zu einer höheren Simulationsdistanz oder Objektweite?',
+        a: [
+          [
+            'Bei einer höheren Simulationsdistanz berechnet der Server mehr echte Kreaturen, was viel kostet, und trotzdem schickt er sie nur bis zu einer gewissen Entfernung. Living Horizon zeichnet Kopien, die der Server nicht berechnet. Sie spielen fertige Animationen ab und werden in der Ferne zu flachen Bildern (',
+            { em: 'Vereinfachte Objekte' },
+            ').',
+          ],
+        ],
+      },
+      range: {
+        q: 'Wie weit zeigt es Kreaturen und Spieler?',
+        a: [
+          [
+            'Kreaturen: standardmäßig 512 Blöcke, mit ',
+            { em: 'Kreaturen‐Sichtweite' },
+            ' bis zu ',
+            { em: 'Unbegrenzt' },
+            '. Spieler: standardmäßig in jeder Entfernung, was ',
+            { em: 'Spieler‐Sichtweite' },
+            ' begrenzen kann. Eine Kreatur erscheint erst, wenn dein Spiel oder der Server sie gesehen hat.',
+          ],
+        ],
+      },
+      mods: {
+        q: 'Funktioniert es mit meiner Mod?',
+        a: [
+          [
+            'Sehr wahrscheinlich. Voxy, Distant Horizons, Sodium, Iris und Shaderpakete funktionieren damit (siehe ',
+            { link: 'compatibilitySection', text: 'Kompatibilität' },
+            '). Living Horizon fügt nur seine eigenen Figuren hinzu: Es ändert nicht, wie andere Mods die Welt zeichnen. Noch nicht getestete Mods stehen auf GitHub unter dem Label ',
+            { link: 'modCompatibility', text: 'mod compatibility' },
+            '. Wenn etwas kaputtgeht, eröffne ein ',
+            { link: 'issues', text: 'Issue' },
+            ' mit dem Namen und der Version der Mod.',
+          ],
+        ],
+      },
+      modMobs: {
+        q: 'Erscheinen Kreaturen aus anderen Mods auch in der Ferne?',
+        a: [
+          [
+            'Ja, solange sie das Objektsystem von Minecraft selbst nutzen. Wenn die Objekte einer Mod zu anders funktionieren, frag in einem ',
+            { link: 'issues', text: 'Issue' },
+            ' oder auf dem ',
+            { link: 'discord', text: 'Discord' },
+            ' nach Unterstützung dafür.',
+          ],
+        ],
+      },
+      farTerrain: {
+        q: 'Brauche ich Voxy oder Distant Horizons?',
+        a: [
+          [
+            'Nein. Ohne sie erscheinen ferne Kreaturen und Spieler auf dem Gelände des Spiels selbst, bis zu deiner Sichtweite. Mit einem von beiden erscheinen sie auch auf dessen fernem Gelände.',
+          ],
+        ],
+      },
+      frameRate: {
+        q: 'Kostet es mich FPS?',
+        a: [
+          [
+            'Mehr Objekte zu zeichnen kostet FPS. Wird dein Spiel langsamer, lass ',
+            { em: 'Vereinfachte Objekte' },
+            ' an und wähl eine niedrigere ',
+            { em: 'Voreinstellung' },
+            '. Stehen ',
+            { em: 'Max. Kreaturen' },
+            ' und ',
+            { em: 'Kreaturen‐Sichtweite' },
+            ' beide auf ',
+            { em: 'Unbegrenzt' },
+            ', kann das Spiel abstürzen.',
+          ],
+        ],
+      },
+      choose: {
+        q: 'Kann ich wählen, was angezeigt wird?',
+        a: [
+          [
+            'Ja. ',
+            { em: 'Kreaturen anzeigen' },
+            ', ',
+            { em: 'Spieler anzeigen' },
+            ', ',
+            { em: 'Offline‐Spieler' },
+            ' und ',
+            { em: 'Vögel anzeigen' },
+            ' schalten jeden Teil ein oder aus. Mit ',
+            { em: 'Kreaturen & Objekte …' },
+            ' wählst du Kreatur für Kreatur.',
+          ],
+        ],
+      },
+      world: {
+        q: 'Verändert es meine Welt oder lädt es Chunks?',
+        a: [
+          [
+            'Nein. Es ändert nichts an deiner Welt und lädt keinen Chunk. Was es sich merkt, speichert es in eigenen Dateien: im Ordner ',
+            { code: 'config' },
+            ' und, für das, was der Server teilt, in ',
+            { code: 'livinghorizon-positions.dat' },
+            ' im Weltordner. Entfernst du die Mod, bleibt deine Welt, wie sie war.',
+          ],
+          ['Auf einem Server schickt die Mod Positionen nur an die Spieler, die sie haben.'],
+        ],
+      },
+      server: {
+        q: 'Braucht der Server die Mod?',
+        a: [
+          [
+            'Nein. Fast alles funktioniert im Einzelspieler, und du kannst damit jedem Server beitreten. Für Spieler in jeder Entfernung braucht der Server aber die Mod, und dann teilt er auch mehr Kreaturen und abgemeldete Spieler. Siehe ',
+            { link: 'serversSection', text: 'Mehrspieler' },
+            '.',
+          ],
+        ],
+      },
+      paper: {
+        q: 'Funktioniert es auf Paper- oder Spigot-Servern?',
+        a: [
+          [
+            'Du kannst mit der Mod darauf spielen, wie auf jedem Server ohne sie. Die Serverseite läuft nur auf Fabric, Quilt, NeoForge und Forge, ein Paper- oder Spigot-Server teilt also nichts. Ein Plugin für Paper wird in ',
+            { link: 'paperPlugin', text: '#156' },
+            ' besprochen.',
+          ],
+        ],
+      },
+      nothing: {
+        q: 'Ich sehe keine fernen Kreaturen oder Spieler. Warum?',
+        a: [
+          {
+            list: [
+              [
+                'Ferne Spieler brauchen die Mod auf dem Server. Sein Betreiber kann außerdem einschränken, wer geteilt wird (siehe die ',
+                { link: 'serverSettings', text: 'Servereinstellungen' },
+                ').',
+              ],
+              [
+                'Auf einem Server ohne die Mod erscheinen nur die Kreaturen, denen du begegnet bist.',
+              ],
+            ],
+          },
+        ],
+      },
+      cheat: {
+        q: 'Kann man damit cheaten? Ist es auf Servern erlaubt?',
+        a: [
+          [
+            'Es zeigt andere Spieler nur, wo der Server es erlaubt. Ferne Spieler erscheinen nur auf einem Server mit der Mod, und sein Betreiber wählt, was er teilt: wie weit, nur mit Teamkameraden, und welche Spieler und Dimensionen verborgen bleiben. ',
+            { code: '"sharePlayers": false' },
+            ' schaltet es ab (siehe die ',
+            { link: 'serverSettings', text: 'Servereinstellungen' },
+            '). Unsichtbare Spieler und Spieler im Zuschauermodus werden nie geteilt. Schleichende Spieler vorerst schon (',
+            { link: 'sneaking', text: '#269' },
+            ').',
+          ],
+          [
+            'Auf anderen Servern siehst du nur, was dein eigenes Spiel gesehen hat. Die Mod schickt nichts an den Server. Jeder Server hat aber seine eigenen Regeln zu Mods: Frag sein Team.',
+          ],
+        ],
+      },
+      bedrock: {
+        q: 'Gibt es eine Bedrock-Version?',
+        a: [['Nein. Living Horizon ist eine Mod für Minecraft Java Edition.']],
+      },
+      version: {
+        q: 'Meine Spielversion wird nicht unterstützt. Kommt sie noch?',
+        a: [
+          [
+            'Sag auf dem ',
+            { link: 'discord', text: 'Discord' },
+            ', welche Version und welchen Loader du spielst. Das hilft bei der Wahl, was als Nächstes kommt.',
+          ],
+        ],
+      },
+      modpack: {
+        q: 'Darf ich es in ein Modpack packen?',
+        a: [['Ja. Nimm die offizielle Datei und nenne den Urheber.']],
+      },
+      abandoned: {
+        q: 'Was, wenn das Projekt aufgegeben wird?',
+        a: [
+          [
+            'Die Lizenz sieht das vor. Sobald das Projekt für aufgegeben erklärt ist (sein Repository archiviert oder seine README sagt es), wird seine Lizenz zur GPL: Jeder darf das Projekt mit Namensnennung weiterführen. Siehe Abschnitt 5 der ',
+            { link: 'license', text: 'Lizenz' },
+            '.',
+          ],
+        ],
+      },
+      ai: {
+        q: 'Wurde es mit KI gemacht?',
+        a: [
+          [
+            'Ja. Ich bin clixmods, der Autor: ein Full-Stack-Entwickler mit Schwerpunkt Videospiele, und das ist mein Beruf. Ich mache seit 2017 Mods: Karten für Call of Duty: Black Ops III wie ',
+            { link: 'nuketown', text: 'Nuketown Zombies Legacy' },
+            ', mit über einer Million Downloads im Steam Workshop (siehe mein ',
+            { link: 'portfolio', text: 'Portfolio' },
+            '). Die Ideen und Techniken kommen aus der Spieleentwicklung: Impostors, LODs und fertige Animationen sind Tricks, die Spiele seit Jahren nutzen.',
+          ],
+          [
+            'KI schreibt einen Großteil des Codes. Ich entscheide, wie die Mod funktioniert, teste sie im Spiel und behebe, was schiefgeht. Ohne KI hätte ich für ein Projekt dieser Größe so lange gebraucht, dass ich es gar nicht erst gemacht hätte.',
+          ],
+        ],
+      },
+      modrinth: {
+        q: 'Ist es auf Modrinth? Warum ist es dort nicht gelistet?',
+        a: [
+          [
+            'Es ist auf ',
+            { link: 'modrinth', text: 'Modrinth' },
+            ', aber nicht gelistet: Es erscheint nicht in der Suche von Modrinth. Seit August 2026 erlauben ',
+            { link: 'modrinthRules', text: 'die Regeln von Modrinth' },
+            ' nicht, dass ein hauptsächlich mit KI gemachtes Projekt öffentlich ist, deshalb hat das Team von Modrinth es aus der Liste genommen. CurseForge, Nexus Mods und die ',
+            { link: 'releases', text: 'Release-Seite' },
+            ' haben dieselben Dateien.',
+          ],
+          [
+            'Nicht gelistet heißt nicht unsicher. Es geht darum, wie die Mod gemacht ist, nicht darum, was sie tut:',
+          ],
+          {
+            list: [
+              [
+                'Der Code ist öffentlich: Jeder kann ihn in seinem ',
+                { link: 'github', text: 'GitHub-Repository' },
+                ' lesen.',
+              ],
+              ['GitHub baut jedes Release aus diesem Code, und seine Build-Logs sind öffentlich.'],
+              [
+                'Die Mod hat keinen eigenen Code, der sich mit dem Internet verbindet. Spieler-Skins kommen über das Spiel von Mojang, und der Discord-Link öffnet sich nur, wenn du ihn anklickst.',
+              ],
+            ],
+          },
+        ],
+      },
+    }),
+    ask: 'Auf Discord fragen',
+    issue: 'Issue eröffnen',
   },
 
   download: {

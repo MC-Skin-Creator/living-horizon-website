@@ -1,4 +1,5 @@
 import { plural } from './plural';
+import { questions } from './rich';
 
 const p = plural('en');
 
@@ -44,6 +45,7 @@ export const en = {
     compatibility: 'Compatibility',
     testers: 'Testers',
     contribute: 'Contribute',
+    faq: 'FAQ',
     download: (version: string) => `Download v${version}`,
   },
 
@@ -460,6 +462,277 @@ export const en = {
     failed: "The changelog couldn't be loaded right now. It's always on GitHub.",
     full: 'View full changelog on GitHub',
     releases: 'All releases',
+  },
+
+  /**
+   * The questions of the mod's README. An answer is a list of blocks (`rich.ts`): pieces of
+   * text, `em` for a setting's name, `code`, and links to `SITE.links`.
+   */
+  faq: {
+    eyebrow: 'FAQ',
+    title: 'Questions?',
+    accent: 'Answers.',
+    text: 'What players ask most often. Anything else, ask on the Discord.',
+    groups: {
+      how: 'How it works',
+      compatibility: 'Compatibility',
+      performance: 'Performance and settings',
+      multiplayer: 'Multiplayer',
+      downloads: 'Downloads and license',
+      ai: 'AI',
+    },
+    questions: questions({
+      visual: {
+        q: 'Is it only visual? Does it break mob farms?',
+        a: [
+          [
+            'It is only visual, no AI. The real mobs work as without the mod, so farms, spawning and the mob cap do not change. You cannot hit a distant mob.',
+          ],
+        ],
+      },
+      real: {
+        q: 'Are the distant mobs real, or placed at random?',
+        a: [
+          [
+            'They are real mobs, where your game or the server last saw them. One that died or despawned since can still show until you come near it. Then it is forgotten.',
+          ],
+        ],
+      },
+      simulation: {
+        q: 'How is it different from a higher simulation or entity distance?',
+        a: [
+          [
+            'A higher simulation distance makes the server run more real mobs, which costs a lot, and the server still only sends them so far. Living Horizon draws copies that the server does not run. They play ready-made animations, and far away they become flat pictures (',
+            { em: 'Simplified Entities' },
+            ').',
+          ],
+        ],
+      },
+      range: {
+        q: 'How far does it show mobs and players?',
+        a: [
+          [
+            'Mobs: 512 blocks by default, up to ',
+            { em: 'Unlimited' },
+            ' with ',
+            { em: 'Mob Render Distance' },
+            '. Players: any distance by default, which ',
+            { em: 'Player Render Distance' },
+            ' can limit. A mob only shows once your game or the server has seen it.',
+          ],
+        ],
+      },
+      mods: {
+        q: 'Does it work with my mod?',
+        a: [
+          [
+            'Most likely. Voxy, Distant Horizons, Sodium, Iris and shader packs work with it (see ',
+            { link: 'compatibilitySection', text: 'Compatibility' },
+            '). Living Horizon only adds its own figures: it does not change how other mods draw the world. Mods not tested yet are listed under the ',
+            { link: 'modCompatibility', text: 'mod compatibility' },
+            ' label on GitHub. If something breaks, open an ',
+            { link: 'issues', text: 'issue' },
+            " with the mod's name and version.",
+          ],
+        ],
+      },
+      modMobs: {
+        q: 'Do mobs from other mods show far away?',
+        a: [
+          [
+            "Yes, as long as they use Minecraft's own entity system. If a mod's entities work too differently, ask for support for it in an ",
+            { link: 'issues', text: 'issue' },
+            ' or on the ',
+            { link: 'discord', text: 'Discord' },
+            '.',
+          ],
+        ],
+      },
+      farTerrain: {
+        q: 'Do I need Voxy or Distant Horizons?',
+        a: [
+          [
+            "No. Without them, distant mobs and players show on the game's own terrain, out to your render distance. With one of them, they also show on its far terrain.",
+          ],
+        ],
+      },
+      frameRate: {
+        q: 'Will it lower my frame rate?',
+        a: [
+          [
+            'Drawing more entities costs frame rate. If your game slows down, keep ',
+            { em: 'Simplified Entities' },
+            ' on and pick a lower ',
+            { em: 'Preset' },
+            '. ',
+            { em: 'Max Mobs' },
+            ' and ',
+            { em: 'Mob Render Distance' },
+            ' both on ',
+            { em: 'Unlimited' },
+            ' can crash the game.',
+          ],
+        ],
+      },
+      choose: {
+        q: 'Can I choose what is shown?',
+        a: [
+          [
+            'Yes. ',
+            { em: 'Show Mobs' },
+            ', ',
+            { em: 'Show Players' },
+            ', ',
+            { em: 'Offline Players' },
+            ' and ',
+            { em: 'Show Birds' },
+            ' turn each part on or off. ',
+            { em: 'Mobs & Entities...' },
+            ' chooses mob by mob.',
+          ],
+        ],
+      },
+      world: {
+        q: 'Does it change my world or load chunks?',
+        a: [
+          [
+            'No. It changes nothing in your world and loads no chunk. It keeps what it remembers in files of its own: in the ',
+            { code: 'config' },
+            ' folder, and in ',
+            { code: 'livinghorizon-positions.dat' },
+            ' in the world folder for what the server shares. Removing the mod leaves your world as it was.',
+          ],
+          ['On a server, the mod only sends positions to the players who have it.'],
+        ],
+      },
+      server: {
+        q: 'Does the server need the mod?',
+        a: [
+          [
+            'No. Almost everything works in single player, and you can join any server with it. But players at any distance need the mod on the server, and the server then shares more mobs and players who logged off. See ',
+            { link: 'serversSection', text: 'Multiplayer' },
+            '.',
+          ],
+        ],
+      },
+      paper: {
+        q: 'Does it work on Paper or Spigot servers?',
+        a: [
+          [
+            'You can play on them with the mod, as on any server without it. The server side runs on Fabric, Quilt, NeoForge and Forge only, so a Paper or Spigot server shares nothing. A plugin for Paper is discussed in ',
+            { link: 'paperPlugin', text: '#156' },
+            '.',
+          ],
+        ],
+      },
+      nothing: {
+        q: 'I see no distant mobs or players. Why?',
+        a: [
+          {
+            list: [
+              [
+                'Distant players need the mod on the server. Its owner may also limit who is shared (see the ',
+                { link: 'serverSettings', text: 'server settings' },
+                ').',
+              ],
+              ['On a server without the mod, only the mobs you met show.'],
+            ],
+          },
+        ],
+      },
+      cheat: {
+        q: 'Can it be used to cheat? Is it allowed on servers?',
+        a: [
+          [
+            'It only shows other players where the server allows it. Distant players only show on a server that has the mod, and its owner chooses what it shares: how far, with teammates only, and which players and dimensions stay hidden. ',
+            { code: '"sharePlayers": false' },
+            ' turns it off (see the ',
+            { link: 'serverSettings', text: 'server settings' },
+            '). Invisible players and players in spectator mode are never shared. Sneaking players are, for now (',
+            { link: 'sneaking', text: '#269' },
+            ').',
+          ],
+          [
+            'On other servers, you only see what your own game saw. The mod sends nothing to the server. Each server has its own rules about mods, though: ask its staff.',
+          ],
+        ],
+      },
+      bedrock: {
+        q: 'Is there a Bedrock version?',
+        a: [['No. Living Horizon is a mod for Minecraft Java Edition.']],
+      },
+      version: {
+        q: 'My game version is not supported. Will it be?',
+        a: [
+          [
+            'Say on the ',
+            { link: 'discord', text: 'Discord' },
+            ' which version and loader you play. It helps choose what comes next.',
+          ],
+        ],
+      },
+      modpack: {
+        q: 'Can I put it in a modpack?',
+        a: [['Yes. Use the official file and credit it.']],
+      },
+      abandoned: {
+        q: 'What if the project is abandoned?',
+        a: [
+          [
+            'The license plans for it. Once the project is declared abandoned (its repository archived, or its README saying so), its license turns into the GPL: anyone may carry the project on, with credit. See section 5 of the ',
+            { link: 'license', text: 'license' },
+            '.',
+          ],
+        ],
+      },
+      ai: {
+        q: 'Was it made with AI?',
+        a: [
+          [
+            "Yes. I'm clixmods, its author: a full-stack developer specialised in video games, and it is my job. I have made mods since 2017: Call of Duty: Black Ops III maps such as ",
+            { link: 'nuketown', text: 'Nuketown Zombies Legacy' },
+            ', with over a million downloads on the Steam Workshop (see my ',
+            { link: 'portfolio', text: 'portfolio' },
+            '). The ideas and the techniques come from game development: impostors, LODs and ready-made animations are tricks games have used for years.',
+          ],
+          [
+            'AI writes much of the code. I decide how the mod works, test it in the game and fix what goes wrong. Without AI, a project this size would have taken me too long to make at all.',
+          ],
+        ],
+      },
+      modrinth: {
+        q: 'Is it on Modrinth? Why is it unlisted there?',
+        a: [
+          [
+            'It is on ',
+            { link: 'modrinth', text: 'Modrinth' },
+            ", but unlisted: it does not show in Modrinth's search. Since August 2026, ",
+            { link: 'modrinthRules', text: "Modrinth's rules" },
+            ' do not allow a project made mainly with AI to be public, so its staff unlisted it. CurseForge, Nexus Mods and the ',
+            { link: 'releases', text: 'releases page' },
+            ' have the same files.',
+          ],
+          [
+            'Unlisted does not mean unsafe. It is about how the mod is made, not about what it does:',
+          ],
+          {
+            list: [
+              [
+                'The code is public: anyone can read it in its ',
+                { link: 'github', text: 'GitHub repository' },
+                '.',
+              ],
+              ['GitHub builds every release from this code, and its build logs are public.'],
+              [
+                'The mod has no code of its own that connects to the internet. Player skins come from Mojang through the game, and the Discord link opens only when you click it.',
+              ],
+            ],
+          },
+        ],
+      },
+    }),
+    ask: 'Ask on Discord',
+    issue: 'Open an issue',
   },
 
   download: {

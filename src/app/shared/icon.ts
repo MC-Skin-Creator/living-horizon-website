@@ -26,6 +26,7 @@ export type IconName =
   | 'box'
   | 'menu'
   | 'close'
+  | 'plus'
   | 'message'
   | 'film'
   | 'globe';
@@ -161,6 +162,9 @@ export type IconName =
             }
             @case ('close') {
               <path d="M6 6l12 12M18 6 6 18" />
+            }
+            @case ('plus') {
+              <path d="M12 5v14M5 12h14" />
             }
             @case ('message') {
               <path d="M21 12a8 8 0 0 1-11.8 7L4 20l1.2-4.6A8 8 0 1 1 21 12Z" />

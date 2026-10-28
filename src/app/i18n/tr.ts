@@ -1,5 +1,6 @@
 import { Messages } from './en';
 import { plural } from './plural';
+import { questions } from './rich';
 
 const p = plural('tr');
 
@@ -34,6 +35,7 @@ export const tr: Messages = {
     compatibility: 'Uyumluluk',
     testers: 'Testçiler',
     contribute: 'Katkı',
+    faq: 'SSS',
     download: (version: string) => `v${version} İndir`,
   },
 
@@ -430,6 +432,272 @@ export const tr: Messages = {
     failed: "Değişiklik günlüğü şu anda yüklenemedi. GitHub'da her zaman bulabilirsiniz.",
     full: "Tüm değişiklik günlüğünü GitHub'da görün",
     releases: 'Tüm sürümler',
+  },
+
+  faq: {
+    eyebrow: 'Sık sorulan sorular',
+    title: 'Sorularınız mı var?',
+    accent: 'Yanıtlar burada.',
+    text: "Oyuncuların en sık sorduğu sorular. Başka bir şey için Discord'da sorun.",
+    groups: {
+      how: 'Nasıl çalışır',
+      compatibility: 'Uyumluluk',
+      performance: 'Performans ve ayarlar',
+      multiplayer: 'Çok oyunculu',
+      downloads: 'İndirmeler ve lisans',
+      ai: 'Yapay zekâ',
+    },
+    questions: questions({
+      visual: {
+        q: 'Yalnızca görsel mi? Canlı çiftliklerini bozar mı?',
+        a: [
+          [
+            'Yalnızca görseldir, yapay zekâ yoktur. Gerçek canlılar mod yokmuş gibi çalışır; bu yüzden çiftlikler, canlıların doğması ve canlı sınırı değişmez. Uzaktaki bir canlıya vuramazsınız.',
+          ],
+        ],
+      },
+      real: {
+        q: 'Uzaktaki canlılar gerçek mi, yoksa rastgele mi yerleştiriliyor?',
+        a: [
+          [
+            'Gerçek canlılardır; oyununuzun ya da sunucunun onları en son gördüğü yerdedirler. O zamandan beri ölen ya da kaybolan bir canlı, siz yanına gelene kadar görünmeye devam edebilir. Sonra unutulur.',
+          ],
+        ],
+      },
+      simulation: {
+        q: 'Simülasyon ya da varlık mesafesini artırmaktan farkı ne?',
+        a: [
+          [
+            'Daha yüksek bir simülasyon mesafesi, sunucunun daha fazla gerçek canlı çalıştırmasını sağlar; bu çok pahalıdır ve sunucu onları yine de ancak belli bir mesafeye kadar gönderir. Living Horizon, sunucunun çalıştırmadığı kopyalar çizer. Bu kopyalar hazır animasyonlar oynatır ve çok uzakta düz resimlere dönüşür (',
+            { em: 'Basit Varlıklar' },
+            ').',
+          ],
+        ],
+      },
+      range: {
+        q: 'Canlıları ve oyuncuları ne kadar uzağa kadar gösterir?',
+        a: [
+          [
+            'Canlılar: varsayılan olarak 512 blok; ',
+            { em: 'Canlı Görüş Mesafesi' },
+            ' ile ',
+            { em: 'Sınırsız' },
+            ' seçeneğine kadar çıkabilir. Oyuncular: varsayılan olarak her mesafede; ',
+            { em: 'Oyuncu Görüş Mesafesi' },
+            ' bunu sınırlayabilir. Bir canlı ancak oyununuz ya da sunucu onu gördükten sonra görünür.',
+          ],
+        ],
+      },
+      mods: {
+        q: 'Kullandığım modla çalışır mı?',
+        a: [
+          [
+            'Büyük olasılıkla evet. Voxy, Distant Horizons, Sodium, Iris ve gölgelendirici paketleri onunla çalışır (bkz. ',
+            { link: 'compatibilitySection', text: 'Uyumluluk' },
+            "). Living Horizon yalnızca kendi figürlerini ekler: diğer modların dünyayı nasıl çizdiğini değiştirmez. Henüz test edilmemiş modlar GitHub'da ",
+            { link: 'modCompatibility', text: 'mod compatibility' },
+            ' etiketi altında listelenir. Bir şey bozulursa, modun adı ve sürümüyle bir ',
+            { link: 'issues', text: 'sorun kaydı' },
+            ' açın.',
+          ],
+        ],
+      },
+      modMobs: {
+        q: 'Diğer modların canlıları uzaktan görünür mü?',
+        a: [
+          [
+            "Evet, Minecraft'ın kendi varlık sistemini kullandıkları sürece. Bir modun varlıkları çok farklı çalışıyorsa, onun için bir ",
+            { link: 'issues', text: 'sorun kaydında' },
+            ' ya da ',
+            { link: 'discord', text: 'Discord' },
+            "'da destek isteyin.",
+          ],
+        ],
+      },
+      farTerrain: {
+        q: 'Voxy ya da Distant Horizons gerekli mi?',
+        a: [
+          [
+            'Hayır. Onlar olmadan, uzaktaki canlılar ve oyuncular oyunun kendi arazisinde, görüş mesafenize kadar görünür. Biri yüklüyse, onun uzak arazisinde de görünürler.',
+          ],
+        ],
+      },
+      frameRate: {
+        q: "FPS'imi düşürür mü?",
+        a: [
+          [
+            'Daha fazla varlık çizmek FPS düşürür. Oyununuz yavaşlarsa ',
+            { em: 'Basit Varlıklar' },
+            ' ayarını açık tutun ve daha düşük bir ',
+            { em: 'Hazır Ayar' },
+            ' seçin. ',
+            { em: 'En Fazla Canlı' },
+            ' ve ',
+            { em: 'Canlı Görüş Mesafesi' },
+            ' ikisi birden ',
+            { em: 'Sınırsız' },
+            ' olursa oyun çökebilir.',
+          ],
+        ],
+      },
+      choose: {
+        q: 'Neyin gösterileceğini seçebilir miyim?',
+        a: [
+          [
+            'Evet. ',
+            { em: 'Canlıları Göster' },
+            ', ',
+            { em: 'Oyuncuları Göster' },
+            ', ',
+            { em: 'Çevrim Dışı Oyuncu' },
+            ' ve ',
+            { em: 'Kuşları Göster' },
+            ' her bir parçayı açar ya da kapatır. ',
+            { em: 'Canlılar ve Varlıklar...' },
+            ' ile canlıları tek tek seçebilirsiniz.',
+          ],
+        ],
+      },
+      world: {
+        q: 'Dünyamı değiştirir mi, yığın yükler mi?',
+        a: [
+          [
+            'Hayır. Dünyanızda hiçbir şeyi değiştirmez ve hiçbir yığın yüklemez. Hatırladıklarını kendi dosyalarında saklar: ',
+            { code: 'config' },
+            ' klasöründe ve sunucunun paylaştıkları için dünya klasöründeki ',
+            { code: 'livinghorizon-positions.dat' },
+            ' dosyasında. Modu kaldırmak dünyanızı olduğu gibi bırakır.',
+          ],
+          ['Sunucuda mod, konumları yalnızca modu olan oyunculara gönderir.'],
+        ],
+      },
+      server: {
+        q: 'Sunucuda da mod olması gerekir mi?',
+        a: [
+          [
+            'Hayır. Tek oyunculu oyunda neredeyse her şey çalışır ve modla herhangi bir sunucuya katılabilirsiniz. Ama her mesafede oyuncuları görmek için sunucuda mod gerekir; sunucu o zaman daha fazla canlıyı ve oyundan çıkmış oyuncuları da paylaşır. ',
+            { link: 'serversSection', text: 'Çok oyunculu' },
+            ' bölümüne bakın.',
+          ],
+        ],
+      },
+      paper: {
+        q: 'Paper ya da Spigot sunucularında çalışır mı?',
+        a: [
+          [
+            'Modsuz herhangi bir sunucuda olduğu gibi, bu sunucularda da modla oynayabilirsiniz. Sunucu tarafı yalnızca Fabric, Quilt, NeoForge ve Forge üzerinde çalışır, bu yüzden bir Paper ya da Spigot sunucusu hiçbir şey paylaşmaz. Paper için bir eklenti ',
+            { link: 'paperPlugin', text: '#156' },
+            "'da tartışılıyor.",
+          ],
+        ],
+      },
+      nothing: {
+        q: 'Uzakta hiç canlı ya da oyuncu görmüyorum. Neden?',
+        a: [
+          {
+            list: [
+              [
+                'Uzaktaki oyuncular için sunucuda mod gerekir. Sunucunun sahibi kimlerin paylaşılacağını da sınırlayabilir (bkz. ',
+                { link: 'serverSettings', text: 'sunucu ayarları' },
+                ').',
+              ],
+              ['Modsuz bir sunucuda yalnızca karşılaştığınız canlılar görünür.'],
+            ],
+          },
+        ],
+      },
+      cheat: {
+        q: 'Hile yapmak için kullanılabilir mi? Sunucularda izin veriliyor mu?',
+        a: [
+          [
+            'Diğer oyuncuları yalnızca sunucunun izin verdiği yerde gösterir. Uzaktaki oyuncular yalnızca modu olan bir sunucuda görünür ve neyin paylaşılacağını sunucunun sahibi seçer: ne kadar uzağa kadar, yalnızca takım arkadaşlarıyla mı, hangi oyuncuların ve boyutların gizli kalacağı. ',
+            { code: '"sharePlayers": false' },
+            ' bunu kapatır (bkz. ',
+            { link: 'serverSettings', text: 'sunucu ayarları' },
+            '). Görünmez oyuncular ve izleyici modundaki oyuncular asla paylaşılmaz. Eğilen oyuncular ise şimdilik paylaşılıyor (',
+            { link: 'sneaking', text: '#269' },
+            ').',
+          ],
+          [
+            'Diğer sunucularda yalnızca kendi oyununuzun gördüğünü görürsünüz. Mod sunucuya hiçbir şey göndermez. Yine de her sunucunun modlarla ilgili kendi kuralları vardır: yetkililerine sorun.',
+          ],
+        ],
+      },
+      bedrock: {
+        q: 'Bedrock sürümü var mı?',
+        a: [['Hayır. Living Horizon, Minecraft Java Edition için bir moddur.']],
+      },
+      version: {
+        q: 'Oyun sürümüm desteklenmiyor. Desteklenecek mi?',
+        a: [
+          [
+            'Hangi sürümü ve yükleyiciyi oynadığınızı ',
+            { link: 'discord', text: 'Discord' },
+            "'da söyleyin. Bu, sırada ne olacağını seçmeye yardımcı olur.",
+          ],
+        ],
+      },
+      modpack: {
+        q: "Bir modpack'e koyabilir miyim?",
+        a: [['Evet. Resmî dosyayı kullanın ve kaynak gösterin.']],
+      },
+      abandoned: {
+        q: 'Proje terk edilirse ne olur?',
+        a: [
+          [
+            "Lisans bunu öngörür. Proje terk edilmiş ilan edildiğinde (deposu arşivlendiğinde ya da README'si bunu söylediğinde), lisansı GPL'ye dönüşür: herkes kaynak göstererek projeyi sürdürebilir. ",
+            { link: 'license', text: 'Lisansın' },
+            ' 5. bölümüne bakın.',
+          ],
+        ],
+      },
+      ai: {
+        q: 'Yapay zekâyla mı yapıldı?',
+        a: [
+          [
+            "Evet. Ben clixmods, modun yapımcısıyım: video oyunlarında uzmanlaşmış bir full-stack geliştiriciyim, bu benim mesleğim. 2017'den beri mod yapıyorum: Steam Atölyesi'nde bir milyondan fazla indirilen ",
+            { link: 'nuketown', text: 'Nuketown Zombies Legacy' },
+            ' gibi Call of Duty: Black Ops III haritaları (',
+            { link: 'portfolio', text: 'portfolyoma' },
+            " bakın). Fikirler ve teknikler oyun geliştirmeden geliyor: impostor'lar, LOD'lar ve hazır animasyonlar, oyunların yıllardır kullandığı hilelerdir.",
+          ],
+          [
+            'Kodun büyük kısmını yapay zekâ yazıyor. Modun nasıl çalışacağına ben karar veriyorum, oyunda test ediyorum ve ters gideni düzeltiyorum. Yapay zekâ olmasaydı, bu büyüklükte bir proje bana o kadar uzun sürerdi ki hiç yapamazdım.',
+          ],
+        ],
+      },
+      modrinth: {
+        q: "Modrinth'te var mı? Neden orada listelenmiyor?",
+        a: [
+          [
+            { link: 'modrinth', text: 'Modrinth' },
+            "'te var, ama listelenmemiş: Modrinth'in aramasında görünmüyor. Ağustos 2026'dan beri ",
+            { link: 'modrinthRules', text: "Modrinth'in kuralları" },
+            ', esas olarak yapay zekâyla yapılmış bir projenin herkese açık olmasına izin vermiyor, bu yüzden ekibi onu listeden kaldırdı. CurseForge, Nexus Mods ve ',
+            { link: 'releases', text: 'sürümler sayfası' },
+            ' aynı dosyaları sunar.',
+          ],
+          [
+            'Listelenmemiş olması güvensiz olduğu anlamına gelmez. Bu, modun ne yaptığıyla değil, nasıl yapıldığıyla ilgilidir:',
+          ],
+          {
+            list: [
+              [
+                'Kod herkese açık: herkes onu ',
+                { link: 'github', text: 'GitHub deposunda' },
+                ' okuyabilir.',
+              ],
+              ['GitHub her sürümü bu koddan derler ve derleme kayıtları herkese açıktır.'],
+              [
+                "Modun internete bağlanan kendine ait hiçbir kodu yoktur. Oyuncu görünümleri oyun üzerinden Mojang'dan gelir ve Discord bağlantısı yalnızca siz tıkladığınızda açılır.",
+              ],
+            ],
+          },
+        ],
+      },
+    }),
+    ask: "Discord'da sorun",
+    issue: 'Sorun kaydı açın',
   },
 
   download: {

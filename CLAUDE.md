@@ -27,9 +27,11 @@ the nav; the browser's language is the default, and `?lang=fr` forces one.
   the mod repository; game words use the official Minecraft translation. Keep the mod's register
   (French "tu", German "du"…).
 - A sentence around a link, logo or highlighted word is a `{ before, …, after }` object, so each
-  language orders it its own way. Numbers go through functions, plurals through `plural()`
-  (`src/app/i18n/plural.ts`). Dates and numbers are formatted by the pipes of
-  `src/app/shared/format.ts` in the page's language: never `Intl` with a fixed `'en'`.
+  language orders it its own way. The FAQ's longer answers are arrays of pieces instead
+  (`src/app/i18n/rich.ts`): each language keeps the same links, settings and code, in its own
+  order. Numbers go through functions, plurals through `plural()` (`src/app/i18n/plural.ts`).
+  Dates and numbers are formatted by the pipes of `src/app/shared/format.ts` in the page's
+  language: never `Intl` with a fixed `'en'`.
 - New screenshots (`SITE.screenshots`) and benchmarks (`SITE.benchmarks`) take their texts from
   `compare.shots` and `performance.setups` of the dictionaries: add them in every language.
 - Text that comes from the mod repository (the changelog) is shown in the visitor's language
