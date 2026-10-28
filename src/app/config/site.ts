@@ -25,6 +25,37 @@ export interface Screenshots {
   after: string;
 }
 
+/** Every link of the page. The dictionaries' rich texts name them by key. */
+export const LINKS = {
+  github: REPO,
+  releases: `${REPO}/releases`,
+  issues: `${REPO}/issues`,
+  newIssue: `${REPO}/issues/new`,
+  changelog: `${REPO}/blob/main/changelog/en.md`,
+  readme: `${REPO}#readme`,
+  license: `${REPO}/blob/main/LICENSE`,
+  contributing: `${REPO}/blob/main/CONTRIBUTING.md`,
+  curseforge: 'https://www.curseforge.com/minecraft/mc-mods/living-horizon',
+  modrinth: 'https://modrinth.com/mod/living-horizon',
+  nexus: 'https://www.nexusmods.com/minecraft/mods/1376',
+  discord: 'https://discord.gg/THSV9dexNj',
+  voxy: 'https://modrinth.com/mod/voxy',
+  distantHorizons: 'https://modrinth.com/mod/distanthorizons',
+  iris: 'https://modrinth.com/mod/iris',
+  fabricApi: 'https://modrinth.com/mod/fabric-api',
+  fabricLoader: 'https://fabricmc.net/use/',
+  /** Linked from the FAQ. */
+  compatibilitySection: '#compatibility',
+  serversSection: '#servers',
+  serverSettings: `${REPO}#server-settings`,
+  modCompatibility: `${REPO}/labels/mod%20compatibility`,
+  paperPlugin: `${REPO}/issues/156`,
+  sneaking: `${REPO}/issues/269`,
+  modrinthRules: 'https://modrinth.com/legal/rules',
+  portfolio: 'https://clixmods.github.io/',
+  nuketown: 'https://steamcommunity.com/sharedfiles/filedetails/?id=2180904327',
+};
+
 export const SITE = {
   name: 'Living Horizon',
   tagline: 'Gives life to the distance.',
@@ -36,25 +67,7 @@ export const SITE = {
   /** Nexus Mods ids: game 197 is Minecraft. */
   nexusMod: { gameId: 197, modId: 1376 },
 
-  links: {
-    github: REPO,
-    releases: `${REPO}/releases`,
-    issues: `${REPO}/issues`,
-    newIssue: `${REPO}/issues/new`,
-    changelog: `${REPO}/blob/main/changelog/en.md`,
-    readme: `${REPO}#readme`,
-    license: `${REPO}/blob/main/LICENSE`,
-    contributing: `${REPO}/blob/main/CONTRIBUTING.md`,
-    curseforge: 'https://www.curseforge.com/minecraft/mc-mods/living-horizon',
-    modrinth: 'https://modrinth.com/mod/living-horizon',
-    nexus: 'https://www.nexusmods.com/minecraft/mods/1376',
-    discord: 'https://discord.gg/THSV9dexNj',
-    voxy: 'https://modrinth.com/mod/voxy',
-    distantHorizons: 'https://modrinth.com/mod/distanthorizons',
-    iris: 'https://modrinth.com/mod/iris',
-    fabricApi: 'https://modrinth.com/mod/fabric-api',
-    fabricLoader: 'https://fabricmc.net/use/',
-  },
+  links: LINKS,
 
   /** Shown until a source answers, or if none does. */
   fallback: {

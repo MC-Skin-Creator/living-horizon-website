@@ -46,6 +46,10 @@ starts so it never shows English first.
 
 - Links, platform ids, fallbacks: `src/app/config/site.ts`. Texts: `src/app/i18n/`, in every
   language.
+- **FAQ**: the questions of the mod's README, in `faq.questions` of every dictionary, grouped
+  and ordered by `GROUPS` in `src/app/sections/faq.ts`. An answer is a list of paragraphs and
+  lists made of pieces (`src/app/i18n/rich.ts`): text, a setting's name, code, or a link of
+  `LINKS`. When the mod's README FAQ changes, change it here too.
 - **Benchmarks**: add real measurements to `SITE.benchmarks` (`slot` of the performance
   section and the value), and how it was measured to `performance.setups` of every dictionary.
   Until then the slots say "Benchmark pending" — never invent numbers.

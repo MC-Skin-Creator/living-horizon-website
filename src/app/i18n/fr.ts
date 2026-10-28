@@ -1,5 +1,6 @@
 import { Messages } from './en';
 import { plural } from './plural';
+import { questions } from './rich';
 
 const p = plural('fr');
 
@@ -34,6 +35,7 @@ export const fr: Messages = {
     compatibility: 'Compatibilité',
     testers: 'Testeurs',
     contribute: 'Contribuer',
+    faq: 'FAQ',
     download: (version: string) => `Télécharger v${version}`,
   },
 
@@ -450,6 +452,275 @@ export const fr: Messages = {
       "Impossible de charger le journal des modifications pour l'instant. Il est toujours sur GitHub.",
     full: 'Journal complet sur GitHub',
     releases: 'Toutes les releases',
+  },
+
+  faq: {
+    eyebrow: 'FAQ',
+    title: 'Des questions ?',
+    accent: 'Des réponses.',
+    text: 'Ce que les joueurs demandent le plus souvent. Pour le reste, demande sur le Discord.',
+    groups: {
+      how: 'Comment ça marche',
+      compatibility: 'Compatibilité',
+      performance: 'Performances et réglages',
+      multiplayer: 'Multijoueur',
+      downloads: 'Téléchargements et licence',
+      ai: 'IA',
+    },
+    questions: questions({
+      visual: {
+        q: "C'est seulement visuel ? Ça casse les fermes à mobs ?",
+        a: [
+          [
+            "C'est seulement visuel, sans IA. Les vrais mobs marchent comme sans le mod : les fermes, l'apparition des mobs et leur limite ne changent pas. Tu ne peux pas frapper un mob lointain.",
+          ],
+        ],
+      },
+      real: {
+        q: 'Les mobs lointains sont-ils de vrais mobs, ou placés au hasard ?',
+        a: [
+          [
+            "Ce sont de vrais mobs, là où ton jeu ou le serveur les a vus pour la dernière fois. Un mob mort ou disparu depuis peut encore s'afficher jusqu'à ce que tu t'en approches. Il est alors oublié.",
+          ],
+        ],
+      },
+      simulation: {
+        q: "Quelle différence avec une distance de simulation ou d'entités plus grande ?",
+        a: [
+          [
+            "Une distance de simulation plus grande fait tourner plus de vrais mobs au serveur, ce qui coûte cher, et le serveur ne les envoie quand même que jusqu'à une certaine distance. Living Horizon dessine des copies que le serveur ne fait pas tourner. Elles jouent des animations toutes prêtes, et de loin elles deviennent des images plates (",
+            { em: 'Entités simplifiées' },
+            ').',
+          ],
+        ],
+      },
+      range: {
+        q: "Jusqu'où il affiche les mobs et les joueurs ?",
+        a: [
+          [
+            "Les mobs : 512 blocs par défaut, jusqu'à ",
+            { em: 'Illimité' },
+            ' avec ',
+            { em: "Distance d'affichage des créatures" },
+            ". Les joueurs : à n'importe quelle distance par défaut, ce que ",
+            { em: "Distance d'affichage des joueurs" },
+            " peut limiter. Un mob ne s'affiche qu'une fois que ton jeu ou le serveur l'a vu.",
+          ],
+        ],
+      },
+      mods: {
+        q: 'Ça marche avec mon mod ?',
+        a: [
+          [
+            'Très probablement. Voxy, Distant Horizons, Sodium, Iris et les packs de shaders marchent avec (voir ',
+            { link: 'compatibilitySection', text: 'Compatibilité' },
+            "). Living Horizon ajoute seulement ses propres silhouettes : il ne change pas la façon dont les autres mods dessinent le monde. Les mods pas encore testés sont listés sous l'étiquette ",
+            { link: 'modCompatibility', text: 'mod compatibility' },
+            ' sur GitHub. Si quelque chose casse, ouvre une ',
+            { link: 'issues', text: 'issue' },
+            ' avec le nom du mod et sa version.',
+          ],
+        ],
+      },
+      modMobs: {
+        q: "Les mobs des autres mods s'affichent-ils de loin ?",
+        a: [
+          [
+            "Oui, tant qu'ils utilisent le système d'entités de Minecraft. Si les entités d'un mod marchent trop différemment, demande qu'il soit pris en charge dans une ",
+            { link: 'issues', text: 'issue' },
+            ' ou sur le ',
+            { link: 'discord', text: 'Discord' },
+            '.',
+          ],
+        ],
+      },
+      farTerrain: {
+        q: "J'ai besoin de Voxy ou de Distant Horizons ?",
+        a: [
+          [
+            "Non. Sans eux, les mobs et les joueurs lointains s'affichent sur le terrain du jeu, jusqu'à ta distance d'affichage. Avec l'un des deux, ils s'affichent aussi sur son terrain lointain.",
+          ],
+        ],
+      },
+      frameRate: {
+        q: 'Ça va baisser mes FPS ?',
+        a: [
+          [
+            "Dessiner plus d'entités coûte des FPS. Si ton jeu ralentit, garde ",
+            { em: 'Entités simplifiées' },
+            ' activé et choisis un ',
+            { em: 'Préréglage' },
+            ' plus bas. ',
+            { em: 'Créatures max' },
+            ' et ',
+            { em: "Distance d'affichage des créatures" },
+            ' tous les deux sur ',
+            { em: 'Illimité' },
+            ' peuvent faire planter le jeu.',
+          ],
+        ],
+      },
+      choose: {
+        q: "Je peux choisir ce qui s'affiche ?",
+        a: [
+          [
+            'Oui. ',
+            { em: 'Afficher les créatures' },
+            ', ',
+            { em: 'Afficher les joueurs' },
+            ', ',
+            { em: 'Joueurs déconnectés' },
+            ' et ',
+            { em: 'Afficher les oiseaux' },
+            ' activent ou désactivent chaque partie. ',
+            { em: 'Créatures et entités...' },
+            ' permet de choisir mob par mob.',
+          ],
+        ],
+      },
+      world: {
+        q: 'Ça modifie mon monde ou ça charge des chunks ?',
+        a: [
+          [
+            'Non. Il ne change rien à ton monde et ne charge aucun chunk. Il garde ce dont il se souvient dans ses propres fichiers : dans le dossier ',
+            { code: 'config' },
+            ', et dans ',
+            { code: 'livinghorizon-positions.dat' },
+            ' dans le dossier du monde pour ce que partage le serveur. Retirer le mod laisse ton monde tel quel.',
+          ],
+          ["Sur un serveur, le mod n'envoie les positions qu'aux joueurs qui l'ont."],
+        ],
+      },
+      server: {
+        q: 'Le serveur a besoin du mod ?',
+        a: [
+          [
+            "Non. Presque tout marche en solo, et tu peux rejoindre n'importe quel serveur avec. Mais les joueurs à n'importe quelle distance demandent le mod sur le serveur, qui partage alors plus de mobs et les joueurs déconnectés. Voir ",
+            { link: 'serversSection', text: 'Multijoueur' },
+            '.',
+          ],
+        ],
+      },
+      paper: {
+        q: 'Ça marche sur les serveurs Paper ou Spigot ?',
+        a: [
+          [
+            "Tu peux y jouer avec le mod, comme sur n'importe quel serveur sans lui. Le côté serveur ne tourne que sur Fabric, Quilt, NeoForge et Forge : un serveur Paper ou Spigot ne partage donc rien. Un plugin pour Paper est en discussion dans ",
+            { link: 'paperPlugin', text: '#156' },
+            '.',
+          ],
+        ],
+      },
+      nothing: {
+        q: 'Je ne vois aucun mob ni joueur lointain. Pourquoi ?',
+        a: [
+          {
+            list: [
+              [
+                'Les joueurs lointains demandent le mod sur le serveur. Son propriétaire peut aussi limiter qui est partagé (voir les ',
+                { link: 'serverSettings', text: 'réglages du serveur' },
+                ').',
+              ],
+              ["Sur un serveur sans le mod, seuls les mobs que tu as croisés s'affichent."],
+            ],
+          },
+        ],
+      },
+      cheat: {
+        q: 'Ça peut servir à tricher ? Est-ce autorisé sur les serveurs ?',
+        a: [
+          [
+            "Il ne montre les autres joueurs que là où le serveur le permet. Les joueurs lointains ne s'affichent que sur un serveur qui a le mod, et son propriétaire choisit ce qu'il partage : jusqu'où, avec les coéquipiers seulement, et quels joueurs et dimensions restent cachés. ",
+            { code: '"sharePlayers": false' },
+            ' le désactive (voir les ',
+            { link: 'serverSettings', text: 'réglages du serveur' },
+            '). Les joueurs invisibles et en mode spectateur ne sont jamais partagés. Les joueurs accroupis le sont, pour le moment (',
+            { link: 'sneaking', text: '#269' },
+            ').',
+          ],
+          [
+            "Sur les autres serveurs, tu ne vois que ce que ton propre jeu a vu. Le mod n'envoie rien au serveur. Chaque serveur a quand même ses propres règles sur les mods : demande à son équipe.",
+          ],
+        ],
+      },
+      bedrock: {
+        q: 'Il existe une version Bedrock ?',
+        a: [['Non. Living Horizon est un mod pour Minecraft Java Edition.']],
+      },
+      version: {
+        q: "Ma version du jeu n'est pas prise en charge. Elle le sera ?",
+        a: [
+          [
+            'Dis sur le ',
+            { link: 'discord', text: 'Discord' },
+            ' quelle version et quel loader tu joues. Ça aide à choisir la suite.',
+          ],
+        ],
+      },
+      modpack: {
+        q: 'Je peux le mettre dans un modpack ?',
+        a: [['Oui. Utilise le fichier officiel et crédite-le.']],
+      },
+      abandoned: {
+        q: 'Et si le projet est abandonné ?',
+        a: [
+          [
+            "La licence le prévoit. Une fois le projet déclaré abandonné (son dépôt archivé, ou son README qui le dit), sa licence devient la GPL : n'importe qui peut reprendre le projet, en le créditant. Voir la section 5 de la ",
+            { link: 'license', text: 'licence' },
+            '.',
+          ],
+        ],
+      },
+      ai: {
+        q: "Il a été fait avec de l'IA ?",
+        a: [
+          [
+            "Oui. Je suis clixmods, l'auteur : développeur full-stack spécialisé dans le jeu vidéo, c'est mon métier. Je fais des mods depuis 2017 : des maps pour Call of Duty: Black Ops III comme ",
+            { link: 'nuketown', text: 'Nuketown Zombies Legacy' },
+            ", avec plus d'un million de téléchargements sur le Steam Workshop (voir mon ",
+            { link: 'portfolio', text: 'portfolio' },
+            '). Les idées et les techniques viennent du développement de jeux : les impostors, les LOD et les animations toutes prêtes sont des astuces que les jeux utilisent depuis des années.',
+          ],
+          [
+            "L'IA écrit une grande partie du code. Je décide comment le mod fonctionne, je le teste en jeu et je corrige ce qui ne va pas. Sans l'IA, un projet de cette taille m'aurait pris bien trop de temps pour exister.",
+          ],
+        ],
+      },
+      modrinth: {
+        q: 'Il est sur Modrinth ? Pourquoi y est-il non listé ?',
+        a: [
+          [
+            'Il est sur ',
+            { link: 'modrinth', text: 'Modrinth' },
+            ", mais non listé : il n'apparaît pas dans la recherche de Modrinth. Depuis août 2026, les ",
+            { link: 'modrinthRules', text: 'règles de Modrinth' },
+            " n'autorisent pas un projet fait principalement avec de l'IA à être public, donc son équipe l'a retiré des listes. CurseForge, Nexus Mods et la ",
+            { link: 'releases', text: 'page des versions' },
+            ' ont les mêmes fichiers.',
+          ],
+          [
+            "Non listé ne veut pas dire dangereux. Ça concerne la façon dont le mod est fait, pas ce qu'il fait :",
+          ],
+          {
+            list: [
+              [
+                "Le code est public : n'importe qui peut le lire dans son ",
+                { link: 'github', text: 'dépôt GitHub' },
+                '.',
+              ],
+              [
+                'GitHub compile chaque version à partir de ce code, et ses journaux de compilation sont publics.',
+              ],
+              [
+                "Le mod n'a aucun code à lui qui se connecte à internet. Les skins des joueurs viennent de Mojang par le jeu, et le lien Discord ne s'ouvre que quand tu cliques dessus.",
+              ],
+            ],
+          },
+        ],
+      },
+    }),
+    ask: 'Demander sur Discord',
+    issue: 'Ouvrir une issue',
   },
 
   download: {

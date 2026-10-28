@@ -86,6 +86,7 @@ export class Nav {
     { href: '#changelog', label: (t) => t.common.changelog },
     { href: '#testers', label: (t) => t.nav.testers },
     { href: '#contribute', label: (t) => t.nav.contribute },
+    { href: '#faq', label: (t) => t.nav.faq },
   ];
 
   constructor() {

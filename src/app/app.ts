@@ -4,6 +4,7 @@ import { Compatibility } from './sections/compatibility';
 import { Concept } from './sections/concept';
 import { Contribute } from './sections/contribute';
 import { Download } from './sections/download';
+import { Faq } from './sections/faq';
 import { Features } from './sections/features';
 import { Footer } from './sections/footer';
 import { Hero } from './sections/hero';
@@ -24,6 +25,7 @@ import { Testers } from './sections/testers';
     Testers,
     Contribute,
     Changelog,
+    Faq,
     Download,
     Footer,
   ],
@@ -38,6 +40,7 @@ import { Testers } from './sections/testers';
       <lh-testers />
       <lh-contribute />
       <lh-changelog />
+      <lh-faq />
       <lh-download />
     </main>
     <lh-footer />
