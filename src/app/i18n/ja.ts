@@ -734,17 +734,18 @@ export const ja: Messages = {
     eyebrow: 'Modパック',
     title: 'すでに',
     accent: 'Modパックに収録。',
-    /** Around the link to ModpackIndex. */
-    text: {
-      before: '',
-      after:
-        'に掲載されている、Living Horizonを含むパックです。あなたも作った？ModpackIndexに掲載されるとここに表示されます。',
-    },
+    text: 'Living Horizonを含むModパックです。あなたも作った？自動でここに表示されます。',
+    /** The word after the number of modpacks, in bold before it. */
+    packs: (n: number) => p(n, { other: '件のModパック' }),
+    /** The word after the number of their downloads, in bold before it. */
+    downloads: (n: number) => p(n, { other: '回ダウンロード' }),
     by: (authors: string) => `作者: ${authors}`,
+    /** A button to the modpack's own page on CurseForge or Modrinth. */
+    get: (platform: string) => `${platform}でダウンロード`,
     none: 'Living Horizonを含むModパックはまだありません。あなたのパックが最初になるかも。',
-    loading: 'ModpackIndexが応答すると、ここにModパックが表示されます。',
-    browse: 'ModpackIndexで見る',
-    all: (n: number) => p(n, { other: 'ModpackIndexで{n}個のModパックをすべて見る' }),
+    loading: 'Modパックはまもなくここに表示されます。',
+    more: (n: number) => p(n, { other: 'さらに{n}件のModパックを表示' }),
+    less: '閉じる',
   },
 
   footer: {
@@ -756,6 +757,8 @@ export const ja: Messages = {
     community: 'コミュニティ',
     bug: 'バグを報告',
     contribute: '開発に参加',
+    /** Around the link to ModpackIndex, which lists the modpacks. */
+    modpacks: { before: 'Modパック一覧の提供:', after: '' },
     official:
       'Minecraftの公式製品ではありません。MojangまたはMicrosoftから承認されておらず、関連もありません。',
   },

@@ -741,21 +741,19 @@ export const de: Messages = {
     eyebrow: 'Modpacks',
     title: 'Schon in',
     accent: 'Modpacks.',
-    /** Around the link to ModpackIndex. */
-    text: {
-      before: 'Packs, die Living Horizon enthalten, wie sie',
-      after:
-        ' auflistet. Du hast eins damit gebaut? Es erscheint hier, sobald ModpackIndex es aufführt.',
-    },
+    text: 'Packs, die Living Horizon enthalten. Du hast eins damit gebaut? Es erscheint hier von selbst.',
+    /** The word after the number of modpacks, in bold before it. */
+    packs: (n: number) => p(n, { one: 'Modpack', other: 'Modpacks' }),
+    /** The word after the number of their downloads, in bold before it. */
+    downloads: (n: number) => p(n, { one: 'Download', other: 'Downloads' }),
     by: (authors: string) => `von ${authors}`,
+    /** A button to the modpack's own page on CurseForge or Modrinth. */
+    get: (platform: string) => `Auf ${platform} herunterladen`,
     none: 'Noch kein Modpack enthält Living Horizon. Deins könnte das erste sein.',
-    loading: 'Die Modpacks erscheinen hier, sobald ModpackIndex antwortet.',
-    browse: 'Auf ModpackIndex ansehen',
-    all: (n: number) =>
-      p(n, {
-        one: 'Das Modpack auf ModpackIndex ansehen',
-        other: 'Alle {n} Modpacks auf ModpackIndex ansehen',
-      }),
+    loading: 'Die Modpacks erscheinen hier gleich.',
+    more: (n: number) =>
+      p(n, { one: 'Noch {n} Modpack zeigen', other: 'Noch {n} Modpacks zeigen' }),
+    less: 'Weniger zeigen',
   },
 
   footer: {
@@ -768,6 +766,8 @@ export const de: Messages = {
     community: 'Community',
     bug: 'Bug melden',
     contribute: 'Mitmachen',
+    /** Around the link to ModpackIndex, which lists the modpacks. */
+    modpacks: { before: 'Modpack-Liste von', after: '' },
     official:
       'Kein offizielles Minecraft-Produkt. Nicht von Mojang oder Microsoft genehmigt oder mit ihnen verbunden.',
   },

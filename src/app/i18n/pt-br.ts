@@ -753,21 +753,23 @@ export const ptBR: Messages = {
     eyebrow: 'Modpacks',
     title: 'Já está em',
     accent: 'modpacks.',
-    /** Around the link to ModpackIndex. */
-    text: {
-      before: 'Pacotes que trazem o Living Horizon, segundo a lista do',
-      after: '. Fez um com ele? Ele aparece aqui assim que o ModpackIndex o listar.',
-    },
+    text: 'Pacotes que trazem o Living Horizon. Fez um com ele? Ele aparece aqui sozinho.',
+    /** The word after the number of modpacks, in bold before it. */
+    packs: (n: number) => p(n, { one: 'modpack', many: 'de modpacks', other: 'modpacks' }),
+    /** The word after the number of their downloads, in bold before it. */
+    downloads: (n: number) => p(n, { one: 'download', many: 'de downloads', other: 'downloads' }),
     by: (authors: string) => `por ${authors}`,
-    none: 'Nenhum modpack inclui o Living Horizon ainda. O seu pode ser o primeiro.',
-    loading: 'Os modpacks aparecem aqui assim que o ModpackIndex responder.',
-    browse: 'Ver no ModpackIndex',
-    all: (n: number) =>
+    /** A button to the modpack's own page on CurseForge or Modrinth. */
+    get: (platform: string) => `Baixar no ${platform}`,
+    none: 'Nenhum modpack traz o Living Horizon ainda. O seu pode ser o primeiro.',
+    loading: 'Os modpacks aparecem aqui em instantes.',
+    more: (n: number) =>
       p(n, {
-        one: 'Ver o modpack no ModpackIndex',
-        many: 'Ver os {n} de modpacks no ModpackIndex',
-        other: 'Ver os {n} modpacks no ModpackIndex',
+        one: 'Mostrar mais {n} modpack',
+        many: 'Mostrar mais {n} de modpacks',
+        other: 'Mostrar mais {n} modpacks',
       }),
+    less: 'Mostrar menos',
   },
 
   footer: {
@@ -780,6 +782,8 @@ export const ptBR: Messages = {
     community: 'Comunidade',
     bug: 'Relatar um bug',
     contribute: 'Contribuir',
+    /** Around the link to ModpackIndex, which lists the modpacks. */
+    modpacks: { before: 'Lista de modpacks do', after: '' },
     official:
       'Não é um produto oficial do Minecraft. Não aprovado pela Mojang ou pela Microsoft, nem associado a elas.',
   },

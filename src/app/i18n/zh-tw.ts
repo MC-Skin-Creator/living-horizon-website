@@ -728,17 +728,18 @@ export const zhTW: Messages = {
     eyebrow: '模組包',
     title: '已收錄於',
     accent: '這些模組包。',
-    /** Around the link to ModpackIndex. */
-    text: {
-      before: '根據',
-      after:
-        '的資料，以下模組包包含 Living Horizon。你也做了一個？ModpackIndex 收錄後它就會出現在這裡。',
-    },
+    text: '以下模組包包含 Living Horizon。你也做了一個？它會自動出現在這裡。',
+    /** The word after the number of modpacks, in bold before it. */
+    packs: (n: number) => p(n, { other: '個模組包' }),
+    /** The word after the number of their downloads, in bold before it. */
+    downloads: (n: number) => p(n, { other: '次下載' }),
     by: (authors: string) => `作者：${authors}`,
+    /** A button to the modpack's own page on CurseForge or Modrinth. */
+    get: (platform: string) => `在 ${platform} 下載`,
     none: '還沒有模組包收錄 Living Horizon。你的可能是第一個。',
-    loading: 'ModpackIndex 一有回應，模組包就會顯示在這裡。',
-    browse: '在 ModpackIndex 上瀏覽',
-    all: (n: number) => p(n, { other: '在 ModpackIndex 上查看全部 {n} 個模組包' }),
+    loading: '模組包馬上就會顯示在這裡。',
+    more: (n: number) => p(n, { other: '再顯示 {n} 個模組包' }),
+    less: '收起',
   },
 
   footer: {
@@ -750,6 +751,8 @@ export const zhTW: Messages = {
     community: '社群',
     bug: '回報錯誤',
     contribute: '參與貢獻',
+    /** Around the link to ModpackIndex, which lists the modpacks. */
+    modpacks: { before: '模組包列表來自', after: '' },
     official:
       '非官方 Minecraft 產品。未經 Mojang 或 Microsoft 核准，也與 Mojang 或 Microsoft 無關。',
   },

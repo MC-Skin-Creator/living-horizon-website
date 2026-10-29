@@ -3,7 +3,15 @@
  * Shared by the page and by `scripts/snapshot.ts`, which runs it under Node: keep this file
  * free of value imports and of TypeScript-only syntax (enums, namespaces).
  */
-import type { CfProject, GhRelease, Modpack, MrProject, NxMod, RawData } from './models';
+import type {
+  CfProject,
+  GhRelease,
+  Modpack,
+  ModpackLink,
+  MrProject,
+  NxMod,
+  RawData,
+} from './models';
 
 export interface ProjectRef {
   repo: { owner: string; name: string; branch: string };
@@ -30,8 +38,8 @@ export interface Source<K extends SourceKey> {
 
 const MPI = 'https://www.modpackindex.com/api/v1';
 
-/** Modpacks whose authors and game versions are asked for: the ones the section shows. */
-export const MODPACK_DETAILS = 6;
+/** Modpacks whose authors and game versions are asked for, the most downloaded first. */
+const MODPACK_DETAILS = 30;
 
 const raw = (p: ProjectRef, path: string) =>
   `https://raw.githubusercontent.com/${p.repo.owner}/${p.repo.name}/${p.repo.branch}/${path}`;
@@ -145,7 +153,7 @@ export const SOURCES: { [K in SourceKey]: Source<K> } = {
           id: m.id,
           name: m.name,
           summary: m.summary ?? '',
-          url: m.url || m.links?.curseforge || m.links?.modrinth || m.page_url,
+          links: modpackLinks(m),
           thumbnail: m.thumbnail_url || null,
           downloads: m.download_count ?? 0,
           authors: [],
@@ -154,7 +162,7 @@ export const SOURCES: { [K in SourceKey]: Source<K> } = {
         }))
         .sort((a: Modpack, b: Modpack) => b.downloads - a.downloads);
     },
-    // The list has no authors nor game versions: ask each modpack the section shows.
+    // The list has no authors nor game versions: ask the most downloaded modpacks for them.
     complete: async (packs) =>
       Promise.all(
         (packs ?? []).map(async (pack, i) => {
@@ -179,6 +187,16 @@ export const SOURCES: { [K in SourceKey]: Source<K> } = {
       ),
   },
 };
+
+/** A modpack's own pages on CurseForge and Modrinth, never ModpackIndex's. */
+function modpackLinks(m: any): ModpackLink[] {
+  const links: ModpackLink[] = [];
+  const curseforge = m.links?.curseforge;
+  const modrinth = m.links?.modrinth ?? m.modrinth_info?.url;
+  if (curseforge) links.push({ platform: 'curseforge', url: curseforge });
+  if (modrinth) links.push({ platform: 'modrinth', url: modrinth });
+  return links;
+}
 
 /** "1.20.1" before "1.21" before "26.1.2". */
 function byVersion(a: string, b: string): number {

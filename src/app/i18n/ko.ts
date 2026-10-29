@@ -732,17 +732,18 @@ export const ko: Messages = {
     eyebrow: '모드팩',
     title: '이미',
     accent: '모드팩에 들어 있어요.',
-    /** Around the link to ModpackIndex. */
-    text: {
-      before: '',
-      after:
-        '에 등록된, Living Horizon이 들어 있는 모드팩입니다. 직접 만들었나요? ModpackIndex에 등록되면 여기에 표시됩니다.',
-    },
+    text: 'Living Horizon이 들어 있는 모드팩입니다. 직접 만들었나요? 여기에 자동으로 표시됩니다.',
+    /** The word after the number of modpacks, in bold before it. */
+    packs: (n: number) => p(n, { other: '개의 모드팩' }),
+    /** The word after the number of their downloads, in bold before it. */
+    downloads: (n: number) => p(n, { other: '회 다운로드' }),
     by: (authors: string) => `제작: ${authors}`,
+    /** A button to the modpack's own page on CurseForge or Modrinth. */
+    get: (platform: string) => `${platform}에서 다운로드`,
     none: '아직 Living Horizon이 들어 있는 모드팩이 없습니다. 첫 번째 모드팩의 주인공이 되어 보세요.',
-    loading: 'ModpackIndex가 응답하면 여기에 모드팩이 표시됩니다.',
-    browse: 'ModpackIndex에서 둘러보기',
-    all: (n: number) => p(n, { other: 'ModpackIndex에서 모드팩 {n}개 모두 보기' }),
+    loading: '잠시 후 여기에 모드팩이 표시됩니다.',
+    more: (n: number) => p(n, { other: '모드팩 {n}개 더 보기' }),
+    less: '접기',
   },
 
   footer: {
@@ -754,6 +755,8 @@ export const ko: Messages = {
     community: '커뮤니티',
     bug: '버그 신고',
     contribute: '기여하기',
+    /** Around the link to ModpackIndex, which lists the modpacks. */
+    modpacks: { before: '모드팩 목록 제공:', after: '' },
     official:
       '공식 Minecraft 제품이 아닙니다. Mojang 또는 Microsoft의 승인을 받지 않았으며 관련이 없습니다.',
   },

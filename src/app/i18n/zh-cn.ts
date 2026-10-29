@@ -728,17 +728,18 @@ export const zhCN: Messages = {
     eyebrow: '整合包',
     title: '已收录于',
     accent: '这些整合包。',
-    /** Around the link to ModpackIndex. */
-    text: {
-      before: '据',
-      after:
-        '统计，以下整合包包含 Living Horizon。你也做了一个？ModpackIndex 收录后它就会出现在这里。',
-    },
+    text: '以下整合包包含 Living Horizon。你也做了一个？它会自动出现在这里。',
+    /** The word after the number of modpacks, in bold before it. */
+    packs: (n: number) => p(n, { other: '个整合包' }),
+    /** The word after the number of their downloads, in bold before it. */
+    downloads: (n: number) => p(n, { other: '次下载' }),
     by: (authors: string) => `作者：${authors}`,
+    /** A button to the modpack's own page on CurseForge or Modrinth. */
+    get: (platform: string) => `在 ${platform} 下载`,
     none: '还没有整合包收录 Living Horizon。你的可能是第一个。',
-    loading: 'ModpackIndex 一有回应，整合包就会显示在这里。',
-    browse: '在 ModpackIndex 上浏览',
-    all: (n: number) => p(n, { other: '在 ModpackIndex 上查看全部 {n} 个整合包' }),
+    loading: '整合包马上就会显示在这里。',
+    more: (n: number) => p(n, { other: '再显示 {n} 个整合包' }),
+    less: '收起',
   },
 
   footer: {
@@ -750,6 +751,8 @@ export const zhCN: Messages = {
     community: '社区',
     bug: '报告 bug',
     contribute: '参与贡献',
+    /** Around the link to ModpackIndex, which lists the modpacks. */
+    modpacks: { before: '整合包列表来自', after: '' },
     official:
       '非官方 Minecraft 产品。未经 Mojang 或 Microsoft 批准，也与 Mojang 或 Microsoft 无关。',
   },

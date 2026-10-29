@@ -758,22 +758,25 @@ export const ru: Messages = {
     eyebrow: 'Сборки',
     title: 'Уже в',
     accent: 'сборках.',
-    /** Around the link to ModpackIndex. */
-    text: {
-      before: 'Сборки с Living Horizon по данным',
-      after: '. Сделали свою? Она появится здесь, как только её добавит ModpackIndex.',
-    },
+    text: 'Сборки с Living Horizon. Сделали свою? Она появится здесь сама.',
+    /** The word after the number of modpacks, in bold before it. */
+    packs: (n: number) => p(n, { one: 'сборка', few: 'сборки', many: 'сборок', other: 'сборки' }),
+    /** The word after the number of their downloads, in bold before it. */
+    downloads: (n: number) =>
+      p(n, { one: 'скачивание', few: 'скачивания', many: 'скачиваний', other: 'скачивания' }),
     by: (authors: string) => `автор: ${authors}`,
+    /** A button to the modpack's own page on CurseForge or Modrinth. */
+    get: (platform: string) => `Скачать на ${platform}`,
     none: 'Пока ни одна сборка не включает Living Horizon. Ваша может стать первой.',
-    loading: 'Сборки появятся здесь, как только ответит ModpackIndex.',
-    browse: 'Смотреть на ModpackIndex',
-    all: (n: number) =>
+    loading: 'Сборки появятся здесь через мгновение.',
+    more: (n: number) =>
       p(n, {
-        one: 'Все {n} сборка на ModpackIndex',
-        few: 'Все {n} сборки на ModpackIndex',
-        many: 'Все {n} сборок на ModpackIndex',
-        other: 'Все {n} сборки на ModpackIndex',
+        one: 'Показать ещё {n} сборку',
+        few: 'Показать ещё {n} сборки',
+        many: 'Показать ещё {n} сборок',
+        other: 'Показать ещё {n} сборки',
       }),
+    less: 'Свернуть',
   },
 
   footer: {
@@ -785,6 +788,8 @@ export const ru: Messages = {
     community: 'Сообщество',
     bug: 'Сообщить об ошибке',
     contribute: 'Участие',
+    /** Around the link to ModpackIndex, which lists the modpacks. */
+    modpacks: { before: 'Список сборок:', after: '' },
     official:
       'Не является официальным продуктом Minecraft. Не одобрено Mojang или Microsoft и не связано с ними.',
   },

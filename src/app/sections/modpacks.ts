@@ -1,18 +1,23 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { SITE } from '../config/site';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ModpackLink } from '../data/models';
 import { ProjectData } from '../data/project-data';
-import { MODPACK_DETAILS } from '../data/sources';
 import { I18n } from '../i18n/i18n';
+import { CountPipe } from '../shared/format';
 import { Icon } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
 
-/** Cards shown, those whose details are fetched; the rest are one click away. */
-const SHOWN = MODPACK_DETAILS;
+/** Cards shown before "Show more". */
+const SHOWN = 6;
+
+const PLATFORMS: Record<ModpackLink['platform'], { name: string; logo: string }> = {
+  curseforge: { name: 'CurseForge', logo: 'img/logos/curseforge.svg' },
+  modrinth: { name: 'Modrinth', logo: 'img/logos/modrinth.svg' },
+};
 
 @Component({
   selector: 'lh-modpacks',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, Reveal],
+  imports: [Icon, Reveal, CountPipe],
   template: `
     @let t = i18n.t().modpacks;
     <section class="section" id="modpacks">
@@ -22,59 +27,86 @@ const SHOWN = MODPACK_DETAILS;
           <h2>
             {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
           </h2>
-          <p>
-            {{ t.text.before }}
-            <a [href]="site.links.modpackIndex" target="_blank" rel="noopener">ModpackIndex</a
-            >{{ t.text.after }}
-          </p>
+          <p>{{ t.text }}</p>
+          @if (packs()?.length) {
+            <p class="totals">
+              <span
+                ><strong>{{ packs()!.length | count }}</strong> {{ t.packs(packs()!.length) }}</span
+              >
+              <span
+                ><lh-icon name="download" /><strong>{{ downloads() | count }}</strong>
+                {{ t.downloads(downloads()) }}</span
+              >
+            </p>
+          }
         </header>
 
         @if (packs(); as list) {
           @if (list.length) {
             <ul class="packs">
-              @for (pack of shown(); track pack.url; let i = $index) {
-                <li [lhReveal]="i * 60">
-                  <a class="card pack" [href]="pack.url" target="_blank" rel="noopener">
-                    <span class="thumb">
-                      @if (pack.thumbnail) {
-                        <img
-                          [src]="pack.thumbnail"
-                          alt=""
-                          width="64"
-                          height="64"
-                          loading="lazy"
-                          referrerpolicy="no-referrer"
-                        />
-                      } @else {
-                        <lh-icon name="box" />
-                      }
-                    </span>
-                    <span class="head">
-                      <strong class="name">{{ pack.name }}</strong>
-                      @if (pack.authors.length) {
-                        <span class="by">{{ t.by(pack.authors.join(', ')) }}</span>
-                      }
-                    </span>
-                    @if (pack.summary) {
-                      <span class="summary">{{ pack.summary }}</span>
+              @for (pack of shown(); track pack.id; let i = $index) {
+                <li class="card pack" [lhReveal]="(i % SHOWN) * 60">
+                  <span class="thumb">
+                    @if (pack.thumbnail) {
+                      <img
+                        [src]="pack.thumbnail"
+                        alt=""
+                        width="64"
+                        height="64"
+                        loading="lazy"
+                        referrerpolicy="no-referrer"
+                      />
+                    } @else {
+                      <lh-icon name="box" />
                     }
-                    <span class="facts">
-                      <span
-                        ><lh-icon name="download" />
-                        {{ i18n.t().download.count(pack.downloads) }}</span
+                  </span>
+                  <span class="head">
+                    <h3 class="name">{{ pack.name }}</h3>
+                    @if (pack.authors.length) {
+                      <span class="by">{{ t.by(pack.authors.join(', ')) }}</span>
+                    }
+                  </span>
+                  @if (pack.summary) {
+                    <p class="summary">{{ pack.summary }}</p>
+                  }
+                  <p class="facts">
+                    <span class="count"
+                      ><lh-icon name="download" />
+                      {{ i18n.t().download.count(pack.downloads) }}</span
+                    >
+                    @if (pack.versions.length) {
+                      <span>
+                        <lh-icon name="tag" />
+                        {{ i18n.t().hero.minecraft }} {{ versionRange(pack.versions) }}
+                      </span>
+                    }
+                  </p>
+                  <div class="links">
+                    @for (link of pack.links; track link.platform) {
+                      <a
+                        class="btn small get"
+                        [class]="link.platform"
+                        [href]="link.url"
+                        target="_blank"
+                        rel="noopener"
                       >
-                      @if (pack.versions.length) {
-                        <span>
-                          <lh-icon name="tag" />
-                          {{ i18n.t().hero.minecraft }} {{ versionRange(pack.versions) }}
-                        </span>
-                      }
-                    </span>
-                    <lh-icon class="go" name="external" />
-                  </a>
+                        <img [src]="platforms[link.platform].logo" alt="" width="18" height="18" />
+                        {{ t.get(platforms[link.platform].name) }}
+                      </a>
+                    }
+                  </div>
                 </li>
               }
             </ul>
+
+            @if (list.length > SHOWN) {
+              <div class="actions">
+                <button class="btn" type="button" (click)="all.set(!all())">
+                  <lh-icon [name]="all() ? 'close' : 'plus'" />
+                  {{ all() ? t.less : t.more(list.length - SHOWN) }}
+                </button>
+              </div>
+            }
           } @else {
             <p class="card empty" lhReveal>
               <lh-icon name="box" />
@@ -84,25 +116,26 @@ const SHOWN = MODPACK_DETAILS;
         } @else {
           <p class="card empty" lhReveal>{{ t.loading }}</p>
         }
-
-        <div class="actions" lhReveal>
-          <a class="btn" [href]="site.links.modpackIndex" target="_blank" rel="noopener">
-            <lh-icon name="external" />
-            {{ (packs()?.length ?? 0) > shown().length ? t.all(packs()!.length) : t.browse }}
-          </a>
-        </div>
       </div>
     </section>
   `,
   styleUrl: './modpacks.scss',
 })
 export class Modpacks {
-  protected readonly site = SITE;
   protected readonly data = inject(ProjectData);
   protected readonly i18n = inject(I18n);
+  protected readonly platforms = PLATFORMS;
+  protected readonly SHOWN = SHOWN;
 
   protected readonly packs = this.data.modpacks;
-  protected readonly shown = computed(() => (this.packs() ?? []).slice(0, SHOWN));
+  protected readonly all = signal(false);
+  protected readonly shown = computed(() => {
+    const list = this.packs() ?? [];
+    return this.all() ? list : list.slice(0, SHOWN);
+  });
+  protected readonly downloads = computed(() =>
+    (this.packs() ?? []).reduce((sum, p) => sum + p.downloads, 0),
+  );
 
   /** "1.20.1", or "1.20.1 – 1.21.1" for a pack on several versions. */
   protected versionRange(versions: string[]): string {

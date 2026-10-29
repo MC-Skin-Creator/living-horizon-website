@@ -768,20 +768,18 @@ export const en = {
     eyebrow: 'Modpacks',
     title: 'Already in',
     accent: 'modpacks.',
-    /** Around the link to ModpackIndex. */
-    text: {
-      before: 'Packs that ship Living Horizon, as listed on',
-      after: '. Made one with it? It shows up here once ModpackIndex lists it.',
-    },
+    text: 'Packs that ship Living Horizon. Made one with it? It shows up here on its own.',
+    /** The word after the number of modpacks, in bold before it. */
+    packs: (n: number) => p(n, { one: 'modpack', other: 'modpacks' }),
+    /** The word after the number of their downloads, in bold before it. */
+    downloads: (n: number) => p(n, { one: 'download', other: 'downloads' }),
     by: (authors: string) => `by ${authors}`,
-    none: 'No modpack lists Living Horizon yet. Yours could be the first.',
-    loading: 'The modpacks show up here as soon as ModpackIndex answers.',
-    browse: 'Browse them on ModpackIndex',
-    all: (n: number) =>
-      p(n, {
-        one: 'See the modpack on ModpackIndex',
-        other: 'See all {n} modpacks on ModpackIndex',
-      }),
+    /** A button to the modpack's own page on CurseForge or Modrinth. */
+    get: (platform: string) => `Download on ${platform}`,
+    none: 'No modpack ships Living Horizon yet. Yours could be the first.',
+    loading: 'The modpacks show up here in a moment.',
+    more: (n: number) => p(n, { one: 'Show {n} more modpack', other: 'Show {n} more modpacks' }),
+    less: 'Show less',
   },
 
   footer: {
@@ -794,6 +792,8 @@ export const en = {
     community: 'Community',
     bug: 'Report a bug',
     contribute: 'Contribute',
+    /** Around the link to ModpackIndex, which lists the modpacks. */
+    modpacks: { before: 'Modpack list from', after: '' },
     official:
       'Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.',
   },

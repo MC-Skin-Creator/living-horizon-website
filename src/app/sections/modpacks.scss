@@ -1,5 +1,25 @@
-.section-head a {
-  color: var(--text);
+.totals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  strong {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--text);
+  }
+
+  lh-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--sun);
+  }
 }
 
 .packs {
@@ -9,32 +29,14 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
-
-  li {
-    display: grid;
-  }
 }
 
 .pack {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto 1fr auto auto;
   column-gap: 14px;
   row-gap: 12px;
-  color: inherit;
-  text-decoration: none;
-  transition:
-    transform 0.2s var(--ease-out),
-    border-color 0.2s;
-
-  &:hover {
-    transform: translateY(-3px);
-    border-color: rgb(255 179 94 / 0.45);
-
-    .go {
-      color: var(--sun);
-    }
-  }
 }
 
 .thumb {
@@ -64,10 +66,10 @@
   align-content: center;
   gap: 4px;
   min-width: 0;
-  padding-right: 22px;
 }
 
 .name {
+  margin: 0;
   font-family: var(--font-display);
   font-size: 1.08rem;
   line-height: 1.25;
@@ -82,6 +84,7 @@
 
 .summary {
   grid-column: 1 / -1;
+  margin: 0;
   color: var(--muted);
   font-size: 0.94rem;
   display: -webkit-box;
@@ -94,6 +97,7 @@
 .facts {
   grid-column: 1 / -1;
   align-self: end;
+  margin: 0;
   display: flex;
   flex-wrap: wrap;
   gap: 8px 16px;
@@ -112,16 +116,43 @@
     height: 15px;
     color: var(--sun);
   }
+
+  .count {
+    color: var(--text);
+    font-size: 0.95rem;
+  }
 }
 
-.go {
-  position: absolute;
-  top: clamp(20px, 3vw, 28px);
-  right: clamp(20px, 3vw, 28px);
-  width: 16px;
-  height: 16px;
-  color: var(--dim);
-  transition: color 0.2s;
+.links {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+// Each platform's colour, as on the download section's tiles.
+.get {
+  flex: 1 1 auto;
+  border-color: color-mix(in srgb, var(--brand) 45%, var(--line));
+  background: color-mix(in srgb, var(--brand) 16%, #0d1120);
+
+  img {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+  }
+
+  &.curseforge {
+    --brand: #f16436;
+  }
+
+  &.modrinth {
+    --brand: #1bd96a;
+  }
+
+  &:hover {
+    border-color: var(--brand);
+  }
 }
 
 .empty {

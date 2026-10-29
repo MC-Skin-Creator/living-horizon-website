@@ -760,21 +760,24 @@ export const fr: Messages = {
     eyebrow: 'Modpacks',
     title: 'Déjà dans des',
     accent: 'modpacks.',
-    /** Around the link to ModpackIndex. */
-    text: {
-      before: 'Les packs qui embarquent Living Horizon, tels que les liste',
-      after: '. Tu en as fait un avec ? Il apparaît ici dès que ModpackIndex le liste.',
-    },
+    text: 'Les packs qui embarquent Living Horizon. Tu en as fait un avec ? Il apparaîtra ici tout seul.',
+    /** The word after the number of modpacks, in bold before it. */
+    packs: (n: number) => p(n, { one: 'modpack', many: 'de modpacks', other: 'modpacks' }),
+    /** The word after the number of their downloads, in bold before it. */
+    downloads: (n: number) =>
+      p(n, { one: 'téléchargement', many: 'de téléchargements', other: 'téléchargements' }),
     by: (authors: string) => `par ${authors}`,
-    none: "Aucun modpack n'inclut encore Living Horizon. Le tien pourrait être le premier.",
-    loading: 'Les modpacks apparaissent ici dès que ModpackIndex répond.',
-    browse: 'Les parcourir sur ModpackIndex',
-    all: (n: number) =>
+    /** A button to the modpack's own page on CurseForge or Modrinth. */
+    get: (platform: string) => `Télécharger sur ${platform}`,
+    none: "Aucun modpack n'embarque encore Living Horizon. Le tien pourrait être le premier.",
+    loading: 'Les modpacks apparaissent ici dans un instant.',
+    more: (n: number) =>
       p(n, {
-        one: 'Voir le modpack sur ModpackIndex',
-        many: 'Voir les {n} de modpacks sur ModpackIndex',
-        other: 'Voir les {n} modpacks sur ModpackIndex',
+        one: 'Voir {n} modpack de plus',
+        many: 'Voir {n} de modpacks de plus',
+        other: 'Voir {n} modpacks de plus',
       }),
+    less: 'Voir moins',
   },
 
   footer: {
@@ -787,6 +790,8 @@ export const fr: Messages = {
     community: 'Communauté',
     bug: 'Signaler un bug',
     contribute: 'Contribuer',
+    /** Around the link to ModpackIndex, which lists the modpacks. */
+    modpacks: { before: 'Liste des modpacks fournie par', after: '' },
     official:
       'Pas un produit officiel de Minecraft. Non approuvé par Mojang ou Microsoft, ni associé à eux.',
   },

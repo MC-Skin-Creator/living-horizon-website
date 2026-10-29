@@ -70,6 +70,11 @@ import { Icon } from '../shared/icon';
 
         <div class="bottom">
           <p>© {{ year }} {{ site.author }} · Living Horizon</p>
+          <p>
+            {{ t.footer.modpacks.before }}
+            <a [href]="site.links.modpackIndex" target="_blank" rel="noopener">ModpackIndex</a
+            >{{ t.footer.modpacks.after }}
+          </p>
           <p>{{ t.footer.official }}</p>
         </div>
       </div>
@@ -153,6 +158,9 @@ import { Icon } from '../shared/icon';
       gap: 8px 24px;
       font-size: 0.82rem;
       color: var(--dim);
+    }
+    .bottom a {
+      color: var(--muted);
     }
     @media (max-width: 860px) {
       .top {

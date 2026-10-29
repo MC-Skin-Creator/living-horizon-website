@@ -761,22 +761,26 @@ export const pl: Messages = {
     eyebrow: 'Modpacki',
     title: 'Już w',
     accent: 'modpackach.',
-    /** Around the link to ModpackIndex. */
-    text: {
-      before: 'Paczki zawierające Living Horizon według listy',
-      after: '. Zrobiłeś własną? Pojawi się tutaj, gdy tylko ModpackIndex ją wymieni.',
-    },
+    text: 'Paczki zawierające Living Horizon. Zrobiłeś własną? Pojawi się tutaj sama.',
+    /** The word after the number of modpacks, in bold before it. */
+    packs: (n: number) =>
+      p(n, { one: 'modpack', few: 'modpacki', many: 'modpacków', other: 'modpacka' }),
+    /** The word after the number of their downloads, in bold before it. */
+    downloads: (n: number) =>
+      p(n, { one: 'pobranie', few: 'pobrania', many: 'pobrań', other: 'pobrania' }),
     by: (authors: string) => `autor: ${authors}`,
+    /** A button to the modpack's own page on CurseForge or Modrinth. */
+    get: (platform: string) => `Pobierz z ${platform}`,
     none: 'Żaden modpack nie zawiera jeszcze Living Horizon. Twój może być pierwszy.',
-    loading: 'Modpacki pojawią się tutaj, gdy tylko ModpackIndex odpowie.',
-    browse: 'Przeglądaj na ModpackIndex',
-    all: (n: number) =>
+    loading: 'Modpacki pojawią się tu za chwilę.',
+    more: (n: number) =>
       p(n, {
-        one: 'Zobacz modpack na ModpackIndex',
-        few: 'Zobacz wszystkie {n} modpacki na ModpackIndex',
-        many: 'Zobacz wszystkie {n} modpacków na ModpackIndex',
-        other: 'Zobacz wszystkie {n} modpacka na ModpackIndex',
+        one: 'Pokaż jeszcze {n} modpack',
+        few: 'Pokaż jeszcze {n} modpacki',
+        many: 'Pokaż jeszcze {n} modpacków',
+        other: 'Pokaż jeszcze {n} modpacka',
       }),
+    less: 'Pokaż mniej',
   },
 
   footer: {
@@ -788,6 +792,8 @@ export const pl: Messages = {
     community: 'Społeczność',
     bug: 'Zgłoś błąd',
     contribute: 'Współtwórz',
+    /** Around the link to ModpackIndex, which lists the modpacks. */
+    modpacks: { before: 'Lista modpacków z', after: '' },
     official:
       'Nie jest oficjalnym produktem Minecraft. Niezatwierdzony przez Mojang ani Microsoft i niepowiązany z nimi.',
   },

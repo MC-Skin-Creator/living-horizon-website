@@ -68,8 +68,8 @@ export interface Modpack {
   id: number;
   name: string;
   summary: string;
-  /** Its page on CurseForge or Modrinth, else on ModpackIndex. */
-  url: string;
+  /** Where it is downloaded: its own pages on CurseForge and Modrinth, straight. */
+  links: ModpackLink[];
   thumbnail: string | null;
   downloads: number;
   /** Empty when ModpackIndex was not asked, or did not answer. */
@@ -77,6 +77,11 @@ export interface Modpack {
   /** Minecraft versions, oldest first; empty like `authors`. */
   versions: string[];
   updated: string | null;
+}
+
+export interface ModpackLink {
+  platform: 'curseforge' | 'modrinth';
+  url: string;
 }
 
 export type Loader = 'fabric' | 'quilt' | 'neoforge' | 'forge';

@@ -757,21 +757,23 @@ export const es: Messages = {
     eyebrow: 'Modpacks',
     title: 'Ya está en',
     accent: 'modpacks.',
-    /** Around the link to ModpackIndex. */
-    text: {
-      before: 'Packs que incluyen Living Horizon, según la lista de',
-      after: '. ¿Has hecho uno con él? Aparecerá aquí en cuanto ModpackIndex lo liste.',
-    },
+    text: 'Packs que incluyen Living Horizon. ¿Has hecho uno con él? Aparecerá aquí solo.',
+    /** The word after the number of modpacks, in bold before it. */
+    packs: (n: number) => p(n, { one: 'modpack', many: 'de modpacks', other: 'modpacks' }),
+    /** The word after the number of their downloads, in bold before it. */
+    downloads: (n: number) => p(n, { one: 'descarga', many: 'de descargas', other: 'descargas' }),
     by: (authors: string) => `por ${authors}`,
+    /** A button to the modpack's own page on CurseForge or Modrinth. */
+    get: (platform: string) => `Descargar en ${platform}`,
     none: 'Ningún modpack incluye Living Horizon todavía. El tuyo podría ser el primero.',
-    loading: 'Los modpacks aparecen aquí en cuanto ModpackIndex responde.',
-    browse: 'Verlos en ModpackIndex',
-    all: (n: number) =>
+    loading: 'Los modpacks aparecen aquí en un momento.',
+    more: (n: number) =>
       p(n, {
-        one: 'Ver el modpack en ModpackIndex',
-        many: 'Ver los {n} de modpacks en ModpackIndex',
-        other: 'Ver los {n} modpacks en ModpackIndex',
+        one: 'Ver {n} modpack más',
+        many: 'Ver {n} de modpacks más',
+        other: 'Ver {n} modpacks más',
       }),
+    less: 'Ver menos',
   },
 
   footer: {
@@ -784,6 +786,8 @@ export const es: Messages = {
     community: 'Comunidad',
     bug: 'Informar de un error',
     contribute: 'Contribuir',
+    /** Around the link to ModpackIndex, which lists the modpacks. */
+    modpacks: { before: 'Lista de modpacks de', after: '' },
     official:
       'No es un producto oficial de Minecraft. No está aprobado por Mojang ni Microsoft ni asociado a ellos.',
   },

@@ -731,21 +731,18 @@ export const tr: Messages = {
     eyebrow: 'Mod paketleri',
     title: 'Şimdiden',
     accent: 'mod paketlerinde.',
-    /** Around the link to ModpackIndex. */
-    text: {
-      before: 'Living Horizon içeren paketler,',
-      after:
-        ' listesine göre. Onunla bir paket mi yaptınız? ModpackIndex listelediği anda burada görünür.',
-    },
+    text: 'Living Horizon içeren paketler. Onunla bir paket mi yaptınız? Kendiliğinden burada görünür.',
+    /** The word after the number of modpacks, in bold before it. */
+    packs: (n: number) => p(n, { other: 'mod paketi' }),
+    /** The word after the number of their downloads, in bold before it. */
+    downloads: (n: number) => p(n, { other: 'indirme' }),
     by: (authors: string) => `${authors} tarafından`,
+    /** A button to the modpack's own page on CurseForge or Modrinth. */
+    get: (platform: string) => `${platform} üzerinden indir`,
     none: 'Henüz hiçbir mod paketi Living Horizon içermiyor. İlki sizinki olabilir.',
-    loading: 'Mod paketleri, ModpackIndex yanıt verdiği anda burada görünür.',
-    browse: "ModpackIndex'te göz atın",
-    all: (n: number) =>
-      p(n, {
-        one: "Mod paketini ModpackIndex'te görün",
-        other: "{n} mod paketinin tümünü ModpackIndex'te görün",
-      }),
+    loading: 'Mod paketleri birazdan burada görünecek.',
+    more: (n: number) => p(n, { other: '{n} mod paketi daha göster' }),
+    less: 'Daha az göster',
   },
 
   footer: {
@@ -758,6 +755,8 @@ export const tr: Messages = {
     community: 'Topluluk',
     bug: 'Hata bildirin',
     contribute: 'Katkıda bulunun',
+    /** Around the link to ModpackIndex, which lists the modpacks. */
+    modpacks: { before: 'Mod paketi listesi:', after: '' },
     official:
       'Resmî bir Minecraft ürünü değildir. Mojang veya Microsoft tarafından onaylanmamıştır ve onlarla ilişkili değildir.',
   },
