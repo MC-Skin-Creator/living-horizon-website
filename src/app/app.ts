@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Changelog } from './sections/changelog';
+import { Compare } from './sections/compare';
 import { Compatibility } from './sections/compatibility';
 import { Concept } from './sections/concept';
 import { Contribute } from './sections/contribute';
@@ -18,30 +19,34 @@ import { Testers } from './sections/testers';
   imports: [
     Nav,
     Hero,
+    Compare,
     Concept,
     Features,
     Compatibility,
+    Download,
     Performance,
     Testers,
     Contribute,
     Changelog,
     Faq,
-    Download,
     Footer,
   ],
+  // The slider first: one look sells the mod. Download right after what a player needs to
+  // decide, the technical sections below it.
   template: `
     <lh-nav />
     <main>
       <lh-hero />
+      <lh-compare />
       <lh-concept />
       <lh-features />
       <lh-compatibility />
+      <lh-download />
       <lh-performance />
       <lh-testers />
       <lh-contribute />
       <lh-changelog />
       <lh-faq />
-      <lh-download />
     </main>
     <lh-footer />
   `,

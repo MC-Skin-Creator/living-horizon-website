@@ -25,10 +25,10 @@ const TABS: Tab[] = [
   imports: [BeforeAfter, Icon, Reveal],
   template: `
     @let t = i18n.t().compare;
-    <div class="part" id="compare">
+    <section class="section" id="compare">
       <div class="glow" aria-hidden="true"></div>
       <div class="container">
-        <header class="section-head sub center" lhReveal>
+        <header class="section-head center" lhReveal>
           <span class="eyebrow">{{ t.eyebrow }}</span>
           <h2>
             {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
@@ -79,7 +79,7 @@ const TABS: Tab[] = [
           </p>
         }
       </div>
-    </div>
+    </section>
   `,
   styleUrl: './compare.scss',
 })
