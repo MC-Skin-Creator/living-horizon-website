@@ -1,5 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { SITE } from '../config/site';
 import { ChangeGroup, ChangelogVersion, Inline } from '../data/models';
 import { ProjectData } from '../data/project-data';
@@ -9,14 +10,15 @@ import { DayPipe } from '../shared/format';
 import { Icon } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
 
-const SHOWN_VERSIONS = 3;
+/** Versions shown on the home page; the changelog page shows them all. */
+const HOME_VERSIONS = 1;
 /** Entries shown for an older version before "show more". */
 const PREVIEW_ENTRIES = 3;
 
 @Component({
   selector: 'lh-changelog',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, Reveal, DayPipe, NgTemplateOutlet],
+  imports: [Icon, Reveal, DayPipe, NgTemplateOutlet, RouterLink],
   template: `
     <ng-template #inline let-parts>
       @for (p of asInline(parts); track $index) {
@@ -39,13 +41,19 @@ const PREVIEW_ENTRIES = 3;
     </ng-template>
 
     @let t = i18n.t().changelog;
-    <section class="section" id="changelog">
+    <section class="section" id="changelog" [class.page-top]="page()">
       <div class="container">
         <header class="section-head" lhReveal>
           <span class="eyebrow">{{ t.eyebrow }}</span>
-          <h2>
-            {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
-          </h2>
+          @if (page()) {
+            <h1>
+              {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
+            </h1>
+          } @else {
+            <h2>
+              {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
+            </h2>
+          }
           <p>{{ data.changelogLang() === i18n.lang() ? t.text : t.textEnglish }}</p>
         </header>
 
@@ -114,13 +122,18 @@ const PREVIEW_ENTRIES = 3;
         }
 
         <div class="actions" lhReveal>
+          @if (!page()) {
+            <a class="btn primary" routerLink="/changelog">
+              {{ t.every }} <lh-icon name="arrow-right" />
+            </a>
+          }
           <a
             class="btn"
             [href]="site.changelogFile(data.changelogLang())"
             target="_blank"
             rel="noopener"
           >
-            {{ t.full }} <lh-icon name="arrow-right" />
+            {{ t.full }} <lh-icon name="external" />
           </a>
           <a class="btn ghost" [href]="site.links.releases" target="_blank" rel="noopener">
             {{ t.releases }} <lh-icon name="external" />
@@ -137,7 +150,12 @@ export class Changelog {
   protected readonly i18n = inject(I18n);
   private readonly expanded = signal<ReadonlySet<string>>(new Set());
 
-  protected readonly versions = computed(() => this.data.changelog().slice(0, SHOWN_VERSIONS));
+  /** The changelog page: every version, and the page's heading. */
+  readonly page = input(false);
+
+  protected readonly versions = computed(() =>
+    this.page() ? this.data.changelog() : this.data.changelog().slice(0, HOME_VERSIONS),
+  );
 
   /** New, Improved, Fixed in the page's language; any other group keeps its own title. */
   protected kindName(t: Messages['changelog'], g: ChangeGroup): string {

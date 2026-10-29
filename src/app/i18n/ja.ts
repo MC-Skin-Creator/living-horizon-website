@@ -32,11 +32,25 @@ export const ja: Messages = {
     tag: 'ベータ',
     menu: 'メニュー',
     features: '機能',
-    compatibility: '互換性',
+    mods: 'MOD',
+    modpacks: 'Modパック',
     testers: 'テスター',
-    contribute: '開発に参加',
     faq: 'よくある質問',
     download: (version: string) => `v${version}をダウンロード`,
+  },
+
+  pages: {
+    mods: {
+      title: '対応MOD',
+      description:
+        'Living HorizonとほかのMinecraft MODとの互換性：遠景地形、シェーダー、パフォーマンス、生き物のMOD。動作するもの、既知の問題があるもの、テスター待ちのもの。',
+    },
+    modpacks: {
+      title: 'Modパック',
+      description:
+        'Living Horizonを含むMinecraftのModパックと、CurseForgeやModrinthでのダウンロードリンク。',
+    },
+    changelog: { title: '更新履歴', description: 'Living Horizonの各バージョンとその変更点。' },
   },
 
   hero: {
@@ -284,6 +298,16 @@ export const ja: Messages = {
       'サーバーにも同じjar。MODなしのサーバーにも参加可能',
       'Sodiumのビデオ設定から設定可能（0.8以降）',
     ],
+    /** The link to the compatible mods page, under the cards. */
+    others: {
+      title: 'ほかのMODは？',
+      text: (n: number) =>
+        p(n, {
+          other:
+            '{n}個のMODを掲載中：シェーダー、パフォーマンス、生き物のMOD。動作するものと、まだテスターを待っているもの。',
+        }),
+      link: '対応MODを見る',
+    },
     matrixTitle: 'Minecraftのバージョンとローダー',
     matrixText: 'ゲームバージョンとローダーごとにjarがひとつ。',
     builds: (builds: number, range: string) => p(builds, { other: `{n}ビルド（${range}）。` }),
@@ -435,6 +459,8 @@ export const ja: Messages = {
     failed: '更新履歴を読み込めませんでした。GitHubでいつでも見られます。',
     full: 'GitHubで更新履歴をすべて見る',
     releases: 'すべてのリリース',
+    /** The link to the changelog page, on the home page. */
+    every: 'すべてのバージョンを見る',
   },
 
   faq: {
@@ -728,6 +754,47 @@ export const ja: Messages = {
     soon: '近日公開',
     checking: '確認中…',
     everyFile: 'すべてのファイル',
+    /** How many modpacks ship the mod: in the modpacks' row above and the modpacks section. */
+    packs: (n: number) => p(n, { other: '{n}件のModパック' }),
+  },
+
+  modpacks: {
+    eyebrow: 'Modパック',
+    title: 'すでに',
+    accent: 'Modパックに収録。',
+    text: 'Living Horizonを含むModパックです。あなたも作った？自動でここに表示されます。',
+    by: (authors: string) => `作者: ${authors}`,
+    /** A button to the modpack's own page on CurseForge or Modrinth. */
+    get: (platform: string) => `${platform}でダウンロード`,
+    none: 'Living Horizonを含むModパックはまだありません。あなたのパックが最初になるかも。',
+    loading: 'Modパックはまもなくここに表示されます。',
+    /** The link to the modpacks page, under the home page's cards. */
+    all: (n: number) => p(n, { other: 'Modパックを{n}件すべて見る' }),
+  },
+
+  mods: {
+    eyebrow: '互換性',
+    title: 'あなたのMODと',
+    accent: 'うまく動く。',
+    text: 'GitHubのプロジェクトから直接取得し、テストのたびに更新：動作するもの、既知の問題があるもの、まだ誰かが試すのを待っているもの。メモは英語です。',
+    search: 'MODを検索',
+    filter: 'ステータスで絞り込む',
+    all: 'すべて',
+    status: { works: '動作', issue: '既知の問題', untested: '未テスト' },
+    /** The heading of the shader packs, after the mods. */
+    shaders: 'シェーダーパック',
+    /** The note of every mod still waiting for a tester, next to the link to its issue. */
+    untested: 'どう動くかはまだ誰からも聞いていません。試しましたか？そのissueで教えてください。',
+    issue: (n: number) => `Issue #${n}`,
+    none: '検索に一致するMODはありません。',
+    missing: {
+      title: '載っていないMODがありますか？',
+      text: 'Living Horizonと一緒にどう動くか、良くも悪くも教えてください。どの報告も助けになります。',
+      link: 'MODを報告',
+    },
+    /** Shown when GitHub cannot be reached and there is no copy of the list. */
+    failed: '一覧を読み込めませんでした。GitHubでいつでも見られます。',
+    failedLink: 'GitHubで一覧を見る',
   },
 
   footer: {
@@ -739,6 +806,8 @@ export const ja: Messages = {
     community: 'コミュニティ',
     bug: 'バグを報告',
     contribute: '開発に参加',
+    /** Around the link to ModpackIndex, which lists the modpacks. */
+    modpacks: { before: 'Modパック一覧の提供:', after: '' },
     official:
       'Minecraftの公式製品ではありません。MojangまたはMicrosoftから承認されておらず、関連もありません。',
   },

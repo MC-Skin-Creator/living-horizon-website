@@ -32,11 +32,25 @@ export const uk: Messages = {
     tag: 'бета',
     menu: 'Меню',
     features: 'Можливості',
-    compatibility: 'Сумісність',
+    mods: 'Моди',
+    modpacks: 'Збірки',
     testers: 'Тестувальники',
-    contribute: 'Долучитися',
     faq: 'Питання',
     download: (version: string) => `Завантажити v${version}`,
+  },
+
+  pages: {
+    mods: {
+      title: 'Сумісні моди',
+      description:
+        'Як Living Horizon працює з іншими модами Minecraft: далекий рельєф, шейдери, продуктивність і моди на істот. Що працює, де є відома проблема і що чекає на тестувальника.',
+    },
+    modpacks: {
+      title: 'Збірки',
+      description:
+        'Збірки Minecraft із Living Horizon і посилання на їх завантаження на CurseForge і Modrinth.',
+    },
+    changelog: { title: 'Зміни', description: 'Кожна версія Living Horizon і що в ній змінилося.' },
   },
 
   hero: {
@@ -283,6 +297,19 @@ export const uk: Messages = {
       'Той самий jar на серверах — або заходьте на будь-який сервер без нього',
       'Налаштування в «Налаштуваннях графіки» Sodium (0.8+)',
     ],
+    /** The link to the compatible mods page, under the cards. */
+    others: {
+      title: 'А ваші інші моди?',
+      text: (n: number) =>
+        p(n, {
+          one: 'У списку {n} мод: шейдери, продуктивність, моди на істот. Що працює і що ще чекає на тестувальника.',
+          few: 'У списку {n} моди: шейдери, продуктивність, моди на істот. Що працює і що ще чекає на тестувальника.',
+          many: 'У списку {n} модів: шейдери, продуктивність, моди на істот. Що працює і що ще чекає на тестувальника.',
+          other:
+            'У списку {n} мода: шейдери, продуктивність, моди на істот. Що працює і що ще чекає на тестувальника.',
+        }),
+      link: 'Сумісні моди',
+    },
     matrixTitle: 'Версії Minecraft і завантажувачі',
     matrixText: 'Один jar на кожну версію гри й завантажувач.',
     builds: (builds: number, range: string) =>
@@ -454,6 +481,8 @@ export const uk: Messages = {
     failed: 'Не вдалося завантажити список змін. Він завжди є на GitHub.',
     full: 'Увесь список змін на GitHub',
     releases: 'Усі релізи',
+    /** The link to the changelog page, on the home page. */
+    every: 'Усі версії',
   },
 
   faq: {
@@ -754,6 +783,54 @@ export const uk: Messages = {
     soon: 'Незабаром',
     checking: 'Перевірка…',
     everyFile: 'усі файли',
+    /** How many modpacks ship the mod: in the modpacks' row above and the modpacks section. */
+    packs: (n: number) =>
+      p(n, { one: '{n} збірка', few: '{n} збірки', many: '{n} збірок', other: '{n} збірки' }),
+  },
+
+  modpacks: {
+    eyebrow: 'Збірки',
+    title: 'Уже в',
+    accent: 'збірках.',
+    text: 'Збірки з Living Horizon. Зробили свою? Вона з’явиться тут сама.',
+    by: (authors: string) => `автор: ${authors}`,
+    /** A button to the modpack's own page on CurseForge or Modrinth. */
+    get: (platform: string) => `Завантажити з ${platform}`,
+    none: 'Поки жодна збірка не містить Living Horizon. Ваша може стати першою.',
+    loading: 'Збірки з’являться тут за мить.',
+    /** The link to the modpacks page, under the home page's cards. */
+    all: (n: number) =>
+      p(n, {
+        one: 'Усі {n} збірка',
+        few: 'Усі {n} збірки',
+        many: 'Усі {n} збірок',
+        other: 'Усі {n} збірки',
+      }),
+  },
+
+  mods: {
+    eyebrow: 'Сумісність',
+    title: 'Ладнає',
+    accent: 'з вашими модами.',
+    text: 'Просто з проєкту на GitHub і оновлюється з кожним тестом: що працює, де є відома проблема і що ще чекає, поки хтось спробує. Нотатки англійською.',
+    search: 'Знайти мод',
+    filter: 'Фільтр за статусом',
+    all: 'Усі',
+    status: { works: 'Працює', issue: 'Відома проблема', untested: 'Ще не перевірено' },
+    /** The heading of the shader packs, after the mods. */
+    shaders: 'Пакети шейдерів',
+    /** The note of every mod still waiting for a tester, next to the link to its issue. */
+    untested: 'Поки ніхто не розповів, як він працює. Пробували? Напишіть у його issue.',
+    issue: (n: number) => `Issue #${n}`,
+    none: 'Жоден мод не відповідає пошуку.',
+    missing: {
+      title: 'Бракує мода?',
+      text: 'Розкажіть, як Living Horizon працює з ним, добре чи погано: кожен звіт допомагає.',
+      link: 'Повідомити про мод',
+    },
+    /** Shown when GitHub cannot be reached and there is no copy of the list. */
+    failed: 'Не вдалося завантажити список. Він завжди є на GitHub.',
+    failedLink: 'Відкрити список на GitHub',
   },
 
   footer: {
@@ -765,6 +842,8 @@ export const uk: Messages = {
     community: 'Спільнота',
     bug: 'Повідомити про помилку',
     contribute: 'Долучитися',
+    /** Around the link to ModpackIndex, which lists the modpacks. */
+    modpacks: { before: 'Список збірок:', after: '' },
     official:
       'Не є офіційним продуктом Minecraft. Не схвалено Mojang чи Microsoft і не пов’язано з ними.',
   },

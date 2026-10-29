@@ -21,8 +21,11 @@ let failures = 0;
 
 for (const key of Object.keys(SOURCES) as SourceKey[]) {
   const source = SOURCES[key];
+  // GitHub's API: the releases, and the issues the compatible mods are read from.
   const init =
-    key === 'github' && token ? { headers: { Authorization: `Bearer ${token}` } } : undefined;
+    (key === 'github' || key === 'compat') && token
+      ? { headers: { Authorization: `Bearer ${token}` } }
+      : undefined;
   const value = await fetchSource(source as any, SITE, init);
   if (value === undefined) {
     failures++;

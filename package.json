@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --base-href ./",
+    "build": "ng build --base-href ./ && node scripts/pages.mts",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "snapshot": "node scripts/snapshot.mts"
@@ -17,6 +17,7 @@
     "@angular/compiler": "^22.2.0",
     "@angular/core": "^22.2.0",
     "@angular/platform-browser": "^22.2.0",
+    "@angular/router": "^22.2.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

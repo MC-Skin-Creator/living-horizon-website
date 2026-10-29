@@ -32,11 +32,25 @@ export const zhCN: Messages = {
     tag: '测试版',
     menu: '菜单',
     features: '功能',
-    compatibility: '兼容性',
+    mods: '模组',
+    modpacks: '整合包',
     testers: '测试者',
-    contribute: '参与贡献',
     faq: '常见问题',
     download: (version: string) => `下载 v${version}`,
+  },
+
+  pages: {
+    mods: {
+      title: '兼容模组',
+      description:
+        'Living Horizon 与其他 Minecraft 模组的兼容情况：远景地形、光影、性能和生物模组。哪些可用，哪些有已知问题，哪些还在等人测试。',
+    },
+    modpacks: {
+      title: '整合包',
+      description:
+        '收录 Living Horizon 的 Minecraft 整合包，以及它们在 CurseForge 和 Modrinth 上的下载链接。',
+    },
+    changelog: { title: '更新日志', description: 'Living Horizon 的每个版本及其改动。' },
   },
 
   hero: {
@@ -281,6 +295,13 @@ export const zhCN: Messages = {
       '服务器上用同一个 jar，不装它也能加入任何服务器',
       '设置也在 Sodium 的视频设置中（0.8+）',
     ],
+    /** The link to the compatible mods page, under the cards. */
+    others: {
+      title: '你的其他模组呢？',
+      text: (n: number) =>
+        p(n, { other: '已列出 {n} 个模组：光影、性能、生物模组。哪些可用，哪些还在等人测试。' }),
+      link: '查看兼容模组',
+    },
     matrixTitle: 'Minecraft 版本和加载器',
     matrixText: '每个游戏版本和加载器各一个 jar。',
     builds: (builds: number, range: string) =>
@@ -431,6 +452,8 @@ export const zhCN: Messages = {
     failed: '暂时无法加载更新日志。它一直在 GitHub 上。',
     full: '在 GitHub 上查看完整更新日志',
     releases: '所有版本',
+    /** The link to the changelog page, on the home page. */
+    every: '查看所有版本',
   },
 
   faq: {
@@ -722,6 +745,47 @@ export const zhCN: Messages = {
     soon: '即将推出',
     checking: '检查中…',
     everyFile: '所有文件',
+    /** How many modpacks ship the mod: in the modpacks' row above and the modpacks section. */
+    packs: (n: number) => p(n, { other: '{n} 个整合包' }),
+  },
+
+  modpacks: {
+    eyebrow: '整合包',
+    title: '已收录于',
+    accent: '这些整合包。',
+    text: '以下整合包包含 Living Horizon。你也做了一个？它会自动出现在这里。',
+    by: (authors: string) => `作者：${authors}`,
+    /** A button to the modpack's own page on CurseForge or Modrinth. */
+    get: (platform: string) => `在 ${platform} 下载`,
+    none: '还没有整合包收录 Living Horizon。你的可能是第一个。',
+    loading: '整合包马上就会显示在这里。',
+    /** The link to the modpacks page, under the home page's cards. */
+    all: (n: number) => p(n, { other: '查看全部 {n} 个整合包' }),
+  },
+
+  mods: {
+    eyebrow: '兼容性',
+    title: '与你的模组',
+    accent: '和睦相处。',
+    text: '直接取自 GitHub 上的项目，随测试更新：哪些可用，哪些有已知问题，哪些还在等人试一试。说明为英文。',
+    search: '搜索模组',
+    filter: '按状态筛选',
+    all: '全部',
+    status: { works: '可用', issue: '已知问题', untested: '尚未测试' },
+    /** The heading of the shader packs, after the mods. */
+    shaders: '光影包',
+    /** The note of every mod still waiting for a tester, next to the link to its issue. */
+    untested: '还没有人告诉我们它运行得怎么样。试过了吗？在它的 issue 里告诉我们。',
+    issue: (n: number) => `Issue #${n}`,
+    none: '没有符合搜索的模组。',
+    missing: {
+      title: '列表里缺了某个模组？',
+      text: '告诉我们 Living Horizon 和它一起运行得如何，好坏都行：每份反馈都有帮助。',
+      link: '报告模组',
+    },
+    /** Shown when GitHub cannot be reached and there is no copy of the list. */
+    failed: '列表暂时无法加载。它始终在 GitHub 上。',
+    failedLink: '在 GitHub 上查看列表',
   },
 
   footer: {
@@ -733,6 +797,8 @@ export const zhCN: Messages = {
     community: '社区',
     bug: '报告 bug',
     contribute: '参与贡献',
+    /** Around the link to ModpackIndex, which lists the modpacks. */
+    modpacks: { before: '整合包列表来自', after: '' },
     official:
       '非官方 Minecraft 产品。未经 Mojang 或 Microsoft 批准，也与 Mojang 或 Microsoft 无关。',
   },

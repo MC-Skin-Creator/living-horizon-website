@@ -32,11 +32,25 @@ export const zhTW: Messages = {
     tag: '測試版',
     menu: '選單',
     features: '功能',
-    compatibility: '相容性',
+    mods: '模組',
+    modpacks: '模組包',
     testers: '測試者',
-    contribute: '參與貢獻',
     faq: '常見問題',
     download: (version: string) => `下載 v${version}`,
+  },
+
+  pages: {
+    mods: {
+      title: '相容模組',
+      description:
+        'Living Horizon 與其他 Minecraft 模組的相容情況：遠景地形、光影、效能和生物模組。哪些可用，哪些有已知問題，哪些還在等人測試。',
+    },
+    modpacks: {
+      title: '模組包',
+      description:
+        '收錄 Living Horizon 的 Minecraft 模組包，以及它們在 CurseForge 和 Modrinth 上的下載連結。',
+    },
+    changelog: { title: '更新日誌', description: 'Living Horizon 的每個版本及其變更。' },
   },
 
   hero: {
@@ -281,6 +295,13 @@ export const zhTW: Messages = {
       '伺服器上用同一個 jar，不裝它也能加入任何伺服器',
       '設定也在 Sodium 的顯示設定中（0.8+）',
     ],
+    /** The link to the compatible mods page, under the cards. */
+    others: {
+      title: '你的其他模組呢？',
+      text: (n: number) =>
+        p(n, { other: '已列出 {n} 個模組：光影、效能、生物模組。哪些可用，哪些還在等人測試。' }),
+      link: '查看相容模組',
+    },
     matrixTitle: 'Minecraft 版本與載入器',
     matrixText: '每個遊戲版本與載入器各一個 jar。',
     builds: (builds: number, range: string) =>
@@ -431,6 +452,8 @@ export const zhTW: Messages = {
     failed: '目前無法載入更新日誌。它一直都在 GitHub 上。',
     full: '在 GitHub 上查看完整更新日誌',
     releases: '所有版本',
+    /** The link to the changelog page, on the home page. */
+    every: '查看所有版本',
   },
 
   faq: {
@@ -722,6 +745,47 @@ export const zhTW: Messages = {
     soon: '即將推出',
     checking: '檢查中…',
     everyFile: '所有檔案',
+    /** How many modpacks ship the mod: in the modpacks' row above and the modpacks section. */
+    packs: (n: number) => p(n, { other: '{n} 個模組包' }),
+  },
+
+  modpacks: {
+    eyebrow: '模組包',
+    title: '已收錄於',
+    accent: '這些模組包。',
+    text: '以下模組包包含 Living Horizon。你也做了一個？它會自動出現在這裡。',
+    by: (authors: string) => `作者：${authors}`,
+    /** A button to the modpack's own page on CurseForge or Modrinth. */
+    get: (platform: string) => `在 ${platform} 下載`,
+    none: '還沒有模組包收錄 Living Horizon。你的可能是第一個。',
+    loading: '模組包馬上就會顯示在這裡。',
+    /** The link to the modpacks page, under the home page's cards. */
+    all: (n: number) => p(n, { other: '查看全部 {n} 個模組包' }),
+  },
+
+  mods: {
+    eyebrow: '相容性',
+    title: '與你的模組',
+    accent: '和睦相處。',
+    text: '直接取自 GitHub 上的專案，隨測試更新：哪些可用，哪些有已知問題，哪些還在等人試一試。說明為英文。',
+    search: '搜尋模組',
+    filter: '依狀態篩選',
+    all: '全部',
+    status: { works: '可用', issue: '已知問題', untested: '尚未測試' },
+    /** The heading of the shader packs, after the mods. */
+    shaders: '光影包',
+    /** The note of every mod still waiting for a tester, next to the link to its issue. */
+    untested: '還沒有人告訴我們它執行得怎麼樣。試過了嗎？在它的 issue 裡告訴我們。',
+    issue: (n: number) => `Issue #${n}`,
+    none: '沒有符合搜尋的模組。',
+    missing: {
+      title: '清單裡少了某個模組？',
+      text: '告訴我們 Living Horizon 和它一起執行得如何，好壞都行：每份回報都有幫助。',
+      link: '回報模組',
+    },
+    /** Shown when GitHub cannot be reached and there is no copy of the list. */
+    failed: '清單暫時無法載入。它一直都在 GitHub 上。',
+    failedLink: '在 GitHub 上查看清單',
   },
 
   footer: {
@@ -733,6 +797,8 @@ export const zhTW: Messages = {
     community: '社群',
     bug: '回報錯誤',
     contribute: '參與貢獻',
+    /** Around the link to ModpackIndex, which lists the modpacks. */
+    modpacks: { before: '模組包列表來自', after: '' },
     official:
       '非官方 Minecraft 產品。未經 Mojang 或 Microsoft 核准，也與 Mojang 或 Microsoft 無關。',
   },

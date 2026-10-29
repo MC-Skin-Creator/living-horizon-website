@@ -126,6 +126,11 @@ p {
   padding-block: clamp(64px, 9vw, 112px);
 }
 
+// A page of its own: its first section starts below the fixed navigation bar.
+.page-top {
+  padding-top: clamp(112px, 16vh, 164px);
+}
+
 .section-head {
   max-width: 720px;
   margin-bottom: clamp(36px, 5vw, 56px);
@@ -140,6 +145,11 @@ p {
 
   h2 {
     font-size: clamp(2rem, 4.4vw, 3.1rem);
+  }
+
+  // The heading of a page of its own.
+  h1 {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
   }
 
   // The heading of a part of a section (the features' multiplayer).

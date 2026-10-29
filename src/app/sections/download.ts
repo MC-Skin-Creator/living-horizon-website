@@ -15,6 +15,18 @@ import { CountPipe, DayPipe } from '../shared/format';
 import { Icon } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
 
+interface Platform {
+  name: string;
+  /** Its mark, or none for the modpacks' row, which shows an icon. */
+  logo: string | null;
+  tone: string;
+  url: string;
+  detail: string;
+  soon: boolean;
+  /** A link to a section of this page rather than another site. */
+  internal?: boolean;
+}
+
 @Component({
   selector: 'lh-download',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -149,17 +161,26 @@ import { Reveal } from '../shared/reveal';
                 class="card platform"
                 [class.soon]="p.soon"
                 [href]="p.url"
-                target="_blank"
-                rel="noopener"
+                [attr.target]="p.internal ? null : '_blank'"
+                [attr.rel]="p.internal ? null : 'noopener'"
               >
-                <span class="mark" [class]="p.tone"
-                  ><img [src]="p.logo" [alt]="i18n.t().common.logo(p.name)" width="26" height="26"
-                /></span>
+                <span class="mark" [class]="p.tone">
+                  @if (p.logo) {
+                    <img
+                      [src]="p.logo"
+                      [alt]="i18n.t().common.logo(p.name)"
+                      width="26"
+                      height="26"
+                    />
+                  } @else {
+                    <lh-icon name="box" />
+                  }
+                </span>
                 <span class="pinfo">
                   <strong>{{ p.name }}</strong>
                   <span>{{ p.detail }}</span>
                 </span>
-                <lh-icon name="external" />
+                <lh-icon [name]="p.internal ? 'arrow-right' : 'external'" />
               </a>
             }
           </div>
@@ -202,7 +223,8 @@ export class Download {
     const t = this.i18n.t().download;
     const count = (n: number | null) => (n === null ? t.noCount : t.count(n));
     const listed = this.data.modrinthListed();
-    return [
+    const packs = this.data.modpacks();
+    return <Platform[]>[
       {
         name: 'CurseForge',
         logo: 'img/logos/curseforge.svg',
@@ -234,6 +256,17 @@ export class Download {
         url: SITE.links.nexus,
         detail: count(d.nexus),
         soon: false,
+      },
+      {
+        name: this.i18n.t().modpacks.eyebrow,
+        logo: null,
+        tone: 'mp',
+        url: '#modpacks',
+        // Their downloads stay out of the total: a pack installed from CurseForge already
+        // counts as a download of the mod there.
+        detail: packs ? t.packs(packs.length) : t.checking,
+        soon: false,
+        internal: true,
       },
     ];
   });

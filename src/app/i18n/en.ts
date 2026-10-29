@@ -42,11 +42,28 @@ export const en = {
     tag: 'beta',
     menu: 'Menu',
     features: 'Features',
-    compatibility: 'Compatibility',
+    mods: 'Mods',
+    modpacks: 'Modpacks',
     testers: 'Testers',
-    contribute: 'Contribute',
     faq: 'FAQ',
     download: (version: string) => `Download v${version}`,
+  },
+
+  pages: {
+    mods: {
+      title: 'Compatible mods',
+      description:
+        'How Living Horizon runs with other Minecraft mods: far terrain, shaders, performance and creature mods. What works, what has a known issue, and what waits for a tester.',
+    },
+    modpacks: {
+      title: 'Modpacks',
+      description:
+        'The Minecraft modpacks that ship Living Horizon, with their download links on CurseForge and Modrinth.',
+    },
+    changelog: {
+      title: 'Changelog',
+      description: 'Every version of Living Horizon and what changed in it.',
+    },
   },
 
   hero: {
@@ -301,6 +318,17 @@ export const en = {
       'Same jar on servers, or join any server without it',
       "Settings in Sodium's Video Settings (0.8+)",
     ],
+    /** The link to the compatible mods page, under the cards. */
+    others: {
+      title: 'And your other mods?',
+      text: (n: number) =>
+        p(n, {
+          one: '{n} mod listed: shaders, performance, creature mods. What works, and what still waits for a tester.',
+          other:
+            '{n} mods listed: shaders, performance, creature mods. What works, and what still waits for a tester.',
+        }),
+      link: 'See compatible mods',
+    },
     matrixTitle: 'Minecraft versions and loaders',
     matrixText: 'One jar per game version and loader.',
     builds: (builds: number, range: string) =>
@@ -462,6 +490,8 @@ export const en = {
     failed: "The changelog couldn't be loaded right now. It's always on GitHub.",
     full: 'View full changelog on GitHub',
     releases: 'All releases',
+    /** The link to the changelog page, on the home page. */
+    every: 'See every version',
   },
 
   /**
@@ -762,6 +792,47 @@ export const en = {
     soon: 'Coming soon',
     checking: 'Checking…',
     everyFile: 'every file',
+    /** How many modpacks ship the mod: in the modpacks' row above and the modpacks section. */
+    packs: (n: number) => p(n, { one: '{n} modpack', other: '{n} modpacks' }),
+  },
+
+  modpacks: {
+    eyebrow: 'Modpacks',
+    title: 'Already in',
+    accent: 'modpacks.',
+    text: 'Packs that ship Living Horizon. Made one with it? It shows up here on its own.',
+    by: (authors: string) => `by ${authors}`,
+    /** A button to the modpack's own page on CurseForge or Modrinth. */
+    get: (platform: string) => `Download on ${platform}`,
+    none: 'No modpack ships Living Horizon yet. Yours could be the first.',
+    loading: 'The modpacks show up here in a moment.',
+    /** The link to the modpacks page, under the home page's cards. */
+    all: (n: number) => p(n, { one: 'See the modpacks page', other: 'See all {n} modpacks' }),
+  },
+
+  mods: {
+    eyebrow: 'Compatibility',
+    title: 'Plays well',
+    accent: 'with your mods.',
+    text: 'Straight from the project on GitHub, updated as tests come in: what works, what has a known issue, and what still waits for someone to try it. Notes are in English.',
+    search: 'Search a mod',
+    filter: 'Filter by status',
+    all: 'All',
+    status: { works: 'Works', issue: 'Known issue', untested: 'Not tested yet' },
+    /** The heading of the shader packs, after the mods. */
+    shaders: 'Shader packs',
+    /** The note of every mod still waiting for a tester, next to the link to its issue. */
+    untested: 'Nobody has told us how it runs yet. Tried it? Tell us on its issue.',
+    issue: (n: number) => `Issue #${n}`,
+    none: 'No mod matches your search.',
+    missing: {
+      title: 'A mod missing from the list?',
+      text: 'Tell us how Living Horizon runs with it, good or bad: every report helps.',
+      link: 'Report a mod',
+    },
+    /** Shown when GitHub cannot be reached and there is no copy of the list. */
+    failed: "The list couldn't be loaded right now. It's always on GitHub.",
+    failedLink: 'Open the list on GitHub',
   },
 
   footer: {
@@ -774,6 +845,8 @@ export const en = {
     community: 'Community',
     bug: 'Report a bug',
     contribute: 'Contribute',
+    /** Around the link to ModpackIndex, which lists the modpacks. */
+    modpacks: { before: 'Modpack list from', after: '' },
     official:
       'Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.',
   },

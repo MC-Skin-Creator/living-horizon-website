@@ -291,6 +291,17 @@ select {
     --brand: #ffffff;
   }
 
+  // The modpacks that ship the mod: the site's own colour, an icon instead of a mark.
+  &.mp {
+    --brand: var(--sun);
+    color: var(--sun);
+
+    lh-icon {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
   &.nx {
     --brand: #fb923c;
 

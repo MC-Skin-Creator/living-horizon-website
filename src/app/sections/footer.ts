@@ -1,20 +1,20 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { SITE } from '../config/site';
-import { ProjectData } from '../data/project-data';
 import { I18n } from '../i18n/i18n';
 import { Icon } from '../shared/icon';
 
 @Component({
   selector: 'lh-footer',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon],
+  imports: [Icon, RouterLink],
   template: `
     @let t = i18n.t();
     <footer>
       <div class="container">
         <div class="top">
           <div class="brand">
-            <a href="#top" class="logo">
+            <a routerLink="/" fragment="top" class="logo">
               <img src="img/icon-128.webp" alt="" width="44" height="44" loading="lazy" />
               <img
                 class="wordmark"
@@ -32,9 +32,9 @@ import { Icon } from '../shared/icon';
           <nav [attr.aria-label]="t.footer.project">
             <h3>{{ t.footer.project }}</h3>
             <a [href]="site.links.github" target="_blank" rel="noopener">GitHub</a>
-            <a [href]="site.changelogFile(data.changelogLang())" target="_blank" rel="noopener">{{
-              t.common.changelog
-            }}</a>
+            <a routerLink="/mods">{{ t.pages.mods.title }}</a>
+            <a routerLink="/modpacks">{{ t.pages.modpacks.title }}</a>
+            <a routerLink="/changelog">{{ t.common.changelog }}</a>
             <a [href]="site.links.readme" target="_blank" rel="noopener">{{ t.footer.docs }}</a>
             <a [href]="site.links.license" target="_blank" rel="noopener">{{ t.footer.license }}</a>
           </nav>
@@ -61,7 +61,9 @@ import { Icon } from '../shared/icon';
             <a [href]="site.links.issues" target="_blank" rel="noopener"
               ><lh-icon name="bug" /> {{ t.footer.bug }}</a
             >
-            <a href="#testers"><lh-icon name="flask" /> {{ t.common.becomeTester }}</a>
+            <a routerLink="/" fragment="testers"
+              ><lh-icon name="flask" /> {{ t.common.becomeTester }}</a
+            >
             <a [href]="site.links.contributing" target="_blank" rel="noopener"
               ><lh-icon name="github" /> {{ t.footer.contribute }}</a
             >
@@ -70,6 +72,11 @@ import { Icon } from '../shared/icon';
 
         <div class="bottom">
           <p>© {{ year }} {{ site.author }} · Living Horizon</p>
+          <p>
+            {{ t.footer.modpacks.before }}
+            <a [href]="site.links.modpackIndex" target="_blank" rel="noopener">ModpackIndex</a
+            >{{ t.footer.modpacks.after }}
+          </p>
           <p>{{ t.footer.official }}</p>
         </div>
       </div>
@@ -154,6 +161,9 @@ import { Icon } from '../shared/icon';
       font-size: 0.82rem;
       color: var(--dim);
     }
+    .bottom a {
+      color: var(--muted);
+    }
     @media (max-width: 860px) {
       .top {
         grid-template-columns: 1fr 1fr;
@@ -171,7 +181,6 @@ import { Icon } from '../shared/icon';
 })
 export class Footer {
   protected readonly site = SITE;
-  protected readonly data = inject(ProjectData);
   protected readonly i18n = inject(I18n);
   protected readonly year = new Date().getFullYear();
 }

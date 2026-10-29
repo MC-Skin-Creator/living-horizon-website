@@ -32,11 +32,28 @@ export const it: Messages = {
     tag: 'beta',
     menu: 'Menu',
     features: 'Funzionalità',
-    compatibility: 'Compatibilità',
+    mods: 'Mod',
+    modpacks: 'Modpack',
     testers: 'Tester',
-    contribute: 'Contribuisci',
     faq: 'FAQ',
     download: (version: string) => `Scarica v${version}`,
+  },
+
+  pages: {
+    mods: {
+      title: 'Mod compatibili',
+      description:
+        'Come funziona Living Horizon con altre mod di Minecraft: terreno lontano, shader, prestazioni e mod di creature. Cosa funziona, cosa ha un problema noto e cosa aspetta un tester.',
+    },
+    modpacks: {
+      title: 'Modpack',
+      description:
+        'I modpack di Minecraft che includono Living Horizon, con i link per scaricarli su CurseForge e Modrinth.',
+    },
+    changelog: {
+      title: 'Changelog',
+      description: 'Ogni versione di Living Horizon e cosa è cambiato.',
+    },
   },
 
   hero: {
@@ -284,6 +301,18 @@ export const it: Messages = {
       'Stesso jar sui server, oppure entra in qualsiasi server senza',
       'Impostazioni nelle Impostazioni video di Sodium (0.8+)',
     ],
+    /** The link to the compatible mods page, under the cards. */
+    others: {
+      title: 'E le tue altre mod?',
+      text: (n: number) =>
+        p(n, {
+          one: '{n} mod in elenco: shader, prestazioni, mod di creature. Cosa funziona e cosa aspetta ancora un tester.',
+          many: '{n} di mod in elenco: shader, prestazioni, mod di creature. Cosa funziona e cosa aspetta ancora un tester.',
+          other:
+            '{n} mod in elenco: shader, prestazioni, mod di creature. Cosa funziona e cosa aspetta ancora un tester.',
+        }),
+      link: 'Vedi le mod compatibili',
+    },
     matrixTitle: 'Versioni di Minecraft e loader',
     matrixText: 'Un jar per ogni versione del gioco e loader.',
     builds: (builds: number, range: string) =>
@@ -438,6 +467,8 @@ export const it: Messages = {
     failed: 'Al momento non è stato possibile caricare il changelog. Lo trovi sempre su GitHub.',
     full: 'Vedi il changelog completo su GitHub',
     releases: 'Tutte le release',
+    /** The link to the changelog page, on the home page. */
+    every: 'Vedi tutte le versioni',
   },
 
   faq: {
@@ -735,6 +766,53 @@ export const it: Messages = {
     soon: 'In arrivo',
     checking: 'Verifica in corso…',
     everyFile: 'tutti i file',
+    /** How many modpacks ship the mod: in the modpacks' row above and the modpacks section. */
+    packs: (n: number) =>
+      p(n, { one: '{n} modpack', many: '{n} di modpack', other: '{n} modpack' }),
+  },
+
+  modpacks: {
+    eyebrow: 'Modpack',
+    title: 'Già in alcuni',
+    accent: 'modpack.',
+    text: 'I pack che includono Living Horizon. Ne hai creato uno? Comparirà qui da solo.',
+    by: (authors: string) => `di ${authors}`,
+    /** A button to the modpack's own page on CurseForge or Modrinth. */
+    get: (platform: string) => `Scarica su ${platform}`,
+    none: 'Nessun modpack include ancora Living Horizon. Il tuo potrebbe essere il primo.',
+    loading: 'I modpack compaiono qui tra un attimo.',
+    /** The link to the modpacks page, under the home page's cards. */
+    all: (n: number) =>
+      p(n, {
+        one: 'Vai alla pagina dei modpack',
+        many: 'Vedi tutti i {n} di modpack',
+        other: 'Vedi tutti i {n} modpack',
+      }),
+  },
+
+  mods: {
+    eyebrow: 'Compatibilità',
+    title: "Va d'accordo",
+    accent: 'con le tue mod.',
+    text: 'Direttamente dal progetto su GitHub, aggiornato a ogni test: cosa funziona, cosa ha un problema noto e cosa aspetta ancora qualcuno che la provi. Le note sono in inglese.',
+    search: 'Cerca una mod',
+    filter: 'Filtra per stato',
+    all: 'Tutte',
+    status: { works: 'Funziona', issue: 'Problema noto', untested: 'Non ancora testata' },
+    /** The heading of the shader packs, after the mods. */
+    shaders: 'Pacchetti di shader',
+    /** The note of every mod still waiting for a tester, next to the link to its issue. */
+    untested: "Nessuno ci ha ancora detto come gira. L'hai provata? Diccelo nella sua issue.",
+    issue: (n: number) => `Issue #${n}`,
+    none: 'Nessuna mod corrisponde alla ricerca.',
+    missing: {
+      title: 'Manca una mod?',
+      text: 'Dicci come gira Living Horizon con lei, bene o male: ogni segnalazione aiuta.',
+      link: 'Segnala una mod',
+    },
+    /** Shown when GitHub cannot be reached and there is no copy of the list. */
+    failed: "Non è stato possibile caricare l'elenco. È sempre su GitHub.",
+    failedLink: "Vedi l'elenco su GitHub",
   },
 
   footer: {
@@ -747,6 +825,8 @@ export const it: Messages = {
     community: 'Community',
     bug: 'Segnala un bug',
     contribute: 'Contribuisci',
+    /** Around the link to ModpackIndex, which lists the modpacks. */
+    modpacks: { before: 'Elenco dei modpack da', after: '' },
     official:
       'Non è un prodotto ufficiale di Minecraft. Non approvato da Mojang o Microsoft né associato a loro.',
   },

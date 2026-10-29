@@ -8,6 +8,28 @@ export interface RawData {
   /** `null` when the platform answered that the project does not exist (yet). */
   modrinth?: MrProject | null;
   nexus?: NxMod;
+  /** Modpacks that ship the mod, as ModpackIndex lists them. */
+  modpacks?: Modpack[];
+  /** The mods Living Horizon was checked with, from the mod's README and issues. */
+  compat?: CompatMod[];
+}
+
+/** `works`: seen working. `issue`: a known problem. `untested`: waits for a tester. */
+export type CompatStatus = 'works' | 'issue' | 'untested';
+
+export interface CompatMod {
+  name: string;
+  /** A shader pack has a section of its own: its Modrinth or CurseForge page says it is one. */
+  kind: 'mod' | 'shader';
+  status: CompatStatus;
+  /** What the README or the issue says, in English; `null` for a mod waiting for a tester. */
+  note: string | null;
+  /** Its issue in the mod's repository. */
+  issue: number | null;
+  icon: string | null;
+  /** Its own pages, when Modrinth and CurseForge know it. */
+  modrinth: string | null;
+  curseforge: string | null;
 }
 
 export interface GhAsset {
@@ -59,6 +81,27 @@ export interface MrProject {
 
 export interface NxMod {
   downloads: number;
+}
+
+export interface Modpack {
+  /** Its id on ModpackIndex. */
+  id: number;
+  name: string;
+  summary: string;
+  /** Where it is downloaded: its own pages on CurseForge and Modrinth, straight. */
+  links: ModpackLink[];
+  thumbnail: string | null;
+  downloads: number;
+  /** Empty when ModpackIndex was not asked, or did not answer. */
+  authors: string[];
+  /** Minecraft versions, oldest first; empty like `authors`. */
+  versions: string[];
+  updated: string | null;
+}
+
+export interface ModpackLink {
+  platform: 'curseforge' | 'modrinth';
+  url: string;
 }
 
 export type Loader = 'fabric' | 'quilt' | 'neoforge' | 'forge';

@@ -1,7 +1,25 @@
 # Living Horizon — website
 
-The one-page landing site of [Living Horizon](https://github.com/MC-Skin-Creator/living-horizon),
-the Minecraft mod that gives life to the distance. Angular, fully static, deployed to GitHub Pages.
+The website of [Living Horizon](https://github.com/MC-Skin-Creator/living-horizon), the
+Minecraft mod that gives life to the distance. Angular, fully static, deployed to GitHub Pages.
+
+## Pages
+
+| Path | What it shows |
+|---|---|
+| `/` | The landing page: what the mod does, download, and a short look at the rest |
+| `/mods` | Compatible mods: what works, what has a known issue, what waits for a tester |
+| `/modpacks` | Every modpack that ships the mod |
+| `/changelog` | Every version of the changelog |
+
+The home page keeps what convinces a player to install the mod, read top to bottom; what
+grows with time and is looked up (mods, modpacks, versions) has a page of its own, with a
+preview and a "see all" link on the home page. The pages are routes of the app
+(`src/app/app.routes.ts`); `npm run build` gives each one an `index.html` of its own
+(`scripts/pages.mts`) so that GitHub Pages serves `…/mods/` opened directly. A new page: a
+route, its path in `PAGES` of `scripts/pages.mts`, its title and description under `pages`
+of every dictionary (`pageMeta()` in its constructor), and a link in the nav or the footer.
+A link to a section of the home page from any page is a `routerLink="/"` with a `fragment`.
 
 ## Run it
 
@@ -27,6 +45,8 @@ lists them:
 | CurseForge downloads | api.cfwidget.com |
 | Modrinth downloads | Modrinth API (shows "Coming soon" while the project does not exist) |
 | Nexus Mods downloads | Nexus Mods GraphQL API (`api.nexusmods.com/v2/graphql`, no key) |
+| Modpacks that ship the mod | ModpackIndex API (`/mod/<id>/modpacks`, then `/modpack/<id>` for the authors and game versions of the 30 most downloaded; its filtered search refuses browsers), credited in the footer |
+| Compatible mods | The mod's README ("Compatibility" table) and its issues labelled `mod compatibility` (GitHub API); icons and CurseForge / Modrinth links from ModpackIndex, else Modrinth's search and api.cfwidget.com |
 
 The page first shows `public/data/snapshot.json`, then asks every source from the browser
 (cached 30 minutes in `localStorage`, GitHub allows 60 anonymous calls an hour). A source
@@ -84,6 +104,24 @@ starts so it never shows English first.
   (`out/media-kit/living-horizon-media-kit/`: `living-horizon_ruban_mix-couchant.png` for the hero,
   `living-horizon_seul_ligne-3D_mix-couchant.png` for the footer), trimmed and saved as
   WebP. `public/img/og-cover.jpg` is that cover cut to 1200×629 for link previews.
+- **Compatible mods**: nothing to edit here. The list is read from the mod repository on
+  every visit (`compat` in `src/app/data/sources.ts`): the rows of the README's
+  "Compatibility" table work (a row pointing to an open issue is a known issue), an open
+  issue labelled `mod compatibility` titled "Compatibility: <mods>" waits for a tester, any
+  other open one is a known issue (its title is the note), a closed completed one works. An
+  issue whose body lists `**Mods:**` names several mods. A shader pack (its Modrinth or
+  CurseForge page says so) gets a section of its own, after the mods that work: list one
+  as a row of the README's table. Each mod's icon and its CurseForge
+  and Modrinth pages come from ModpackIndex (`/api/v1/mods?name=`), else Modrinth's search
+  and cfwidget. Notes stay in English, as GitHub has them; to change what the page says,
+  change the README or the issue.
+- **Modpacks**: `src/app/sections/modpacks.ts` lists the modpacks ModpackIndex finds with the
+  mod (`SITE.modpackIndexModId`), how many there are, the most downloaded first: three on the
+  home page, all of them on `/modpacks`. The download section has a row for them next to the platforms, with how many
+  there are but not their downloads: a pack installed from CurseForge already counts there. Each one's
+  buttons go straight to its own CurseForge and Modrinth pages; ModpackIndex is only named in
+  the footer's credits. Nothing to edit when a pack is added: it shows up once ModpackIndex
+  lists it.
 - **Features and servers**: the feature cards are in `src/app/sections/features.ts`, the
   multiplayer section and its table (what works in single player, on LAN, on a server with or
   without the mod) in `src/app/sections/servers.ts`, their texts under `features` and `servers`

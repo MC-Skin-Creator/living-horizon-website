@@ -32,11 +32,25 @@ export const ko: Messages = {
     tag: '베타',
     menu: '메뉴',
     features: '기능',
-    compatibility: '호환성',
+    mods: '모드',
+    modpacks: '모드팩',
     testers: '테스터',
-    contribute: '기여하기',
     faq: 'FAQ',
     download: (version: string) => `v${version} 다운로드`,
+  },
+
+  pages: {
+    mods: {
+      title: '호환 모드',
+      description:
+        'Living Horizon이 다른 Minecraft 모드와 어떻게 작동하는지: 원거리 지형, 셰이더, 성능, 생물 모드. 작동하는 것, 알려진 문제가 있는 것, 테스터를 기다리는 것.',
+    },
+    modpacks: {
+      title: '모드팩',
+      description:
+        'Living Horizon이 들어 있는 Minecraft 모드팩과 CurseForge, Modrinth 다운로드 링크.',
+    },
+    changelog: { title: '변경 내역', description: 'Living Horizon의 모든 버전과 바뀐 점.' },
   },
 
   hero: {
@@ -284,6 +298,16 @@ export const ko: Messages = {
       '서버에도 같은 jar, 모드 없는 서버에도 접속 가능',
       'Sodium의 비디오 설정에서 설정 가능 (0.8+)',
     ],
+    /** The link to the compatible mods page, under the cards. */
+    others: {
+      title: '다른 모드는요?',
+      text: (n: number) =>
+        p(n, {
+          other:
+            '모드 {n}개 정리: 셰이더, 성능, 생물 모드. 작동하는 것과 아직 테스터를 기다리는 것.',
+        }),
+      link: '호환 모드 보기',
+    },
     matrixTitle: 'Minecraft 버전과 로더',
     matrixText: '게임 버전과 로더마다 jar 하나.',
     builds: (builds: number, range: string) => p(builds, { other: `빌드 {n}개, ${range}.` }),
@@ -435,6 +459,8 @@ export const ko: Messages = {
     failed: '지금은 변경 내역을 불러올 수 없습니다. GitHub에서 언제든 볼 수 있습니다.',
     full: 'GitHub에서 전체 변경 내역 보기',
     releases: '모든 릴리스',
+    /** The link to the changelog page, on the home page. */
+    every: '모든 버전 보기',
   },
 
   faq: {
@@ -726,6 +752,48 @@ export const ko: Messages = {
     soon: '곧 출시',
     checking: '확인 중…',
     everyFile: '모든 파일',
+    /** How many modpacks ship the mod: in the modpacks' row above and the modpacks section. */
+    packs: (n: number) => p(n, { other: '모드팩 {n}개' }),
+  },
+
+  modpacks: {
+    eyebrow: '모드팩',
+    title: '이미',
+    accent: '모드팩에 들어 있어요.',
+    text: 'Living Horizon이 들어 있는 모드팩입니다. 직접 만들었나요? 여기에 자동으로 표시됩니다.',
+    by: (authors: string) => `제작: ${authors}`,
+    /** A button to the modpack's own page on CurseForge or Modrinth. */
+    get: (platform: string) => `${platform}에서 다운로드`,
+    none: '아직 Living Horizon이 들어 있는 모드팩이 없습니다. 첫 번째 모드팩의 주인공이 되어 보세요.',
+    loading: '잠시 후 여기에 모드팩이 표시됩니다.',
+    /** The link to the modpacks page, under the home page's cards. */
+    all: (n: number) => p(n, { other: '모드팩 {n}개 모두 보기' }),
+  },
+
+  mods: {
+    eyebrow: '호환성',
+    title: '당신의 모드와',
+    accent: '잘 어울려요.',
+    text: 'GitHub의 프로젝트에서 바로 가져오며 테스트할 때마다 갱신됩니다: 작동하는 것, 알려진 문제가 있는 것, 아직 누군가 시험해 보기를 기다리는 것. 메모는 영어입니다.',
+    search: '모드 검색',
+    filter: '상태별 필터',
+    all: '전체',
+    status: { works: '작동', issue: '알려진 문제', untested: '아직 테스트 안 됨' },
+    /** The heading of the shader packs, after the mods. */
+    shaders: '셰이더 팩',
+    /** The note of every mod still waiting for a tester, next to the link to its issue. */
+    untested:
+      '아직 어떻게 작동하는지 알려 준 사람이 없습니다. 해 보셨나요? 해당 이슈에서 알려 주세요.',
+    issue: (n: number) => `이슈 #${n}`,
+    none: '검색과 일치하는 모드가 없습니다.',
+    missing: {
+      title: '목록에 없는 모드가 있나요?',
+      text: 'Living Horizon이 그 모드와 어떻게 작동하는지 좋든 나쁘든 알려 주세요. 모든 보고가 도움이 됩니다.',
+      link: '모드 제보하기',
+    },
+    /** Shown when GitHub cannot be reached and there is no copy of the list. */
+    failed: '지금은 목록을 불러올 수 없습니다. GitHub에서 언제든 볼 수 있습니다.',
+    failedLink: 'GitHub에서 목록 보기',
   },
 
   footer: {
@@ -737,6 +805,8 @@ export const ko: Messages = {
     community: '커뮤니티',
     bug: '버그 신고',
     contribute: '기여하기',
+    /** Around the link to ModpackIndex, which lists the modpacks. */
+    modpacks: { before: '모드팩 목록 제공:', after: '' },
     official:
       '공식 Minecraft 제품이 아닙니다. Mojang 또는 Microsoft의 승인을 받지 않았으며 관련이 없습니다.',
   },

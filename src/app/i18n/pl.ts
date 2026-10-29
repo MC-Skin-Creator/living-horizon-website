@@ -32,11 +32,28 @@ export const pl: Messages = {
     tag: 'beta',
     menu: 'Menu',
     features: 'Funkcje',
-    compatibility: 'Kompatybilność',
+    mods: 'Mody',
+    modpacks: 'Modpacki',
     testers: 'Testerzy',
-    contribute: 'Współtwórz',
     faq: 'FAQ',
     download: (version: string) => `Pobierz v${version}`,
+  },
+
+  pages: {
+    mods: {
+      title: 'Kompatybilne mody',
+      description:
+        'Jak Living Horizon działa z innymi modami do Minecrafta: daleki teren, shadery, wydajność i mody ze stworzeniami. Co działa, co ma znany problem, a co czeka na testera.',
+    },
+    modpacks: {
+      title: 'Modpacki',
+      description:
+        'Modpacki do Minecrafta, które zawierają Living Horizon, z linkami do pobrania na CurseForge i Modrinth.',
+    },
+    changelog: {
+      title: 'Lista zmian',
+      description: 'Każda wersja Living Horizon i co się w niej zmieniło.',
+    },
   },
 
   hero: {
@@ -284,6 +301,19 @@ export const pl: Messages = {
       'Ten sam jar na serwerach, albo dołączaj bez niego do dowolnego serwera',
       'Opcje w Ustawieniach grafiki Sodium (0.8+)',
     ],
+    /** The link to the compatible mods page, under the cards. */
+    others: {
+      title: 'A twoje inne mody?',
+      text: (n: number) =>
+        p(n, {
+          one: '{n} mod na liście: shadery, wydajność, mody ze stworzeniami. Co działa, a co wciąż czeka na testera.',
+          few: '{n} mody na liście: shadery, wydajność, mody ze stworzeniami. Co działa, a co wciąż czeka na testera.',
+          many: '{n} modów na liście: shadery, wydajność, mody ze stworzeniami. Co działa, a co wciąż czeka na testera.',
+          other:
+            '{n} moda na liście: shadery, wydajność, mody ze stworzeniami. Co działa, a co wciąż czeka na testera.',
+        }),
+      link: 'Zobacz kompatybilne mody',
+    },
     matrixTitle: 'Wersje gry i loadery',
     matrixText: 'Jeden jar na wersję gry i loader.',
     builds: (builds: number, range: string) =>
@@ -455,6 +485,8 @@ export const pl: Messages = {
     failed: 'Nie udało się teraz wczytać listy zmian. Zawsze jest dostępna na GitHubie.',
     full: 'Zobacz pełną listę zmian na GitHubie',
     releases: 'Wszystkie wydania',
+    /** The link to the changelog page, on the home page. */
+    every: 'Zobacz wszystkie wersje',
   },
 
   faq: {
@@ -755,6 +787,59 @@ export const pl: Messages = {
     soon: 'Wkrótce',
     checking: 'Sprawdzanie…',
     everyFile: 'każdy plik',
+    /** How many modpacks ship the mod: in the modpacks' row above and the modpacks section. */
+    packs: (n: number) =>
+      p(n, {
+        one: '{n} modpack',
+        few: '{n} modpacki',
+        many: '{n} modpacków',
+        other: '{n} modpacka',
+      }),
+  },
+
+  modpacks: {
+    eyebrow: 'Modpacki',
+    title: 'Już w',
+    accent: 'modpackach.',
+    text: 'Paczki zawierające Living Horizon. Zrobiłeś własną? Pojawi się tutaj sama.',
+    by: (authors: string) => `autor: ${authors}`,
+    /** A button to the modpack's own page on CurseForge or Modrinth. */
+    get: (platform: string) => `Pobierz z ${platform}`,
+    none: 'Żaden modpack nie zawiera jeszcze Living Horizon. Twój może być pierwszy.',
+    loading: 'Modpacki pojawią się tu za chwilę.',
+    /** The link to the modpacks page, under the home page's cards. */
+    all: (n: number) =>
+      p(n, {
+        one: 'Przejdź do strony modpacków',
+        few: 'Zobacz wszystkie {n} modpacki',
+        many: 'Zobacz wszystkie {n} modpacków',
+        other: 'Zobacz wszystkie {n} modpacka',
+      }),
+  },
+
+  mods: {
+    eyebrow: 'Kompatybilność',
+    title: 'Dogaduje się',
+    accent: 'z twoimi modami.',
+    text: 'Prosto z projektu na GitHubie, aktualne po każdym teście: co działa, co ma znany problem, a co wciąż czeka, aż ktoś to wypróbuje. Notatki są po angielsku.',
+    search: 'Szukaj moda',
+    filter: 'Filtruj według stanu',
+    all: 'Wszystkie',
+    status: { works: 'Działa', issue: 'Znany problem', untested: 'Jeszcze nietestowany' },
+    /** The heading of the shader packs, after the mods. */
+    shaders: 'Paczki shaderów',
+    /** The note of every mod still waiting for a tester, next to the link to its issue. */
+    untested: 'Nikt nam jeszcze nie powiedział, jak działa. Sprawdziłeś? Napisz w jego zgłoszeniu.',
+    issue: (n: number) => `Zgłoszenie #${n}`,
+    none: 'Żaden mod nie pasuje do wyszukiwania.',
+    missing: {
+      title: 'Brakuje moda?',
+      text: 'Napisz nam, jak Living Horizon z nim działa, dobrze czy źle: każde zgłoszenie pomaga.',
+      link: 'Zgłoś moda',
+    },
+    /** Shown when GitHub cannot be reached and there is no copy of the list. */
+    failed: 'Nie udało się teraz wczytać listy. Zawsze jest na GitHubie.',
+    failedLink: 'Zobacz listę na GitHubie',
   },
 
   footer: {
@@ -766,6 +851,8 @@ export const pl: Messages = {
     community: 'Społeczność',
     bug: 'Zgłoś błąd',
     contribute: 'Współtwórz',
+    /** Around the link to ModpackIndex, which lists the modpacks. */
+    modpacks: { before: 'Lista modpacków z', after: '' },
     official:
       'Nie jest oficjalnym produktem Minecraft. Niezatwierdzony przez Mojang ani Microsoft i niepowiązany z nimi.',
   },
