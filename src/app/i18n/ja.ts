@@ -776,17 +776,11 @@ export const ja: Messages = {
     eyebrow: '互換性',
     title: 'あなたのMODと',
     accent: 'うまく動く。',
-    text: 'Living HorizonがほかのMODと一緒にどう動くか：動作するもの、既知の問題があるもの、まだ誰かが試すのを待っているもの。',
+    text: 'GitHubのプロジェクトから直接取得し、テストのたびに更新：動作するもの、既知の問題があるもの、まだ誰かが試すのを待っているもの。メモは英語です。',
     search: 'MODを検索',
     filter: 'ステータスで絞り込む',
     all: 'すべて',
     status: { works: '動作', issue: '既知の問題', untested: '未テスト' },
-    categories: {
-      terrain: '遠景地形',
-      graphics: 'グラフィックとパフォーマンス',
-      creatures: '生き物とプレイヤー',
-      tools: 'ライブラリとメニュー',
-    },
     /** The note of every mod still waiting for a tester, next to the link to its issue. */
     untested: 'どう動くかはまだ誰からも聞いていません。試しましたか？そのissueで教えてください。',
     issue: (n: number) => `Issue #${n}`,
@@ -796,19 +790,9 @@ export const ja: Messages = {
       text: 'Living Horizonと一緒にどう動くか、良くも悪くも教えてください。どの報告も助けになります。',
       link: 'MODを報告',
     },
-    /** What to know about a mod (`config/mods.ts`). Names of settings are the game's or Sodium's. */
-    notes: {
-      sodium: '0.8以降、Living Horizonの設定はSodiumのビデオ設定にもあります。',
-      iris: 'シェーダーパックは動作します。PhotonとComplementaryは確認済みです。',
-      pack: 'Living Horizonと一緒に確認済み。',
-      oculus: 'Forge版のIris：Living Horizonは同じ方法で見つけます。',
-      entityCulling: 'Living Horizonが遠くに描く生き物は、このMODのカリングの対象外です。',
-      geckolib: '生き物は遠くに描かれます。ただし今のところMinecraft 1.21.2〜1.21.8は除きます。',
-      fowlPlay: '遠くにいる鳥が動かなくなります。',
-      guardVillagers: '衛兵は武器と防具を身につけたまま遠くに描かれます。',
-      fabricApi: 'FabricとQuiltで必要です。',
-      modMenu: '任意。FabricとQuiltで、MOD一覧から設定を開けます。',
-    },
+    /** Shown when GitHub cannot be reached and there is no copy of the list. */
+    failed: '一覧を読み込めませんでした。GitHubでいつでも見られます。',
+    failedLink: 'GitHubで一覧を見る',
   },
 
   footer: {

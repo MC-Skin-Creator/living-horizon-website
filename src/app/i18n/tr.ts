@@ -777,17 +777,11 @@ export const tr: Messages = {
     eyebrow: 'Uyumluluk',
     title: 'Modlarınızla',
     accent: 'iyi anlaşır.',
-    text: 'Living Horizon diğer modlarla birlikte nasıl çalışır: neyin çalıştığı, neyin bilinen bir sorunu olduğu ve neyin hâlâ birinin denemesini beklediği.',
+    text: "Doğrudan GitHub'daki projeden, her testle güncel: neyin çalıştığı, neyin bilinen bir sorunu olduğu ve neyin hâlâ birinin denemesini beklediği. Notlar İngilizcedir.",
     search: 'Mod arayın',
     filter: 'Duruma göre süzün',
     all: 'Tümü',
     status: { works: 'Çalışıyor', issue: 'Bilinen sorun', untested: 'Henüz test edilmedi' },
-    categories: {
-      terrain: 'Uzak arazi',
-      graphics: 'Grafik ve performans',
-      creatures: 'Canlılar ve oyuncular',
-      tools: 'Kütüphaneler ve menüler',
-    },
     /** The note of every mod still waiting for a tester, next to the link to its issue. */
     untested:
       'Henüz kimse nasıl çalıştığını söylemedi. Denediniz mi? Issue sayfasında bize anlatın.',
@@ -798,19 +792,9 @@ export const tr: Messages = {
       text: "Living Horizon'un onunla nasıl çalıştığını, iyi ya da kötü, bize anlatın: her rapor yardımcı olur.",
       link: 'Mod bildirin',
     },
-    /** What to know about a mod (`config/mods.ts`). Names of settings are the game's or Sodium's. */
-    notes: {
-      sodium: "0.8'den itibaren Living Horizon ayarları Sodium'un Görüntü Ayarları'nda da bulunur.",
-      iris: 'Gölgelendirici paketleri çalışır. Photon ve Complementary kontrol edildi.',
-      pack: 'Living Horizon ile kontrol edildi.',
-      oculus: 'Forge için Iris: Living Horizon onu aynı şekilde bulur.',
-      entityCulling: "Living Horizon'un uzakta çizdiği canlılar onun gizlemesinin dışında tutulur.",
-      geckolib: 'Canlıları uzakta çizilir; şimdilik Minecraft 1.21.2 ile 1.21.8 arası hariç.',
-      fowlPlay: 'Kuşları uzaktayken hareket etmeyi bırakır.',
-      guardVillagers: 'Muhafızlar uzakta silahları ve zırhlarıyla çizilir.',
-      fabricApi: "Fabric ve Quilt'te gereklidir.",
-      modMenu: "İsteğe bağlı, Fabric ve Quilt'te: ayarları mod listesinden açar.",
-    },
+    /** Shown when GitHub cannot be reached and there is no copy of the list. */
+    failed: "Liste şu anda yüklenemedi. Her zaman GitHub'da.",
+    failedLink: "Listeyi GitHub'da görün",
   },
 
   footer: {

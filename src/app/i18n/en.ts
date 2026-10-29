@@ -814,17 +814,11 @@ export const en = {
     eyebrow: 'Compatibility',
     title: 'Plays well',
     accent: 'with your mods.',
-    text: 'How Living Horizon runs alongside other mods: what works, what has a known issue, and what still waits for someone to try it.',
+    text: 'Straight from the project on GitHub, updated as tests come in: what works, what has a known issue, and what still waits for someone to try it. Notes are in English.',
     search: 'Search a mod',
     filter: 'Filter by status',
     all: 'All',
     status: { works: 'Works', issue: 'Known issue', untested: 'Not tested yet' },
-    categories: {
-      terrain: 'Far terrain',
-      graphics: 'Graphics and performance',
-      creatures: 'Creatures and players',
-      tools: 'Libraries and menus',
-    },
     /** The note of every mod still waiting for a tester, next to the link to its issue. */
     untested: 'Nobody has told us how it runs yet. Tried it? Tell us on its issue.',
     issue: (n: number) => `Issue #${n}`,
@@ -834,19 +828,9 @@ export const en = {
       text: 'Tell us how Living Horizon runs with it, good or bad: every report helps.',
       link: 'Report a mod',
     },
-    /** What to know about a mod (`config/mods.ts`). Names of settings are the game's or Sodium's. */
-    notes: {
-      sodium: "From 0.8, Living Horizon's settings are also in Sodium's Video Settings.",
-      iris: 'Shader packs work. Photon and Complementary have been checked.',
-      pack: 'Checked with Living Horizon.',
-      oculus: 'Iris for Forge: Living Horizon finds it the same way.',
-      entityCulling: 'The mobs Living Horizon draws far away are kept out of its culling.',
-      geckolib: 'Its mobs are drawn far away, except from Minecraft 1.21.2 to 1.21.8 for now.',
-      fowlPlay: 'Its birds stop moving when they are far away.',
-      guardVillagers: 'Guards are drawn far away with their weapons and armour.',
-      fabricApi: 'Needed on Fabric and Quilt.',
-      modMenu: 'Optional, on Fabric and Quilt: opens the settings from the list of mods.',
-    },
+    /** Shown when GitHub cannot be reached and there is no copy of the list. */
+    failed: "The list couldn't be loaded right now. It's always on GitHub.",
+    failedLink: 'Open the list on GitHub',
   },
 
   footer: {

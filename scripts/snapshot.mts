@@ -6,7 +6,6 @@
  */
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
-import { MOD_ICON_REFS } from '../src/app/config/mods.ts';
 import { SITE } from '../src/app/config/site.ts';
 import { SOURCES, fetchSource, type SourceKey } from '../src/app/data/sources.ts';
 
@@ -22,9 +21,12 @@ let failures = 0;
 
 for (const key of Object.keys(SOURCES) as SourceKey[]) {
   const source = SOURCES[key];
+  // GitHub's API: the releases, and the issues the compatible mods are read from.
   const init =
-    key === 'github' && token ? { headers: { Authorization: `Bearer ${token}` } } : undefined;
-  const value = await fetchSource(source as any, { ...SITE, mods: MOD_ICON_REFS }, init);
+    (key === 'github' || key === 'compat') && token
+      ? { headers: { Authorization: `Bearer ${token}` } }
+      : undefined;
+  const value = await fetchSource(source as any, SITE, init);
   if (value === undefined) {
     failures++;
     console.warn(`snapshot: ${key} unreachable, keeping the previous value`);

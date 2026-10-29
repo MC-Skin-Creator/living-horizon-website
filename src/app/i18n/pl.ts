@@ -821,17 +821,11 @@ export const pl: Messages = {
     eyebrow: 'Kompatybilność',
     title: 'Dogaduje się',
     accent: 'z twoimi modami.',
-    text: 'Jak Living Horizon działa razem z innymi modami: co działa, co ma znany problem, a co wciąż czeka, aż ktoś to wypróbuje.',
+    text: 'Prosto z projektu na GitHubie, aktualne po każdym teście: co działa, co ma znany problem, a co wciąż czeka, aż ktoś to wypróbuje. Notatki są po angielsku.',
     search: 'Szukaj moda',
     filter: 'Filtruj według stanu',
     all: 'Wszystkie',
     status: { works: 'Działa', issue: 'Znany problem', untested: 'Jeszcze nietestowany' },
-    categories: {
-      terrain: 'Daleki teren',
-      graphics: 'Grafika i wydajność',
-      creatures: 'Stworzenia i gracze',
-      tools: 'Biblioteki i menu',
-    },
     /** The note of every mod still waiting for a tester, next to the link to its issue. */
     untested: 'Nikt nam jeszcze nie powiedział, jak działa. Sprawdziłeś? Napisz w jego zgłoszeniu.',
     issue: (n: number) => `Zgłoszenie #${n}`,
@@ -841,21 +835,9 @@ export const pl: Messages = {
       text: 'Napisz nam, jak Living Horizon z nim działa, dobrze czy źle: każde zgłoszenie pomaga.',
       link: 'Zgłoś moda',
     },
-    /** What to know about a mod (`config/mods.ts`). Names of settings are the game's or Sodium's. */
-    notes: {
-      sodium: 'Od wersji 0.8 ustawienia Living Horizon są też w Ustawieniach grafiki Sodium.',
-      iris: 'Paczki shaderów działają. Photon i Complementary zostały sprawdzone.',
-      pack: 'Sprawdzony z Living Horizon.',
-      oculus: 'Iris dla Forge: Living Horizon znajduje go w ten sam sposób.',
-      entityCulling:
-        'Stworzenia, które Living Horizon rysuje w oddali, są pomijane przez jego culling.',
-      geckolib:
-        'Jego stworzenia są rysowane w oddali, na razie poza Minecraftem od 1.21.2 do 1.21.8.',
-      fowlPlay: 'Jego ptaki przestają się ruszać, gdy są daleko.',
-      guardVillagers: 'Strażnicy są rysowani w oddali z bronią i zbroją.',
-      fabricApi: 'Wymagany na Fabric i Quilt.',
-      modMenu: 'Opcjonalny, na Fabric i Quilt: otwiera ustawienia z listy modów.',
-    },
+    /** Shown when GitHub cannot be reached and there is no copy of the list. */
+    failed: 'Nie udało się teraz wczytać listy. Zawsze jest na GitHubie.',
+    failedLink: 'Zobacz listę na GitHubie',
   },
 
   footer: {

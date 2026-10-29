@@ -10,8 +10,24 @@ export interface RawData {
   nexus?: NxMod;
   /** Modpacks that ship the mod, as ModpackIndex lists them. */
   modpacks?: Modpack[];
-  /** The compatible mods' icons, by Modrinth slug or CurseForge path (`config/mods.ts`). */
-  modIcons?: Record<string, string>;
+  /** The mods Living Horizon was checked with, from the mod's README and issues. */
+  compat?: CompatMod[];
+}
+
+/** `works`: seen working. `issue`: a known problem. `untested`: waits for a tester. */
+export type CompatStatus = 'works' | 'issue' | 'untested';
+
+export interface CompatMod {
+  name: string;
+  status: CompatStatus;
+  /** What the README or the issue says, in English; `null` for a mod waiting for a tester. */
+  note: string | null;
+  /** Its issue in the mod's repository. */
+  issue: number | null;
+  icon: string | null;
+  /** Its own pages, when Modrinth and CurseForge know it. */
+  modrinth: string | null;
+  curseforge: string | null;
 }
 
 export interface GhAsset {

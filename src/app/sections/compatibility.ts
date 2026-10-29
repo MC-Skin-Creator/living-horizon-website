@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { MODS, modIconKey } from '../config/mods';
 import { SITE } from '../config/site';
 import { LOADERS, LOADER_NAMES } from '../data/models';
 import { ProjectData } from '../data/project-data';
@@ -64,15 +63,15 @@ type CompatibilityTexts = Messages['compatibility'];
 
         <a class="card others" routerLink="/mods" lhReveal>
           <span class="faces" aria-hidden="true">
-            @for (m of others; track m.name) {
-              @if (data.modIcons()[modIconKey(m)]; as src) {
-                <img [src]="src" alt="" width="40" height="40" loading="lazy" />
-              }
+            @for (m of others(); track m.name) {
+              <img [src]="m.icon" alt="" width="40" height="40" loading="lazy" />
             }
           </span>
           <span class="copy">
             <strong>{{ t.others.title }}</strong>
-            <span>{{ t.others.text(mods.length) }}</span>
+            @if (data.compat()?.length; as n) {
+              <span>{{ t.others.text(n) }}</span>
+            }
           </span>
           <span class="go">{{ t.others.link }} <lh-icon name="arrow-right" /></span>
         </a>
@@ -175,12 +174,16 @@ export class Compatibility {
 
   protected readonly i18n = inject(I18n);
   protected readonly extraIcons: IconName[] = ['sparkles', 'server', 'sliders'];
-  protected readonly mods = MODS;
-  protected readonly modIconKey = modIconKey;
-  /** A few of the other mods seen working, as faces of the link to the mods page. */
-  protected readonly others = MODS.filter(
-    (m) => m.status === 'works' && m.category !== 'terrain',
-  ).slice(0, 6);
+  /**
+   * Faces of the link to the mods page: the mods seen working first, other than the far
+   * terrain ones the cards above show.
+   */
+  protected readonly others = computed(() =>
+    (this.data.compat() ?? [])
+      .filter((m) => m.icon && !/distant horizons|voxy/i.test(m.name))
+      .sort((a, b) => +(b.status === 'works') - +(a.status === 'works'))
+      .slice(0, 6),
+  );
 
   /** Texts in `compatibility.cards.<tone>`; Vanilla's name is translated too. */
   protected readonly works: {

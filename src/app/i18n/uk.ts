@@ -812,17 +812,11 @@ export const uk: Messages = {
     eyebrow: 'Сумісність',
     title: 'Ладнає',
     accent: 'з вашими модами.',
-    text: 'Як Living Horizon працює разом з іншими модами: що працює, де є відома проблема і що ще чекає, поки хтось спробує.',
+    text: 'Просто з проєкту на GitHub і оновлюється з кожним тестом: що працює, де є відома проблема і що ще чекає, поки хтось спробує. Нотатки англійською.',
     search: 'Знайти мод',
     filter: 'Фільтр за статусом',
     all: 'Усі',
     status: { works: 'Працює', issue: 'Відома проблема', untested: 'Ще не перевірено' },
-    categories: {
-      terrain: 'Далекий рельєф',
-      graphics: 'Графіка і продуктивність',
-      creatures: 'Істоти й гравці',
-      tools: 'Бібліотеки й меню',
-    },
     /** The note of every mod still waiting for a tester, next to the link to its issue. */
     untested: 'Поки ніхто не розповів, як він працює. Пробували? Напишіть у його issue.',
     issue: (n: number) => `Issue #${n}`,
@@ -832,19 +826,9 @@ export const uk: Messages = {
       text: 'Розкажіть, як Living Horizon працює з ним, добре чи погано: кожен звіт допомагає.',
       link: 'Повідомити про мод',
     },
-    /** What to know about a mod (`config/mods.ts`). Names of settings are the game's or Sodium's. */
-    notes: {
-      sodium: 'З версії 0.8 налаштування Living Horizon є й у «Налаштуваннях графіки» Sodium.',
-      iris: 'Пакети шейдерів працюють. Photon і Complementary перевірено.',
-      pack: 'Перевірено з Living Horizon.',
-      oculus: 'Iris для Forge: Living Horizon знаходить його так само.',
-      entityCulling: 'Істоти, яких Living Horizon малює вдалині, не приховуються його відсіканням.',
-      geckolib: 'Його істоти малюються вдалині, поки що крім Minecraft з 1.21.2 по 1.21.8.',
-      fowlPlay: 'Його птахи перестають рухатися вдалині.',
-      guardVillagers: 'Вартові малюються вдалині зі зброєю та бронею.',
-      fabricApi: 'Потрібен на Fabric і Quilt.',
-      modMenu: 'Необов’язковий, на Fabric і Quilt: відкриває налаштування зі списку модів.',
-    },
+    /** Shown when GitHub cannot be reached and there is no copy of the list. */
+    failed: 'Не вдалося завантажити список. Він завжди є на GitHub.',
+    failedLink: 'Відкрити список на GitHub',
   },
 
   footer: {

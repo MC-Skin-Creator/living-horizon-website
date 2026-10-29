@@ -767,17 +767,11 @@ export const zhCN: Messages = {
     eyebrow: '兼容性',
     title: '与你的模组',
     accent: '和睦相处。',
-    text: 'Living Horizon 与其他模组一起运行的情况：哪些可用，哪些有已知问题，哪些还在等人试一试。',
+    text: '直接取自 GitHub 上的项目，随测试更新：哪些可用，哪些有已知问题，哪些还在等人试一试。说明为英文。',
     search: '搜索模组',
     filter: '按状态筛选',
     all: '全部',
     status: { works: '可用', issue: '已知问题', untested: '尚未测试' },
-    categories: {
-      terrain: '远景地形',
-      graphics: '图形与性能',
-      creatures: '生物与玩家',
-      tools: '前置库与菜单',
-    },
     /** The note of every mod still waiting for a tester, next to the link to its issue. */
     untested: '还没有人告诉我们它运行得怎么样。试过了吗？在它的 issue 里告诉我们。',
     issue: (n: number) => `Issue #${n}`,
@@ -787,19 +781,9 @@ export const zhCN: Messages = {
       text: '告诉我们 Living Horizon 和它一起运行得如何，好坏都行：每份反馈都有帮助。',
       link: '报告模组',
     },
-    /** What to know about a mod (`config/mods.ts`). Names of settings are the game's or Sodium's. */
-    notes: {
-      sodium: '从 0.8 起，Living Horizon 的设置也在 Sodium 的视频设置中。',
-      iris: '光影包可用。已检查 Photon 和 Complementary。',
-      pack: '已与 Living Horizon 一起检查。',
-      oculus: 'Forge 版的 Iris：Living Horizon 以同样的方式找到它。',
-      entityCulling: 'Living Horizon 在远处绘制的生物不会被它剔除。',
-      geckolib: '它的生物会在远处绘制，目前 Minecraft 1.21.2 到 1.21.8 除外。',
-      fowlPlay: '它的鸟在远处时会停止移动。',
-      guardVillagers: '守卫会带着武器和盔甲在远处绘制。',
-      fabricApi: '在 Fabric 和 Quilt 上必需。',
-      modMenu: '可选，用于 Fabric 和 Quilt：从模组列表打开设置。',
-    },
+    /** Shown when GitHub cannot be reached and there is no copy of the list. */
+    failed: '列表暂时无法加载。它始终在 GitHub 上。',
+    failedLink: '在 GitHub 上查看列表',
   },
 
   footer: {

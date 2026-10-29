@@ -787,17 +787,11 @@ export const de: Messages = {
     eyebrow: 'Kompatibilität',
     title: 'Verträgt sich',
     accent: 'mit deinen Mods.',
-    text: 'Wie Living Horizon neben anderen Mods läuft: was funktioniert, was ein bekanntes Problem hat und was noch darauf wartet, ausprobiert zu werden.',
+    text: 'Direkt aus dem Projekt auf GitHub, aktuell mit jedem Test: was funktioniert, was ein bekanntes Problem hat und was noch darauf wartet, ausprobiert zu werden. Die Notizen sind auf Englisch.',
     search: 'Mod suchen',
     filter: 'Nach Status filtern',
     all: 'Alle',
     status: { works: 'Funktioniert', issue: 'Bekanntes Problem', untested: 'Noch nicht getestet' },
-    categories: {
-      terrain: 'Fernes Gelände',
-      graphics: 'Grafik und Performance',
-      creatures: 'Kreaturen und Spieler',
-      tools: 'Bibliotheken und Menüs',
-    },
     /** The note of every mod still waiting for a tester, next to the link to its issue. */
     untested:
       'Noch hat uns niemand erzählt, wie es läuft. Schon ausprobiert? Sag es uns in seinem Issue.',
@@ -808,22 +802,9 @@ export const de: Messages = {
       text: 'Sag uns, wie Living Horizon damit läuft, gut oder schlecht: Jeder Bericht hilft.',
       link: 'Mod melden',
     },
-    /** What to know about a mod (`config/mods.ts`). Names of settings are the game's or Sodium's. */
-    notes: {
-      sodium:
-        'Ab 0.8 sind die Einstellungen von Living Horizon auch in den Grafikeinstellungen von Sodium.',
-      iris: 'Shaderpakete funktionieren. Photon und Complementary wurden geprüft.',
-      pack: 'Mit Living Horizon geprüft.',
-      oculus: 'Iris für Forge: Living Horizon findet es genauso.',
-      entityCulling:
-        'Die Kreaturen, die Living Horizon in der Ferne zeichnet, werden von seinem Culling ausgenommen.',
-      geckolib:
-        'Seine Kreaturen werden in der Ferne gezeichnet, vorerst außer von Minecraft 1.21.2 bis 1.21.8.',
-      fowlPlay: 'Seine Vögel bewegen sich in der Ferne nicht mehr.',
-      guardVillagers: 'Wachen werden in der Ferne mit Waffen und Rüstung gezeichnet.',
-      fabricApi: 'Auf Fabric und Quilt nötig.',
-      modMenu: 'Optional, auf Fabric und Quilt: öffnet die Einstellungen aus der Modliste.',
-    },
+    /** Shown when GitHub cannot be reached and there is no copy of the list. */
+    failed: 'Die Liste konnte gerade nicht geladen werden. Sie ist immer auf GitHub.',
+    failedLink: 'Liste auf GitHub ansehen',
   },
 
   footer: {

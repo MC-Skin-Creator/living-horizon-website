@@ -794,17 +794,11 @@ export const it: Messages = {
     eyebrow: 'Compatibilità',
     title: "Va d'accordo",
     accent: 'con le tue mod.',
-    text: 'Come gira Living Horizon insieme ad altre mod: cosa funziona, cosa ha un problema noto e cosa aspetta ancora qualcuno che la provi.',
+    text: 'Direttamente dal progetto su GitHub, aggiornato a ogni test: cosa funziona, cosa ha un problema noto e cosa aspetta ancora qualcuno che la provi. Le note sono in inglese.',
     search: 'Cerca una mod',
     filter: 'Filtra per stato',
     all: 'Tutte',
     status: { works: 'Funziona', issue: 'Problema noto', untested: 'Non ancora testata' },
-    categories: {
-      terrain: 'Terreno lontano',
-      graphics: 'Grafica e prestazioni',
-      creatures: 'Creature e giocatori',
-      tools: 'Librerie e menu',
-    },
     /** The note of every mod still waiting for a tester, next to the link to its issue. */
     untested: "Nessuno ci ha ancora detto come gira. L'hai provata? Diccelo nella sua issue.",
     issue: (n: number) => `Issue #${n}`,
@@ -814,22 +808,9 @@ export const it: Messages = {
       text: 'Dicci come gira Living Horizon con lei, bene o male: ogni segnalazione aiuta.',
       link: 'Segnala una mod',
     },
-    /** What to know about a mod (`config/mods.ts`). Names of settings are the game's or Sodium's. */
-    notes: {
-      sodium:
-        'Dalla 0.8, le impostazioni di Living Horizon sono anche nelle Impostazioni video di Sodium.',
-      iris: 'I pacchetti di shader funzionano. Photon e Complementary sono stati verificati.',
-      pack: 'Verificato con Living Horizon.',
-      oculus: 'Iris per Forge: Living Horizon lo trova allo stesso modo.',
-      entityCulling:
-        'Le creature che Living Horizon disegna in lontananza sono escluse dal suo culling.',
-      geckolib:
-        'Le sue creature sono disegnate in lontananza, tranne da Minecraft 1.21.2 a 1.21.8 per ora.',
-      fowlPlay: 'I suoi uccelli smettono di muoversi quando sono lontani.',
-      guardVillagers: 'Le guardie sono disegnate in lontananza con armi e armatura.',
-      fabricApi: 'Necessaria su Fabric e Quilt.',
-      modMenu: "Facoltativa, su Fabric e Quilt: apre le impostazioni dall'elenco delle mod.",
-    },
+    /** Shown when GitHub cannot be reached and there is no copy of the list. */
+    failed: "Non è stato possibile caricare l'elenco. È sempre su GitHub.",
+    failedLink: "Vedi l'elenco su GitHub",
   },
 
   footer: {

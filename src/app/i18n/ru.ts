@@ -813,17 +813,11 @@ export const ru: Messages = {
     eyebrow: 'Совместимость',
     title: 'Ладит',
     accent: 'с вашими модами.',
-    text: 'Как Living Horizon работает вместе с другими модами: что работает, где есть известная проблема и что ещё ждёт, пока кто-нибудь попробует.',
+    text: 'Прямо из проекта на GitHub и обновляется с каждым тестом: что работает, где есть известная проблема и что ещё ждёт, пока кто-нибудь попробует. Заметки на английском.',
     search: 'Найти мод',
     filter: 'Фильтр по статусу',
     all: 'Все',
     status: { works: 'Работает', issue: 'Известная проблема', untested: 'Ещё не проверен' },
-    categories: {
-      terrain: 'Дальний ландшафт',
-      graphics: 'Графика и производительность',
-      creatures: 'Существа и игроки',
-      tools: 'Библиотеки и меню',
-    },
     /** The note of every mod still waiting for a tester, next to the link to its issue. */
     untested: 'Пока никто не рассказал, как он работает. Пробовали? Напишите в его issue.',
     issue: (n: number) => `Issue #${n}`,
@@ -833,19 +827,9 @@ export const ru: Messages = {
       text: 'Расскажите, как Living Horizon работает с ним, хорошо или плохо: каждый отчёт помогает.',
       link: 'Сообщить о моде',
     },
-    /** What to know about a mod (`config/mods.ts`). Names of settings are the game's or Sodium's. */
-    notes: {
-      sodium: 'С версии 0.8 настройки Living Horizon есть и в «Настройках графики» Sodium.',
-      iris: 'Наборы шейдеров работают. Photon и Complementary проверены.',
-      pack: 'Проверено с Living Horizon.',
-      oculus: 'Iris для Forge: Living Horizon находит его так же.',
-      entityCulling: 'Существа, которых Living Horizon рисует вдали, не скрываются его отсечением.',
-      geckolib: 'Его существа рисуются вдали, пока кроме Minecraft с 1.21.2 по 1.21.8.',
-      fowlPlay: 'Его птицы перестают двигаться вдали.',
-      guardVillagers: 'Стражники рисуются вдали с оружием и бронёй.',
-      fabricApi: 'Нужен на Fabric и Quilt.',
-      modMenu: 'Необязателен, на Fabric и Quilt: открывает настройки из списка модов.',
-    },
+    /** Shown when GitHub cannot be reached and there is no copy of the list. */
+    failed: 'Не удалось загрузить список. Он всегда есть на GitHub.',
+    failedLink: 'Открыть список на GitHub',
   },
 
   footer: {

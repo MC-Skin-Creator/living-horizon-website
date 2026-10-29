@@ -46,7 +46,7 @@ lists them:
 | Modrinth downloads | Modrinth API (shows "Coming soon" while the project does not exist) |
 | Nexus Mods downloads | Nexus Mods GraphQL API (`api.nexusmods.com/v2/graphql`, no key) |
 | Modpacks that ship the mod | ModpackIndex API (`/mod/<id>/modpacks`, then `/modpack/<id>` for the authors and game versions of the 30 most downloaded; its filtered search refuses browsers), credited in the footer |
-| Compatible mods' icons | Modrinth API (one call for all, `/v2/projects?ids=`), api.cfwidget.com for the few only on CurseForge |
+| Compatible mods | The mod's README ("Compatibility" table) and its issues labelled `mod compatibility` (GitHub API); icons and CurseForge / Modrinth links from ModpackIndex, else Modrinth's search and api.cfwidget.com |
 
 The page first shows `public/data/snapshot.json`, then asks every source from the browser
 (cached 30 minutes in `localStorage`, GitHub allows 60 anonymous calls an hour). A source
@@ -104,12 +104,15 @@ starts so it never shows English first.
   (`out/media-kit/living-horizon-media-kit/`: `living-horizon_ruban_mix-couchant.png` for the hero,
   `living-horizon_seul_ligne-3D_mix-couchant.png` for the footer), trimmed and saved as
   WebP. `public/img/og-cover.jpg` is that cover cut to 1200×629 for link previews.
-- **Compatible mods**: the list is `MODS` in `src/app/config/mods.ts`: a name, a category,
-  a status (`works`, `issue`, `untested`), its Modrinth slug (or CurseForge path when it is not
-  on Modrinth) for its icon and link, the issue of the mod repository about it, and a note
-  from `mods.notes` of every dictionary (mods waiting for a tester share one sentence). The
-  statuses follow the mod's README and its issues labelled `mod compatibility`: when one is
-  checked or fixed there, change it here.
+- **Compatible mods**: nothing to edit here. The list is read from the mod repository on
+  every visit (`compat` in `src/app/data/sources.ts`): the rows of the README's
+  "Compatibility" table work (a row pointing to an open issue is a known issue), an open
+  issue labelled `mod compatibility` titled "Compatibility: <mods>" waits for a tester, any
+  other open one is a known issue (its title is the note), a closed completed one works. An
+  issue whose body lists `**Mods:**` names several mods. Each mod's icon and its CurseForge
+  and Modrinth pages come from ModpackIndex (`/api/v1/mods?name=`), else Modrinth's search
+  and cfwidget. Notes stay in English, as GitHub has them; to change what the page says,
+  change the README or the issue.
 - **Modpacks**: `src/app/sections/modpacks.ts` lists the modpacks ModpackIndex finds with the
   mod (`SITE.modpackIndexModId`), how many there are, the most downloaded first: three on the
   home page, all of them on `/modpacks`. The download section has a row for them next to the platforms, with how many

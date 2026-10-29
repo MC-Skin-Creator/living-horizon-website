@@ -774,17 +774,11 @@ export const ko: Messages = {
     eyebrow: '호환성',
     title: '당신의 모드와',
     accent: '잘 어울려요.',
-    text: 'Living Horizon이 다른 모드와 함께 어떻게 작동하는지: 작동하는 것, 알려진 문제가 있는 것, 아직 누군가 시험해 보기를 기다리는 것.',
+    text: 'GitHub의 프로젝트에서 바로 가져오며 테스트할 때마다 갱신됩니다: 작동하는 것, 알려진 문제가 있는 것, 아직 누군가 시험해 보기를 기다리는 것. 메모는 영어입니다.',
     search: '모드 검색',
     filter: '상태별 필터',
     all: '전체',
     status: { works: '작동', issue: '알려진 문제', untested: '아직 테스트 안 됨' },
-    categories: {
-      terrain: '원거리 지형',
-      graphics: '그래픽과 성능',
-      creatures: '생물과 플레이어',
-      tools: '라이브러리와 메뉴',
-    },
     /** The note of every mod still waiting for a tester, next to the link to its issue. */
     untested:
       '아직 어떻게 작동하는지 알려 준 사람이 없습니다. 해 보셨나요? 해당 이슈에서 알려 주세요.',
@@ -795,19 +789,9 @@ export const ko: Messages = {
       text: 'Living Horizon이 그 모드와 어떻게 작동하는지 좋든 나쁘든 알려 주세요. 모든 보고가 도움이 됩니다.',
       link: '모드 제보하기',
     },
-    /** What to know about a mod (`config/mods.ts`). Names of settings are the game's or Sodium's. */
-    notes: {
-      sodium: '0.8부터 Living Horizon의 설정은 Sodium의 비디오 설정에도 있습니다.',
-      iris: '셰이더 팩이 작동합니다. Photon과 Complementary를 확인했습니다.',
-      pack: 'Living Horizon과 함께 확인했습니다.',
-      oculus: 'Forge용 Iris: Living Horizon이 같은 방식으로 찾습니다.',
-      entityCulling: 'Living Horizon이 멀리 그리는 생물은 이 모드의 컬링에서 제외됩니다.',
-      geckolib: '이 모드의 생물은 멀리서도 그려집니다. 단, 지금은 Minecraft 1.21.2~1.21.8 제외.',
-      fowlPlay: '멀리 있는 새가 움직이지 않습니다.',
-      guardVillagers: '경비병이 무기와 갑옷을 갖춘 채 멀리서 그려집니다.',
-      fabricApi: 'Fabric과 Quilt에서 필요합니다.',
-      modMenu: '선택 사항, Fabric과 Quilt: 모드 목록에서 설정을 엽니다.',
-    },
+    /** Shown when GitHub cannot be reached and there is no copy of the list. */
+    failed: '지금은 목록을 불러올 수 없습니다. GitHub에서 언제든 볼 수 있습니다.',
+    failedLink: 'GitHub에서 목록 보기',
   },
 
   footer: {

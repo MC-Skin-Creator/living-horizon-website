@@ -810,17 +810,11 @@ export const es: Messages = {
     eyebrow: 'Compatibilidad',
     title: 'Se lleva bien',
     accent: 'con tus mods.',
-    text: 'Cómo funciona Living Horizon junto a otros mods: qué funciona, qué tiene un problema conocido y qué espera todavía a que alguien lo pruebe.',
+    text: 'Directamente del proyecto en GitHub, al día con cada prueba: qué funciona, qué tiene un problema conocido y qué espera todavía a que alguien lo pruebe. Las notas están en inglés.',
     search: 'Buscar un mod',
     filter: 'Filtrar por estado',
     all: 'Todos',
     status: { works: 'Funciona', issue: 'Problema conocido', untested: 'Sin probar todavía' },
-    categories: {
-      terrain: 'Terreno lejano',
-      graphics: 'Gráficos y rendimiento',
-      creatures: 'Criaturas y jugadores',
-      tools: 'Bibliotecas y menús',
-    },
     /** The note of every mod still waiting for a tester, next to the link to its issue. */
     untested:
       'Nadie nos ha contado todavía cómo funciona. ¿Lo has probado? Cuéntanoslo en su issue.',
@@ -831,22 +825,9 @@ export const es: Messages = {
       text: 'Cuéntanos cómo funciona Living Horizon con él, bien o mal: cada informe ayuda.',
       link: 'Informar de un mod',
     },
-    /** What to know about a mod (`config/mods.ts`). Names of settings are the game's or Sodium's. */
-    notes: {
-      sodium:
-        'Desde la 0.8, los ajustes de Living Horizon también están en la configuración de gráficos de Sodium.',
-      iris: 'Los paquetes de shaders funcionan. Photon y Complementary se han comprobado.',
-      pack: 'Comprobado con Living Horizon.',
-      oculus: 'Iris para Forge: Living Horizon lo encuentra de la misma forma.',
-      entityCulling:
-        'Las criaturas que Living Horizon dibuja a lo lejos quedan fuera de su culling.',
-      geckolib:
-        'Sus criaturas se dibujan a lo lejos, salvo de Minecraft 1.21.2 a 1.21.8 por ahora.',
-      fowlPlay: 'Sus pájaros dejan de moverse cuando están lejos.',
-      guardVillagers: 'Los guardias se dibujan a lo lejos con sus armas y armadura.',
-      fabricApi: 'Necesario en Fabric y Quilt.',
-      modMenu: 'Opcional, en Fabric y Quilt: abre los ajustes desde la lista de mods.',
-    },
+    /** Shown when GitHub cannot be reached and there is no copy of the list. */
+    failed: 'La lista no se ha podido cargar ahora. Siempre está en GitHub.',
+    failedLink: 'Ver la lista en GitHub',
   },
 
   footer: {
