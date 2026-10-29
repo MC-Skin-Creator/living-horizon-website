@@ -818,6 +818,8 @@ export const fr: Messages = {
     filter: 'Filtrer par statut',
     all: 'Tous',
     status: { works: 'Fonctionne', issue: 'Problème connu', untested: 'Pas encore testé' },
+    /** The heading of the shader packs, after the mods. */
+    shaders: 'Packs de shaders',
     /** The note of every mod still waiting for a tester, next to the link to its issue. */
     untested:
       "Personne ne nous a encore dit comment il tourne. Tu l'as essayé ? Dis-le-nous sur son issue.",

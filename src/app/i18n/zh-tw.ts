@@ -772,6 +772,8 @@ export const zhTW: Messages = {
     filter: '依狀態篩選',
     all: '全部',
     status: { works: '可用', issue: '已知問題', untested: '尚未測試' },
+    /** The heading of the shader packs, after the mods. */
+    shaders: '光影包',
     /** The note of every mod still waiting for a tester, next to the link to its issue. */
     untested: '還沒有人告訴我們它執行得怎麼樣。試過了嗎？在它的 issue 裡告訴我們。',
     issue: (n: number) => `Issue #${n}`,

@@ -236,6 +236,7 @@ function readmeCompat(readme: string): CompatMod[] {
     const refs = [...cells[1].matchAll(/\/issues\/(\d+)|#(\d+)/g)].map((m) => +(m[1] ?? m[2]));
     rows.push({
       name: link ? link[1] : cells[0],
+      kind: 'mod',
       status: 'works',
       note: plainText(cells[1]) || null,
       issue: refs[0] ?? null,
@@ -265,6 +266,7 @@ async function compatFromGitHub(rows: CompatMod[], issues: any[]): Promise<Compa
     names: [r.name],
     // "Iris and shader packs": the mods of a README cell without a link.
     split: r.modrinth || r.curseforge ? 'no' : 'maybe',
+    fromReadme: true,
   }));
   for (const i of list) {
     if (fromReadme.has(i.number)) continue;
@@ -277,6 +279,7 @@ async function compatFromGitHub(rows: CompatMod[], issues: any[]): Promise<Compa
     drafts.push({
       mod: {
         name: names,
+        kind: 'mod',
         status,
         note: status === 'issue' && !asked ? capitalize(title) : null,
         issue: i.number,
@@ -295,7 +298,18 @@ async function compatFromGitHub(rows: CompatMod[], issues: any[]): Promise<Compa
     });
   }
   const resolved = await pool(drafts, 4, resolveDraft);
-  return resolved.flat().sort((a, b) => a.name.localeCompare(b.name));
+  return resolved
+    .flat()
+    .map((m) => ({ ...m, kind: kindOf(m) }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
+/** A shader pack, by where its pages are: `modrinth.com/shader/…`, `…/minecraft/shaders/…`. */
+function kindOf(m: CompatMod): CompatMod['kind'] {
+  return /modrinth\.com\/shader\//.test(m.modrinth ?? '') ||
+    /curseforge\.com\/minecraft\/shaders\//.test(m.curseforge ?? '')
+    ? 'shader'
+    : 'mod';
 }
 
 interface Draft {
@@ -307,16 +321,20 @@ interface Draft {
    * mod's name. `no`: one mod, even with "and" in its name ("Ice and Fire").
    */
   split: 'list' | 'maybe' | 'no';
+  /** A row of the README: its link is the mod's, whatever its name there. */
+  fromReadme?: boolean;
 }
 
 /** One draft, looked up: one card, or one per mod of a list. Never throws. */
 async function resolveDraft(d: Draft): Promise<CompatMod[]> {
   const { mod } = d;
   const name = d.names[0];
-  // A link in the README or the issue says which mod it is, if it is the one it names.
+  // A link in the README says which mod it is; one in an issue, if it is the mod it names
+  // (an issue may link other mods).
   if (d.split !== 'list' && (mod.modrinth || mod.curseforge)) {
     const found = await lookupLinks(mod.modrinth, mod.curseforge);
-    if (found && (!name || matches(found.name, name) || matches(name, found.name))) {
+    const named = !name || matches(found?.name ?? '', name) || matches(name, found?.name ?? '');
+    if (found && (d.fromReadme || named)) {
       return [{ ...mod, ...found, name: name || found.name }];
     }
     if (!name) return [];
@@ -380,18 +398,26 @@ async function modpackIndexMod(name: string): Promise<Found | null> {
       )
     )?.data ?? [];
   let hits = await ask(name);
-  let named = hits.filter((h) => baseName(h.name) === compact(name));
+  // The very name, or the name before a subtitle ("Distant Horizons: A Level of Detail mod").
+  const exact = (h: any) => compact(cleanTitle(h.name)) === compact(name);
+  const sameName = (list: any[]) =>
+    list.filter((h) => exact(h) || baseName(h.name) === compact(name));
+  let named = sameName(hits);
   const joined = name.replace(/\s*&\s*/g, '&');
   if (!named.length && joined !== name) {
     hits = [...hits, ...(await ask(joined))];
-    named = hits.filter((h) => baseName(h.name) === compact(name));
+    named = sameName(hits);
   }
   // No mod of that very name: one whose name starts with it ("Iris" is "Iris Shaders").
   if (!named.length) named = hits.filter((h) => matches(h.name, name));
+  // Each platform's page: the very name before a subtitled one ("Complementary Unbound -
+  // edition HardRock TFC" is another pack), then the most downloaded.
   const best = (platform: 'modrinth' | 'curseforge') =>
     named
       .filter((h) => h.links?.[platform])
-      .sort((x, y) => (y.download_count ?? 0) - (x.download_count ?? 0))[0];
+      .sort(
+        (x, y) => +exact(y) - +exact(x) || (y.download_count ?? 0) - (x.download_count ?? 0),
+      )[0];
   const modrinth = best('modrinth');
   const curseforge = best('curseforge');
   const top = [modrinth, curseforge]

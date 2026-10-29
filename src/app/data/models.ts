@@ -19,6 +19,8 @@ export type CompatStatus = 'works' | 'issue' | 'untested';
 
 export interface CompatMod {
   name: string;
+  /** A shader pack has a section of its own: its Modrinth or CurseForge page says it is one. */
+  kind: 'mod' | 'shader';
   status: CompatStatus;
   /** What the README or the issue says, in English; `null` for a mod waiting for a tester. */
   note: string | null;

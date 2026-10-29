@@ -819,6 +819,8 @@ export const en = {
     filter: 'Filter by status',
     all: 'All',
     status: { works: 'Works', issue: 'Known issue', untested: 'Not tested yet' },
+    /** The heading of the shader packs, after the mods. */
+    shaders: 'Shader packs',
     /** The note of every mod still waiting for a tester, next to the link to its issue. */
     untested: 'Nobody has told us how it runs yet. Tried it? Tell us on its issue.',
     issue: (n: number) => `Issue #${n}`,

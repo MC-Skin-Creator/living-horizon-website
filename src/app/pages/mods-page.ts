@@ -77,10 +77,11 @@ const PLATFORMS = [
             </div>
           </div>
 
-          @for (group of groups(); track group.status) {
-            <section class="group" [attr.aria-labelledby]="'mods-' + group.status">
-              <h2 [id]="'mods-' + group.status" [class]="group.status">
-                <lh-icon [name]="statusIcons[group.status]" /> {{ t.status[group.status] }}
+          @for (group of groups(); track group.id) {
+            <section class="group" [attr.aria-labelledby]="'mods-' + group.id">
+              <h2 [id]="'mods-' + group.id" [class]="group.id">
+                <lh-icon [name]="group.icon" />
+                {{ group.id === 'shaders' ? t.shaders : t.status[group.status!] }}
                 <span class="n">{{ group.mods.length }}</span>
               </h2>
               <ul class="mods">
@@ -100,12 +101,7 @@ const PLATFORMS = [
                         <lh-icon name="box" />
                       }
                     </span>
-                    <span class="head">
-                      <h3>{{ mod.name }}</h3>
-                      <span class="status" [class]="mod.status">
-                        <lh-icon [name]="statusIcons[mod.status]" /> {{ t.status[mod.status] }}
-                      </span>
-                    </span>
+                    <h3>{{ mod.name }}</h3>
                     @if (mod.note) {
                       <p class="note" lang="en">{{ mod.note }}</p>
                     } @else if (mod.status === 'untested') {
@@ -194,15 +190,31 @@ export class ModsPage {
     return { all: list.length, works: n('works'), issue: n('issue'), untested: n('untested') };
   });
 
-  /** Seen working first, then known issues, then the mods waiting for a tester. */
+  /**
+   * Mods seen working first, then the shader packs, in a section of their own, then known
+   * issues, then the mods waiting for a tester.
+   */
   protected readonly groups = computed(() => {
     const only = this.status();
-    return STATUSES.filter((s) => !only || s === only)
-      .map((status) => ({
-        status,
-        mods: this.searched().filter((m) => m.status === status),
-      }))
-      .filter((g) => g.mods.length);
+    const shown = this.searched().filter((m) => !only || m.status === only);
+    const mods = shown.filter((m) => m.kind !== 'shader');
+    const byStatus = (status: CompatStatus) => ({
+      id: status as string,
+      status: status as CompatStatus | null,
+      icon: STATUS_ICONS[status],
+      mods: mods.filter((m) => m.status === status),
+    });
+    return [
+      byStatus('works'),
+      {
+        id: 'shaders',
+        status: null,
+        icon: 'sparkles' as IconName,
+        mods: shown.filter((m) => m.kind === 'shader'),
+      },
+      byStatus('issue'),
+      byStatus('untested'),
+    ].filter((g) => g.mods.length);
   });
 
   /** A new issue, in English, the language of the issues. */

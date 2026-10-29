@@ -779,6 +779,8 @@ export const ko: Messages = {
     filter: '상태별 필터',
     all: '전체',
     status: { works: '작동', issue: '알려진 문제', untested: '아직 테스트 안 됨' },
+    /** The heading of the shader packs, after the mods. */
+    shaders: '셰이더 팩',
     /** The note of every mod still waiting for a tester, next to the link to its issue. */
     untested:
       '아직 어떻게 작동하는지 알려 준 사람이 없습니다. 해 보셨나요? 해당 이슈에서 알려 주세요.',

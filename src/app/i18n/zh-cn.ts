@@ -772,6 +772,8 @@ export const zhCN: Messages = {
     filter: '按状态筛选',
     all: '全部',
     status: { works: '可用', issue: '已知问题', untested: '尚未测试' },
+    /** The heading of the shader packs, after the mods. */
+    shaders: '光影包',
     /** The note of every mod still waiting for a tester, next to the link to its issue. */
     untested: '还没有人告诉我们它运行得怎么样。试过了吗？在它的 issue 里告诉我们。',
     issue: (n: number) => `Issue #${n}`,

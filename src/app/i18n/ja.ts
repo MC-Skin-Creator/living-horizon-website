@@ -781,6 +781,8 @@ export const ja: Messages = {
     filter: 'ステータスで絞り込む',
     all: 'すべて',
     status: { works: '動作', issue: '既知の問題', untested: '未テスト' },
+    /** The heading of the shader packs, after the mods. */
+    shaders: 'シェーダーパック',
     /** The note of every mod still waiting for a tester, next to the link to its issue. */
     untested: 'どう動くかはまだ誰からも聞いていません。試しましたか？そのissueで教えてください。',
     issue: (n: number) => `Issue #${n}`,

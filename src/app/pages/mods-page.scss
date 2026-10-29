@@ -103,6 +103,10 @@
   --tone: var(--dusk);
 }
 
+.shaders {
+  --tone: var(--sky);
+}
+
 .group {
   margin-bottom: 44px;
 
@@ -168,36 +172,13 @@
   }
 }
 
-.head {
-  display: grid;
-  align-content: center;
-  justify-items: start;
-  gap: 6px;
+.mod h3 {
+  align-self: center;
+  margin: 0;
   min-width: 0;
-
-  h3 {
-    margin: 0;
-    font-size: 1.05rem;
-    line-height: 1.25;
-    overflow-wrap: anywhere;
-  }
-}
-
-.status {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 2px 9px;
-  border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--tone);
-  background: color-mix(in srgb, var(--tone) 14%, transparent);
-
-  lh-icon {
-    width: 13px;
-    height: 13px;
-  }
+  font-size: 1.05rem;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
 .note {

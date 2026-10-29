@@ -782,6 +782,8 @@ export const tr: Messages = {
     filter: 'Duruma göre süzün',
     all: 'Tümü',
     status: { works: 'Çalışıyor', issue: 'Bilinen sorun', untested: 'Henüz test edilmedi' },
+    /** The heading of the shader packs, after the mods. */
+    shaders: 'Gölgelendirici paketleri',
     /** The note of every mod still waiting for a tester, next to the link to its issue. */
     untested:
       'Henüz kimse nasıl çalıştığını söylemedi. Denediniz mi? Issue sayfasında bize anlatın.',

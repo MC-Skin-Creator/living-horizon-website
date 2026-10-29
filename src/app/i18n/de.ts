@@ -792,6 +792,8 @@ export const de: Messages = {
     filter: 'Nach Status filtern',
     all: 'Alle',
     status: { works: 'Funktioniert', issue: 'Bekanntes Problem', untested: 'Noch nicht getestet' },
+    /** The heading of the shader packs, after the mods. */
+    shaders: 'Shaderpakete',
     /** The note of every mod still waiting for a tester, next to the link to its issue. */
     untested:
       'Noch hat uns niemand erzählt, wie es läuft. Schon ausprobiert? Sag es uns in seinem Issue.',

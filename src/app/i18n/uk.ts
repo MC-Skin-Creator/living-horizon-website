@@ -817,6 +817,8 @@ export const uk: Messages = {
     filter: 'Фільтр за статусом',
     all: 'Усі',
     status: { works: 'Працює', issue: 'Відома проблема', untested: 'Ще не перевірено' },
+    /** The heading of the shader packs, after the mods. */
+    shaders: 'Пакети шейдерів',
     /** The note of every mod still waiting for a tester, next to the link to its issue. */
     untested: 'Поки ніхто не розповів, як він працює. Пробували? Напишіть у його issue.',
     issue: (n: number) => `Issue #${n}`,

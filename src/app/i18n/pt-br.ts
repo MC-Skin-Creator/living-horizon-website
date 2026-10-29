@@ -811,6 +811,8 @@ export const ptBR: Messages = {
     filter: 'Filtrar por status',
     all: 'Todos',
     status: { works: 'Funciona', issue: 'Problema conhecido', untested: 'Ainda não testado' },
+    /** The heading of the shader packs, after the mods. */
+    shaders: 'Pacotes de shaders',
     /** The note of every mod still waiting for a tester, next to the link to its issue. */
     untested: 'Ninguém nos contou ainda como ele roda. Já testou? Conte na issue dele.',
     issue: (n: number) => `Issue #${n}`,

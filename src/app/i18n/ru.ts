@@ -818,6 +818,8 @@ export const ru: Messages = {
     filter: 'Фильтр по статусу',
     all: 'Все',
     status: { works: 'Работает', issue: 'Известная проблема', untested: 'Ещё не проверен' },
+    /** The heading of the shader packs, after the mods. */
+    shaders: 'Наборы шейдеров',
     /** The note of every mod still waiting for a tester, next to the link to its issue. */
     untested: 'Пока никто не рассказал, как он работает. Пробовали? Напишите в его issue.',
     issue: (n: number) => `Issue #${n}`,

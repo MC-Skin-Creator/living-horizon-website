@@ -109,7 +109,9 @@ starts so it never shows English first.
   "Compatibility" table work (a row pointing to an open issue is a known issue), an open
   issue labelled `mod compatibility` titled "Compatibility: <mods>" waits for a tester, any
   other open one is a known issue (its title is the note), a closed completed one works. An
-  issue whose body lists `**Mods:**` names several mods. Each mod's icon and its CurseForge
+  issue whose body lists `**Mods:**` names several mods. A shader pack (its Modrinth or
+  CurseForge page says so) gets a section of its own, after the mods that work: list one
+  as a row of the README's table. Each mod's icon and its CurseForge
   and Modrinth pages come from ModpackIndex (`/api/v1/mods?name=`), else Modrinth's search
   and cfwidget. Notes stay in English, as GitHub has them; to change what the page says,
   change the README or the issue.
