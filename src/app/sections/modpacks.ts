@@ -1,12 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { ModpackLink } from '../data/models';
 import { ProjectData } from '../data/project-data';
 import { I18n } from '../i18n/i18n';
 import { Icon } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
 
-/** Cards shown before "Show more". */
-const SHOWN = 6;
+/** Cards on the home page, the most downloaded; the modpacks page shows them all. */
+const HOME_SHOWN = 3;
 
 const PLATFORMS: Record<ModpackLink['platform'], { name: string; logo: string }> = {
   curseforge: { name: 'CurseForge', logo: 'img/logos/curseforge.svg' },
@@ -16,16 +17,22 @@ const PLATFORMS: Record<ModpackLink['platform'], { name: string; logo: string }>
 @Component({
   selector: 'lh-modpacks',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, Reveal],
+  imports: [Icon, Reveal, RouterLink],
   template: `
     @let t = i18n.t().modpacks;
-    <section class="section" id="modpacks">
+    <section class="section" id="modpacks" [class.page-top]="page()">
       <div class="container">
         <header class="section-head" lhReveal>
           <span class="eyebrow">{{ t.eyebrow }}</span>
-          <h2>
-            {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
-          </h2>
+          @if (page()) {
+            <h1>
+              {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
+            </h1>
+          } @else {
+            <h2>
+              {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
+            </h2>
+          }
           <p>{{ t.text }}</p>
           @if (packs()?.length) {
             <p class="found">
@@ -38,7 +45,7 @@ const PLATFORMS: Record<ModpackLink['platform'], { name: string; logo: string }>
           @if (list.length) {
             <ul class="packs">
               @for (pack of shown(); track pack.id; let i = $index) {
-                <li class="card pack" [lhReveal]="(i % SHOWN) * 60">
+                <li class="card pack" [lhReveal]="(i % 3) * 60">
                   <span class="thumb">
                     @if (pack.thumbnail) {
                       <img
@@ -92,12 +99,11 @@ const PLATFORMS: Record<ModpackLink['platform'], { name: string; logo: string }>
               }
             </ul>
 
-            @if (list.length > SHOWN) {
-              <div class="actions">
-                <button class="btn" type="button" (click)="all.set(!all())">
-                  <lh-icon [name]="all() ? 'close' : 'plus'" />
-                  {{ all() ? t.less : t.more(list.length - SHOWN) }}
-                </button>
+            @if (!page()) {
+              <div class="actions" lhReveal>
+                <a class="btn" routerLink="/modpacks">
+                  {{ t.all(list.length) }} <lh-icon name="arrow-right" />
+                </a>
               </div>
             }
           } @else {
@@ -118,13 +124,14 @@ export class Modpacks {
   protected readonly data = inject(ProjectData);
   protected readonly i18n = inject(I18n);
   protected readonly platforms = PLATFORMS;
-  protected readonly SHOWN = SHOWN;
+
+  /** The modpacks page: every modpack, and the page's heading. */
+  readonly page = input(false);
 
   protected readonly packs = this.data.modpacks;
-  protected readonly all = signal(false);
   protected readonly shown = computed(() => {
     const list = this.packs() ?? [];
-    return this.all() ? list : list.slice(0, SHOWN);
+    return this.page() ? list : list.slice(0, HOME_SHOWN);
   });
 
   /** "1.20.1", or "1.20.1 – 1.21.1" for a pack on several versions. */

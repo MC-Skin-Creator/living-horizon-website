@@ -6,6 +6,7 @@
  */
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
+import { MOD_ICON_REFS } from '../src/app/config/mods.ts';
 import { SITE } from '../src/app/config/site.ts';
 import { SOURCES, fetchSource, type SourceKey } from '../src/app/data/sources.ts';
 
@@ -23,7 +24,7 @@ for (const key of Object.keys(SOURCES) as SourceKey[]) {
   const source = SOURCES[key];
   const init =
     key === 'github' && token ? { headers: { Authorization: `Bearer ${token}` } } : undefined;
-  const value = await fetchSource(source as any, SITE, init);
+  const value = await fetchSource(source as any, { ...SITE, mods: MOD_ICON_REFS }, init);
   if (value === undefined) {
     failures++;
     console.warn(`snapshot: ${key} unreachable, keeping the previous value`);

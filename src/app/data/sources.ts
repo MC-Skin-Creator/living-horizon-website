@@ -19,6 +19,8 @@ export interface ProjectRef {
   modrinthSlug: string;
   nexusMod: { gameId: number; modId: number };
   modpackIndexModId: number;
+  /** The compatible mods whose icons are asked for (`MOD_ICON_REFS` of `config/mods.ts`). */
+  mods: { modrinth: string[]; curseforge: string[] };
 }
 
 export type SourceKey = Exclude<keyof RawData, 'fetchedAt'>;
@@ -33,7 +35,7 @@ export interface Source<K extends SourceKey> {
   notFoundValue?: RawData[K];
   trim: (body: any) => RawData[K];
   /** Further calls that fill in the trimmed answer; each one that fails leaves it as it is. */
-  complete?: (value: RawData[K]) => Promise<RawData[K]>;
+  complete?: (value: RawData[K], project: ProjectRef) => Promise<RawData[K]>;
 }
 
 const MPI = 'https://www.modpackindex.com/api/v1';
@@ -186,6 +188,34 @@ export const SOURCES: { [K in SourceKey]: Source<K> } = {
         }),
       ),
   },
+  modIcons: {
+    key: 'modIcons',
+    kind: 'json',
+    // One call for every mod on Modrinth; CurseForge, one call each, for the few not there.
+    url: (p) =>
+      `https://api.modrinth.com/v2/projects?ids=${encodeURIComponent(JSON.stringify(p.mods.modrinth))}`,
+    trim: (list: any[]): Record<string, string> => {
+      if (!Array.isArray(list)) throw new Error('Modrinth: unexpected answer');
+      return Object.fromEntries(list.filter((m) => m.icon_url).map((m) => [m.slug, m.icon_url]));
+    },
+    complete: async (icons, p) => {
+      const out = { ...icons };
+      await Promise.all(
+        p.mods.curseforge.map(async (path) => {
+          try {
+            const res = await fetch(`https://api.cfwidget.com/${path}`, {
+              signal: AbortSignal.timeout(10_000),
+            });
+            const thumbnail = res.ok ? (await res.json()).thumbnail : null;
+            if (thumbnail) out[path] = thumbnail;
+          } catch {
+            // No icon: the page shows a plain one.
+          }
+        }),
+      );
+      return out;
+    },
+  },
 };
 
 /** A modpack's own pages on CurseForge and Modrinth, never ModpackIndex's. */
@@ -229,7 +259,7 @@ export async function fetchSource<K extends SourceKey>(
     if (!res.ok) return undefined;
     const body = source.kind === 'json' ? await res.json() : await res.text();
     const value = source.trim(body);
-    return source.complete ? await source.complete(value) : value;
+    return source.complete ? await source.complete(value, project) : value;
   } catch {
     return undefined;
   }

@@ -32,11 +32,28 @@ export const pl: Messages = {
     tag: 'beta',
     menu: 'Menu',
     features: 'Funkcje',
-    compatibility: 'Kompatybilność',
+    mods: 'Mody',
+    modpacks: 'Modpacki',
     testers: 'Testerzy',
-    contribute: 'Współtwórz',
     faq: 'FAQ',
     download: (version: string) => `Pobierz v${version}`,
+  },
+
+  pages: {
+    mods: {
+      title: 'Kompatybilne mody',
+      description:
+        'Jak Living Horizon działa z innymi modami do Minecrafta: daleki teren, shadery, wydajność i mody ze stworzeniami. Co działa, co ma znany problem, a co czeka na testera.',
+    },
+    modpacks: {
+      title: 'Modpacki',
+      description:
+        'Modpacki do Minecrafta, które zawierają Living Horizon, z linkami do pobrania na CurseForge i Modrinth.',
+    },
+    changelog: {
+      title: 'Lista zmian',
+      description: 'Każda wersja Living Horizon i co się w niej zmieniło.',
+    },
   },
 
   hero: {
@@ -284,6 +301,19 @@ export const pl: Messages = {
       'Ten sam jar na serwerach, albo dołączaj bez niego do dowolnego serwera',
       'Opcje w Ustawieniach grafiki Sodium (0.8+)',
     ],
+    /** The link to the compatible mods page, under the cards. */
+    others: {
+      title: 'A twoje inne mody?',
+      text: (n: number) =>
+        p(n, {
+          one: '{n} mod na liście: shadery, wydajność, mody ze stworzeniami. Co działa, a co wciąż czeka na testera.',
+          few: '{n} mody na liście: shadery, wydajność, mody ze stworzeniami. Co działa, a co wciąż czeka na testera.',
+          many: '{n} modów na liście: shadery, wydajność, mody ze stworzeniami. Co działa, a co wciąż czeka na testera.',
+          other:
+            '{n} moda na liście: shadery, wydajność, mody ze stworzeniami. Co działa, a co wciąż czeka na testera.',
+        }),
+      link: 'Zobacz kompatybilne mody',
+    },
     matrixTitle: 'Wersje gry i loadery',
     matrixText: 'Jeden jar na wersję gry i loader.',
     builds: (builds: number, range: string) =>
@@ -455,6 +485,8 @@ export const pl: Messages = {
     failed: 'Nie udało się teraz wczytać listy zmian. Zawsze jest dostępna na GitHubie.',
     full: 'Zobacz pełną listę zmian na GitHubie',
     releases: 'Wszystkie wydania',
+    /** The link to the changelog page, on the home page. */
+    every: 'Zobacz wszystkie wersje',
   },
 
   faq: {
@@ -775,14 +807,55 @@ export const pl: Messages = {
     get: (platform: string) => `Pobierz z ${platform}`,
     none: 'Żaden modpack nie zawiera jeszcze Living Horizon. Twój może być pierwszy.',
     loading: 'Modpacki pojawią się tu za chwilę.',
-    more: (n: number) =>
+    /** The link to the modpacks page, under the home page's cards. */
+    all: (n: number) =>
       p(n, {
-        one: 'Pokaż jeszcze {n} modpack',
-        few: 'Pokaż jeszcze {n} modpacki',
-        many: 'Pokaż jeszcze {n} modpacków',
-        other: 'Pokaż jeszcze {n} modpacka',
+        one: 'Przejdź do strony modpacków',
+        few: 'Zobacz wszystkie {n} modpacki',
+        many: 'Zobacz wszystkie {n} modpacków',
+        other: 'Zobacz wszystkie {n} modpacka',
       }),
-    less: 'Pokaż mniej',
+  },
+
+  mods: {
+    eyebrow: 'Kompatybilność',
+    title: 'Dogaduje się',
+    accent: 'z twoimi modami.',
+    text: 'Jak Living Horizon działa razem z innymi modami: co działa, co ma znany problem, a co wciąż czeka, aż ktoś to wypróbuje.',
+    search: 'Szukaj moda',
+    filter: 'Filtruj według stanu',
+    all: 'Wszystkie',
+    status: { works: 'Działa', issue: 'Znany problem', untested: 'Jeszcze nietestowany' },
+    categories: {
+      terrain: 'Daleki teren',
+      graphics: 'Grafika i wydajność',
+      creatures: 'Stworzenia i gracze',
+      tools: 'Biblioteki i menu',
+    },
+    /** The note of every mod still waiting for a tester, next to the link to its issue. */
+    untested: 'Nikt nam jeszcze nie powiedział, jak działa. Sprawdziłeś? Napisz w jego zgłoszeniu.',
+    issue: (n: number) => `Zgłoszenie #${n}`,
+    none: 'Żaden mod nie pasuje do wyszukiwania.',
+    missing: {
+      title: 'Brakuje moda?',
+      text: 'Napisz nam, jak Living Horizon z nim działa, dobrze czy źle: każde zgłoszenie pomaga.',
+      link: 'Zgłoś moda',
+    },
+    /** What to know about a mod (`config/mods.ts`). Names of settings are the game's or Sodium's. */
+    notes: {
+      sodium: 'Od wersji 0.8 ustawienia Living Horizon są też w Ustawieniach grafiki Sodium.',
+      iris: 'Paczki shaderów działają. Photon i Complementary zostały sprawdzone.',
+      pack: 'Sprawdzony z Living Horizon.',
+      oculus: 'Iris dla Forge: Living Horizon znajduje go w ten sam sposób.',
+      entityCulling:
+        'Stworzenia, które Living Horizon rysuje w oddali, są pomijane przez jego culling.',
+      geckolib:
+        'Jego stworzenia są rysowane w oddali, na razie poza Minecraftem od 1.21.2 do 1.21.8.',
+      fowlPlay: 'Jego ptaki przestają się ruszać, gdy są daleko.',
+      guardVillagers: 'Strażnicy są rysowani w oddali z bronią i zbroją.',
+      fabricApi: 'Wymagany na Fabric i Quilt.',
+      modMenu: 'Opcjonalny, na Fabric i Quilt: otwiera ustawienia z listy modów.',
+    },
   },
 
   footer: {

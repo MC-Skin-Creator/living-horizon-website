@@ -32,11 +32,28 @@ export const ptBR: Messages = {
     tag: 'beta',
     menu: 'Menu',
     features: 'Recursos',
-    compatibility: 'Compatibilidade',
+    mods: 'Mods',
+    modpacks: 'Modpacks',
     testers: 'Testadores',
-    contribute: 'Contribuir',
     faq: 'FAQ',
     download: (version: string) => `Baixar v${version}`,
+  },
+
+  pages: {
+    mods: {
+      title: 'Mods compatíveis',
+      description:
+        'Como o Living Horizon funciona com outros mods de Minecraft: terreno distante, shaders, desempenho e mods de criaturas. O que funciona, o que tem um problema conhecido e o que espera um testador.',
+    },
+    modpacks: {
+      title: 'Modpacks',
+      description:
+        'Os modpacks de Minecraft que trazem o Living Horizon, com os links de download no CurseForge e no Modrinth.',
+    },
+    changelog: {
+      title: 'Novidades',
+      description: 'Cada versão do Living Horizon e o que mudou nela.',
+    },
   },
 
   hero: {
@@ -283,6 +300,18 @@ export const ptBR: Messages = {
       'O mesmo jar em servidores, ou entre em qualquer servidor sem ele',
       'Ajustes nas Configurações de vídeo do Sodium (0.8+)',
     ],
+    /** The link to the compatible mods page, under the cards. */
+    others: {
+      title: 'E os seus outros mods?',
+      text: (n: number) =>
+        p(n, {
+          one: '{n} mod na lista: shaders, desempenho, mods de criaturas. O que funciona e o que ainda espera um testador.',
+          many: '{n} de mods na lista: shaders, desempenho, mods de criaturas. O que funciona e o que ainda espera um testador.',
+          other:
+            '{n} mods na lista: shaders, desempenho, mods de criaturas. O que funciona e o que ainda espera um testador.',
+        }),
+      link: 'Ver mods compatíveis',
+    },
     matrixTitle: 'Versões do Minecraft e loaders',
     matrixText: 'Um jar por versão do jogo e loader.',
     builds: (builds: number, range: string) =>
@@ -450,6 +479,8 @@ export const ptBR: Messages = {
     failed: 'Não foi possível carregar o changelog agora. Ele está sempre no GitHub.',
     full: 'Ver o changelog completo no GitHub',
     releases: 'Todas as versões',
+    /** The link to the changelog page, on the home page. */
+    every: 'Ver todas as versões',
   },
 
   faq: {
@@ -762,13 +793,55 @@ export const ptBR: Messages = {
     get: (platform: string) => `Baixar no ${platform}`,
     none: 'Nenhum modpack traz o Living Horizon ainda. O seu pode ser o primeiro.',
     loading: 'Os modpacks aparecem aqui em instantes.',
-    more: (n: number) =>
+    /** The link to the modpacks page, under the home page's cards. */
+    all: (n: number) =>
       p(n, {
-        one: 'Mostrar mais {n} modpack',
-        many: 'Mostrar mais {n} de modpacks',
-        other: 'Mostrar mais {n} modpacks',
+        one: 'Ver a página de modpacks',
+        many: 'Ver os {n} de modpacks',
+        other: 'Ver os {n} modpacks',
       }),
-    less: 'Mostrar menos',
+  },
+
+  mods: {
+    eyebrow: 'Compatibilidade',
+    title: 'Combina',
+    accent: 'com os seus mods.',
+    text: 'Como o Living Horizon roda junto com outros mods: o que funciona, o que tem um problema conhecido e o que ainda espera alguém testar.',
+    search: 'Buscar um mod',
+    filter: 'Filtrar por status',
+    all: 'Todos',
+    status: { works: 'Funciona', issue: 'Problema conhecido', untested: 'Ainda não testado' },
+    categories: {
+      terrain: 'Terreno distante',
+      graphics: 'Gráficos e desempenho',
+      creatures: 'Criaturas e jogadores',
+      tools: 'Bibliotecas e menus',
+    },
+    /** The note of every mod still waiting for a tester, next to the link to its issue. */
+    untested: 'Ninguém nos contou ainda como ele roda. Já testou? Conte na issue dele.',
+    issue: (n: number) => `Issue #${n}`,
+    none: 'Nenhum mod corresponde à sua busca.',
+    missing: {
+      title: 'Falta algum mod?',
+      text: 'Conte como o Living Horizon roda com ele, bem ou mal: cada relato ajuda.',
+      link: 'Relatar um mod',
+    },
+    /** What to know about a mod (`config/mods.ts`). Names of settings are the game's or Sodium's. */
+    notes: {
+      sodium:
+        'A partir da 0.8, os ajustes do Living Horizon também ficam nas Configurações de vídeo do Sodium.',
+      iris: 'Pacotes de shaders funcionam. Photon e Complementary foram verificados.',
+      pack: 'Verificado com o Living Horizon.',
+      oculus: 'Iris para Forge: o Living Horizon o encontra do mesmo jeito.',
+      entityCulling:
+        'As criaturas que o Living Horizon desenha ao longe ficam fora do culling dele.',
+      geckolib:
+        'As criaturas dele são desenhadas ao longe, exceto do Minecraft 1.21.2 ao 1.21.8 por enquanto.',
+      fowlPlay: 'Os pássaros dele param de se mexer quando estão longe.',
+      guardVillagers: 'Os guardas são desenhados ao longe com armas e armadura.',
+      fabricApi: 'Necessário no Fabric e no Quilt.',
+      modMenu: 'Opcional, no Fabric e no Quilt: abre os ajustes pela lista de mods.',
+    },
   },
 
   footer: {

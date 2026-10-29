@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { MODS, modIconKey } from '../config/mods';
 import { SITE } from '../config/site';
 import { LOADERS, LOADER_NAMES } from '../data/models';
 import { ProjectData } from '../data/project-data';
@@ -12,7 +14,7 @@ type CompatibilityTexts = Messages['compatibility'];
 @Component({
   selector: 'lh-compatibility',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, Reveal],
+  imports: [Icon, Reveal, RouterLink],
   template: `
     @let t = i18n.t().compatibility;
     <section class="section" id="compatibility">
@@ -59,6 +61,21 @@ type CompatibilityTexts = Messages['compatibility'];
             <span class="pill"><lh-icon [name]="extraIcons[$index]" /> {{ e }}</span>
           }
         </div>
+
+        <a class="card others" routerLink="/mods" lhReveal>
+          <span class="faces" aria-hidden="true">
+            @for (m of others; track m.name) {
+              @if (data.modIcons()[modIconKey(m)]; as src) {
+                <img [src]="src" alt="" width="40" height="40" loading="lazy" />
+              }
+            }
+          </span>
+          <span class="copy">
+            <strong>{{ t.others.title }}</strong>
+            <span>{{ t.others.text(mods.length) }}</span>
+          </span>
+          <span class="go">{{ t.others.link }} <lh-icon name="arrow-right" /></span>
+        </a>
 
         <div class="matrix card" lhReveal>
           <div class="matrix-head">
@@ -158,6 +175,12 @@ export class Compatibility {
 
   protected readonly i18n = inject(I18n);
   protected readonly extraIcons: IconName[] = ['sparkles', 'server', 'sliders'];
+  protected readonly mods = MODS;
+  protected readonly modIconKey = modIconKey;
+  /** A few of the other mods seen working, as faces of the link to the mods page. */
+  protected readonly others = MODS.filter(
+    (m) => m.status === 'works' && m.category !== 'terrain',
+  ).slice(0, 6);
 
   /** Texts in `compatibility.cards.<tone>`; Vanilla's name is translated too. */
   protected readonly works: {

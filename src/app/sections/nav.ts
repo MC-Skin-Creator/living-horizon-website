@@ -11,6 +11,7 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SITE } from '../config/site';
 import { ProjectData } from '../data/project-data';
 import { Messages } from '../i18n/en';
@@ -21,7 +22,7 @@ import { LangPicker } from '../shared/lang-picker';
 @Component({
   selector: 'lh-nav',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, LangPicker],
+  imports: [Icon, LangPicker, RouterLink, RouterLinkActive],
   host: {
     '[class.scrolled]': 'scrolled()',
     '[class.open]': 'open()',
@@ -30,7 +31,7 @@ import { LangPicker } from '../shared/lang-picker';
   template: `
     @let t = i18n.t();
     <nav #bar class="container bar" [attr.aria-label]="t.nav.label">
-      <a class="brand" href="#top" (click)="open.set(false)">
+      <a class="brand" routerLink="/" fragment="top" (click)="open.set(false)">
         <img src="img/icon-128.webp" alt="" width="34" height="34" />
         <span>Living Horizon</span>
         <span class="tag">{{ t.nav.tag }}</span>
@@ -46,8 +47,20 @@ import { LangPicker } from '../shared/lang-picker';
         <span class="visually-hidden">{{ t.nav.menu }}</span>
       </button>
       <div class="links" id="nav-links">
-        @for (link of links; track link.href) {
-          <a [href]="link.href" (click)="open.set(false)">{{ link.label(t) }}</a>
+        @for (link of links; track $index) {
+          @if (link.fragment) {
+            <a routerLink="/" [fragment]="link.fragment" (click)="open.set(false)">{{
+              link.label(t)
+            }}</a>
+          } @else {
+            <a
+              [routerLink]="link.page"
+              routerLinkActive="active"
+              ariaCurrentWhenActive="page"
+              (click)="open.set(false)"
+              >{{ link.label(t) }}</a
+            >
+          }
         }
         <a
           class="icon-link"
@@ -58,7 +71,7 @@ import { LangPicker } from '../shared/lang-picker';
         >
           <lh-icon name="github" />
         </a>
-        <a class="btn primary small" href="#download" (click)="open.set(false)">
+        <a class="btn primary small" routerLink="/" fragment="download" (click)="open.set(false)">
           <lh-icon name="download" /> {{ t.nav.download(data.version()) }}
         </a>
         <lh-lang-picker class="lang-in-menu" />
@@ -80,14 +93,16 @@ export class Nav {
   private needed = 0;
   private readonly bar = viewChild.required<ElementRef<HTMLElement>>('bar');
   private readonly injector = inject(Injector);
-  protected readonly links: { href: string; label: (t: Messages) => string }[] = [
-    { href: '#features', label: (t) => t.nav.features },
-    { href: '#compatibility', label: (t) => t.nav.compatibility },
-    { href: '#changelog', label: (t) => t.common.changelog },
-    { href: '#testers', label: (t) => t.nav.testers },
-    { href: '#contribute', label: (t) => t.nav.contribute },
-    { href: '#faq', label: (t) => t.nav.faq },
-  ];
+  /** A section of the home page (`fragment`), or a page of its own (`page`). */
+  protected readonly links: { fragment?: string; page?: string; label: (t: Messages) => string }[] =
+    [
+      { fragment: 'features', label: (t) => t.nav.features },
+      { page: '/mods', label: (t) => t.nav.mods },
+      { page: '/modpacks', label: (t) => t.nav.modpacks },
+      { page: '/changelog', label: (t) => t.common.changelog },
+      { fragment: 'testers', label: (t) => t.nav.testers },
+      { fragment: 'faq', label: (t) => t.nav.faq },
+    ];
 
   constructor() {
     // New labels, new width: measure again.

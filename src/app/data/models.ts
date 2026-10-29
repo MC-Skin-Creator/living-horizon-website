@@ -10,6 +10,8 @@ export interface RawData {
   nexus?: NxMod;
   /** Modpacks that ship the mod, as ModpackIndex lists them. */
   modpacks?: Modpack[];
+  /** The compatible mods' icons, by Modrinth slug or CurseForge path (`config/mods.ts`). */
+  modIcons?: Record<string, string>;
 }
 
 export interface GhAsset {

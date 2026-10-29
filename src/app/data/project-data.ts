@@ -1,4 +1,5 @@
 import { Injectable, computed, effect, inject, signal, untracked } from '@angular/core';
+import { MOD_ICON_REFS } from '../config/mods';
 import { SITE } from '../config/site';
 import { I18n } from '../i18n/i18n';
 import { LOADERS, RawData, Release, SourceState } from './models';
@@ -14,6 +15,8 @@ import {
 import { SOURCES, SourceKey, fetchSource } from './sources';
 
 const CACHE_PREFIX = 'lh-source:';
+/** What the sources are asked about. */
+const PROJECT = { ...SITE, mods: MOD_ICON_REFS };
 /** Live answers are reused for this long: GitHub allows 60 anonymous calls an hour. */
 const CACHE_TTL_MS = 30 * 60 * 1000;
 
@@ -33,6 +36,7 @@ export class ProjectData {
     modrinth: 'none',
     nexus: 'none',
     modpacks: 'none',
+    modIcons: 'none',
   });
   readonly settled = signal(false);
   /** When the bundled snapshot was taken. */
@@ -102,6 +106,8 @@ export class ProjectData {
 
   /** Most downloaded first. `undefined` while no source has answered. */
   readonly modpacks = computed(() => this.raw().modpacks);
+  /** The compatible mods' icons; empty until a source answers. */
+  readonly modIcons = computed(() => this.raw().modIcons ?? {});
 
   /** `undefined`: not known yet; `null`: the platform has no page for the mod yet. */
   readonly modrinthListed = computed(() =>
@@ -166,7 +172,7 @@ export class ProjectData {
   private async loadLive<K extends SourceKey>(key: K) {
     let value = readCache<RawData[K]>(key);
     if (value === undefined) {
-      value = await fetchSource(SOURCES[key], SITE);
+      value = await fetchSource(SOURCES[key], PROJECT);
       if (value !== undefined) writeCache(key, value);
     }
     if (value === undefined) return;

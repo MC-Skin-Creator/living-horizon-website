@@ -32,11 +32,28 @@ export const tr: Messages = {
     tag: 'beta',
     menu: 'Menü',
     features: 'Özellikler',
-    compatibility: 'Uyumluluk',
+    mods: 'Modlar',
+    modpacks: 'Mod paketleri',
     testers: 'Testçiler',
-    contribute: 'Katkı',
     faq: 'SSS',
     download: (version: string) => `v${version} İndir`,
+  },
+
+  pages: {
+    mods: {
+      title: 'Uyumlu modlar',
+      description:
+        'Living Horizon diğer Minecraft modlarıyla nasıl çalışır: uzak arazi, gölgelendiriciler, performans ve canlı modları. Neyin çalıştığı, neyin bilinen bir sorunu olduğu ve neyin bir testçi beklediği.',
+    },
+    modpacks: {
+      title: 'Mod paketleri',
+      description:
+        'Living Horizon içeren Minecraft mod paketleri, CurseForge ve Modrinth indirme bağlantılarıyla.',
+    },
+    changelog: {
+      title: 'Değişiklikler',
+      description: "Living Horizon'un her sürümü ve neyin değiştiği.",
+    },
   },
 
   hero: {
@@ -284,6 +301,16 @@ export const tr: Messages = {
       'Sunucularda aynı jar; ya da onsuz herhangi bir sunucuya katılın',
       "Ayarlar Sodium'un Görüntü Ayarları'nda (0.8+)",
     ],
+    /** The link to the compatible mods page, under the cards. */
+    others: {
+      title: 'Peki diğer modlarınız?',
+      text: (n: number) =>
+        p(n, {
+          other:
+            'Listede {n} mod: gölgelendiriciler, performans, canlı modları. Neyin çalıştığı ve neyin hâlâ bir testçi beklediği.',
+        }),
+      link: 'Uyumlu modları görün',
+    },
     matrixTitle: 'Minecraft sürümleri ve yükleyiciler',
     matrixText: 'Her oyun sürümü ve yükleyici için bir jar.',
     builds: (builds: number, range: string) => p(builds, { other: `${range} için {n} derleme.` }),
@@ -432,6 +459,8 @@ export const tr: Messages = {
     failed: "Değişiklik günlüğü şu anda yüklenemedi. GitHub'da her zaman bulabilirsiniz.",
     full: "Tüm değişiklik günlüğünü GitHub'da görün",
     releases: 'Tüm sürümler',
+    /** The link to the changelog page, on the home page. */
+    every: 'Tüm sürümleri görün',
   },
 
   faq: {
@@ -739,8 +768,49 @@ export const tr: Messages = {
     get: (platform: string) => `${platform} üzerinden indir`,
     none: 'Henüz hiçbir mod paketi Living Horizon içermiyor. İlki sizinki olabilir.',
     loading: 'Mod paketleri birazdan burada görünecek.',
-    more: (n: number) => p(n, { other: '{n} mod paketi daha göster' }),
-    less: 'Daha az göster',
+    /** The link to the modpacks page, under the home page's cards. */
+    all: (n: number) =>
+      p(n, { one: 'Mod paketleri sayfasına gidin', other: 'Tüm {n} mod paketini görün' }),
+  },
+
+  mods: {
+    eyebrow: 'Uyumluluk',
+    title: 'Modlarınızla',
+    accent: 'iyi anlaşır.',
+    text: 'Living Horizon diğer modlarla birlikte nasıl çalışır: neyin çalıştığı, neyin bilinen bir sorunu olduğu ve neyin hâlâ birinin denemesini beklediği.',
+    search: 'Mod arayın',
+    filter: 'Duruma göre süzün',
+    all: 'Tümü',
+    status: { works: 'Çalışıyor', issue: 'Bilinen sorun', untested: 'Henüz test edilmedi' },
+    categories: {
+      terrain: 'Uzak arazi',
+      graphics: 'Grafik ve performans',
+      creatures: 'Canlılar ve oyuncular',
+      tools: 'Kütüphaneler ve menüler',
+    },
+    /** The note of every mod still waiting for a tester, next to the link to its issue. */
+    untested:
+      'Henüz kimse nasıl çalıştığını söylemedi. Denediniz mi? Issue sayfasında bize anlatın.',
+    issue: (n: number) => `Issue #${n}`,
+    none: 'Aramanızla eşleşen mod yok.',
+    missing: {
+      title: 'Listede olmayan bir mod mu var?',
+      text: "Living Horizon'un onunla nasıl çalıştığını, iyi ya da kötü, bize anlatın: her rapor yardımcı olur.",
+      link: 'Mod bildirin',
+    },
+    /** What to know about a mod (`config/mods.ts`). Names of settings are the game's or Sodium's. */
+    notes: {
+      sodium: "0.8'den itibaren Living Horizon ayarları Sodium'un Görüntü Ayarları'nda da bulunur.",
+      iris: 'Gölgelendirici paketleri çalışır. Photon ve Complementary kontrol edildi.',
+      pack: 'Living Horizon ile kontrol edildi.',
+      oculus: 'Forge için Iris: Living Horizon onu aynı şekilde bulur.',
+      entityCulling: "Living Horizon'un uzakta çizdiği canlılar onun gizlemesinin dışında tutulur.",
+      geckolib: 'Canlıları uzakta çizilir; şimdilik Minecraft 1.21.2 ile 1.21.8 arası hariç.',
+      fowlPlay: 'Kuşları uzaktayken hareket etmeyi bırakır.',
+      guardVillagers: 'Muhafızlar uzakta silahları ve zırhlarıyla çizilir.',
+      fabricApi: "Fabric ve Quilt'te gereklidir.",
+      modMenu: "İsteğe bağlı, Fabric ve Quilt'te: ayarları mod listesinden açar.",
+    },
   },
 
   footer: {

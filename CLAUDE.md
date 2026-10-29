@@ -1,9 +1,10 @@
 # CLAUDE.md
 
-Guidance for Claude Code when working in this repository: the one-page landing site of
+Guidance for Claude Code when working in this repository: the website of
 [Living Horizon](https://github.com/MC-Skin-Creator/living-horizon), in Angular, fully static,
-deployed to GitHub Pages. The README explains where the data comes from and how each picture
-is made; read it before changing a section.
+deployed to GitHub Pages: a landing page and a few pages of their own (compatible mods,
+modpacks, changelog). The README explains the pages, where the data comes from and how each
+picture is made; read it before changing a section or adding a page.
 
 Everything in the repository (code, comments, docs, commits) is in **English**. The texts
 the visitor reads are the exception: they live in the dictionaries of `src/app/i18n/`.

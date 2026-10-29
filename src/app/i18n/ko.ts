@@ -32,11 +32,25 @@ export const ko: Messages = {
     tag: '베타',
     menu: '메뉴',
     features: '기능',
-    compatibility: '호환성',
+    mods: '모드',
+    modpacks: '모드팩',
     testers: '테스터',
-    contribute: '기여하기',
     faq: 'FAQ',
     download: (version: string) => `v${version} 다운로드`,
+  },
+
+  pages: {
+    mods: {
+      title: '호환 모드',
+      description:
+        'Living Horizon이 다른 Minecraft 모드와 어떻게 작동하는지: 원거리 지형, 셰이더, 성능, 생물 모드. 작동하는 것, 알려진 문제가 있는 것, 테스터를 기다리는 것.',
+    },
+    modpacks: {
+      title: '모드팩',
+      description:
+        'Living Horizon이 들어 있는 Minecraft 모드팩과 CurseForge, Modrinth 다운로드 링크.',
+    },
+    changelog: { title: '변경 내역', description: 'Living Horizon의 모든 버전과 바뀐 점.' },
   },
 
   hero: {
@@ -284,6 +298,16 @@ export const ko: Messages = {
       '서버에도 같은 jar, 모드 없는 서버에도 접속 가능',
       'Sodium의 비디오 설정에서 설정 가능 (0.8+)',
     ],
+    /** The link to the compatible mods page, under the cards. */
+    others: {
+      title: '다른 모드는요?',
+      text: (n: number) =>
+        p(n, {
+          other:
+            '모드 {n}개 정리: 셰이더, 성능, 생물 모드. 작동하는 것과 아직 테스터를 기다리는 것.',
+        }),
+      link: '호환 모드 보기',
+    },
     matrixTitle: 'Minecraft 버전과 로더',
     matrixText: '게임 버전과 로더마다 jar 하나.',
     builds: (builds: number, range: string) => p(builds, { other: `빌드 {n}개, ${range}.` }),
@@ -435,6 +459,8 @@ export const ko: Messages = {
     failed: '지금은 변경 내역을 불러올 수 없습니다. GitHub에서 언제든 볼 수 있습니다.',
     full: 'GitHub에서 전체 변경 내역 보기',
     releases: '모든 릴리스',
+    /** The link to the changelog page, on the home page. */
+    every: '모든 버전 보기',
   },
 
   faq: {
@@ -740,8 +766,48 @@ export const ko: Messages = {
     get: (platform: string) => `${platform}에서 다운로드`,
     none: '아직 Living Horizon이 들어 있는 모드팩이 없습니다. 첫 번째 모드팩의 주인공이 되어 보세요.',
     loading: '잠시 후 여기에 모드팩이 표시됩니다.',
-    more: (n: number) => p(n, { other: '모드팩 {n}개 더 보기' }),
-    less: '접기',
+    /** The link to the modpacks page, under the home page's cards. */
+    all: (n: number) => p(n, { other: '모드팩 {n}개 모두 보기' }),
+  },
+
+  mods: {
+    eyebrow: '호환성',
+    title: '당신의 모드와',
+    accent: '잘 어울려요.',
+    text: 'Living Horizon이 다른 모드와 함께 어떻게 작동하는지: 작동하는 것, 알려진 문제가 있는 것, 아직 누군가 시험해 보기를 기다리는 것.',
+    search: '모드 검색',
+    filter: '상태별 필터',
+    all: '전체',
+    status: { works: '작동', issue: '알려진 문제', untested: '아직 테스트 안 됨' },
+    categories: {
+      terrain: '원거리 지형',
+      graphics: '그래픽과 성능',
+      creatures: '생물과 플레이어',
+      tools: '라이브러리와 메뉴',
+    },
+    /** The note of every mod still waiting for a tester, next to the link to its issue. */
+    untested:
+      '아직 어떻게 작동하는지 알려 준 사람이 없습니다. 해 보셨나요? 해당 이슈에서 알려 주세요.',
+    issue: (n: number) => `이슈 #${n}`,
+    none: '검색과 일치하는 모드가 없습니다.',
+    missing: {
+      title: '목록에 없는 모드가 있나요?',
+      text: 'Living Horizon이 그 모드와 어떻게 작동하는지 좋든 나쁘든 알려 주세요. 모든 보고가 도움이 됩니다.',
+      link: '모드 제보하기',
+    },
+    /** What to know about a mod (`config/mods.ts`). Names of settings are the game's or Sodium's. */
+    notes: {
+      sodium: '0.8부터 Living Horizon의 설정은 Sodium의 비디오 설정에도 있습니다.',
+      iris: '셰이더 팩이 작동합니다. Photon과 Complementary를 확인했습니다.',
+      pack: 'Living Horizon과 함께 확인했습니다.',
+      oculus: 'Forge용 Iris: Living Horizon이 같은 방식으로 찾습니다.',
+      entityCulling: 'Living Horizon이 멀리 그리는 생물은 이 모드의 컬링에서 제외됩니다.',
+      geckolib: '이 모드의 생물은 멀리서도 그려집니다. 단, 지금은 Minecraft 1.21.2~1.21.8 제외.',
+      fowlPlay: '멀리 있는 새가 움직이지 않습니다.',
+      guardVillagers: '경비병이 무기와 갑옷을 갖춘 채 멀리서 그려집니다.',
+      fabricApi: 'Fabric과 Quilt에서 필요합니다.',
+      modMenu: '선택 사항, Fabric과 Quilt: 모드 목록에서 설정을 엽니다.',
+    },
   },
 
   footer: {

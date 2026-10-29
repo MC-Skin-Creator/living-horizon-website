@@ -32,11 +32,25 @@ export const uk: Messages = {
     tag: 'бета',
     menu: 'Меню',
     features: 'Можливості',
-    compatibility: 'Сумісність',
+    mods: 'Моди',
+    modpacks: 'Збірки',
     testers: 'Тестувальники',
-    contribute: 'Долучитися',
     faq: 'Питання',
     download: (version: string) => `Завантажити v${version}`,
+  },
+
+  pages: {
+    mods: {
+      title: 'Сумісні моди',
+      description:
+        'Як Living Horizon працює з іншими модами Minecraft: далекий рельєф, шейдери, продуктивність і моди на істот. Що працює, де є відома проблема і що чекає на тестувальника.',
+    },
+    modpacks: {
+      title: 'Збірки',
+      description:
+        'Збірки Minecraft із Living Horizon і посилання на їх завантаження на CurseForge і Modrinth.',
+    },
+    changelog: { title: 'Зміни', description: 'Кожна версія Living Horizon і що в ній змінилося.' },
   },
 
   hero: {
@@ -283,6 +297,19 @@ export const uk: Messages = {
       'Той самий jar на серверах — або заходьте на будь-який сервер без нього',
       'Налаштування в «Налаштуваннях графіки» Sodium (0.8+)',
     ],
+    /** The link to the compatible mods page, under the cards. */
+    others: {
+      title: 'А ваші інші моди?',
+      text: (n: number) =>
+        p(n, {
+          one: 'У списку {n} мод: шейдери, продуктивність, моди на істот. Що працює і що ще чекає на тестувальника.',
+          few: 'У списку {n} моди: шейдери, продуктивність, моди на істот. Що працює і що ще чекає на тестувальника.',
+          many: 'У списку {n} модів: шейдери, продуктивність, моди на істот. Що працює і що ще чекає на тестувальника.',
+          other:
+            'У списку {n} мода: шейдери, продуктивність, моди на істот. Що працює і що ще чекає на тестувальника.',
+        }),
+      link: 'Сумісні моди',
+    },
     matrixTitle: 'Версії Minecraft і завантажувачі',
     matrixText: 'Один jar на кожну версію гри й завантажувач.',
     builds: (builds: number, range: string) =>
@@ -454,6 +481,8 @@ export const uk: Messages = {
     failed: 'Не вдалося завантажити список змін. Він завжди є на GitHub.',
     full: 'Увесь список змін на GitHub',
     releases: 'Усі релізи',
+    /** The link to the changelog page, on the home page. */
+    every: 'Усі версії',
   },
 
   faq: {
@@ -769,14 +798,53 @@ export const uk: Messages = {
     get: (platform: string) => `Завантажити з ${platform}`,
     none: 'Поки жодна збірка не містить Living Horizon. Ваша може стати першою.',
     loading: 'Збірки з’являться тут за мить.',
-    more: (n: number) =>
+    /** The link to the modpacks page, under the home page's cards. */
+    all: (n: number) =>
       p(n, {
-        one: 'Показати ще {n} збірку',
-        few: 'Показати ще {n} збірки',
-        many: 'Показати ще {n} збірок',
-        other: 'Показати ще {n} збірки',
+        one: 'Усі {n} збірка',
+        few: 'Усі {n} збірки',
+        many: 'Усі {n} збірок',
+        other: 'Усі {n} збірки',
       }),
-    less: 'Згорнути',
+  },
+
+  mods: {
+    eyebrow: 'Сумісність',
+    title: 'Ладнає',
+    accent: 'з вашими модами.',
+    text: 'Як Living Horizon працює разом з іншими модами: що працює, де є відома проблема і що ще чекає, поки хтось спробує.',
+    search: 'Знайти мод',
+    filter: 'Фільтр за статусом',
+    all: 'Усі',
+    status: { works: 'Працює', issue: 'Відома проблема', untested: 'Ще не перевірено' },
+    categories: {
+      terrain: 'Далекий рельєф',
+      graphics: 'Графіка і продуктивність',
+      creatures: 'Істоти й гравці',
+      tools: 'Бібліотеки й меню',
+    },
+    /** The note of every mod still waiting for a tester, next to the link to its issue. */
+    untested: 'Поки ніхто не розповів, як він працює. Пробували? Напишіть у його issue.',
+    issue: (n: number) => `Issue #${n}`,
+    none: 'Жоден мод не відповідає пошуку.',
+    missing: {
+      title: 'Бракує мода?',
+      text: 'Розкажіть, як Living Horizon працює з ним, добре чи погано: кожен звіт допомагає.',
+      link: 'Повідомити про мод',
+    },
+    /** What to know about a mod (`config/mods.ts`). Names of settings are the game's or Sodium's. */
+    notes: {
+      sodium: 'З версії 0.8 налаштування Living Horizon є й у «Налаштуваннях графіки» Sodium.',
+      iris: 'Пакети шейдерів працюють. Photon і Complementary перевірено.',
+      pack: 'Перевірено з Living Horizon.',
+      oculus: 'Iris для Forge: Living Horizon знаходить його так само.',
+      entityCulling: 'Істоти, яких Living Horizon малює вдалині, не приховуються його відсіканням.',
+      geckolib: 'Його істоти малюються вдалині, поки що крім Minecraft з 1.21.2 по 1.21.8.',
+      fowlPlay: 'Його птахи перестають рухатися вдалині.',
+      guardVillagers: 'Вартові малюються вдалині зі зброєю та бронею.',
+      fabricApi: 'Потрібен на Fabric і Quilt.',
+      modMenu: 'Необов’язковий, на Fabric і Quilt: відкриває налаштування зі списку модів.',
+    },
   },
 
   footer: {

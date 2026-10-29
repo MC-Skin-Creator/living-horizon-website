@@ -42,11 +42,28 @@ export const en = {
     tag: 'beta',
     menu: 'Menu',
     features: 'Features',
-    compatibility: 'Compatibility',
+    mods: 'Mods',
+    modpacks: 'Modpacks',
     testers: 'Testers',
-    contribute: 'Contribute',
     faq: 'FAQ',
     download: (version: string) => `Download v${version}`,
+  },
+
+  pages: {
+    mods: {
+      title: 'Compatible mods',
+      description:
+        'How Living Horizon runs with other Minecraft mods: far terrain, shaders, performance and creature mods. What works, what has a known issue, and what waits for a tester.',
+    },
+    modpacks: {
+      title: 'Modpacks',
+      description:
+        'The Minecraft modpacks that ship Living Horizon, with their download links on CurseForge and Modrinth.',
+    },
+    changelog: {
+      title: 'Changelog',
+      description: 'Every version of Living Horizon and what changed in it.',
+    },
   },
 
   hero: {
@@ -301,6 +318,17 @@ export const en = {
       'Same jar on servers, or join any server without it',
       "Settings in Sodium's Video Settings (0.8+)",
     ],
+    /** The link to the compatible mods page, under the cards. */
+    others: {
+      title: 'And your other mods?',
+      text: (n: number) =>
+        p(n, {
+          one: '{n} mod listed: shaders, performance, creature mods. What works, and what still waits for a tester.',
+          other:
+            '{n} mods listed: shaders, performance, creature mods. What works, and what still waits for a tester.',
+        }),
+      link: 'See compatible mods',
+    },
     matrixTitle: 'Minecraft versions and loaders',
     matrixText: 'One jar per game version and loader.',
     builds: (builds: number, range: string) =>
@@ -462,6 +490,8 @@ export const en = {
     failed: "The changelog couldn't be loaded right now. It's always on GitHub.",
     full: 'View full changelog on GitHub',
     releases: 'All releases',
+    /** The link to the changelog page, on the home page. */
+    every: 'See every version',
   },
 
   /**
@@ -776,8 +806,47 @@ export const en = {
     get: (platform: string) => `Download on ${platform}`,
     none: 'No modpack ships Living Horizon yet. Yours could be the first.',
     loading: 'The modpacks show up here in a moment.',
-    more: (n: number) => p(n, { one: 'Show {n} more modpack', other: 'Show {n} more modpacks' }),
-    less: 'Show less',
+    /** The link to the modpacks page, under the home page's cards. */
+    all: (n: number) => p(n, { one: 'See the modpacks page', other: 'See all {n} modpacks' }),
+  },
+
+  mods: {
+    eyebrow: 'Compatibility',
+    title: 'Plays well',
+    accent: 'with your mods.',
+    text: 'How Living Horizon runs alongside other mods: what works, what has a known issue, and what still waits for someone to try it.',
+    search: 'Search a mod',
+    filter: 'Filter by status',
+    all: 'All',
+    status: { works: 'Works', issue: 'Known issue', untested: 'Not tested yet' },
+    categories: {
+      terrain: 'Far terrain',
+      graphics: 'Graphics and performance',
+      creatures: 'Creatures and players',
+      tools: 'Libraries and menus',
+    },
+    /** The note of every mod still waiting for a tester, next to the link to its issue. */
+    untested: 'Nobody has told us how it runs yet. Tried it? Tell us on its issue.',
+    issue: (n: number) => `Issue #${n}`,
+    none: 'No mod matches your search.',
+    missing: {
+      title: 'A mod missing from the list?',
+      text: 'Tell us how Living Horizon runs with it, good or bad: every report helps.',
+      link: 'Report a mod',
+    },
+    /** What to know about a mod (`config/mods.ts`). Names of settings are the game's or Sodium's. */
+    notes: {
+      sodium: "From 0.8, Living Horizon's settings are also in Sodium's Video Settings.",
+      iris: 'Shader packs work. Photon and Complementary have been checked.',
+      pack: 'Checked with Living Horizon.',
+      oculus: 'Iris for Forge: Living Horizon finds it the same way.',
+      entityCulling: 'The mobs Living Horizon draws far away are kept out of its culling.',
+      geckolib: 'Its mobs are drawn far away, except from Minecraft 1.21.2 to 1.21.8 for now.',
+      fowlPlay: 'Its birds stop moving when they are far away.',
+      guardVillagers: 'Guards are drawn far away with their weapons and armour.',
+      fabricApi: 'Needed on Fabric and Quilt.',
+      modMenu: 'Optional, on Fabric and Quilt: opens the settings from the list of mods.',
+    },
   },
 
   footer: {

@@ -32,11 +32,25 @@ export const ja: Messages = {
     tag: 'ベータ',
     menu: 'メニュー',
     features: '機能',
-    compatibility: '互換性',
+    mods: 'MOD',
+    modpacks: 'Modパック',
     testers: 'テスター',
-    contribute: '開発に参加',
     faq: 'よくある質問',
     download: (version: string) => `v${version}をダウンロード`,
+  },
+
+  pages: {
+    mods: {
+      title: '対応MOD',
+      description:
+        'Living HorizonとほかのMinecraft MODとの互換性：遠景地形、シェーダー、パフォーマンス、生き物のMOD。動作するもの、既知の問題があるもの、テスター待ちのもの。',
+    },
+    modpacks: {
+      title: 'Modパック',
+      description:
+        'Living Horizonを含むMinecraftのModパックと、CurseForgeやModrinthでのダウンロードリンク。',
+    },
+    changelog: { title: '更新履歴', description: 'Living Horizonの各バージョンとその変更点。' },
   },
 
   hero: {
@@ -284,6 +298,16 @@ export const ja: Messages = {
       'サーバーにも同じjar。MODなしのサーバーにも参加可能',
       'Sodiumのビデオ設定から設定可能（0.8以降）',
     ],
+    /** The link to the compatible mods page, under the cards. */
+    others: {
+      title: 'ほかのMODは？',
+      text: (n: number) =>
+        p(n, {
+          other:
+            '{n}個のMODを掲載中：シェーダー、パフォーマンス、生き物のMOD。動作するものと、まだテスターを待っているもの。',
+        }),
+      link: '対応MODを見る',
+    },
     matrixTitle: 'Minecraftのバージョンとローダー',
     matrixText: 'ゲームバージョンとローダーごとにjarがひとつ。',
     builds: (builds: number, range: string) => p(builds, { other: `{n}ビルド（${range}）。` }),
@@ -435,6 +459,8 @@ export const ja: Messages = {
     failed: '更新履歴を読み込めませんでした。GitHubでいつでも見られます。',
     full: 'GitHubで更新履歴をすべて見る',
     releases: 'すべてのリリース',
+    /** The link to the changelog page, on the home page. */
+    every: 'すべてのバージョンを見る',
   },
 
   faq: {
@@ -742,8 +768,47 @@ export const ja: Messages = {
     get: (platform: string) => `${platform}でダウンロード`,
     none: 'Living Horizonを含むModパックはまだありません。あなたのパックが最初になるかも。',
     loading: 'Modパックはまもなくここに表示されます。',
-    more: (n: number) => p(n, { other: 'さらに{n}件のModパックを表示' }),
-    less: '閉じる',
+    /** The link to the modpacks page, under the home page's cards. */
+    all: (n: number) => p(n, { other: 'Modパックを{n}件すべて見る' }),
+  },
+
+  mods: {
+    eyebrow: '互換性',
+    title: 'あなたのMODと',
+    accent: 'うまく動く。',
+    text: 'Living HorizonがほかのMODと一緒にどう動くか：動作するもの、既知の問題があるもの、まだ誰かが試すのを待っているもの。',
+    search: 'MODを検索',
+    filter: 'ステータスで絞り込む',
+    all: 'すべて',
+    status: { works: '動作', issue: '既知の問題', untested: '未テスト' },
+    categories: {
+      terrain: '遠景地形',
+      graphics: 'グラフィックとパフォーマンス',
+      creatures: '生き物とプレイヤー',
+      tools: 'ライブラリとメニュー',
+    },
+    /** The note of every mod still waiting for a tester, next to the link to its issue. */
+    untested: 'どう動くかはまだ誰からも聞いていません。試しましたか？そのissueで教えてください。',
+    issue: (n: number) => `Issue #${n}`,
+    none: '検索に一致するMODはありません。',
+    missing: {
+      title: '載っていないMODがありますか？',
+      text: 'Living Horizonと一緒にどう動くか、良くも悪くも教えてください。どの報告も助けになります。',
+      link: 'MODを報告',
+    },
+    /** What to know about a mod (`config/mods.ts`). Names of settings are the game's or Sodium's. */
+    notes: {
+      sodium: '0.8以降、Living Horizonの設定はSodiumのビデオ設定にもあります。',
+      iris: 'シェーダーパックは動作します。PhotonとComplementaryは確認済みです。',
+      pack: 'Living Horizonと一緒に確認済み。',
+      oculus: 'Forge版のIris：Living Horizonは同じ方法で見つけます。',
+      entityCulling: 'Living Horizonが遠くに描く生き物は、このMODのカリングの対象外です。',
+      geckolib: '生き物は遠くに描かれます。ただし今のところMinecraft 1.21.2〜1.21.8は除きます。',
+      fowlPlay: '遠くにいる鳥が動かなくなります。',
+      guardVillagers: '衛兵は武器と防具を身につけたまま遠くに描かれます。',
+      fabricApi: 'FabricとQuiltで必要です。',
+      modMenu: '任意。FabricとQuiltで、MOD一覧から設定を開けます。',
+    },
   },
 
   footer: {
