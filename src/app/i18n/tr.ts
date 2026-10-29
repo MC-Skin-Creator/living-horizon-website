@@ -727,6 +727,27 @@ export const tr: Messages = {
     everyFile: 'her dosya',
   },
 
+  modpacks: {
+    eyebrow: 'Mod paketleri',
+    title: 'Şimdiden',
+    accent: 'mod paketlerinde.',
+    /** Around the link to ModpackIndex. */
+    text: {
+      before: 'Living Horizon içeren paketler,',
+      after:
+        ' listesine göre. Onunla bir paket mi yaptınız? ModpackIndex listelediği anda burada görünür.',
+    },
+    by: (authors: string) => `${authors} tarafından`,
+    none: 'Henüz hiçbir mod paketi Living Horizon içermiyor. İlki sizinki olabilir.',
+    loading: 'Mod paketleri, ModpackIndex yanıt verdiği anda burada görünür.',
+    browse: "ModpackIndex'te göz atın",
+    all: (n: number) =>
+      p(n, {
+        one: "Mod paketini ModpackIndex'te görün",
+        other: "{n} mod paketinin tümünü ModpackIndex'te görün",
+      }),
+  },
+
   footer: {
     tagline:
       'Uzaklara hayat verir. Minecraft Java Edition için, oyununuz ve sunucunuz için bir mod.',

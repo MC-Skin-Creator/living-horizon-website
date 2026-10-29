@@ -728,6 +728,23 @@ export const ko: Messages = {
     everyFile: '모든 파일',
   },
 
+  modpacks: {
+    eyebrow: '모드팩',
+    title: '이미',
+    accent: '모드팩에 들어 있어요.',
+    /** Around the link to ModpackIndex. */
+    text: {
+      before: '',
+      after:
+        '에 등록된, Living Horizon이 들어 있는 모드팩입니다. 직접 만들었나요? ModpackIndex에 등록되면 여기에 표시됩니다.',
+    },
+    by: (authors: string) => `제작: ${authors}`,
+    none: '아직 Living Horizon이 들어 있는 모드팩이 없습니다. 첫 번째 모드팩의 주인공이 되어 보세요.',
+    loading: 'ModpackIndex가 응답하면 여기에 모드팩이 표시됩니다.',
+    browse: 'ModpackIndex에서 둘러보기',
+    all: (n: number) => p(n, { other: 'ModpackIndex에서 모드팩 {n}개 모두 보기' }),
+  },
+
   footer: {
     tagline: '먼 곳에 생명을 불어넣다. 게임과 서버를 위한 Minecraft Java Edition 모드.',
     beta: '베타: 버그가 있을 수 있습니다. 발견하면 알려 주세요.',

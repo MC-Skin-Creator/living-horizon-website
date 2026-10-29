@@ -724,6 +724,23 @@ export const zhCN: Messages = {
     everyFile: '所有文件',
   },
 
+  modpacks: {
+    eyebrow: '整合包',
+    title: '已收录于',
+    accent: '这些整合包。',
+    /** Around the link to ModpackIndex. */
+    text: {
+      before: '据',
+      after:
+        '统计，以下整合包包含 Living Horizon。你也做了一个？ModpackIndex 收录后它就会出现在这里。',
+    },
+    by: (authors: string) => `作者：${authors}`,
+    none: '还没有整合包收录 Living Horizon。你的可能是第一个。',
+    loading: 'ModpackIndex 一有回应，整合包就会显示在这里。',
+    browse: '在 ModpackIndex 上浏览',
+    all: (n: number) => p(n, { other: '在 ModpackIndex 上查看全部 {n} 个整合包' }),
+  },
+
   footer: {
     tagline: '让远方充满生机。一款 Minecraft Java Edition 模组，适用于你的游戏和你的服务器。',
     beta: '测试版：难免有 bug，遇到了请告诉我们。',

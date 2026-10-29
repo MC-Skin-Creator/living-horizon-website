@@ -8,6 +8,8 @@ export interface RawData {
   /** `null` when the platform answered that the project does not exist (yet). */
   modrinth?: MrProject | null;
   nexus?: NxMod;
+  /** Modpacks that ship the mod, as ModpackIndex lists them. */
+  modpacks?: Modpack[];
 }
 
 export interface GhAsset {
@@ -59,6 +61,22 @@ export interface MrProject {
 
 export interface NxMod {
   downloads: number;
+}
+
+export interface Modpack {
+  /** Its id on ModpackIndex. */
+  id: number;
+  name: string;
+  summary: string;
+  /** Its page on CurseForge or Modrinth, else on ModpackIndex. */
+  url: string;
+  thumbnail: string | null;
+  downloads: number;
+  /** Empty when ModpackIndex was not asked, or did not answer. */
+  authors: string[];
+  /** Minecraft versions, oldest first; empty like `authors`. */
+  versions: string[];
+  updated: string | null;
 }
 
 export type Loader = 'fabric' | 'quilt' | 'neoforge' | 'forge';

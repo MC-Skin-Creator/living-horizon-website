@@ -749,6 +749,27 @@ export const ptBR: Messages = {
     everyFile: 'todos os arquivos',
   },
 
+  modpacks: {
+    eyebrow: 'Modpacks',
+    title: 'Já está em',
+    accent: 'modpacks.',
+    /** Around the link to ModpackIndex. */
+    text: {
+      before: 'Pacotes que trazem o Living Horizon, segundo a lista do',
+      after: '. Fez um com ele? Ele aparece aqui assim que o ModpackIndex o listar.',
+    },
+    by: (authors: string) => `por ${authors}`,
+    none: 'Nenhum modpack inclui o Living Horizon ainda. O seu pode ser o primeiro.',
+    loading: 'Os modpacks aparecem aqui assim que o ModpackIndex responder.',
+    browse: 'Ver no ModpackIndex',
+    all: (n: number) =>
+      p(n, {
+        one: 'Ver o modpack no ModpackIndex',
+        many: 'Ver os {n} de modpacks no ModpackIndex',
+        other: 'Ver os {n} modpacks no ModpackIndex',
+      }),
+  },
+
   footer: {
     tagline:
       'Dá vida à distância. Um mod para Minecraft Java Edition, para o seu jogo e o seu servidor.',

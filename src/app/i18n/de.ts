@@ -737,6 +737,27 @@ export const de: Messages = {
     everyFile: 'alle Dateien',
   },
 
+  modpacks: {
+    eyebrow: 'Modpacks',
+    title: 'Schon in',
+    accent: 'Modpacks.',
+    /** Around the link to ModpackIndex. */
+    text: {
+      before: 'Packs, die Living Horizon enthalten, wie sie',
+      after:
+        ' auflistet. Du hast eins damit gebaut? Es erscheint hier, sobald ModpackIndex es aufführt.',
+    },
+    by: (authors: string) => `von ${authors}`,
+    none: 'Noch kein Modpack enthält Living Horizon. Deins könnte das erste sein.',
+    loading: 'Die Modpacks erscheinen hier, sobald ModpackIndex antwortet.',
+    browse: 'Auf ModpackIndex ansehen',
+    all: (n: number) =>
+      p(n, {
+        one: 'Das Modpack auf ModpackIndex ansehen',
+        other: 'Alle {n} Modpacks auf ModpackIndex ansehen',
+      }),
+  },
+
   footer: {
     tagline:
       'Bringt Leben in die Ferne. Eine Mod für Minecraft Java Edition, für dein Spiel und deinen Server.',

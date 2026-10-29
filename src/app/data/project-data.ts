@@ -32,6 +32,7 @@ export class ProjectData {
     curseforge: 'none',
     modrinth: 'none',
     nexus: 'none',
+    modpacks: 'none',
   });
   readonly settled = signal(false);
   /** When the bundled snapshot was taken. */
@@ -98,6 +99,9 @@ export class ProjectData {
       total: known.length ? known.reduce((a, b) => a + b, 0) : null,
     };
   });
+
+  /** Most downloaded first. `undefined` while no source has answered. */
+  readonly modpacks = computed(() => this.raw().modpacks);
 
   /** `undefined`: not known yet; `null`: the platform has no page for the mod yet. */
   readonly modrinthListed = computed(() =>

@@ -9,6 +9,7 @@ import { Faq } from './sections/faq';
 import { Features } from './sections/features';
 import { Footer } from './sections/footer';
 import { Hero } from './sections/hero';
+import { Modpacks } from './sections/modpacks';
 import { Nav } from './sections/nav';
 import { Performance } from './sections/performance';
 import { Testers } from './sections/testers';
@@ -24,6 +25,7 @@ import { Testers } from './sections/testers';
     Features,
     Compatibility,
     Download,
+    Modpacks,
     Performance,
     Testers,
     Contribute,
@@ -32,7 +34,7 @@ import { Testers } from './sections/testers';
     Footer,
   ],
   // The slider first: one look sells the mod. Download right after what a player needs to
-  // decide, the technical sections below it.
+  // decide, then the modpacks that already ship it, the technical sections below them.
   template: `
     <lh-nav />
     <main>
@@ -42,6 +44,7 @@ import { Testers } from './sections/testers';
       <lh-features />
       <lh-compatibility />
       <lh-download />
+      <lh-modpacks />
       <lh-performance />
       <lh-testers />
       <lh-contribute />

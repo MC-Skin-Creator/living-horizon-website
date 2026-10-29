@@ -757,6 +757,28 @@ export const pl: Messages = {
     everyFile: 'każdy plik',
   },
 
+  modpacks: {
+    eyebrow: 'Modpacki',
+    title: 'Już w',
+    accent: 'modpackach.',
+    /** Around the link to ModpackIndex. */
+    text: {
+      before: 'Paczki zawierające Living Horizon według listy',
+      after: '. Zrobiłeś własną? Pojawi się tutaj, gdy tylko ModpackIndex ją wymieni.',
+    },
+    by: (authors: string) => `autor: ${authors}`,
+    none: 'Żaden modpack nie zawiera jeszcze Living Horizon. Twój może być pierwszy.',
+    loading: 'Modpacki pojawią się tutaj, gdy tylko ModpackIndex odpowie.',
+    browse: 'Przeglądaj na ModpackIndex',
+    all: (n: number) =>
+      p(n, {
+        one: 'Zobacz modpack na ModpackIndex',
+        few: 'Zobacz wszystkie {n} modpacki na ModpackIndex',
+        many: 'Zobacz wszystkie {n} modpacków na ModpackIndex',
+        other: 'Zobacz wszystkie {n} modpacka na ModpackIndex',
+      }),
+  },
+
   footer: {
     tagline: 'Ożywia dal. Mod do Minecraft Java Edition, do twojej gry i na twój serwer.',
     beta: 'Beta: spodziewaj się błędów i daj nam o nich znać.',

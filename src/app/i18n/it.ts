@@ -737,6 +737,27 @@ export const it: Messages = {
     everyFile: 'tutti i file',
   },
 
+  modpacks: {
+    eyebrow: 'Modpack',
+    title: 'Già in alcuni',
+    accent: 'modpack.',
+    /** Around the link to ModpackIndex. */
+    text: {
+      before: 'I pack che includono Living Horizon, come li elenca',
+      after: '. Ne hai creato uno? Comparirà qui appena ModpackIndex lo elenca.',
+    },
+    by: (authors: string) => `di ${authors}`,
+    none: 'Nessun modpack include ancora Living Horizon. Il tuo potrebbe essere il primo.',
+    loading: 'I modpack compaiono qui appena ModpackIndex risponde.',
+    browse: 'Sfogliali su ModpackIndex',
+    all: (n: number) =>
+      p(n, {
+        one: 'Vedi il modpack su ModpackIndex',
+        many: 'Vedi tutti i {n} di modpack su ModpackIndex',
+        other: 'Vedi tutti i {n} modpack su ModpackIndex',
+      }),
+  },
+
   footer: {
     tagline:
       "Dà vita all'orizzonte. Una mod per Minecraft Java Edition, per il tuo gioco e il tuo server.",

@@ -38,6 +38,7 @@ export const LINKS = {
   curseforge: 'https://www.curseforge.com/minecraft/mc-mods/living-horizon',
   modrinth: 'https://modrinth.com/mod/living-horizon',
   nexus: 'https://www.nexusmods.com/minecraft/mods/1376',
+  modpackIndex: 'https://www.modpackindex.com/modpacks?mods[]=209452',
   discord: 'https://discord.gg/THSV9dexNj',
   voxy: 'https://modrinth.com/mod/voxy',
   distantHorizons: 'https://modrinth.com/mod/distanthorizons',
@@ -66,6 +67,8 @@ export const SITE = {
   modrinthSlug: 'living-horizon',
   /** Nexus Mods ids: game 197 is Minecraft. */
   nexusMod: { gameId: 197, modId: 1376 },
+  /** The mod's id on ModpackIndex, which lists the modpacks that ship it. */
+  modpackIndexModId: 209452,
 
   links: LINKS,
 

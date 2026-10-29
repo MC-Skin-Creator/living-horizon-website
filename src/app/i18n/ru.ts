@@ -754,6 +754,28 @@ export const ru: Messages = {
     everyFile: 'все файлы',
   },
 
+  modpacks: {
+    eyebrow: 'Сборки',
+    title: 'Уже в',
+    accent: 'сборках.',
+    /** Around the link to ModpackIndex. */
+    text: {
+      before: 'Сборки с Living Horizon по данным',
+      after: '. Сделали свою? Она появится здесь, как только её добавит ModpackIndex.',
+    },
+    by: (authors: string) => `автор: ${authors}`,
+    none: 'Пока ни одна сборка не включает Living Horizon. Ваша может стать первой.',
+    loading: 'Сборки появятся здесь, как только ответит ModpackIndex.',
+    browse: 'Смотреть на ModpackIndex',
+    all: (n: number) =>
+      p(n, {
+        one: 'Все {n} сборка на ModpackIndex',
+        few: 'Все {n} сборки на ModpackIndex',
+        many: 'Все {n} сборок на ModpackIndex',
+        other: 'Все {n} сборки на ModpackIndex',
+      }),
+  },
+
   footer: {
     tagline: 'Оживляет даль. Мод для Minecraft Java Edition — для вашей игры и вашего сервера.',
     beta: 'Бета: ошибки будут — расскажите нам о них.',

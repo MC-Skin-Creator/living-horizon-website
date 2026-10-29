@@ -724,6 +724,23 @@ export const zhTW: Messages = {
     everyFile: '所有檔案',
   },
 
+  modpacks: {
+    eyebrow: '模組包',
+    title: '已收錄於',
+    accent: '這些模組包。',
+    /** Around the link to ModpackIndex. */
+    text: {
+      before: '根據',
+      after:
+        '的資料，以下模組包包含 Living Horizon。你也做了一個？ModpackIndex 收錄後它就會出現在這裡。',
+    },
+    by: (authors: string) => `作者：${authors}`,
+    none: '還沒有模組包收錄 Living Horizon。你的可能是第一個。',
+    loading: 'ModpackIndex 一有回應，模組包就會顯示在這裡。',
+    browse: '在 ModpackIndex 上瀏覽',
+    all: (n: number) => p(n, { other: '在 ModpackIndex 上查看全部 {n} 個模組包' }),
+  },
+
   footer: {
     tagline: '讓遠方充滿生機。一款 Minecraft Java Edition 模組，適用於您的遊戲和您的伺服器。',
     beta: '測試版：難免有錯誤，遇到了請告訴我們。',

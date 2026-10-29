@@ -730,6 +730,23 @@ export const ja: Messages = {
     everyFile: 'すべてのファイル',
   },
 
+  modpacks: {
+    eyebrow: 'Modパック',
+    title: 'すでに',
+    accent: 'Modパックに収録。',
+    /** Around the link to ModpackIndex. */
+    text: {
+      before: '',
+      after:
+        'に掲載されている、Living Horizonを含むパックです。あなたも作った？ModpackIndexに掲載されるとここに表示されます。',
+    },
+    by: (authors: string) => `作者: ${authors}`,
+    none: 'Living Horizonを含むModパックはまだありません。あなたのパックが最初になるかも。',
+    loading: 'ModpackIndexが応答すると、ここにModパックが表示されます。',
+    browse: 'ModpackIndexで見る',
+    all: (n: number) => p(n, { other: 'ModpackIndexで{n}個のModパックをすべて見る' }),
+  },
+
   footer: {
     tagline: '遠くに命を吹き込む。Minecraft Java Edition用のMODです。ゲームにも、サーバーにも。',
     beta: 'ベータ版：バグがあるかもしれません。見つけたら教えてください。',

@@ -1,0 +1,162 @@
+.section-head a {
+  color: var(--text);
+}
+
+.packs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+
+  li {
+    display: grid;
+  }
+}
+
+.pack {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto;
+  column-gap: 14px;
+  row-gap: 12px;
+  color: inherit;
+  text-decoration: none;
+  transition:
+    transform 0.2s var(--ease-out),
+    border-color 0.2s;
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: rgb(255 179 94 / 0.45);
+
+    .go {
+      color: var(--sun);
+    }
+  }
+}
+
+.thumb {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: var(--surface-2);
+  color: var(--dim);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  lh-icon {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+.head {
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  min-width: 0;
+  padding-right: 22px;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.by {
+  color: var(--dim);
+  font-size: 0.86rem;
+  overflow-wrap: anywhere;
+}
+
+.summary {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 0.94rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
+
+.facts {
+  grid-column: 1 / -1;
+  align-self: end;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 600;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  lh-icon {
+    width: 15px;
+    height: 15px;
+    color: var(--sun);
+  }
+}
+
+.go {
+  position: absolute;
+  top: clamp(20px, 3vw, 28px);
+  right: clamp(20px, 3vw, 28px);
+  width: 16px;
+  height: 16px;
+  color: var(--dim);
+  transition: color 0.2s;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--muted);
+
+  lh-icon {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    color: var(--sun);
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+@media (max-width: 960px) {
+  .packs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .packs {
+    grid-template-columns: 1fr;
+  }
+
+  .actions .btn {
+    flex: 1 1 100%;
+  }
+}

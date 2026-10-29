@@ -3,13 +3,14 @@
  * Shared by the page and by `scripts/snapshot.ts`, which runs it under Node: keep this file
  * free of value imports and of TypeScript-only syntax (enums, namespaces).
  */
-import type { CfProject, GhRelease, MrProject, NxMod, RawData } from './models';
+import type { CfProject, GhRelease, Modpack, MrProject, NxMod, RawData } from './models';
 
 export interface ProjectRef {
   repo: { owner: string; name: string; branch: string };
   curseforgePath: string;
   modrinthSlug: string;
   nexusMod: { gameId: number; modId: number };
+  modpackIndexModId: number;
 }
 
 export type SourceKey = Exclude<keyof RawData, 'fetchedAt'>;
@@ -23,7 +24,14 @@ export interface Source<K extends SourceKey> {
   /** A 404 that means "nothing there yet" rather than a failure. */
   notFoundValue?: RawData[K];
   trim: (body: any) => RawData[K];
+  /** Further calls that fill in the trimmed answer; each one that fails leaves it as it is. */
+  complete?: (value: RawData[K]) => Promise<RawData[K]>;
 }
+
+const MPI = 'https://www.modpackindex.com/api/v1';
+
+/** Modpacks whose authors and game versions are asked for: the ones the section shows. */
+export const MODPACK_DETAILS = 6;
 
 const raw = (p: ProjectRef, path: string) =>
   `https://raw.githubusercontent.com/${p.repo.owner}/${p.repo.name}/${p.repo.branch}/${path}`;
@@ -123,7 +131,65 @@ export const SOURCES: { [K in SourceKey]: Source<K> } = {
       return { downloads: mod.downloads ?? 0 };
     },
   },
+  modpacks: {
+    key: 'modpacks',
+    kind: 'json',
+    // ModpackIndex's public API, no key. Its filtered search (`modpacks?mods[]=`) refuses
+    // other sites' pages; this list, and each modpack's own page, answer any origin. Up to
+    // 100 modpacks, the most downloaded first.
+    url: (p) => `${MPI}/mod/${p.modpackIndexModId}/modpacks?limit=100`,
+    trim: (d: any): Modpack[] => {
+      if (!Array.isArray(d.data)) throw new Error('ModpackIndex: unexpected answer');
+      return d.data
+        .map((m: any): Modpack => ({
+          id: m.id,
+          name: m.name,
+          summary: m.summary ?? '',
+          url: m.url || m.links?.curseforge || m.links?.modrinth || m.page_url,
+          thumbnail: m.thumbnail_url || null,
+          downloads: m.download_count ?? 0,
+          authors: [],
+          versions: [],
+          updated: m.latest_release_date ?? null,
+        }))
+        .sort((a: Modpack, b: Modpack) => b.downloads - a.downloads);
+    },
+    // The list has no authors nor game versions: ask each modpack the section shows.
+    complete: async (packs) =>
+      Promise.all(
+        (packs ?? []).map(async (pack, i) => {
+          if (i >= MODPACK_DETAILS) return pack;
+          try {
+            const res = await fetch(`${MPI}/modpack/${pack.id}`, {
+              signal: AbortSignal.timeout(10_000),
+            });
+            if (!res.ok) return pack;
+            const m = (await res.json()).data;
+            return {
+              ...pack,
+              authors: (m.authors ?? []).map((a: any) => String(a.name)),
+              versions: (m.minecraft_versions ?? [])
+                .map((v: any) => String(v.name))
+                .sort(byVersion),
+            };
+          } catch {
+            return pack;
+          }
+        }),
+      ),
+  },
 };
+
+/** "1.20.1" before "1.21" before "26.1.2". */
+function byVersion(a: string, b: string): number {
+  const x = a.split('.').map(Number);
+  const y = b.split('.').map(Number);
+  for (let i = 0; i < Math.max(x.length, y.length); i++) {
+    const d = (x[i] ?? 0) - (y[i] ?? 0);
+    if (d) return d;
+  }
+  return 0;
+}
 
 /** Fetches one source. Resolves to `undefined` when it cannot be reached. */
 export async function fetchSource<K extends SourceKey>(
@@ -144,7 +210,8 @@ export async function fetchSource<K extends SourceKey>(
     if (res.status === 404 && 'notFoundValue' in source) return source.notFoundValue;
     if (!res.ok) return undefined;
     const body = source.kind === 'json' ? await res.json() : await res.text();
-    return source.trim(body);
+    const value = source.trim(body);
+    return source.complete ? await source.complete(value) : value;
   } catch {
     return undefined;
   }

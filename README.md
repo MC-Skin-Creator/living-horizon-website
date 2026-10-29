@@ -27,6 +27,7 @@ lists them:
 | CurseForge downloads | api.cfwidget.com |
 | Modrinth downloads | Modrinth API (shows "Coming soon" while the project does not exist) |
 | Nexus Mods downloads | Nexus Mods GraphQL API (`api.nexusmods.com/v2/graphql`, no key) |
+| Modpacks that ship the mod | ModpackIndex API (`/mod/<id>/modpacks`, then `/modpack/<id>` for the authors and game versions of the six shown; its filtered search refuses browsers) |
 
 The page first shows `public/data/snapshot.json`, then asks every source from the browser
 (cached 30 minutes in `localStorage`, GitHub allows 60 anonymous calls an hour). A source
@@ -84,6 +85,9 @@ starts so it never shows English first.
   (`out/media-kit/living-horizon-media-kit/`: `living-horizon_ruban_mix-couchant.png` for the hero,
   `living-horizon_seul_ligne-3D_mix-couchant.png` for the footer), trimmed and saved as
   WebP. `public/img/og-cover.jpg` is that cover cut to 1200×629 for link previews.
+- **Modpacks**: `src/app/sections/modpacks.ts` lists the modpacks ModpackIndex finds with the
+  mod (`SITE.modpackIndexModId`), most downloaded first, six at most, and links to the rest.
+  Nothing to edit when a pack is added: it shows up once ModpackIndex lists it.
 - **Features and servers**: the feature cards are in `src/app/sections/features.ts`, the
   multiplayer section and its table (what works in single player, on LAN, on a server with or
   without the mod) in `src/app/sections/servers.ts`, their texts under `features` and `servers`

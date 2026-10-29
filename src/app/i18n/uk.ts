@@ -756,6 +756,28 @@ export const uk: Messages = {
     everyFile: 'усі файли',
   },
 
+  modpacks: {
+    eyebrow: 'Збірки',
+    title: 'Уже в',
+    accent: 'збірках.',
+    /** Around the link to ModpackIndex. */
+    text: {
+      before: 'Збірки з Living Horizon за даними',
+      after: '. Зробили свою? Вона з’явиться тут, щойно її додасть ModpackIndex.',
+    },
+    by: (authors: string) => `автор: ${authors}`,
+    none: 'Поки жодна збірка не містить Living Horizon. Ваша може стати першою.',
+    loading: 'Збірки з’являться тут, щойно відповість ModpackIndex.',
+    browse: 'Переглянути на ModpackIndex',
+    all: (n: number) =>
+      p(n, {
+        one: 'Усі {n} збірка на ModpackIndex',
+        few: 'Усі {n} збірки на ModpackIndex',
+        many: 'Усі {n} збірок на ModpackIndex',
+        other: 'Усі {n} збірки на ModpackIndex',
+      }),
+  },
+
   footer: {
     tagline: 'Оживлює далечінь. Мод для Minecraft Java Edition — для вашої гри та вашого сервера.',
     beta: 'Бета: помилки будуть — розкажіть нам про них.',
