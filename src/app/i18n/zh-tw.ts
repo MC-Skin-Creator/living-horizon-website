@@ -722,6 +722,8 @@ export const zhTW: Messages = {
     soon: '即將推出',
     checking: '檢查中…',
     everyFile: '所有檔案',
+    /** How many modpacks ship the mod: in the modpacks' row above and the modpacks section. */
+    packs: (n: number) => p(n, { other: '{n} 個模組包' }),
   },
 
   modpacks: {
@@ -729,10 +731,6 @@ export const zhTW: Messages = {
     title: '已收錄於',
     accent: '這些模組包。',
     text: '以下模組包包含 Living Horizon。你也做了一個？它會自動出現在這裡。',
-    /** The word after the number of modpacks, in bold before it. */
-    packs: (n: number) => p(n, { other: '個模組包' }),
-    /** The word after the number of their downloads, in bold before it. */
-    downloads: (n: number) => p(n, { other: '次下載' }),
     by: (authors: string) => `作者：${authors}`,
     /** A button to the modpack's own page on CurseForge or Modrinth. */
     get: (platform: string) => `在 ${platform} 下載`,

@@ -754,6 +754,9 @@ export const uk: Messages = {
     soon: 'Незабаром',
     checking: 'Перевірка…',
     everyFile: 'усі файли',
+    /** How many modpacks ship the mod: in the modpacks' row above and the modpacks section. */
+    packs: (n: number) =>
+      p(n, { one: '{n} збірка', few: '{n} збірки', many: '{n} збірок', other: '{n} збірки' }),
   },
 
   modpacks: {
@@ -761,16 +764,6 @@ export const uk: Messages = {
     title: 'Уже в',
     accent: 'збірках.',
     text: 'Збірки з Living Horizon. Зробили свою? Вона з’явиться тут сама.',
-    /** The word after the number of modpacks, in bold before it. */
-    packs: (n: number) => p(n, { one: 'збірка', few: 'збірки', many: 'збірок', other: 'збірки' }),
-    /** The word after the number of their downloads, in bold before it. */
-    downloads: (n: number) =>
-      p(n, {
-        one: 'завантаження',
-        few: 'завантаження',
-        many: 'завантажень',
-        other: 'завантаження',
-      }),
     by: (authors: string) => `автор: ${authors}`,
     /** A button to the modpack's own page on CurseForge or Modrinth. */
     get: (platform: string) => `Завантажити з ${platform}`,

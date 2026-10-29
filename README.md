@@ -86,7 +86,9 @@ starts so it never shows English first.
   `living-horizon_seul_ligne-3D_mix-couchant.png` for the footer), trimmed and saved as
   WebP. `public/img/og-cover.jpg` is that cover cut to 1200×629 for link previews.
 - **Modpacks**: `src/app/sections/modpacks.ts` lists the modpacks ModpackIndex finds with the
-  mod (`SITE.modpackIndexModId`), most downloaded first, six before "Show more". Each one's
+  mod (`SITE.modpackIndexModId`), how many there are, the most downloaded first, six before
+  "Show more". Their downloads count in the total of the download section, which has a row for
+  them next to the platforms. Each one's
   buttons go straight to its own CurseForge and Modrinth pages; ModpackIndex is only named in
   the footer's credits. Nothing to edit when a pack is added: it shows up once ModpackIndex
   lists it.

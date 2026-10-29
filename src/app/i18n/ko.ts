@@ -726,6 +726,8 @@ export const ko: Messages = {
     soon: '곧 출시',
     checking: '확인 중…',
     everyFile: '모든 파일',
+    /** How many modpacks ship the mod: in the modpacks' row above and the modpacks section. */
+    packs: (n: number) => p(n, { other: '모드팩 {n}개' }),
   },
 
   modpacks: {
@@ -733,10 +735,6 @@ export const ko: Messages = {
     title: '이미',
     accent: '모드팩에 들어 있어요.',
     text: 'Living Horizon이 들어 있는 모드팩입니다. 직접 만들었나요? 여기에 자동으로 표시됩니다.',
-    /** The word after the number of modpacks, in bold before it. */
-    packs: (n: number) => p(n, { other: '개의 모드팩' }),
-    /** The word after the number of their downloads, in bold before it. */
-    downloads: (n: number) => p(n, { other: '회 다운로드' }),
     by: (authors: string) => `제작: ${authors}`,
     /** A button to the modpack's own page on CurseForge or Modrinth. */
     get: (platform: string) => `${platform}에서 다운로드`,

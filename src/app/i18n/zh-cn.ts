@@ -722,6 +722,8 @@ export const zhCN: Messages = {
     soon: '即将推出',
     checking: '检查中…',
     everyFile: '所有文件',
+    /** How many modpacks ship the mod: in the modpacks' row above and the modpacks section. */
+    packs: (n: number) => p(n, { other: '{n} 个整合包' }),
   },
 
   modpacks: {
@@ -729,10 +731,6 @@ export const zhCN: Messages = {
     title: '已收录于',
     accent: '这些整合包。',
     text: '以下整合包包含 Living Horizon。你也做了一个？它会自动出现在这里。',
-    /** The word after the number of modpacks, in bold before it. */
-    packs: (n: number) => p(n, { other: '个整合包' }),
-    /** The word after the number of their downloads, in bold before it. */
-    downloads: (n: number) => p(n, { other: '次下载' }),
     by: (authors: string) => `作者：${authors}`,
     /** A button to the modpack's own page on CurseForge or Modrinth. */
     get: (platform: string) => `在 ${platform} 下载`,

@@ -752,6 +752,9 @@ export const ru: Messages = {
     soon: 'Скоро',
     checking: 'Проверка…',
     everyFile: 'все файлы',
+    /** How many modpacks ship the mod: in the modpacks' row above and the modpacks section. */
+    packs: (n: number) =>
+      p(n, { one: '{n} сборка', few: '{n} сборки', many: '{n} сборок', other: '{n} сборки' }),
   },
 
   modpacks: {
@@ -759,11 +762,6 @@ export const ru: Messages = {
     title: 'Уже в',
     accent: 'сборках.',
     text: 'Сборки с Living Horizon. Сделали свою? Она появится здесь сама.',
-    /** The word after the number of modpacks, in bold before it. */
-    packs: (n: number) => p(n, { one: 'сборка', few: 'сборки', many: 'сборок', other: 'сборки' }),
-    /** The word after the number of their downloads, in bold before it. */
-    downloads: (n: number) =>
-      p(n, { one: 'скачивание', few: 'скачивания', many: 'скачиваний', other: 'скачивания' }),
     by: (authors: string) => `автор: ${authors}`,
     /** A button to the modpack's own page on CurseForge or Modrinth. */
     get: (platform: string) => `Скачать на ${platform}`,

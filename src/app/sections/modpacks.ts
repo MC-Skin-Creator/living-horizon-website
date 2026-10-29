@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { ModpackLink } from '../data/models';
 import { ProjectData } from '../data/project-data';
 import { I18n } from '../i18n/i18n';
-import { CountPipe } from '../shared/format';
 import { Icon } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
 
@@ -17,7 +16,7 @@ const PLATFORMS: Record<ModpackLink['platform'], { name: string; logo: string }>
 @Component({
   selector: 'lh-modpacks',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, Reveal, CountPipe],
+  imports: [Icon, Reveal],
   template: `
     @let t = i18n.t().modpacks;
     <section class="section" id="modpacks">
@@ -29,14 +28,8 @@ const PLATFORMS: Record<ModpackLink['platform'], { name: string; logo: string }>
           </h2>
           <p>{{ t.text }}</p>
           @if (packs()?.length) {
-            <p class="totals">
-              <span
-                ><strong>{{ packs()!.length | count }}</strong> {{ t.packs(packs()!.length) }}</span
-              >
-              <span
-                ><lh-icon name="download" /><strong>{{ downloads() | count }}</strong>
-                {{ t.downloads(downloads()) }}</span
-              >
+            <p class="found">
+              <lh-icon name="box" /> {{ i18n.t().download.packs(packs()!.length) }}
             </p>
           }
         </header>
@@ -133,9 +126,6 @@ export class Modpacks {
     const list = this.packs() ?? [];
     return this.all() ? list : list.slice(0, SHOWN);
   });
-  protected readonly downloads = computed(() =>
-    (this.packs() ?? []).reduce((sum, p) => sum + p.downloads, 0),
-  );
 
   /** "1.20.1", or "1.20.1 – 1.21.1" for a pack on several versions. */
   protected versionRange(versions: string[]): string {

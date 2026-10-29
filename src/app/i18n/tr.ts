@@ -725,6 +725,8 @@ export const tr: Messages = {
     soon: 'Yakında',
     checking: 'Kontrol ediliyor…',
     everyFile: 'her dosya',
+    /** How many modpacks ship the mod: in the modpacks' row above and the modpacks section. */
+    packs: (n: number) => p(n, { other: '{n} mod paketi' }),
   },
 
   modpacks: {
@@ -732,10 +734,6 @@ export const tr: Messages = {
     title: 'Şimdiden',
     accent: 'mod paketlerinde.',
     text: 'Living Horizon içeren paketler. Onunla bir paket mi yaptınız? Kendiliğinden burada görünür.',
-    /** The word after the number of modpacks, in bold before it. */
-    packs: (n: number) => p(n, { other: 'mod paketi' }),
-    /** The word after the number of their downloads, in bold before it. */
-    downloads: (n: number) => p(n, { other: 'indirme' }),
     by: (authors: string) => `${authors} tarafından`,
     /** A button to the modpack's own page on CurseForge or Modrinth. */
     get: (platform: string) => `${platform} üzerinden indir`,

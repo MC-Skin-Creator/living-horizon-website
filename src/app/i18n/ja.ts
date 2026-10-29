@@ -728,6 +728,8 @@ export const ja: Messages = {
     soon: '近日公開',
     checking: '確認中…',
     everyFile: 'すべてのファイル',
+    /** How many modpacks ship the mod: in the modpacks' row above and the modpacks section. */
+    packs: (n: number) => p(n, { other: '{n}件のModパック' }),
   },
 
   modpacks: {
@@ -735,10 +737,6 @@ export const ja: Messages = {
     title: 'すでに',
     accent: 'Modパックに収録。',
     text: 'Living Horizonを含むModパックです。あなたも作った？自動でここに表示されます。',
-    /** The word after the number of modpacks, in bold before it. */
-    packs: (n: number) => p(n, { other: '件のModパック' }),
-    /** The word after the number of their downloads, in bold before it. */
-    downloads: (n: number) => p(n, { other: '回ダウンロード' }),
     by: (authors: string) => `作者: ${authors}`,
     /** A button to the modpack's own page on CurseForge or Modrinth. */
     get: (platform: string) => `${platform}でダウンロード`,

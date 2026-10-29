@@ -762,6 +762,8 @@ export const en = {
     soon: 'Coming soon',
     checking: 'Checking…',
     everyFile: 'every file',
+    /** How many modpacks ship the mod: in the modpacks' row above and the modpacks section. */
+    packs: (n: number) => p(n, { one: '{n} modpack', other: '{n} modpacks' }),
   },
 
   modpacks: {
@@ -769,10 +771,6 @@ export const en = {
     title: 'Already in',
     accent: 'modpacks.',
     text: 'Packs that ship Living Horizon. Made one with it? It shows up here on its own.',
-    /** The word after the number of modpacks, in bold before it. */
-    packs: (n: number) => p(n, { one: 'modpack', other: 'modpacks' }),
-    /** The word after the number of their downloads, in bold before it. */
-    downloads: (n: number) => p(n, { one: 'download', other: 'downloads' }),
     by: (authors: string) => `by ${authors}`,
     /** A button to the modpack's own page on CurseForge or Modrinth. */
     get: (platform: string) => `Download on ${platform}`,

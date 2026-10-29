@@ -735,6 +735,8 @@ export const de: Messages = {
     soon: 'Bald verfügbar',
     checking: 'Wird geprüft…',
     everyFile: 'alle Dateien',
+    /** How many modpacks ship the mod: in the modpacks' row above and the modpacks section. */
+    packs: (n: number) => p(n, { one: '{n} Modpack', other: '{n} Modpacks' }),
   },
 
   modpacks: {
@@ -742,10 +744,6 @@ export const de: Messages = {
     title: 'Schon in',
     accent: 'Modpacks.',
     text: 'Packs, die Living Horizon enthalten. Du hast eins damit gebaut? Es erscheint hier von selbst.',
-    /** The word after the number of modpacks, in bold before it. */
-    packs: (n: number) => p(n, { one: 'Modpack', other: 'Modpacks' }),
-    /** The word after the number of their downloads, in bold before it. */
-    downloads: (n: number) => p(n, { one: 'Download', other: 'Downloads' }),
     by: (authors: string) => `von ${authors}`,
     /** A button to the modpack's own page on CurseForge or Modrinth. */
     get: (platform: string) => `Auf ${platform} herunterladen`,

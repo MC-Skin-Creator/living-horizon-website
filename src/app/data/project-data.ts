@@ -90,12 +90,17 @@ export class ProjectData {
     const modrinth = raw.modrinth ? raw.modrinth.downloads : null;
     const github = githubDownloads(raw.github);
     const nexus = raw.nexus?.downloads ?? null;
-    const known = [curseforge, modrinth, github, nexus].filter((n): n is number => n !== null);
+    // What the modpacks that ship the mod were downloaded, added up.
+    const modpacks = raw.modpacks ? raw.modpacks.reduce((sum, p) => sum + p.downloads, 0) : null;
+    const known = [curseforge, modrinth, github, nexus, modpacks].filter(
+      (n): n is number => n !== null,
+    );
     return {
       curseforge,
       modrinth,
       github,
       nexus,
+      modpacks,
       total: known.length ? known.reduce((a, b) => a + b, 0) : null,
     };
   });

@@ -747,6 +747,9 @@ export const ptBR: Messages = {
     soon: 'Em breve',
     checking: 'Verificando…',
     everyFile: 'todos os arquivos',
+    /** How many modpacks ship the mod: in the modpacks' row above and the modpacks section. */
+    packs: (n: number) =>
+      p(n, { one: '{n} modpack', many: '{n} de modpacks', other: '{n} modpacks' }),
   },
 
   modpacks: {
@@ -754,10 +757,6 @@ export const ptBR: Messages = {
     title: 'Já está em',
     accent: 'modpacks.',
     text: 'Pacotes que trazem o Living Horizon. Fez um com ele? Ele aparece aqui sozinho.',
-    /** The word after the number of modpacks, in bold before it. */
-    packs: (n: number) => p(n, { one: 'modpack', many: 'de modpacks', other: 'modpacks' }),
-    /** The word after the number of their downloads, in bold before it. */
-    downloads: (n: number) => p(n, { one: 'download', many: 'de downloads', other: 'downloads' }),
     by: (authors: string) => `por ${authors}`,
     /** A button to the modpack's own page on CurseForge or Modrinth. */
     get: (platform: string) => `Baixar no ${platform}`,
