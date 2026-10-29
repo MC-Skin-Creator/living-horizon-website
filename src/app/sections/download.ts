@@ -223,6 +223,7 @@ export class Download {
     const t = this.i18n.t().download;
     const count = (n: number | null) => (n === null ? t.noCount : t.count(n));
     const listed = this.data.modrinthListed();
+    const packs = this.data.modpacks();
     return <Platform[]>[
       {
         name: 'CurseForge',
@@ -261,10 +262,9 @@ export class Download {
         logo: null,
         tone: 'mp',
         url: '#modpacks',
-        detail:
-          d.modpacks === null
-            ? t.checking
-            : `${count(d.modpacks)} · ${t.packs(this.data.modpacks()?.length ?? 0)}`,
+        // Their downloads stay out of the total: a pack installed from CurseForge already
+        // counts as a download of the mod there.
+        detail: packs ? t.packs(packs.length) : t.checking,
         soon: false,
         internal: true,
       },

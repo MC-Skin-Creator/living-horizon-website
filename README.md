@@ -87,8 +87,8 @@ starts so it never shows English first.
   WebP. `public/img/og-cover.jpg` is that cover cut to 1200×629 for link previews.
 - **Modpacks**: `src/app/sections/modpacks.ts` lists the modpacks ModpackIndex finds with the
   mod (`SITE.modpackIndexModId`), how many there are, the most downloaded first, six before
-  "Show more". Their downloads count in the total of the download section, which has a row for
-  them next to the platforms. Each one's
+  "Show more". The download section has a row for them next to the platforms, with how many
+  there are but not their downloads: a pack installed from CurseForge already counts there. Each one's
   buttons go straight to its own CurseForge and Modrinth pages; ModpackIndex is only named in
   the footer's credits. Nothing to edit when a pack is added: it shows up once ModpackIndex
   lists it.
