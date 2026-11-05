@@ -22,3 +22,14 @@ export interface Question {
 export function questions<K extends string>(items: Record<K, Question>): Record<K, Question> {
   return items;
 }
+
+/** A part of a feature's details: a heading and its blocks. */
+export interface Detail {
+  title: string;
+  body: Block[];
+}
+
+/** Checks every part of a feature's details against `Detail`. */
+export function details(items: Detail[]): Detail[] {
+  return items;
+}

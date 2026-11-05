@@ -12,9 +12,10 @@ Minecraft mod that gives life to the distance. Angular, fully static, deployed t
 | `/modpacks` | Every modpack that ships the mod |
 | `/changelog` | Every version of the changelog |
 
-The home page keeps what convinces a player to install the mod, read top to bottom; what
-grows with time and is looked up (mods, modpacks, versions) has a page of its own, with a
-preview and a "see all" link on the home page. The pages are routes of the app
+The home page keeps what convinces a player to install the mod, read top to bottom, each
+section short: the details of a feature open in a window, the table of game versions is
+folded. What grows with time and is looked up (mods, modpacks, versions) has a page of its
+own, with a preview and a "see all" link on the home page. The pages are routes of the app
 (`src/app/app.routes.ts`); `npm run build` gives each one an `index.html` of its own
 (`scripts/pages.mts`) so that GitHub Pages serves `…/mods/` opened directly. A new page: a
 route, its path in `PAGES` of `scripts/pages.mts`, its title and description under `pages`
@@ -125,10 +126,19 @@ starts so it never shows English first.
 - **Features and servers**: the feature cards are in `src/app/sections/features.ts`, the
   multiplayer section and its table (what works in single player, on LAN, on a server with or
   without the mod) in `src/app/sections/servers.ts`, their texts under `features` and `servers`
-  in the dictionaries. Keep both in step with the mod's README.
-- **Logos**: `public/img/logos/` holds the Distant Horizons and Voxy logos, from their
-  Modrinth pages, shown where the site names them; the compatibility cards take their
-  colours (Distant Horizons' blue, Voxy's green). The CurseForge, Modrinth and GitHub marks
+  in the dictionaries. Each card has a *More details* button that opens a window with how the
+  feature works, part by part: `features.items.<feature>.details`, a list of headings and
+  rich blocks like the FAQ's answers (`details()` in `src/app/i18n/rich.ts`). Keep both in step
+  with the mod's README, changelog and `docs/technical.md`.
+- **Get involved**: `src/app/sections/help.ts`, three cards (test, contribute, Discord) under
+  `help` in the dictionaries. The compatibility report it opens is prefilled by
+  `src/app/shared/report.ts`, also linked from the versions table.
+- **Logos**: `public/img/logos/` holds the logos of the far-terrain mods the compatibility
+  section names (Distant Horizons, Voxy, Lodistance, Far View, Ecstatic, Bobby) and Iris, from
+  their Modrinth or CurseForge pages, 96 px WebP; each card takes the colours of its mod's logo
+  (`compatibility.scss`). A new one: its logo here, its link in `LINKS`, a card in `works` of
+  `src/app/sections/compatibility.ts` and its sentence in `compatibility.cards` of every
+  dictionary. The CurseForge, Modrinth and GitHub marks
   come from [Simple Icons](https://simpleicons.org/) in their brand colours, the Nexus Mods
   one from its site's icon; they mark the download platforms. All belong to their owners.
 - **Screenshots**: the before / after slider opens on real in-game screenshots, listed in

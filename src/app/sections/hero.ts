@@ -18,7 +18,7 @@ import { Icon } from '../shared/icon';
       <div class="shade" aria-hidden="true"></div>
 
       <div class="container inner">
-        <a class="pill news" href="#servers">
+        <a class="pill news" href="#features">
           <span class="tag">{{ t.common.new }}</span>
           {{ t.hero.news }}
           <lh-icon name="arrow-right" />
@@ -60,9 +60,6 @@ import { Icon } from '../shared/icon';
           <a class="btn" [href]="site.links.github" target="_blank" rel="noopener">
             <lh-icon name="github" /> GitHub
           </a>
-          <a class="btn ghost" href="#testers"
-            ><lh-icon name="flask" /> {{ t.common.becomeTester }}</a
-          >
         </div>
       </div>
 

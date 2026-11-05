@@ -14,6 +14,8 @@ import { Reveal } from '../shared/reveal';
 const HOME_VERSIONS = 1;
 /** Entries shown for an older version before "show more". */
 const PREVIEW_ENTRIES = 3;
+/** Entries of the latest version shown on the home page before "show more". */
+const HOME_ENTRIES = 6;
 
 @Component({
   selector: 'lh-changelog',
@@ -106,7 +108,7 @@ const PREVIEW_ENTRIES = 3;
                       </div>
                     }
                   }
-                  @if (hidden(v, first); as more) {
+                  @if (hidden(v); as more) {
                     <button type="button" class="more" (click)="expand(v.version)">
                       {{ t.more(more) }}
                     </button>
@@ -170,21 +172,27 @@ export class Changelog {
     return this.data.releases().find((r) => r.version === version)?.url ?? null;
   }
 
+  /** The changelog page opens its latest version whole; the home page only a preview. */
   private isOpen(v: ChangelogVersion): boolean {
-    return v === this.versions()[0] || this.expanded().has(v.version);
+    return (this.page() && v === this.versions()[0]) || this.expanded().has(v.version);
+  }
+
+  /** Entries shown before "show more". */
+  private preview(v: ChangelogVersion): number {
+    return !this.page() && v === this.versions()[0] ? HOME_ENTRIES : PREVIEW_ENTRIES;
   }
 
   /** How many entries of group `index` to show; 0 hides the group. */
   protected visible(v: ChangelogVersion, count: number, index: number): number {
     if (this.isOpen(v)) return count;
     const before = v.groups.slice(0, index).reduce((n, g) => n + g.entries.length, 0);
-    return Math.max(0, Math.min(count, PREVIEW_ENTRIES - before));
+    return Math.max(0, Math.min(count, this.preview(v) - before));
   }
 
-  protected hidden(v: ChangelogVersion, first: boolean): number {
-    if (first || this.isOpen(v)) return 0;
+  protected hidden(v: ChangelogVersion): number {
+    if (this.isOpen(v)) return 0;
     const total = v.groups.reduce((n, g) => n + g.entries.length, 0);
-    return Math.max(0, total - PREVIEW_ENTRIES);
+    return Math.max(0, total - this.preview(v));
   }
 
   protected expand(version: string) {
