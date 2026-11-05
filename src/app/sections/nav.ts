@@ -100,7 +100,6 @@ export class Nav {
       { page: '/mods', label: (t) => t.nav.mods },
       { page: '/modpacks', label: (t) => t.nav.modpacks },
       { page: '/changelog', label: (t) => t.common.changelog },
-      { fragment: 'testers', label: (t) => t.nav.testers },
       { fragment: 'faq', label: (t) => t.nav.faq },
     ];
 

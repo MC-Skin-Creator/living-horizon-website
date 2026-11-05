@@ -61,7 +61,7 @@ import { Icon } from '../shared/icon';
             <a [href]="site.links.issues" target="_blank" rel="noopener"
               ><lh-icon name="bug" /> {{ t.footer.bug }}</a
             >
-            <a routerLink="/" fragment="testers"
+            <a routerLink="/" fragment="help"
               ><lh-icon name="flask" /> {{ t.common.becomeTester }}</a
             >
             <a [href]="site.links.contributing" target="_blank" rel="noopener"

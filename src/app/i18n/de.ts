@@ -1,6 +1,6 @@
 import { Messages } from './en';
 import { plural } from './plural';
-import { questions } from './rich';
+import { details, questions } from './rich';
 
 const p = plural('de');
 
@@ -34,7 +34,6 @@ export const de: Messages = {
     features: 'Funktionen',
     mods: 'Mods',
     modpacks: 'Modpacks',
-    testers: 'Tester',
     faq: 'FAQ',
     download: (version: string) => `Download v${version}`,
   },
@@ -59,7 +58,7 @@ export const de: Messages = {
   hero: {
     scene:
       'Illustration: ein Horizont in der Abenddämmerung mit kantigen Hügeln, auf denen Dorfbewohner, Tiere, Reiter und andere Spieler in weiter Ferne noch leben, darüber ein Zug Wildgänse.',
-    news: 'Die Mod läuft jetzt auch auf Servern',
+    news: 'Neu: Herden in unerkundetem Land',
     tagline: 'Bringt Leben',
     taglineAccent: 'in die Ferne.',
     lede: {
@@ -96,43 +95,284 @@ export const de: Messages = {
     eyebrow: 'Funktionen',
     title: 'Alles, was lebt,',
     accent: 'auch jenseits deiner Sichtweite.',
-    text: 'Kreaturen, Spieler, abgemeldete Spieler und Vögel, gezeichnet von deinem eigenen Spiel und so leicht, dass du die Mod einfach anlassen kannst.',
+    text: 'Kreaturen, die Herden in Land, das noch niemand erkundet hat, Spieler, abgemeldete Spieler und Vögel, gezeichnet von deinem eigenen Spiel und so leicht, dass du die Mod einfach anlassen kannst.',
     offline: '(offline)',
     near: 'Aus der Nähe: die ganze Kreatur',
     far: 'Aus der Ferne: ein flaches Bild',
-    preset: 'Voreinstellung',
-    presets: ['Niedrig', 'Normal', 'Hoch', 'Ultra'],
-    mobDistance: 'Kreaturen‐Sichtweite',
+    more: 'Mehr Details',
+    close: 'Schließen',
+    previous: 'Vorherige Funktion',
+    next: 'Nächste Funktion',
     items: {
       mobs: {
         title: 'Jede Kreatur, bis zum Horizont',
-        text: 'Tiere grasen, Dorfbewohner streifen durch ferne Dörfer, Golems halten Wache. Jede Kreatur, die das Spiel zeichnen kann, auch die aus anderen Mods.',
+        text: 'Tiere grasen, Dorfbewohner streifen durch ferne Dörfer, Golems halten Wache. Jede Kreatur, die das Spiel zeichnen kann, auch Kreaturen und Fahrzeuge aus anderen Mods.',
         points: [
-          'Auf dem Gelände von Voxy und Distant Horizons oder in Vanilla',
+          'Auf Voxy, Distant Horizons und anderem fernen Gelände oder in Vanilla',
           'Hinter fernen Hügeln verborgen, auch mit Shaderpaketen',
           'Unter „Kreaturen & Objekte“ einzeln auswählbar',
         ],
         where: 'Überall. Auf einem Server mit der Mod sogar Kreaturen, denen du nie begegnet bist.',
+        details: details([
+          {
+            title: 'Woher sie kommen',
+            body: [
+              [
+                'Es sind echte Kreaturen, dort, wo dein Spiel oder der Server sie zuletzt gesehen hat. Dein Spiel merkt sich jede Kreatur, der es begegnet, und ein Server mit der Mod teilt die Kreaturen um jeden Spieler herum, so siehst du auch Herden, denen du nie begegnet bist. Eine, die seitdem gestorben oder verschwunden ist, kann noch zu sehen sein, bis du in ihre Nähe kommst. Dann wird sie vergessen.',
+              ],
+            ],
+          },
+          {
+            title: 'Auf dem fernen Gelände',
+            body: [
+              [
+                'Mit Voxy, Distant Horizons, Lodistance, Far View oder Ecstatic laufen sie auf dessen Boden, verschwinden hinter dessen Hügeln wie hinter jedem Block und verblassen in dessen Nebel. Mit Bobby bleiben sie auf dem Gelände, das es behält. Ohne eine dieser Mods erscheinen sie auf dem Gelände des Spiels selbst. Siehe ',
+                { link: 'compatibilitySection', text: 'Kompatibilität' },
+                '.',
+              ],
+            ],
+          },
+          {
+            title: 'Aus der Nähe übernimmt die echte Kreatur',
+            body: [
+              [
+                'Kommst du näher, läuft die Kopie dorthin zurück, wo die Kreatur zuletzt gesehen wurde, und die echte Kreatur nimmt ihren Platz ein, sobald der Server sie schickt. Ferne Kreaturen sind nur zur Zierde: Farmen, das Spawnen und die Kreaturenobergrenze funktionieren wie ohne die Mod, und du kannst sie nicht schlagen.',
+              ],
+            ],
+          },
+          {
+            title: 'Kreaturen aus anderen Mods',
+            body: [
+              [
+                'Alles, was das Objektsystem von Minecraft selbst nutzt, erscheint in der Ferne: Kreaturen aus Mods und Fahrzeuge wie die Flugzeuge von Immersive Aircraft oder die Schiffe von Shippy Ships, dort, wo du sie gelassen hast.',
+              ],
+            ],
+          },
+          {
+            title: 'Einstellungen',
+            body: [
+              {
+                list: [
+                  [
+                    { em: 'Kreaturen anzeigen' },
+                    ' und ',
+                    { em: 'Objekte anzeigen' },
+                    ': schalten sie ein oder aus.',
+                  ],
+                  [{ em: 'Kreaturen & Objekte …' }, ': Kreatur für Kreatur auswählen.'],
+                  [
+                    { em: 'Kreaturen‐Sichtweite' },
+                    ' und ',
+                    { em: 'Max. Kreaturen' },
+                    ': wie weit und wie viele auf einmal.',
+                  ],
+                ],
+              },
+            ],
+          },
+        ]),
+      },
+      unexplored: {
+        title: 'Herden in Land, das noch niemand erkundet hat',
+        text: 'Auch Land, das du nie besucht hast, hat seine Tiere. Die Mod berechnet aus dem Startwert der Welt, welche das Spiel dort hinsetzen wird, und wo.',
+        points: [
+          'Dieselben Zufallsziehungen, die das Spiel für jeden neuen Chunk macht',
+          'Durch ein Fernrohr, so weit du zielst',
+          'Kreaturen erraten: bis zu 1.024 Chunks um dich herum',
+        ],
+        where: 'Im Einzelspieler und auf Servern mit der Mod.',
+        details: details([
+          {
+            title: 'Wie es rät',
+            body: [
+              [
+                'Wenn das Spiel einen Chunk generiert, setzt es seine ersten Tiere mit Zufallsziehungen aus dem Startwert der Welt und der Position des Chunks. Living Horizon macht dieselben Ziehungen für die noch nicht generierten Chunks, mit dem Biom und dem Gelände, die der Weltgenerator liefert: Pferde in den Ebenen, Schafe auf den Hügeln, ungefähr dort, wo das Spiel sie hinsetzen wird.',
+              ],
+            ],
+          },
+          {
+            title: 'Eine Vermutung, kein Versprechen',
+            body: [
+              [
+                'Das Gelände, das es liest, hat noch kein Gras und keine Bäume. Wo das Spiel deswegen eine Stelle verwirft, fehlt die Herde oder steht woanders: Etwa die Hälfte der erratenen Tiere steht höchstens zwei Blöcke von den echten entfernt. Eine erratene Kreatur ist vielleicht nicht da, wenn du ankommst.',
+              ],
+            ],
+          },
+          {
+            title: 'Fernrohr und Kreaturen erraten',
+            body: [
+              [
+                'Schau durch ein Fernrohr, um die erratenen Kreaturen zu sehen, wohin du auch zielst, egal wie weit. ',
+                { em: 'Kreaturen erraten' },
+                ' zeigt sie bis zu 1.024 Chunks um dich herum auf einmal und behält sie für deine nächsten Sitzungen.',
+              ],
+            ],
+          },
+          {
+            title: 'Auf einem Server',
+            body: [
+              [
+                'Der Server errät sie um jeden Spieler mit der Mod, standardmäßig 512 Blöcke weit (',
+                { code: 'seedMobRange' },
+                ', bis zu 2.048). Das Fernrohr und ',
+                { em: 'Kreaturen erraten' },
+                ' brauchen den Startwert der Welt: Der Server teilt ihn nur, wenn sein Betreiber ',
+                { code: 'shareSeed' },
+                ' einschaltet, denn wer den Startwert hat, kennt die ganze Welt (siehe die ',
+                { link: 'serverSettings', text: 'Servereinstellungen' },
+                ').',
+              ],
+            ],
+          },
+          {
+            title: 'Einstellungen',
+            body: [
+              {
+                list: [
+                  [{ em: 'Erratene Kreaturen' }, ': zeigt oder verbirgt sie.'],
+                  [{ em: 'Raterradius' }, ': wie weit ', { em: 'Kreaturen erraten' }, ' reicht.'],
+                ],
+              },
+            ],
+          },
+        ]),
       },
       players: {
         title: 'Spieler in jeder Entfernung',
         text: 'Sieh jeden anderen Spieler, wo auch immer er auf der Karte ist, mit Skin, Rüstung, Gegenständen in der Hand und allem, worauf er reitet.',
         points: [
-          'Pferde, Boote, Loren und Glückliche Ghasts',
+          'Pferde, Boote, Loren, Elytren und Glückliche Ghasts',
           'Flüssig: Der Server teilt die Positionen fünfmal pro Sekunde',
           'Spieler ohne die Mod können trotzdem beitreten',
         ],
         where: 'Im LAN und auf Servern mit der Mod.',
+        details: details([
+          {
+            title: 'So funktioniert es',
+            body: [
+              [
+                'Ein Server mit der Mod teilt fünfmal pro Sekunde, wo jeder Spieler ist, worauf er reitet und ob er mit Elytren gleitet. Alle fünf Sekunden kommt hinzu, wie die nächsten aussehen: Skin, Rüstung und was sie in der Hand halten. Dein Spiel zeichnet sie über die Sichtweite hinaus, samt Namensschild und Reittier.',
+              ],
+            ],
+          },
+          {
+            title: 'Der Serverbetreiber entscheidet',
+            body: [
+              [
+                'Der Server schreibt beim ersten Start ',
+                { code: 'config/livinghorizon-server.json' },
+                ': wie weit Spieler geteilt werden, nur mit Teamkameraden, welche Spieler und Dimensionen verborgen bleiben. ',
+                { code: '"sharePlayers": false' },
+                ' schaltet es ab. Änderungen gelten nach ein paar Sekunden, ohne Neustart (siehe die ',
+                { link: 'serverSettings', text: 'Servereinstellungen' },
+                ').',
+              ],
+            ],
+          },
+          {
+            title: 'Nie geteilt',
+            body: [
+              [
+                'Spieler im Zuschauermodus und unsichtbare Spieler. Schleichende Spieler vorerst schon (',
+                { link: 'sneaking', text: '#269' },
+                '). Innerhalb der Sichtweite sehen sich Spieler wie gewohnt.',
+              ],
+            ],
+          },
+          {
+            title: 'Einstellungen',
+            body: [
+              {
+                list: [
+                  [{ em: 'Spieler anzeigen' }, ': schaltet sie ein oder aus.'],
+                  [{ em: 'Spieler‐Sichtweite' }, ': wie weit sie erscheinen.'],
+                  [{ em: 'Reittiere & Fahrmittel' }, ': worauf sie reiten.'],
+                ],
+              },
+            ],
+          },
+        ]),
       },
       offline: {
         title: 'Abgemeldete Spieler leben weiter',
-        text: 'Meldet sich jemand ab, bleibt eine Kopie mit seinem Namen dort, wo er gegangen ist. Sie spaziert, sitzt, öffnet Truhen und schläft nachts, bis er zurückkommt.',
+        text: 'Meldet sich jemand ab, bleibt eine Kopie mit seinem Namen dort, wo er gegangen ist. Sie spaziert, sitzt, angelt, öffnet Truhen und schläft nachts, bis er zurückkommt.',
         points: [
           '(offline) hinter dem Namen, dazu wann er zuletzt gesehen wurde',
           'Auch Spieler, die gegangen sind, bevor du kamst',
-          'Nur zur Zierde: Sie blockieren weder dich noch Kreaturen',
+          'Nur zur Zierde: Lauf in sie hinein, um sie beiseitezuschieben',
         ],
         where: 'Überall. Auf einem Server mit der Mod jeder Spieler, der dort je gespielt hat.',
+        details: details([
+          {
+            title: 'Ein Tag in ihrem Leben',
+            body: [
+              {
+                list: [
+                  [
+                    'Tagsüber spazieren sie, setzen sich oder stehen an einer Truhe, einer Werkbank oder einem Arbeitsblock.',
+                  ],
+                  [
+                    'Nachts gehen sie zu einem freien Bett und schlafen darin, oder sie bleiben auf den Beinen.',
+                  ],
+                  [
+                    'In der Nähe von Wasser bleibt einer von ihnen am Ufer stehen und angelt eine Weile.',
+                  ],
+                  [
+                    'Bei Regen gehen manche unter ein Dach oder einen Baum und warten, bis er aufhört.',
+                  ],
+                  ['Abends versammeln sie sich vor einem Lagerfeuer oder einem Ofen.'],
+                  [
+                    'Zwei, die nah beieinander sind, gehen aufeinander zu und plaudern, von Angesicht zu Angesicht.',
+                  ],
+                ],
+              },
+            ],
+          },
+          {
+            title: 'Sie bemerken dich',
+            body: [
+              [
+                'Schau einen aus der Nähe an, und er schaut zurück. Geh vor ihm in die Hocke, und er tut es dir nach. Kommen Monster näher, ziehen sie ein Schwert und heben ihren Schild, aber sie kämpfen nie.',
+              ],
+            ],
+          },
+          {
+            title: 'Nur zur Zierde',
+            body: [
+              [
+                'Die Welt weiß nicht, dass es sie gibt: Kreaturen ignorieren sie, und sie blockieren oder schubsen dich nie. Lauf in sie hinein, um sie beiseitezuschieben. Fern von dir spazieren sie weiter dort umher, wo sie sind.',
+              ],
+            ],
+          },
+          {
+            title: 'Woher sie kommen',
+            body: [
+              [
+                'Dein Spiel merkt sich die Spieler, die es gehen gesehen hat. Ein Server mit der Mod teilt jeden Spieler, der dort je gespielt hat, so wie er aussah, auch die, die gegangen sind, bevor du kamst.',
+              ],
+            ],
+          },
+          {
+            title: 'Einstellungen',
+            body: [
+              {
+                list: [
+                  [
+                    { em: 'Offline‐Spieler' },
+                    ' und ',
+                    { em: 'Max. Offline' },
+                    ': ob sie erscheinen und wie viele.',
+                  ],
+                  [{ em: 'Offline‐Aktivität' }, ': ihr Leben rund um ihren Platz.'],
+                  [
+                    { em: 'Bewegungsradius' },
+                    ': wie weit sie umherstreifen, standardmäßig 50 Blöcke.',
+                  ],
+                ],
+              },
+            ],
+          },
+        ]),
       },
       birds: {
         title: 'Vögel am Himmel',
@@ -143,6 +383,58 @@ export const de: Messages = {
           'Kleine 3D-Modelle aus der Nähe, flache Bilder aus der Ferne',
         ],
         where: 'Überall, nichts einzurichten.',
+        details: details([
+          {
+            title: 'Wer wo fliegt',
+            body: [
+              {
+                list: [
+                  [
+                    'Schwärme ziehen über den Himmel, Gänse fliegen in V-Formation, Greifvögel kreisen.',
+                  ],
+                  ['Möwen folgen der Küste und landen ab und zu am Strand.'],
+                  [
+                    'Tauben sitzen auf hohen Gebäuden, Rotkehlchen hüpfen über Felder, Meisen bleiben in den Bäumen.',
+                  ],
+                  ['Enten schwimmen auf Seen und Flüssen. Fledermäuse kommen nachts heraus.'],
+                ],
+              },
+            ],
+          },
+          {
+            title: 'Sie reagieren auf dich',
+            body: [
+              [
+                'Kleine Vögel fliegen auf, wenn du näher kommst, und landen etwas weiter weg. Enten lassen dich nie heran. Vögel, die davonfliegen, verschwinden nie auf einen Schlag: Sie zerstreuen sich und werden immer kleiner.',
+              ],
+            ],
+          },
+          {
+            title: 'Am Gelände abgelesen',
+            body: [
+              [
+                'Wohin jede Art fliegt, wird am Gelände abgelesen, bis auf das ferne Gelände von Voxy und Distant Horizons: Feldfrüchte für Rotkehlchen, Laub für Meisen, Wasser für Enten, Strände für Möwen. Sie sind nur Bilder in deinem Spiel: In der Welt wird nichts gespawnt.',
+              ],
+            ],
+          },
+          {
+            title: 'Einstellungen',
+            body: [
+              {
+                list: [
+                  [{ em: 'Vögel anzeigen' }, ': schaltet sie ein oder aus.'],
+                  [{ em: 'Vogelarten …' }, ': Art für Art auswählen.'],
+                  [
+                    { em: 'Vogeldichte' },
+                    ' und ',
+                    { em: 'Vogelreichweite' },
+                    ': wie viele und wie weit.',
+                  ],
+                ],
+              },
+            ],
+          },
+        ]),
       },
       light: {
         title: 'Von Grund auf leicht',
@@ -150,19 +442,82 @@ export const de: Messages = {
         points: [
           'Hinter Hügeln verborgene Kreaturen werden nicht gezeichnet',
           'Senk deine Simulationsdistanz und behalte trotzdem eine lebendige Welt',
-          'Vereinfachte Objekte: viel mehr Kreaturen für denselben Aufwand',
+          'Vereinfachte Kreaturen: viel mehr Kreaturen für denselben Aufwand',
         ],
         where: 'Alles läuft in deinem Spiel. Der Server teilt nur Positionen.',
-      },
-      settings: {
-        title: 'Einstellungen, wo du sie suchst',
-        text: 'In den Optionen, in Mod Menu, in den Grafikeinstellungen von Sodium oder mit /livinghorizon config. Jede Einstellung erklärt, was sie tut.',
-        points: [
-          'Die Voreinstellungen Niedrig, Normal, Hoch und Ultra stellen alles auf einmal ein',
-          'In 14 Sprachen',
-          '„Auf Standard zurücksetzen“ stellt alles wieder her',
-        ],
-        where: 'Die Standardwerte sind die ausgewogene Wahl.',
+        details: details([
+          {
+            title: 'Keine KI in der Ferne',
+            body: [
+              [
+                'Ferne Kreaturen laufen, grasen und schauen sich um, mit fertigen Animationen, die zum Boden um sie herum passen. Abgemeldete Spieler und Vögel handeln nur in deiner Nähe von selbst.',
+              ],
+            ],
+          },
+          {
+            title: 'Flache Bilder in der Ferne',
+            body: [
+              [
+                'Viele Spiele zeichnen ferne Objekte als Impostors: ein flaches Bild statt eines 3D-Modells. Living Horizon macht dasselbe für ferne Kreaturen, Fahrzeuge und Spieler (',
+                { em: 'Vereinfachte Kreaturen' },
+                ', ',
+                { em: 'Vereinfachte Objekte' },
+                ', ',
+                { em: 'Vereinfachte Spieler' },
+                '). In dieser Größe sehen sie gleich aus, für einen Bruchteil des Aufwands. Mit einem Shaderpaket, das Normal Maps liest, etwa Photon, werden die Bilder vom Paket beleuchtet (',
+                { em: 'Shader-Beleuchtung' },
+                ').',
+              ],
+            ],
+          },
+          {
+            title: 'Verdeckt heißt übersprungen',
+            body: [
+              [
+                'Kreaturen hinter Hügeln oder dem fernen Gelände werden gar nicht gezeichnet, und Animationen stoppen, sobald eine Figur zu klein ist, um aufzufallen.',
+              ],
+            ],
+          },
+          {
+            title: 'Alles in deinem Spiel',
+            body: [
+              [
+                'Dein Spiel übernimmt die Animationen, die abgemeldeten Spieler und die Vögel. Ein Server mit der Mod teilt nur Positionen, das kostet ihn also wenig. Zwei Spieler können sogar dieselbe ferne Kreatur verschiedene Dinge tun sehen.',
+              ],
+            ],
+          },
+          {
+            title: 'Voreinstellungen und Einstellungen',
+            body: [
+              [
+                'Eine ',
+                { em: 'Voreinstellung' },
+                ' (',
+                { em: 'Niedrig' },
+                ', ',
+                { em: 'Normal' },
+                ', ',
+                { em: 'Hoch' },
+                ', ',
+                { em: 'Ultra' },
+                ') stellt alles auf einmal ein. Die Standardwerte sind die ausgewogene Wahl, und ',
+                { em: 'Auf Standard zurücksetzen' },
+                ' stellt sie wieder her. Die Einstellungen findest du in den Optionen, in Mod Menu, in den Grafikeinstellungen von Sodium oder mit ',
+                { code: '/livinghorizon config' },
+                ', in 14 Sprachen.',
+              ],
+              [
+                'Vorsicht: Stehen ',
+                { em: 'Max. Kreaturen' },
+                ' und ',
+                { em: 'Kreaturen‐Sichtweite' },
+                ' beide auf ',
+                { em: 'Unbegrenzt' },
+                ', kann das Spiel abstürzen.',
+              ],
+            ],
+          },
+        ]),
       },
     },
   },
@@ -220,21 +575,6 @@ export const de: Messages = {
     accent: 'Alle sehen alle.',
     text: 'Dieselbe JAR-Datei läuft auf Servern. Der Server teilt mit allen, die die Mod haben, wo jeder Spieler ist, die Kreaturen um ihn herum und die abgemeldeten Spieler.',
     cover: 'Der Schriftzug von Living Horizon vor einer Menge von Spieler- und Kreaturenköpfen.',
-    since: (version: string) => `Serverunterstützung seit ${version}`,
-    steps: {
-      jar: {
-        title: 'Leg die JAR in den mods-Ordner des Servers',
-        text: 'Dieselbe Datei wie für dein Spiel, passend zur Minecraft-Version und zum Loader des Servers, auf Fabric und Quilt dazu die Fabric API. Halte sie auf beiden Seiten aktuell.',
-      },
-      start: {
-        title: 'Starte den Server',
-        text: 'Nichts einzurichten. Der Server speichert, was er teilt, im Weltordner, so bleibt es auch nach einem Neustart erhalten.',
-      },
-      see: {
-        title: 'Spieler mit der Mod sehen alle',
-        text: 'Jeden Spieler in jeder Entfernung, mit Skin, Rüstung und Reittier, und die Kreaturen um ihn herum, auch solche, denen sie nie begegnet sind.',
-      },
-    },
     matrixTitle: 'Was du siehst, je nachdem, wo du spielst',
     matrixText:
       'Im Einzelspieler funktioniert alles. Auf einem Server erledigt die Mod auf dem Server den Rest.',
@@ -245,6 +585,7 @@ export const de: Messages = {
       mobs: 'Kreaturen am Horizont',
       players: 'Spieler in jeder Entfernung',
       offline: 'Abgemeldete Spieler',
+      unexplored: 'Herden in unerkundetem Land',
       birds: 'Vögel',
     },
     cells: {
@@ -257,6 +598,10 @@ export const de: Messages = {
     noOthers: 'Keine anderen Spieler',
     notApplicable: 'Nicht zutreffend',
     notes: {
+      install: {
+        title: 'Leg die JAR in den mods-Ordner des Servers',
+        text: 'Dieselbe Datei wie für dein Spiel, auf Fabric und Quilt dazu die Fabric API. Nichts einzurichten.',
+      },
       lan: {
         title: 'LAN: nichts zu installieren',
         text: 'Eine im LAN geöffnete Welt teilt alles über das Spiel des Hosts.',
@@ -269,38 +614,33 @@ export const de: Messages = {
         title: 'Sag es deinen Spielern',
         text: 'Der Server teilt die Position jedes Spielers mit den Spielern, die die Mod haben.',
       },
-      datapack: {
-        title: 'Das Datenpaket benutzt?',
-        text: 'Entferne es aus dem datapacks-Ordner der Welt: Die Mod auf dem Server ersetzt es.',
-      },
     },
   },
 
   compatibility: {
     eyebrow: 'Kompatibilität',
-    title: 'Gemacht für fernes Gelände.',
-    accent: 'Gut auch ohne.',
-    text: 'Living Horizon erkennt Distant Horizons oder Voxy von selbst und zeichnet Kreaturen und Spieler direkt auf deren Gelände. Ohne sie hält die Mod die Welt jenseits deiner Sichtweite lebendig.',
-    works: 'Funktioniert',
+    title: 'Distant Horizons, Voxy, Ecstatic…',
+    accent: 'oder gar nichts.',
+    text: 'Living Horizon erkennt deine Mod für fernes Gelände von selbst: Kreaturen und Spieler laufen auf deren Boden, verschwinden hinter deren Hügeln und verblassen in deren Nebel. Ohne eine solche Mod hält Living Horizon die Welt jenseits deiner Sichtweite lebendig.',
     cards: {
-      dh: {
-        text: 'Kreaturen und Spieler werden auf seinem fernen Gelände gezeichnet und verschwinden hinter seinen Hügeln. Ab Distant Horizons 2.3.',
-        link: 'Distant Horizons holen',
+      dh: { text: 'Ab 2.3. Kreaturen und Spieler auf seinem Gelände, hinter seinen Hügeln.' },
+      voxy: { text: 'Kreaturen und Spieler auf seinem Gelände, auch mit Shaderpaketen.' },
+      lodistance: { text: 'Fabric, Minecraft 26.3, mit OpenGL und ohne Shader.' },
+      farView: {
+        text: 'Forge und NeoForge, Minecraft 1.20.1 bis 1.21.4. Kreaturen auf seinem Gelände.',
       },
-      voxy: {
-        text: 'Der Horizont von Voxys Gelände erwacht zum Leben: grasende Tiere, ferne Dörfer, Spieler unterwegs.',
-        link: 'Voxy holen',
+      ecstatic: {
+        text: 'NeoForge, Minecraft 1.21.1, Einzelspieler. Kreaturen auf seinem Gelände.',
       },
+      bobby: {
+        text: 'Kreaturen und Spieler auf dem Gelände, das es über die Sichtweite des Servers hinaus behält.',
+      },
+      iris: { text: 'Shaderpakete funktionieren, etwa Photon und Complementary Unbound.' },
       vanilla: {
         title: 'Vanilla',
-        text: 'Keine Mod für fernes Gelände nötig. Spiel mit niedriger Sichtweite und Simulationsdistanz und sieh trotzdem eine lebendige Welt.',
+        text: 'Keine Mod für fernes Gelände nötig: Senk deine Sichtweite und Simulationsdistanz und sieh trotzdem eine lebendige Welt.',
       },
     },
-    extras: [
-      'Iris-Shaderpakete (Photon, Complementary…)',
-      'Dieselbe JAR auf Servern, oder ohne sie jedem Server beitreten',
-      'Einstellungen in den Grafikeinstellungen von Sodium (0.8+)',
-    ],
     /** The link to the compatible mods page, under the cards. */
     others: {
       title: 'Und deine anderen Mods?',
@@ -314,6 +654,7 @@ export const de: Messages = {
     },
     matrixTitle: 'Minecraft-Versionen und Loader',
     matrixText: 'Eine JAR pro Spielversion und Loader.',
+    report: 'Schon ausprobiert? Melde es',
     builds: (builds: number, range: string) =>
       p(builds, { one: `{n} Build, für ${range}.`, other: `{n} Builds, für ${range}.` }),
     keyUntested: 'Startet, Tester gesucht',
@@ -380,75 +721,30 @@ export const de: Messages = {
     share: 'Auf deinem Setup gemessen? Teil es',
   },
 
-  testers: {
-    eyebrow: 'Derzeit in der Beta',
-    title: 'Hilf mit, den Horizont zum Leben zu erwecken.',
-    lede: 'Living Horizon ist jung und läuft auf sehr vielen Kombinationen: Spielversionen, Loader, Versionen von Distant Horizons und Voxy, Shaderpakete, andere Mods. Noch nicht alle wurden ausprobiert. Wenn du damit spielst, sag uns, wie es läuft, gut oder schlecht: Jeder Bericht zählt.',
-    asks: [
-      'Deine Minecraft-Version und dein Loader',
-      'Distant Horizons oder Voxy und deren Version',
-      'Shaderpaket, falls vorhanden (Photon, Complementary…)',
-      'Einzelspieler, LAN oder Server, mit oder ohne die Mod',
-      'Ein Screenshot von dem, was du siehst',
-    ],
-    report: 'Kompatibilität melden',
-    discord: 'Discord beitreten',
-    issue: 'Issue eröffnen',
-    status: 'Teststand',
-    waiting: (builds: number) =>
-      p(builds, {
-        one: 'von {n} Build braucht noch einen ersten Tester',
-        other: 'von {n} Builds brauchen noch einen ersten Tester',
-      }),
-    bar: (tested: number, waiting: number) =>
-      `${p(tested, { one: '{n} Build läuft nachweislich', other: '{n} Builds laufen nachweislich' })}, ${waiting} warten noch`,
-    seen: 'Läuft nachweislich',
-    yours: 'Wartet auf dich',
-    wanted: 'Am meisten gesucht',
-    every: 'Jedes',
-    everyRest: 'Setup verrät uns etwas Neues',
-    loading: 'Ungetestete Kombinationen erscheinen hier, sobald die Projektdaten geladen sind.',
-  },
-
-  contribute: {
+  help: {
     eyebrow: 'Mitmachen',
-    title: 'Bau mit uns.',
-    accent: 'KI willkommen.',
-    text: 'Living Horizon entsteht an einem einzigen Ort, seinem GitHub-Repository. Code, Fixes und Übersetzungen landen dort alle als Pull Requests.',
-    steps: {
-      talk: {
-        title: 'Erst reden',
-        text: 'Öffne bei allem, was über einen kleinen Fix hinausgeht, ein Issue, damit die Richtung abgestimmt ist, bevor die Arbeit gemacht wird.',
-      },
-      pr: {
-        title: 'Pull Request öffnen',
-        text: 'Arbeite auf einem Branch feature/* oder fix/* mit develop als Ziel. Commits sind auf Englisch, als Conventional Commits.',
-      },
-      build: {
-        title: 'Bauen und testen',
-        text: 'Ein einziger Gradle-Build kompiliert die Mod und führt die Tests aus. Die CI führt ihn auch bei jedem Pull Request aus.',
-      },
-      credit: {
-        title: 'Werde genannt',
-        text: 'Trag dich in CREDITS.md ein, und schreib eine Zeile ins Changelog, wenn Spieler die Änderung bemerken werden.',
-      },
+    title: 'Eine Beta,',
+    accent: 'gebaut mit ihren Spielern.',
+    test: {
+      title: 'Teste es auf deinem Setup',
+      text: 'Sag uns, wie es auf deiner Spielversion, deinem Loader und mit deinen Mods läuft, gut oder schlecht. Jeder Bericht hilft.',
+      untested: (n: number) =>
+        p(n, {
+          one: '{n} Build wartet noch auf einen ersten Tester',
+          other: '{n} Builds warten noch auf einen ersten Tester',
+        }),
+      report: 'Kompatibilität melden',
     },
-    aiTitle: 'Du nutzt KI? Nur zu.',
-    aiText:
-      'KI gehört dazu, wie dieses Projekt entsteht, und du kannst sie problemlos für deinen Beitrag nutzen. Denk nur weiter über das nach, was sie schreibt: Lies, verstehe und teste deine Änderung, bevor du den Pull Request öffnest.',
-    claude: {
-      before: 'Claude funktioniert hier am besten: Es liest',
-      between: 'und die Skills in',
-      after: 'von selbst.',
+    code: {
+      title: 'Beitragen',
+      text: 'Code, Fixes und Übersetzungen landen als Pull Requests auf GitHub. KI ist willkommen, solange du liest, verstehst und testest, was sie schreibt.',
+      guide: 'Beitragsleitfaden',
     },
-    terms: {
-      before: 'Mit dem Öffnen eines Pull Requests akzeptierst du Abschnitt 3 der',
-      link: 'Lizenz',
-      after:
-        ': Du behältst dein Urheberrecht und bleibst als Mitwirkender genannt, egal was später passiert.',
+    discord: {
+      title: 'Discord beitreten',
+      text: 'Fragen, Neuigkeiten, Screenshots und Hilfe, mit dem Autor und anderen Spielern.',
+      join: 'Discord beitreten',
     },
-    guide: 'Beitragsleitfaden lesen',
-    issues: 'Offene Issues',
   },
 
   changelog: {
@@ -518,9 +814,11 @@ export const de: Messages = {
             { em: 'Kreaturen‐Sichtweite' },
             ' bis zu ',
             { em: 'Unbegrenzt' },
-            '. Spieler: standardmäßig in jeder Entfernung, was ',
+            '. Spieler, Boote und Fahrzeuge: standardmäßig in jeder Entfernung, was ',
             { em: 'Spieler‐Sichtweite' },
-            ' begrenzen kann. Eine Kreatur erscheint erst, wenn dein Spiel oder der Server sie gesehen hat.',
+            ' und ',
+            { em: 'Objekt‐Sichtweite' },
+            ' begrenzen können. Eine Kreatur erscheint erst, wenn dein Spiel oder der Server sie gesehen hat.',
           ],
         ],
       },
@@ -528,7 +826,7 @@ export const de: Messages = {
         q: 'Funktioniert es mit meiner Mod?',
         a: [
           [
-            'Sehr wahrscheinlich. Voxy, Distant Horizons, Sodium, Iris und Shaderpakete funktionieren damit (siehe ',
+            'Sehr wahrscheinlich. Voxy, Distant Horizons, Lodistance, Ecstatic, Bobby, Sodium, Iris und Shaderpakete funktionieren damit (siehe ',
             { link: 'compatibilitySection', text: 'Kompatibilität' },
             '). Living Horizon fügt nur seine eigenen Figuren hinzu: Es ändert nicht, wie andere Mods die Welt zeichnen. Noch nicht getestete Mods stehen auf GitHub unter dem Label ',
             { link: 'modCompatibility', text: 'mod compatibility' },
@@ -551,10 +849,10 @@ export const de: Messages = {
         ],
       },
       farTerrain: {
-        q: 'Brauche ich Voxy oder Distant Horizons?',
+        q: 'Brauche ich Voxy, Distant Horizons, Lodistance oder Ecstatic?',
         a: [
           [
-            'Nein. Ohne sie erscheinen ferne Kreaturen und Spieler auf dem Gelände des Spiels selbst, bis zu deiner Sichtweite. Mit einem von beiden erscheinen sie auch auf dessen fernem Gelände.',
+            'Nein. Ohne sie erscheinen ferne Kreaturen und Spieler auf dem Gelände des Spiels selbst, bis zu deiner Sichtweite. Mit einer davon erscheinen sie auch auf deren fernem Gelände.',
           ],
         ],
       },
@@ -563,6 +861,8 @@ export const de: Messages = {
         a: [
           [
             'Mehr Objekte zu zeichnen kostet FPS. Wird dein Spiel langsamer, lass ',
+            { em: 'Vereinfachte Kreaturen' },
+            ' und ',
             { em: 'Vereinfachte Objekte' },
             ' an und wähl eine niedrigere ',
             { em: 'Voreinstellung' },
@@ -693,14 +993,14 @@ export const de: Messages = {
         q: 'Wurde es mit KI gemacht?',
         a: [
           [
-            'Ja. Ich bin clixmods, der Autor: ein Full-Stack-Entwickler mit Schwerpunkt Videospiele, und das ist mein Beruf. Ich mache seit 2017 Mods: Karten für Call of Duty: Black Ops III wie ',
-            { link: 'nuketown', text: 'Nuketown Zombies Legacy' },
-            ', mit über einer Million Downloads im Steam Workshop (siehe mein ',
-            { link: 'portfolio', text: 'Portfolio' },
-            '). Die Ideen und Techniken kommen aus der Spieleentwicklung: Impostors, LODs und fertige Animationen sind Tricks, die Spiele seit Jahren nutzen.',
+            'Ja, zum Teil. KI schreibt einen Großteil des Codes. Der Autor, clixmods, entscheidet, wie die Mod funktioniert, testet jede Änderung im Spiel und behebt, was schiefgeht. Ohne KI gäbe es ein Projekt dieser Größe nicht.',
           ],
           [
-            'KI schreibt einen Großteil des Codes. Ich entscheide, wie die Mod funktioniert, teste sie im Spiel und behebe, was schiefgeht. Ohne KI hätte ich für ein Projekt dieser Größe so lange gebraucht, dass ich es gar nicht erst gemacht hätte.',
+            'Die Ideen kommen aus der Spieleentwicklung, dem Beruf von clixmods: Impostors, LODs und fertige Animationen sind Tricks, die Spiele seit Jahren nutzen. clixmods macht seit 2017 Mods, etwa die Karte ',
+            { link: 'nuketown', text: 'Nuketown Zombies Legacy' },
+            ' für Call of Duty: Black Ops III, im Steam Workshop über eine Million Mal heruntergeladen (siehe das ',
+            { link: 'portfolio', text: 'Portfolio' },
+            ').',
           ],
         ],
       },

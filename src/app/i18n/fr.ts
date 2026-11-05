@@ -1,6 +1,6 @@
 import { Messages } from './en';
 import { plural } from './plural';
-import { questions } from './rich';
+import { details, questions } from './rich';
 
 const p = plural('fr');
 
@@ -34,7 +34,6 @@ export const fr: Messages = {
     features: 'Fonctionnalités',
     mods: 'Mods',
     modpacks: 'Modpacks',
-    testers: 'Testeurs',
     faq: 'FAQ',
     download: (version: string) => `Télécharger v${version}`,
   },
@@ -59,7 +58,7 @@ export const fr: Messages = {
   hero: {
     scene:
       "Illustration : un horizon au crépuscule, fait de collines en blocs où villageois, animaux, cavaliers et autres joueurs sont toujours en vie au loin, sous un vol d'oies.",
-    news: 'Le mod tourne maintenant aussi sur serveur',
+    news: 'Nouveau : des troupeaux sur les terres inexplorées',
     tagline: 'Donne vie',
     taglineAccent: 'au lointain.',
     lede: {
@@ -96,43 +95,285 @@ export const fr: Messages = {
     eyebrow: 'Fonctionnalités',
     title: 'Tout ce qui vit',
     accent: "au-delà de ta distance d'affichage.",
-    text: 'Les mobs, les joueurs, les joueurs déconnectés et les oiseaux, dessinés par ton propre jeu, et assez légers pour tout laisser activé.',
+    text: "Les mobs, les troupeaux des terres que personne n'a explorées, les joueurs, les joueurs déconnectés et les oiseaux, dessinés par ton propre jeu, et assez légers pour tout laisser activé.",
     offline: '(hors ligne)',
     near: 'De près : le mob complet',
     far: 'De loin : une image plate',
-    preset: 'Préréglage',
-    presets: ['Bas', 'Normal', 'Élevé', 'Ultra'],
-    mobDistance: "Distance d'affichage des créatures",
+    more: 'Plus de détails',
+    close: 'Fermer',
+    previous: 'Fonctionnalité précédente',
+    next: 'Fonctionnalité suivante',
     items: {
       mobs: {
         title: "Tous les mobs, jusqu'à l'horizon",
-        text: 'Les animaux broutent, les villageois se baladent autour des villages lointains, les golems montent la garde. Tous les mobs que le jeu sait dessiner, y compris ceux des autres mods.',
+        text: 'Les animaux broutent, les villageois se baladent autour des villages lointains, les golems montent la garde. Tous les mobs que le jeu sait dessiner, y compris les mobs et les véhicules des autres mods.',
         points: [
-          'Sur le terrain de Voxy et Distant Horizons, ou en vanilla',
+          "Sur le terrain lointain de Voxy, de Distant Horizons et d'autres, ou en vanilla",
           'Masqués par le relief lointain, même avec un pack de shaders',
           'Choisis lesquels dans Créatures et entités',
         ],
         where: "Partout. Sur un serveur avec le mod, même les mobs que tu n'as jamais croisés.",
+        details: details([
+          {
+            title: "D'où ils viennent",
+            body: [
+              [
+                "Ce sont de vrais mobs, là où ton jeu ou le serveur les a vus pour la dernière fois. Ton jeu se souvient de chaque mob qu'il croise, et un serveur avec le mod partage les mobs autour de chaque joueur : tu vois donc aussi des troupeaux que tu n'as jamais croisés. Un mob mort ou disparu depuis peut encore s'afficher jusqu'à ce que tu t'en approches. Il est alors oublié.",
+              ],
+            ],
+          },
+          {
+            title: 'Sur le terrain lointain',
+            body: [
+              [
+                "Avec Voxy, Distant Horizons, Lodistance, Far View ou Ecstatic, ils marchent sur son sol, se cachent derrière ses collines comme derrière n'importe quel bloc, et se fondent dans son brouillard. Avec Bobby, ils restent sur le terrain qu'il garde. Sans aucun d'eux, ils s'affichent sur le terrain du jeu. Voir ",
+                { link: 'compatibilitySection', text: 'Compatibilité' },
+                '.',
+              ],
+            ],
+          },
+          {
+            title: 'De près, le vrai mob prend le relais',
+            body: [
+              [
+                "Quand tu t'approches, la copie retourne là où le mob a été vu pour la dernière fois, et le vrai mob prend sa place quand le serveur l'envoie. Les mobs lointains sont juste pour le décor : les fermes, l'apparition des mobs et leur limite marchent comme sans le mod, et tu ne peux pas les frapper.",
+              ],
+            ],
+          },
+          {
+            title: 'Les mobs des autres mods',
+            body: [
+              [
+                "Tout ce qui utilise le système d'entités de Minecraft s'affiche de loin : les mobs ajoutés par des mods, et les véhicules comme les avions d'Immersive Aircraft ou les navires de Shippy Ships, là où tu les as laissés.",
+              ],
+            ],
+          },
+          {
+            title: 'Réglages',
+            body: [
+              {
+                list: [
+                  [
+                    { em: 'Afficher les créatures' },
+                    ' et ',
+                    { em: 'Afficher les entités' },
+                    ' : les activer ou les désactiver.',
+                  ],
+                  [{ em: 'Créatures et entités...' }, ' : choisir mob par mob.'],
+                  [
+                    { em: "Distance d'affichage des créatures" },
+                    ' et ',
+                    { em: 'Créatures max' },
+                    " : jusqu'où, et combien à la fois.",
+                  ],
+                ],
+              },
+            ],
+          },
+        ]),
+      },
+      unexplored: {
+        title: "Des troupeaux sur les terres que personne n'a explorées",
+        text: "Les terres où tu n'es jamais allé ont aussi leurs animaux. Le mod calcule, à partir de la graine du monde, lesquels le jeu y placera, et où.",
+        points: [
+          'Les mêmes tirages que ceux du jeu pour chaque nouveau chunk',
+          'Avec une longue-vue, aussi loin que tu vises',
+          "Deviner les créatures : jusqu'à 1 024 chunks autour de toi",
+        ],
+        where: 'En solo, et sur les serveurs avec le mod.',
+        details: details([
+          {
+            title: 'Comment il devine',
+            body: [
+              [
+                'Quand le jeu génère un chunk, il y place ses premiers animaux par des tirages aléatoires faits à partir de la graine du monde et de la position du chunk. Living Horizon fait les mêmes tirages pour les chunks pas encore générés, avec le biome et le relief que donne le générateur de monde : des chevaux dans les plaines, des moutons sur les collines, à peu près là où le jeu les mettra.',
+              ],
+            ],
+          },
+          {
+            title: 'Une estimation, pas une promesse',
+            body: [
+              [
+                "Le terrain qu'il lit n'a encore ni herbe ni arbres. Là où le jeu refuse un emplacement pour cette raison, le troupeau manque ou se trouve ailleurs : environ la moitié des animaux devinés se tiennent à moins de deux blocs des vrais. Un mob deviné peut ne pas être là quand tu arrives.",
+              ],
+            ],
+          },
+          {
+            title: 'La longue-vue et Deviner les créatures',
+            body: [
+              [
+                'Regarde dans une longue-vue pour voir les mobs devinés partout où tu vises, aussi loin que ce soit. ',
+                { em: 'Deviner les créatures' },
+                " les affiche d'un coup jusqu'à 1 024 chunks autour de toi, et les garde pour tes prochaines sessions.",
+              ],
+            ],
+          },
+          {
+            title: 'Sur un serveur',
+            body: [
+              [
+                'Le serveur les devine autour de chaque joueur qui a le mod, sur 512 blocs par défaut (',
+                { code: 'seedMobRange' },
+                ", jusqu'à 2 048). La longue-vue et ",
+                { em: 'Deviner les créatures' },
+                ' ont besoin de la graine du monde : le serveur ne la partage que si son propriétaire active ',
+                { code: 'shareSeed' },
+                ', car qui a la graine connaît le monde entier (voir les ',
+                { link: 'serverSettings', text: 'réglages du serveur' },
+                ').',
+              ],
+            ],
+          },
+          {
+            title: 'Réglages',
+            body: [
+              {
+                list: [
+                  [{ em: 'Créatures devinées' }, ' : les afficher ou les masquer.'],
+                  [
+                    { em: 'Zone devinée' },
+                    ' : la portée de ',
+                    { em: 'Deviner les créatures' },
+                    '.',
+                  ],
+                ],
+              },
+            ],
+          },
+        ]),
       },
       players: {
         title: 'Les joueurs à toute distance',
         text: "Tu vois tous les autres joueurs, où qu'ils soient sur la carte, avec leur skin, leur armure, ce qu'ils ont en main et ce qu'ils chevauchent.",
         points: [
-          'Chevaux, bateaux, wagonnets et ghasts joyeux',
+          'Chevaux, bateaux, wagonnets, élytres et ghasts joyeux',
           'Fluide : le serveur partage les positions cinq fois par seconde',
           'Les joueurs sans le mod peuvent toujours rejoindre',
         ],
         where: 'En LAN, et sur les serveurs avec le mod.',
+        details: details([
+          {
+            title: 'Comment ça marche',
+            body: [
+              [
+                "Un serveur avec le mod partage la position de chaque joueur cinq fois par seconde, avec ce qu'il chevauche et s'il plane avec des élytres. Toutes les cinq secondes, il ajoute l'apparence des plus proches : skin, armure et ce qu'ils ont en main. Ton jeu les dessine au-delà de la distance d'affichage, pseudo et monture compris.",
+              ],
+            ],
+          },
+          {
+            title: 'Le propriétaire du serveur décide',
+            body: [
+              [
+                'Le serveur crée ',
+                { code: 'config/livinghorizon-server.json' },
+                " à son premier démarrage : jusqu'où les joueurs sont partagés, avec les coéquipiers seulement, quels joueurs et dimensions restent cachés. ",
+                { code: '"sharePlayers": false' },
+                " le désactive. Les changements s'appliquent au bout de quelques secondes, sans redémarrage (voir les ",
+                { link: 'serverSettings', text: 'réglages du serveur' },
+                ').',
+              ],
+            ],
+          },
+          {
+            title: 'Jamais partagés',
+            body: [
+              [
+                'Les joueurs en mode spectateur et les joueurs invisibles. Les joueurs accroupis, eux, le sont pour le moment (',
+                { link: 'sneaking', text: '#269' },
+                "). Dans la distance d'affichage, les joueurs se voient comme d'habitude.",
+              ],
+            ],
+          },
+          {
+            title: 'Réglages',
+            body: [
+              {
+                list: [
+                  [{ em: 'Afficher les joueurs' }, ' : les activer ou les désactiver.'],
+                  [{ em: "Distance d'affichage des joueurs" }, " : jusqu'où ils s'affichent."],
+                  [{ em: 'Montures et véhicules' }, " : ce qu'ils chevauchent."],
+                ],
+              },
+            ],
+          },
+        ]),
       },
       offline: {
         title: 'Les joueurs déconnectés continuent de vivre',
-        text: "Quand quelqu'un se déconnecte, une copie à son nom reste là où il est parti. Elle se promène, s'assoit, ouvre des coffres et dort la nuit, jusqu'à son retour.",
+        text: "Quand quelqu'un se déconnecte, une copie à son nom reste là où il est parti. Elle se promène, s'assoit, pêche, ouvre des coffres et dort la nuit, jusqu'à son retour.",
         points: [
           '(hors ligne) après leur pseudo, et quand ils ont été vus pour la dernière fois',
           'Même les joueurs partis avant ton arrivée',
-          'Juste pour le décor : ils ne gênent jamais ni toi ni les mobs',
+          'Juste pour le décor : bouscule-les pour les écarter',
         ],
         where: 'Partout. Sur un serveur avec le mod, tous les joueurs qui y ont déjà joué.',
+        details: details([
+          {
+            title: 'Leur journée',
+            body: [
+              {
+                list: [
+                  [
+                    "Le jour, ils se promènent, s'assoient, ou se tiennent devant un coffre, un établi ou un bloc de métier.",
+                  ],
+                  ["La nuit, ils vont jusqu'à un lit libre pour y dormir, ou restent debout."],
+                  ["Près de l'eau, l'un d'eux s'arrête sur la rive pour pêcher un moment."],
+                  [
+                    "Sous la pluie, certains s'abritent sous un toit ou un arbre et attendent qu'elle s'arrête.",
+                  ],
+                  ['Le soir, ils se rassemblent devant un feu de camp ou un fourneau.'],
+                  [
+                    "Quand deux d'entre eux sont proches, ils se rejoignent et discutent face à face.",
+                  ],
+                ],
+              },
+            ],
+          },
+          {
+            title: 'Ils te remarquent',
+            body: [
+              [
+                "Regarde-en un de près et il te regarde en retour. Accroupis-toi devant lui et il s'accroupit aussi. Quand des monstres approchent, ils sortent l'épée et lèvent leur bouclier, mais ne se battent jamais.",
+              ],
+            ],
+          },
+          {
+            title: 'Juste pour le décor',
+            body: [
+              [
+                "Le monde ne sait pas qu'ils existent : les mobs les ignorent, et ils ne te bloquent ni ne te poussent jamais. Bouscule-les pour les écarter. Loin de toi, ils continuent de se promener là où ils sont.",
+              ],
+            ],
+          },
+          {
+            title: "D'où ils viennent",
+            body: [
+              [
+                "Ton jeu se souvient des joueurs qu'il a vus partir. Un serveur avec le mod partage tous les joueurs qui y ont déjà joué, tels qu'ils étaient, même ceux partis avant ton arrivée.",
+              ],
+            ],
+          },
+          {
+            title: 'Réglages',
+            body: [
+              {
+                list: [
+                  [
+                    { em: 'Joueurs déconnectés' },
+                    ' et ',
+                    { em: 'Déconnectés max' },
+                    " : s'ils s'affichent, et combien.",
+                  ],
+                  [
+                    { em: 'Vie des déconnectés' },
+                    " : leur vie autour de l'endroit où ils sont partis.",
+                  ],
+                  [{ em: 'Rayon de balade' }, " : jusqu'où ils s'éloignent, 50 blocs par défaut."],
+                ],
+              },
+            ],
+          },
+        ]),
       },
       birds: {
         title: 'Des oiseaux dans le ciel',
@@ -143,6 +384,58 @@ export const fr: Messages = {
           'Petits modèles 3D de près, images plates au loin',
         ],
         where: 'Partout, rien à régler.',
+        details: details([
+          {
+            title: 'Qui vole où',
+            body: [
+              {
+                list: [
+                  ['Des volées traversent le ciel, les oies volent en V, les rapaces tournoient.'],
+                  ['Les mouettes suivent la côte et se posent de temps en temps sur la plage.'],
+                  [
+                    'Les pigeons se perchent sur les grands bâtiments, les rouges-gorges sautillent dans les champs, les mésanges restent dans les arbres.',
+                  ],
+                  [
+                    'Les canards nagent sur les lacs et les rivières. Les chauves-souris sortent la nuit.',
+                  ],
+                ],
+              },
+            ],
+          },
+          {
+            title: 'Ils réagissent à toi',
+            body: [
+              [
+                "Les petits oiseaux s'envolent quand tu t'approches et se posent un peu plus loin. Les canards ne te laissent jamais approcher. Les oiseaux qui partent ne disparaissent jamais d'un coup : ils s'éparpillent et rapetissent au loin.",
+              ],
+            ],
+          },
+          {
+            title: 'Guidés par le terrain',
+            body: [
+              [
+                "L'endroit où va chaque espèce est lu sur le terrain, jusqu'au terrain lointain de Voxy et Distant Horizons : les cultures pour les rouges-gorges, les feuilles pour les mésanges, l'eau pour les canards, les plages pour les mouettes. Ce ne sont que des images dans ton jeu : rien n'apparaît dans le monde.",
+              ],
+            ],
+          },
+          {
+            title: 'Réglages',
+            body: [
+              {
+                list: [
+                  [{ em: 'Afficher les oiseaux' }, ' : les activer ou les désactiver.'],
+                  [{ em: "Types d'oiseaux..." }, ' : choisir espèce par espèce.'],
+                  [
+                    { em: 'Densité des oiseaux' },
+                    ' et ',
+                    { em: 'Distance des oiseaux' },
+                    " : combien, et jusqu'où.",
+                  ],
+                ],
+              },
+            ],
+          },
+        ]),
       },
       light: {
         title: 'Pensé pour rester léger',
@@ -150,19 +443,82 @@ export const fr: Messages = {
         points: [
           'Les mobs cachés derrière les collines ne sont pas dessinés',
           'Baisse ta distance de simulation et garde un monde vivant',
-          'Entités simplifiées : bien plus de mobs pour le même coût',
+          'Créatures simplifiées : bien plus de mobs pour le même coût',
         ],
         where: 'Tout tourne sur ton jeu. Le serveur ne fait que partager des positions.',
-      },
-      settings: {
-        title: 'Des réglages là où tu les cherches',
-        text: "Dans l'écran Options, Mod Menu, les Paramètres vidéo de Sodium, ou avec /livinghorizon config. Chaque réglage explique ce qu'il fait.",
-        points: [
-          "Les préréglages Bas, Normal, Élevé et Ultra règlent tout d'un coup",
-          'En 14 langues',
-          'Réinitialiser remet tout par défaut',
-        ],
-        where: 'Les valeurs par défaut sont le bon équilibre.',
+        details: details([
+          {
+            title: "Pas d'IA au loin",
+            body: [
+              [
+                "Les mobs lointains marchent, broutent et regardent autour d'eux avec des animations toutes prêtes, adaptées au terrain. Les joueurs déconnectés et les oiseaux n'agissent d'eux-mêmes que près de toi.",
+              ],
+            ],
+          },
+          {
+            title: 'Des images plates au loin',
+            body: [
+              [
+                "Beaucoup de jeux dessinent les objets lointains sous forme d'impostors : une image plate au lieu d'un modèle 3D. Living Horizon fait pareil pour les mobs, les véhicules et les joueurs lointains (",
+                { em: 'Créatures simplifiées' },
+                ', ',
+                { em: 'Entités simplifiées' },
+                ', ',
+                { em: 'Joueurs simplifiés' },
+                '). À cette taille, on ne voit pas la différence, pour une fraction du coût. Avec un pack de shaders qui lit les cartes de normales, comme Photon, les images sont éclairées par le pack (',
+                { em: 'Éclairage des shaders' },
+                ').',
+              ],
+            ],
+          },
+          {
+            title: 'Caché, donc ignoré',
+            body: [
+              [
+                "Les mobs derrière les collines ou le terrain lointain ne sont pas dessinés du tout, et les animations s'arrêtent dès qu'une silhouette est trop petite pour qu'on la remarque.",
+              ],
+            ],
+          },
+          {
+            title: 'Tout tourne sur ton jeu',
+            body: [
+              [
+                "Ton jeu s'occupe des animations, des joueurs déconnectés et des oiseaux. Un serveur avec le mod ne fait que partager des positions, ce qui lui coûte peu. Deux joueurs peuvent même voir le même mob lointain faire des choses différentes.",
+              ],
+            ],
+          },
+          {
+            title: 'Préréglages et réglages',
+            body: [
+              [
+                'Un ',
+                { em: 'Préréglage' },
+                ' (',
+                { em: 'Bas' },
+                ', ',
+                { em: 'Normal' },
+                ', ',
+                { em: 'Élevé' },
+                ', ',
+                { em: 'Ultra' },
+                ") règle tout d'un coup. Les valeurs par défaut sont le bon équilibre, et ",
+                { em: 'Réinitialiser' },
+                " les remet. Les réglages sont dans l'écran Options, Mod Menu, les Paramètres vidéo de Sodium ou ",
+                { code: '/livinghorizon config' },
+                ', en 14 langues.',
+              ],
+              [
+                'Attention : ',
+                { em: 'Créatures max' },
+                ' et ',
+                { em: "Distance d'affichage des créatures" },
+                ' tous les deux sur ',
+                { em: 'Illimité' },
+                ' peuvent faire planter le jeu.',
+              ],
+            ],
+          },
+        ]),
       },
     },
   },
@@ -220,21 +576,6 @@ export const fr: Messages = {
     accent: 'Tout le monde voit tout le monde.',
     text: 'Le même jar tourne sur les serveurs. Le serveur partage où se trouve chaque joueur, les mobs autour de lui et les joueurs déconnectés, avec tous ceux qui ont le mod.',
     cover: 'Le titre Living Horizon devant une foule de têtes de joueurs et de mobs.',
-    since: (version: string) => `Support serveur depuis la ${version}`,
-    steps: {
-      jar: {
-        title: 'Mets le jar dans le dossier mods du serveur',
-        text: 'Le même fichier que pour ton jeu, pour la version de Minecraft et le loader du serveur, plus la Fabric API sur Fabric et Quilt. Garde-le à jour des deux côtés.',
-      },
-      start: {
-        title: 'Lance le serveur',
-        text: "Rien à régler. Le serveur garde ce qu'il partage dans le dossier du monde, donc tout est encore là après un redémarrage.",
-      },
-      see: {
-        title: 'Les joueurs avec le mod voient tout le monde',
-        text: "Tous les joueurs à n'importe quelle distance, avec leur skin, leur armure et leur monture, et les mobs autour d'eux, même ceux qu'ils n'ont jamais croisés.",
-      },
-    },
     matrixTitle: 'Ce que tu vois, selon où tu joues',
     matrixText: "Tout marche en solo. Sur un serveur, c'est le mod côté serveur qui fait le reste.",
     matrixLabel: 'Fonctionnalités selon le mode de jeu',
@@ -244,6 +585,7 @@ export const fr: Messages = {
       mobs: "Mobs à l'horizon",
       players: 'Joueurs à toute distance',
       offline: 'Joueurs déconnectés',
+      unexplored: 'Troupeaux des terres inexplorées',
       birds: 'Oiseaux',
     },
     cells: {
@@ -256,6 +598,10 @@ export const fr: Messages = {
     noOthers: "Pas d'autres joueurs",
     notApplicable: 'Sans objet',
     notes: {
+      install: {
+        title: 'Mets le jar dans le dossier mods du serveur',
+        text: 'Le même fichier que pour ton jeu, plus la Fabric API sur Fabric et Quilt. Rien à régler.',
+      },
       lan: {
         title: 'LAN : rien à installer',
         text: "Un monde ouvert au LAN partage tout via le jeu de l'hôte.",
@@ -268,38 +614,31 @@ export const fr: Messages = {
         title: 'Préviens tes joueurs',
         text: 'Le serveur partage la position de chaque joueur avec les joueurs qui ont le mod.',
       },
-      datapack: {
-        title: 'Tu utilisais le datapack ?',
-        text: 'Retire-le du dossier datapacks du monde : le mod côté serveur le remplace.',
-      },
     },
   },
 
   compatibility: {
     eyebrow: 'Compatibilité',
-    title: 'Fait pour le terrain lointain.',
-    accent: 'Très bien sans.',
-    text: "Living Horizon détecte tout seul Distant Horizons ou Voxy et dessine les mobs et les joueurs directement sur leur terrain. Sans eux, il garde le monde vivant au-delà de ta distance d'affichage.",
-    works: 'Compatible',
+    title: 'Distant Horizons, Voxy, Ecstatic…',
+    accent: 'ou rien du tout.',
+    text: "Living Horizon détecte tout seul ton mod de terrain lointain : les mobs et les joueurs marchent sur son sol, se cachent derrière ses collines et se fondent dans son brouillard. Sans lui, il garde le monde vivant au-delà de ta distance d'affichage.",
     cards: {
       dh: {
-        text: 'Les mobs et les joueurs sont dessinés sur son terrain lointain et se cachent derrière ses collines. À partir de Distant Horizons 2.3.',
-        link: 'Télécharger Distant Horizons',
+        text: 'À partir de la 2.3. Les mobs et les joueurs sur son terrain, derrière ses collines.',
       },
-      voxy: {
-        text: "L'horizon du terrain de Voxy prend vie : animaux qui broutent, villages lointains, joueurs en vadrouille.",
-        link: 'Télécharger Voxy',
+      voxy: { text: 'Les mobs et les joueurs sur son terrain, même avec un pack de shaders.' },
+      lodistance: { text: 'Fabric, Minecraft 26.3, avec OpenGL et sans shaders.' },
+      farView: { text: 'Forge et NeoForge, Minecraft 1.20.1 à 1.21.4. Les mobs sur son terrain.' },
+      ecstatic: { text: 'NeoForge, Minecraft 1.21.1, en solo. Les mobs sur son terrain.' },
+      bobby: {
+        text: "Les mobs et les joueurs sur le terrain qu'il garde au-delà de la distance d'affichage du serveur.",
       },
+      iris: { text: 'Les packs de shaders marchent, comme Photon et Complementary Unbound.' },
       vanilla: {
         title: 'Vanilla',
-        text: "Pas besoin de mod de terrain lointain. Joue avec une distance d'affichage et de simulation basse, et vois quand même un monde vivant.",
+        text: "Pas besoin de mod de terrain lointain : baisse ta distance d'affichage et de simulation, et vois quand même un monde vivant.",
       },
     },
-    extras: [
-      'Packs de shaders Iris (Photon, Complementary…)',
-      "Le même jar sur les serveurs, ou rejoins n'importe quel serveur qui ne l'a pas",
-      'Réglages dans les Paramètres vidéo de Sodium (0.8+)',
-    ],
     /** The link to the compatible mods page, under the cards. */
     others: {
       title: 'Et tes autres mods ?',
@@ -314,6 +653,7 @@ export const fr: Messages = {
     },
     matrixTitle: 'Versions de Minecraft et loaders',
     matrixText: 'Un jar par version du jeu et par loader.',
+    report: 'Tu en as testé un ? Dis-le-nous',
     builds: (builds: number, range: string) =>
       p(builds, {
         one: `{n} build, pour ${range}.`,
@@ -384,81 +724,31 @@ export const fr: Messages = {
     share: 'Tu as mesuré sur ta config ? Partage-le',
   },
 
-  testers: {
-    eyebrow: 'Actuellement en bêta',
-    title: "Aide-nous à donner vie à l'horizon.",
-    lede: "Living Horizon est jeune et tourne sur énormément de combinaisons : versions du jeu, loaders, versions de Distant Horizons et Voxy, packs de shaders, autres mods. Elles n'ont pas encore toutes été essayées. Si tu joues avec, dis-nous comment ça tourne, en bien comme en mal : chaque retour compte.",
-    asks: [
-      'Ta version de Minecraft et ton loader',
-      'Distant Horizons ou Voxy, et leur version',
-      'Ton pack de shaders, si tu en as un (Photon, Complementary…)',
-      'Solo, LAN ou serveur, avec ou sans le mod',
-      "Une capture d'écran de ce que tu vois",
-    ],
-    report: 'Faire un retour',
-    discord: 'Rejoindre le Discord',
-    issue: 'Ouvrir une issue',
-    status: 'État des tests',
-    waiting: (builds: number) =>
-      p(builds, {
-        one: 'sur {n} build encore sans testeur',
-        many: 'sur {n} de builds encore sans testeur',
-        other: 'sur {n} builds encore sans testeur',
-      }),
-    bar: (tested: number, waiting: number) =>
-      `${p(tested, {
-        one: '{n} build vu fonctionner',
-        many: '{n} de builds vus fonctionner',
-        other: '{n} builds vus fonctionner',
-      })}, ${waiting} en attente`,
-    seen: 'Vu fonctionner',
-    yours: "N'attend que toi",
-    wanted: 'Les plus recherchés',
-    every: 'Chaque',
-    everyRest: 'config nous apprend quelque chose de nouveau',
-    loading:
-      "Les combinaisons pas encore testées s'affichent ici dès que les données du projet sont chargées.",
-  },
-
-  contribute: {
-    eyebrow: 'Contribuer',
-    title: 'Construis-le avec nous.',
-    accent: "L'IA est la bienvenue.",
-    text: 'Living Horizon se fait en un seul endroit : son dépôt GitHub. Le code, les corrections et les traductions y arrivent tous sous forme de pull requests.',
-    steps: {
-      talk: {
-        title: "Discute d'abord",
-        text: "Pour tout ce qui dépasse une petite correction, ouvre une issue, pour se mettre d'accord sur la direction avant de faire le travail.",
-      },
-      pr: {
-        title: 'Ouvre une pull request',
-        text: 'Travaille sur une branche feature/* ou fix/* et vise develop. Les commits sont en anglais, au format Conventional Commits.',
-      },
-      build: {
-        title: 'Compile et teste',
-        text: 'Un seul build Gradle compile le mod et lance les tests. La CI le lance aussi sur chaque pull request.',
-      },
-      credit: {
-        title: 'Sois crédité',
-        text: 'Ajoute-toi dans CREDITS.md, et une ligne au journal des modifications si les joueurs verront le changement.',
-      },
+  help: {
+    eyebrow: 'Participer',
+    title: 'Une bêta,',
+    accent: 'construite avec ses joueurs.',
+    test: {
+      title: 'Teste-le sur ta config',
+      text: 'Dis-nous comment il tourne sur ta version du jeu, ton loader et tes mods, en bien comme en mal. Chaque retour aide.',
+      untested: (n: number) =>
+        p(n, {
+          one: '{n} build attend encore un premier testeur',
+          many: '{n} de builds attendent encore un premier testeur',
+          other: '{n} builds attendent encore un premier testeur',
+        }),
+      report: 'Faire un retour',
     },
-    aiTitle: "Tu utilises l'IA ? Vas-y.",
-    aiText:
-      "L'IA fait partie de la façon dont ce projet est fait, et tu peux t'en servir pour contribuer, aucun problème. Continue juste à réfléchir à ce qu'elle écrit : lis, comprends et teste ton changement avant d'ouvrir la pull request.",
-    claude: {
-      before: "Claude est le plus à l'aise ici : il lit",
-      between: 'et les skills de',
-      after: 'tout seul.',
+    code: {
+      title: 'Contribuer',
+      text: "Le code, les corrections et les traductions arrivent sous forme de pull requests sur GitHub. L'IA est la bienvenue, tant que tu lis, comprends et testes ce qu'elle écrit.",
+      guide: 'Guide de contribution',
     },
-    terms: {
-      before: 'En ouvrant une pull request, tu acceptes la section 3 de la',
-      link: 'licence',
-      after:
-        " : tu gardes tes droits d'auteur, et tu restes crédité comme contributeur quoi qu'il arrive ensuite.",
+    discord: {
+      title: 'Rejoins le Discord',
+      text: "Questions, nouveautés, captures d'écran et entraide, avec l'auteur et d'autres joueurs.",
+      join: 'Rejoindre le Discord',
     },
-    guide: 'Lire le guide de contribution',
-    issues: 'Issues ouvertes',
   },
 
   changelog: {
@@ -530,12 +820,14 @@ export const fr: Messages = {
         a: [
           [
             "Les mobs : 512 blocs par défaut, jusqu'à ",
-            { em: 'Illimité' },
+            { em: 'Illimitée' },
             ' avec ',
             { em: "Distance d'affichage des créatures" },
-            ". Les joueurs : à n'importe quelle distance par défaut, ce que ",
+            ". Les joueurs, les bateaux et les véhicules : à n'importe quelle distance par défaut, ce que ",
             { em: "Distance d'affichage des joueurs" },
-            " peut limiter. Un mob ne s'affiche qu'une fois que ton jeu ou le serveur l'a vu.",
+            ' et ',
+            { em: "Distance d'affichage des entités" },
+            " peuvent limiter. Un mob ne s'affiche qu'une fois que ton jeu ou le serveur l'a vu.",
           ],
         ],
       },
@@ -543,7 +835,7 @@ export const fr: Messages = {
         q: 'Ça marche avec mon mod ?',
         a: [
           [
-            'Très probablement. Voxy, Distant Horizons, Sodium, Iris et les packs de shaders marchent avec (voir ',
+            'Très probablement. Voxy, Distant Horizons, Lodistance, Ecstatic, Bobby, Sodium, Iris et les packs de shaders marchent avec (voir ',
             { link: 'compatibilitySection', text: 'Compatibilité' },
             "). Living Horizon ajoute seulement ses propres silhouettes : il ne change pas la façon dont les autres mods dessinent le monde. Les mods pas encore testés sont listés sous l'étiquette ",
             { link: 'modCompatibility', text: 'mod compatibility' },
@@ -566,10 +858,10 @@ export const fr: Messages = {
         ],
       },
       farTerrain: {
-        q: "J'ai besoin de Voxy ou de Distant Horizons ?",
+        q: "J'ai besoin de Voxy, de Distant Horizons, de Lodistance ou d'Ecstatic ?",
         a: [
           [
-            "Non. Sans eux, les mobs et les joueurs lointains s'affichent sur le terrain du jeu, jusqu'à ta distance d'affichage. Avec l'un des deux, ils s'affichent aussi sur son terrain lointain.",
+            "Non. Sans eux, les mobs et les joueurs lointains s'affichent sur le terrain du jeu, jusqu'à ta distance d'affichage. Avec l'un d'eux, ils s'affichent aussi sur son terrain lointain.",
           ],
         ],
       },
@@ -578,8 +870,10 @@ export const fr: Messages = {
         a: [
           [
             "Dessiner plus d'entités coûte des FPS. Si ton jeu ralentit, garde ",
+            { em: 'Créatures simplifiées' },
+            ' et ',
             { em: 'Entités simplifiées' },
-            ' activé et choisis un ',
+            ' activés et choisis un ',
             { em: 'Préréglage' },
             ' plus bas. ',
             { em: 'Créatures max' },
@@ -706,14 +1000,14 @@ export const fr: Messages = {
         q: "Il a été fait avec de l'IA ?",
         a: [
           [
-            "Oui. Je suis clixmods, l'auteur : développeur full-stack spécialisé dans le jeu vidéo, c'est mon métier. Je fais des mods depuis 2017 : des maps pour Call of Duty: Black Ops III comme ",
-            { link: 'nuketown', text: 'Nuketown Zombies Legacy' },
-            ", avec plus d'un million de téléchargements sur le Steam Workshop (voir mon ",
-            { link: 'portfolio', text: 'portfolio' },
-            '). Les idées et les techniques viennent du développement de jeux : les impostors, les LOD et les animations toutes prêtes sont des astuces que les jeux utilisent depuis des années.',
+            "Oui, en partie. L'IA écrit une grande partie du code. L'auteur, clixmods, décide comment le mod fonctionne, teste chaque changement en jeu et corrige ce qui ne va pas. Sans l'IA, un projet de cette taille n'existerait pas.",
           ],
           [
-            "L'IA écrit une grande partie du code. Je décide comment le mod fonctionne, je le teste en jeu et je corrige ce qui ne va pas. Sans l'IA, un projet de cette taille m'aurait pris bien trop de temps pour exister.",
+            'Les idées viennent du développement de jeux vidéo, le métier de clixmods : les impostors, les LOD et les animations toutes prêtes sont des astuces que les jeux utilisent depuis des années. clixmods fait des mods depuis 2017, comme la map ',
+            { link: 'nuketown', text: 'Nuketown Zombies Legacy' },
+            " pour Call of Duty: Black Ops III, téléchargée plus d'un million de fois sur le Steam Workshop (voir son ",
+            { link: 'portfolio', text: 'portfolio' },
+            ').',
           ],
         ],
       },

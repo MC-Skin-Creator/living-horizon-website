@@ -43,6 +43,10 @@ export const LINKS = {
   voxy: 'https://modrinth.com/mod/voxy',
   distantHorizons: 'https://modrinth.com/mod/distanthorizons',
   iris: 'https://modrinth.com/mod/iris',
+  lodistance: 'https://www.curseforge.com/minecraft/mc-mods/lodistance',
+  farView: 'https://www.curseforge.com/minecraft/mc-mods/far-view',
+  ecstatic: 'https://modrinth.com/mod/ecstatic',
+  bobby: 'https://modrinth.com/mod/bobby',
   fabricApi: 'https://modrinth.com/mod/fabric-api',
   fabricLoader: 'https://fabricmc.net/use/',
   /** Linked from the FAQ. */

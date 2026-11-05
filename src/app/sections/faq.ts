@@ -1,11 +1,10 @@
-import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SITE } from '../config/site';
 import { Messages } from '../i18n/en';
 import { I18n } from '../i18n/i18n';
-import { Block, LinkKey, Segment } from '../i18n/rich';
 import { Icon } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
+import { RichText } from '../shared/rich-text';
 
 type Groups = Messages['faq']['groups'];
 type Questions = Messages['faq']['questions'];
@@ -23,25 +22,8 @@ const GROUPS: { key: keyof Groups; questions: (keyof Questions)[] }[] = [
 @Component({
   selector: 'lh-faq',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, Reveal, NgTemplateOutlet],
+  imports: [Icon, Reveal, RichText],
   template: `
-    <ng-template #rich let-parts>
-      @for (p of asSegments(parts); track $index) {
-        @if (isText(p)) {
-          <!-- In a container: no space is added around the text, it carries its own. -->
-          <ng-container>{{ p }}</ng-container>
-        } @else if ('em' in p) {
-          <em>{{ p.em }}</em>
-        } @else if ('code' in p) {
-          <code>{{ p.code }}</code>
-        } @else if (isAnchor(p.link)) {
-          <a [href]="site.links[p.link]">{{ p.text }}</a>
-        } @else {
-          <a [href]="site.links[p.link]" target="_blank" rel="noopener">{{ p.text }}</a>
-        }
-      }
-    </ng-template>
-
     @let t = i18n.t().faq;
     <section class="section" id="faq">
       <div class="container">
@@ -65,25 +47,7 @@ const GROUPS: { key: keyof Groups; questions: (keyof Questions)[] }[] = [
                       <span>{{ item.q }}</span>
                       <lh-icon name="plus" />
                     </summary>
-                    <div class="answer">
-                      @for (block of item.a; track $index) {
-                        @if (listOf(block); as items) {
-                          <ul>
-                            @for (li of items; track $index) {
-                              <li>
-                                <ng-container
-                                  *ngTemplateOutlet="rich; context: { $implicit: li }"
-                                />
-                              </li>
-                            }
-                          </ul>
-                        } @else {
-                          <p>
-                            <ng-container *ngTemplateOutlet="rich; context: { $implicit: block }" />
-                          </p>
-                        }
-                      }
-                    </div>
+                    <lh-rich class="answer" [blocks]="item.a" />
                   </details>
                 }
               </div>
@@ -108,21 +72,4 @@ export class Faq {
   protected readonly site = SITE;
   protected readonly i18n = inject(I18n);
   protected readonly groups = GROUPS;
-
-  /** The template outlet's context is untyped. */
-  protected asSegments(parts: unknown): Segment[] {
-    return parts as Segment[];
-  }
-
-  protected isText(p: Segment): p is string {
-    return typeof p === 'string';
-  }
-
-  protected isAnchor(link: LinkKey): boolean {
-    return SITE.links[link].startsWith('#');
-  }
-
-  protected listOf(block: Block): Segment[][] | null {
-    return Array.isArray(block) ? null : block.list;
-  }
 }

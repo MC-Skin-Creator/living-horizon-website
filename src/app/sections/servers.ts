@@ -38,22 +38,8 @@ const WITH_MOD = 2;
               loading="lazy"
               [alt]="t.cover"
             />
-            <figcaption>
-              <span class="tag">{{ i18n.t().common.new }}</span> {{ t.since('0.10.0') }}
-            </figcaption>
           </figure>
         </div>
-
-        <ol class="steps">
-          @for (s of steps; track s.key; let i = $index) {
-            <li class="card step" [lhReveal]="i * 80">
-              <span class="num">{{ i + 1 }}</span>
-              <span class="icon"><lh-icon [name]="s.icon" /></span>
-              <h3>{{ t.steps[s.key].title }}</h3>
-              <p>{{ t.steps[s.key].text }}</p>
-            </li>
-          }
-        </ol>
 
         <div class="card matrix" lhReveal>
           <div class="matrix-head">
@@ -131,12 +117,6 @@ export class Servers {
   protected readonly i18n = inject(I18n);
   protected readonly withMod = WITH_MOD;
 
-  protected readonly steps: { key: keyof ServerTexts['steps']; icon: IconName }[] = [
-    { key: 'jar', icon: 'download' },
-    { key: 'start', icon: 'server' },
-    { key: 'see', icon: 'users' },
-  ];
-
   /** Single player, LAN world, server with the mod, server without it. */
   protected readonly rows: { feature: keyof ServerTexts['rows']; cells: Cell[] }[] = [
     { feature: 'mobs', cells: ['yes', 'yes', 'yes', { words: 'mobsMet' }] },
@@ -145,14 +125,15 @@ export class Servers {
       feature: 'offline',
       cells: ['yes', 'yes', { words: 'offlineEven' }, { words: 'offlineSeen' }],
     },
+    { feature: 'unexplored', cells: ['yes', 'yes', 'yes', 'no'] },
     { feature: 'birds', cells: ['yes', 'yes', 'yes', 'yes'] },
   ];
 
   protected readonly notes: { key: keyof ServerTexts['notes']; icon: IconName }[] = [
+    { key: 'install', icon: 'download' },
     { key: 'lan', icon: 'wifi' },
     { key: 'join', icon: 'check' },
     { key: 'tell', icon: 'shield' },
-    { key: 'datapack', icon: 'box' },
   ];
 
   protected kind(cell: Cell): 'yes' | 'no' | 'none' | 'words' {

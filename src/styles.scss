@@ -60,6 +60,11 @@ body {
   overflow-x: hidden;
 }
 
+/* A window open over the page (a feature's details): the page behind stays still. */
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+
 img,
 svg,
 canvas {
