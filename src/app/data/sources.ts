@@ -298,10 +298,26 @@ async function compatFromGitHub(rows: CompatMod[], issues: any[]): Promise<Compa
     });
   }
   const resolved = await pool(drafts, 4, resolveDraft);
-  return resolved
+  // A mod the README lists is settled there: a request to test it, or a closed issue about it,
+  // would only show it a second time. A problem still open about it keeps its own card.
+  const readme = resolved.filter((_, i) => drafts[i].fromReadme).flat();
+  const others = resolved
+    .filter((_, i) => !drafts[i].fromReadme)
     .flat()
+    .filter((m) => m.status === 'issue' || !readme.some((r) => sameMod(r, m)));
+  return [...readme, ...others]
     .map((m) => ({ ...m, kind: kindOf(m) }))
     .sort((a, b) => a.name.localeCompare(b.name));
+}
+
+/** The same mod: the same name, or the same page on Modrinth or CurseForge. */
+function sameMod(a: CompatMod, b: CompatMod): boolean {
+  const page = (url: string | null) => url?.replace(/\/+$/, '').toLowerCase() || null;
+  return (
+    a.name.trim().toLowerCase() === b.name.trim().toLowerCase() ||
+    (!!page(a.modrinth) && page(a.modrinth) === page(b.modrinth)) ||
+    (!!page(a.curseforge) && page(a.curseforge) === page(b.curseforge))
+  );
 }
 
 /** A shader pack, by where its pages are: `modrinth.com/shader/…`, `…/minecraft/shaders/…`. */

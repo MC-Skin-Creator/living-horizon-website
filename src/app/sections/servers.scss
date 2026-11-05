@@ -109,34 +109,6 @@ thead th.hl {
   background: color-mix(in srgb, var(--bg-raise) 85%, var(--sun));
 }
 
-.st {
-  display: inline-grid;
-  place-items: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 7px;
-  font-weight: 800;
-
-  lh-icon {
-    width: 15px;
-    height: 15px;
-  }
-
-  &.yes {
-    color: #0f2a15;
-    background: var(--grass);
-  }
-
-  &.no {
-    color: var(--danger);
-    background: rgb(255 123 123 / 0.12);
-  }
-
-  &.none {
-    color: var(--dim);
-  }
-}
-
 .words {
   display: inline-block;
   max-width: 190px;

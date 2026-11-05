@@ -2,14 +2,9 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Benchmark, SITE } from '../config/site';
 import { Messages } from '../i18n/en';
 import { I18n } from '../i18n/i18n';
-import { Icon, IconName } from '../shared/icon';
+import { Icon } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
-
-/**
- * The "Optimized rendering" explanation above the numbers. Off for now: the section shows
- * the measured stats alone.
- */
-const SHOW_DESIGN = false;
+import { SectionHead } from '../shared/section-head';
 
 type PerformanceTexts = Messages['performance'];
 type Slot = keyof PerformanceTexts['slots'];
@@ -23,44 +18,13 @@ const SLOTS: Slot[] = ['fps', 'mobs', 'distance', 'frame'];
 @Component({
   selector: 'lh-performance',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, Reveal],
+  imports: [Icon, Reveal, SectionHead],
   template: `
     @let t = i18n.t().performance;
     <section class="section" id="performance">
-      @if (showDesign) {
-        <div class="container grid">
-          <header class="section-head" lhReveal>
-            <span class="eyebrow">{{ t.design.eyebrow }}</span>
-            <h2>
-              {{ t.design.title }}{{ i18n.gap() }}<span class="accent">{{ t.design.accent }}</span>
-            </h2>
-            <p>{{ t.design.text }}</p>
-          </header>
-
-          <div class="cards">
-            @for (c of cards; track c.key; let i = $index) {
-              <article class="card point" [lhReveal]="i * 60">
-                <span class="icon"><lh-icon [name]="c.icon" /></span>
-                <div>
-                  <h3>{{ t.design.cards[c.key].title }}</h3>
-                  <p>{{ t.design.cards[c.key].text }}</p>
-                </div>
-              </article>
-            }
-          </div>
-        </div>
-      }
-
       <div class="container">
-        @if (!showDesign) {
-          <header class="section-head" lhReveal>
-            <span class="eyebrow">{{ t.eyebrow }}</span>
-            <h2>
-              {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
-            </h2>
-          </header>
-        }
-        <div class="bench card" [class.alone]="!showDesign" lhReveal>
+        <header lhHead [texts]="t" lhReveal></header>
+        <div class="bench card" lhReveal>
           <div class="bench-head">
             <h3>{{ t.numbers }}</h3>
             <p>
@@ -98,7 +62,6 @@ const SLOTS: Slot[] = ['fps', 'mobs', 'distance', 'frame'];
 })
 export class Performance {
   protected readonly i18n = inject(I18n);
-  protected readonly showDesign = SHOW_DESIGN;
   protected readonly discord = SITE.links.discord;
   protected readonly hasNumbers = SITE.benchmarks.length > 0;
   protected readonly slots = SLOTS.map((slot) => ({
@@ -106,13 +69,6 @@ export class Performance {
     bench: SITE.benchmarks.find((b: Benchmark) => b.slot === slot) ?? null,
   }));
   protected readonly shown = this.hasNumbers ? this.slots.filter((s) => s.bench) : this.slots;
-
-  protected readonly cards: { key: keyof PerformanceTexts['design']['cards']; icon: IconName }[] = [
-    { key: 'pictures', icon: 'feather' },
-    { key: 'hidden', icon: 'eye' },
-    { key: 'presets', icon: 'sliders' },
-    { key: 'server', icon: 'server' },
-  ];
 
   /** How a benchmark was measured, from `performance.setups`. */
   protected setup(t: PerformanceTexts, slot: Slot): string {

@@ -5,6 +5,7 @@ import { ProjectData } from '../data/project-data';
 import { I18n } from '../i18n/i18n';
 import { Icon } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
+import { SectionHead } from '../shared/section-head';
 
 /** Cards on the home page, the most downloaded; the modpacks page shows them all. */
 const HOME_SHOWN = 3;
@@ -17,22 +18,12 @@ const PLATFORMS: Record<ModpackLink['platform'], { name: string; logo: string }>
 @Component({
   selector: 'lh-modpacks',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, Reveal, RouterLink],
+  imports: [Icon, Reveal, RouterLink, SectionHead],
   template: `
     @let t = i18n.t().modpacks;
     <section class="section" id="modpacks" [class.page-top]="page()">
       <div class="container">
-        <header class="section-head" lhReveal>
-          <span class="eyebrow">{{ t.eyebrow }}</span>
-          @if (page()) {
-            <h1>
-              {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
-            </h1>
-          } @else {
-            <h2>
-              {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
-            </h2>
-          }
+        <header lhHead [texts]="t" [page]="page()" lhReveal>
           <p>{{ t.text }}</p>
           @if (packs()?.length) {
             <p class="found">

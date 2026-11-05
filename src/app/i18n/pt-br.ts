@@ -676,30 +676,6 @@ export const ptBR: Messages = {
     eyebrow: 'Desempenho',
     title: 'Um horizonte vivo que',
     accent: 'devolve seus quadros.',
-    design: {
-      eyebrow: 'Renderização otimizada',
-      title: 'Um horizonte vivo que',
-      accent: 'não devora seus quadros.',
-      text: 'O Living Horizon foi pensado desde o início para ser leve: figuras distantes são desenhadas do jeito mais barato, e só quando podem ser vistas. Assim você pode diminuir a distância de renderização e de simulação e ainda manter o mundo vivo.',
-      cards: {
-        pictures: {
-          title: 'Imagens leves ao longe',
-          text: 'A partir de certa distância, uma figura distante é desenhada como uma imagem plana de si mesma em vez de um modelo completo. Nesse tamanho, fica igual, por uma fração do trabalho.',
-        },
-        hidden: {
-          title: 'Escondido não é desenhado',
-          text: 'Criaturas atrás do terreno distante não são desenhadas, e as animações param quando uma figura fica pequena ou distante demais para ser notada.',
-        },
-        presets: {
-          title: 'Predefinições de qualidade',
-          text: 'Baixa, Normal, Alta e Ultra definem de uma vez o número de criaturas, o alcance delas e os pássaros. Os padrões são a escolha equilibrada.',
-        },
-        server: {
-          title: 'Leve no servidor',
-          text: 'Todas as animações rodam no jogo dos jogadores. Um servidor com o mod só compartilha posições.',
-        },
-      },
-    },
     numbers: 'Em números',
     measured: 'Medido por jogadores e pelo autor; a configuração está abaixo de cada valor.',
     noNumbers: {

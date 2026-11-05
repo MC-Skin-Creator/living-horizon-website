@@ -27,6 +27,8 @@ the nav; the browser's language is the default, and `?lang=fr` forces one.
   *(offline)*…) use the mod's own translation, from `assets/livinghorizon/lang/<lang>.json` in
   the mod repository; game words use the official Minecraft translation. Keep the mod's register
   (French "tu", German "du"…).
+- French puts a narrow no-break space (U+202F), never a plain space, before `? ! : ;` and inside
+  `« »`, so the mark never starts a line on its own.
 - A sentence around a link, logo or highlighted word is a `{ before, …, after }` object, so each
   language orders it its own way. The FAQ's longer answers are arrays of pieces instead
   (`src/app/i18n/rich.ts`): each language keeps the same links, settings and code, in its own

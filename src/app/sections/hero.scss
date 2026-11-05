@@ -86,6 +86,8 @@ h1 {
   max-width: 600px;
   font-size: clamp(1.05rem, 1.6vw, 1.2rem);
   color: #d6d2ea;
+  // Readable where it runs over the sun, on narrow screens.
+  text-shadow: 0 1px 12px rgb(10 13 28 / 0.75);
 
   strong {
     color: var(--text);
@@ -98,8 +100,10 @@ h1 {
   gap: 12px;
   margin-top: 6px;
 
-  .ghost {
-    border-color: rgb(255 255 255 / 0.22);
+  // Over the sky and the sun: a dark glass behind the label keeps it readable.
+  .btn:not(.primary) {
+    --btn-bg: rgb(10 13 28 / 0.62);
+    backdrop-filter: blur(8px);
   }
 }
 

@@ -5,6 +5,7 @@ import { ProjectData } from '../data/project-data';
 import { I18n } from '../i18n/i18n';
 import { Icon, IconName } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
+import { SectionHead } from '../shared/section-head';
 import { pageMeta } from './page-meta';
 
 const STATUSES: readonly CompatStatus[] = ['works', 'issue', 'untested'];
@@ -28,18 +29,12 @@ const PLATFORMS = [
 @Component({
   selector: 'lh-mods-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, Reveal],
+  imports: [Icon, Reveal, SectionHead],
   template: `
     @let t = i18n.t().mods;
     <section class="section page-top">
       <div class="container">
-        <header class="section-head">
-          <span class="eyebrow">{{ t.eyebrow }}</span>
-          <h1>
-            {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
-          </h1>
-          <p>{{ t.text }}</p>
-        </header>
+        <header lhHead [texts]="t" [text]="t.text" [page]="true"></header>
 
         @if (mods(); as all) {
           <div class="toolbar">
