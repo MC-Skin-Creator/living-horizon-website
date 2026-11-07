@@ -58,7 +58,7 @@ export const de: Messages = {
   hero: {
     scene:
       'Illustration: ein Horizont in der Abenddämmerung mit kantigen Hügeln, auf denen Dorfbewohner, Tiere, Reiter und andere Spieler in weiter Ferne noch leben, darüber ein Zug Wildgänse.',
-    news: 'Neu: Herden in unerkundetem Land',
+    news: 'Jetzt auf dem Gelände von Lodistance, Far View und Ecstatic',
     tagline: 'Bringt Leben',
     taglineAccent: 'in die Ferne.',
     lede: {
@@ -95,163 +95,88 @@ export const de: Messages = {
     eyebrow: 'Funktionen',
     title: 'Alles, was lebt,',
     accent: 'auch jenseits deiner Sichtweite.',
-    text: 'Kreaturen, die Herden in Land, das noch niemand erkundet hat, Spieler, abgemeldete Spieler und Vögel, gezeichnet von deinem eigenen Spiel und so leicht, dass du die Mod einfach anlassen kannst.',
+    text: 'Kreaturen, Spieler, abgemeldete Spieler und Vögel, gezeichnet von deinem eigenen Spiel und so leicht, dass du die Mod einfach anlassen kannst.',
     offline: '(offline)',
     near: 'Aus der Nähe: die ganze Kreatur',
     far: 'Aus der Ferne: ein flaches Bild',
     more: 'Mehr Details',
-    close: 'Schließen',
-    previous: 'Vorherige Funktion',
-    next: 'Nächste Funktion',
+    less: 'Weniger Details',
     items: {
       mobs: {
         title: 'Jede Kreatur, bis zum Horizont',
-        text: 'Tiere grasen, Dorfbewohner streifen durch ferne Dörfer, Golems halten Wache. Jede Kreatur, die das Spiel zeichnen kann, auch Kreaturen und Fahrzeuge aus anderen Mods.',
+        text: 'Tiere grasen auf fernen Hügeln, Dorfbewohner streifen durch entfernte Dörfer, Golems halten Wache. Alle Kreaturen des Spiels sind dabei, auch die aus anderen Mods.',
         points: [
-          'Auf Voxy, Distant Horizons und anderem fernen Gelände oder in Vanilla',
-          'Hinter fernen Hügeln verborgen, auch mit Shaderpaketen',
-          'Unter „Kreaturen & Objekte“ einzeln auswählbar',
+          'Mit Voxy, Distant Horizons und anderen Mods für fernes Gelände oder in Vanilla',
+          'Sogar in Land, das noch niemand erkundet hat',
+          'Hinter fernen Hügeln verborgen, auch mit Shadern',
         ],
         where: 'Überall. Auf einem Server mit der Mod sogar Kreaturen, denen du nie begegnet bist.',
         details: details([
           {
-            title: 'Woher sie kommen',
+            title: 'Echte Kreaturen, dort, wo sie gesehen wurden',
             body: [
               [
-                'Es sind echte Kreaturen, dort, wo dein Spiel oder der Server sie zuletzt gesehen hat. Dein Spiel merkt sich jede Kreatur, der es begegnet, und ein Server mit der Mod teilt die Kreaturen um jeden Spieler herum, so siehst du auch Herden, denen du nie begegnet bist. Eine, die seitdem gestorben oder verschwunden ist, kann noch zu sehen sein, bis du in ihre Nähe kommst. Dann wird sie vergessen.',
+                'Jede ferne Kreatur ist eine echte, zu sehen dort, wo dein Spiel oder der Server sie zuletzt gesehen hat. Kommst du näher, übernimmt einfach die echte Kreatur. Ferne Kreaturen sind nur zur Zierde: Du kannst sie nicht schlagen, und Farmen und das Spawnen funktionieren wie ohne die Mod.',
               ],
             ],
           },
           {
-            title: 'Auf dem fernen Gelände',
+            title: 'Zu Hause auf deinem fernen Gelände',
             body: [
               [
-                'Mit Voxy, Distant Horizons, Lodistance, Far View oder Ecstatic laufen sie auf dessen Boden, verschwinden hinter dessen Hügeln wie hinter jedem Block und verblassen in dessen Nebel. Mit Bobby bleiben sie auf dem Gelände, das es behält. Ohne eine dieser Mods erscheinen sie auf dem Gelände des Spiels selbst. Siehe ',
+                'Mit Voxy, Distant Horizons, Lodistance, Far View oder Ecstatic laufen ferne Kreaturen auf dessen Boden, verschwinden hinter dessen Hügeln und verblassen in dessen Nebel. Ohne eine Mod für fernes Gelände erscheinen sie jenseits deiner Sichtweite auf dem Gelände des Spiels selbst (siehe ',
                 { link: 'compatibilitySection', text: 'Kompatibilität' },
-                '.',
+                ').',
               ],
             ],
           },
           {
-            title: 'Aus der Nähe übernimmt die echte Kreatur',
+            title: 'Auch dort, wo noch niemand war',
             body: [
               [
-                'Kommst du näher, läuft die Kopie dorthin zurück, wo die Kreatur zuletzt gesehen wurde, und die echte Kreatur nimmt ihren Platz ein, sobald der Server sie schickt. Ferne Kreaturen sind nur zur Zierde: Farmen, das Spawnen und die Kreaturenobergrenze funktionieren wie ohne die Mod, und du kannst sie nicht schlagen.',
+                'Auch Land, das du nie besucht hast, hat seine Herden. Living Horizon schätzt sie anhand des Startwerts der Welt. Da es nur Schätzungen sind, können sie abweichen oder ganz fehlen, wenn du dort ankommst. Durch ein Fernrohr siehst du sie, so weit du zielst.',
               ],
             ],
           },
           {
-            title: 'Kreaturen aus anderen Mods',
+            title: 'Auf einem Server mit der Mod',
             body: [
               [
-                'Alles, was das Objektsystem von Minecraft selbst nutzt, erscheint in der Ferne: Kreaturen aus Mods und Fahrzeuge wie die Flugzeuge von Immersive Aircraft oder die Schiffe von Shippy Ships, dort, wo du sie gelassen hast.',
-              ],
-            ],
-          },
-          {
-            title: 'Einstellungen',
-            body: [
-              {
-                list: [
-                  [
-                    { em: 'Kreaturen anzeigen' },
-                    ' und ',
-                    { em: 'Objekte anzeigen' },
-                    ': schalten sie ein oder aus.',
-                  ],
-                  [{ em: 'Kreaturen & Objekte …' }, ': Kreatur für Kreatur auswählen.'],
-                  [
-                    { em: 'Kreaturen‐Sichtweite' },
-                    ' und ',
-                    { em: 'Max. Kreaturen' },
-                    ': wie weit und wie viele auf einmal.',
-                  ],
-                ],
-              },
-            ],
-          },
-        ]),
-      },
-      unexplored: {
-        title: 'Herden in Land, das noch niemand erkundet hat',
-        text: 'Auch Land, das du nie besucht hast, hat seine Tiere. Die Mod berechnet aus dem Startwert der Welt, welche das Spiel dort hinsetzen wird, und wo.',
-        points: [
-          'Dieselben Zufallsziehungen, die das Spiel für jeden neuen Chunk macht',
-          'Durch ein Fernrohr, so weit du zielst',
-          'Kreaturen erraten: bis zu 1.024 Chunks um dich herum',
-        ],
-        where: 'Im Einzelspieler und auf Servern mit der Mod.',
-        details: details([
-          {
-            title: 'Wie es rät',
-            body: [
-              [
-                'Wenn das Spiel einen Chunk generiert, setzt es seine ersten Tiere mit Zufallsziehungen aus dem Startwert der Welt und der Position des Chunks. Living Horizon macht dieselben Ziehungen für die noch nicht generierten Chunks, mit dem Biom und dem Gelände, die der Weltgenerator liefert: Pferde in den Ebenen, Schafe auf den Hügeln, ungefähr dort, wo das Spiel sie hinsetzen wird.',
-              ],
-            ],
-          },
-          {
-            title: 'Eine Vermutung, kein Versprechen',
-            body: [
-              [
-                'Das Gelände, das es liest, hat noch kein Gras und keine Bäume. Wo das Spiel deswegen eine Stelle verwirft, fehlt die Herde oder steht woanders: Etwa die Hälfte der erratenen Tiere steht höchstens zwei Blöcke von den echten entfernt. Eine erratene Kreatur ist vielleicht nicht da, wenn du ankommst.',
-              ],
-            ],
-          },
-          {
-            title: 'Fernrohr und Kreaturen erraten',
-            body: [
-              [
-                'Schau durch ein Fernrohr, um die erratenen Kreaturen zu sehen, wohin du auch zielst, egal wie weit. ',
-                { em: 'Kreaturen erraten' },
-                ' zeigt sie bis zu 1.024 Chunks um dich herum auf einmal und behält sie für deine nächsten Sitzungen.',
-              ],
-            ],
-          },
-          {
-            title: 'Auf einem Server',
-            body: [
-              [
-                'Der Server errät sie um jeden Spieler mit der Mod, standardmäßig 512 Blöcke weit (',
-                { code: 'seedMobRange' },
-                ', bis zu 2.048). Das Fernrohr und ',
-                { em: 'Kreaturen erraten' },
-                ' brauchen den Startwert der Welt: Der Server teilt ihn nur, wenn sein Betreiber ',
-                { code: 'shareSeed' },
-                ' einschaltet, denn wer den Startwert hat, kennt die ganze Welt (siehe die ',
+                'Du siehst auch die Kreaturen rund um jeden anderen Spieler, sogar Herden, denen du nie begegnet bist. Damit geschätzte Kreaturen auch weiter weg erscheinen, kann der Serverbetreiber den Startwert der Welt teilen. Das ist standardmäßig aus, weil der Startwert die ganze Welt verrät (siehe die ',
                 { link: 'serverSettings', text: 'Servereinstellungen' },
                 ').',
               ],
             ],
           },
           {
-            title: 'Einstellungen',
+            title: 'In den Einstellungen',
             body: [
-              {
-                list: [
-                  [{ em: 'Erratene Kreaturen' }, ': zeigt oder verbirgt sie.'],
-                  [{ em: 'Raterradius' }, ': wie weit ', { em: 'Kreaturen erraten' }, ' reicht.'],
-                ],
-              },
+              [
+                'Wähle in ',
+                { em: 'Kreaturen & Objekte …' },
+                ' aus, welche Kreaturen erscheinen, und blende die geschätzten mit ',
+                { em: 'Erratene Kreaturen' },
+                ' aus.',
+              ],
             ],
           },
         ]),
       },
       players: {
         title: 'Spieler in jeder Entfernung',
-        text: 'Sieh jeden anderen Spieler, wo auch immer er auf der Karte ist, mit Skin, Rüstung, Gegenständen in der Hand und allem, worauf er reitet.',
+        text: 'Sieh jeden anderen Spieler, wo auch immer er auf der Karte ist, mit Skin, Ausrüstung und allem, worauf er reitet.',
         points: [
-          'Pferde, Boote, Loren, Elytren und Glückliche Ghasts',
-          'Flüssig: Der Server teilt die Positionen fünfmal pro Sekunde',
+          'Zu Pferd, im Boot oder im Gleitflug mit Elytren',
+          'Sie bewegen sich flüssig, auch in der Ferne',
           'Spieler ohne die Mod können trotzdem beitreten',
         ],
         where: 'Im LAN und auf Servern mit der Mod.',
         details: details([
           {
-            title: 'So funktioniert es',
+            title: 'Alle, überall',
             body: [
               [
-                'Ein Server mit der Mod teilt fünfmal pro Sekunde, wo jeder Spieler ist, worauf er reitet und ob er mit Elytren gleitet. Alle fünf Sekunden kommt hinzu, wie die nächsten aussehen: Skin, Rüstung und was sie in der Hand halten. Dein Spiel zeichnet sie über die Sichtweite hinaus, samt Namensschild und Reittier.',
+                'Auf einem Server mit der Mod siehst du jeden anderen Spieler, wo auch immer er ist, samt Reittier und Namensschild, flüssig in Bewegung. In einer fürs LAN geöffneten Welt funktioniert es, ohne dass du etwas installieren musst.',
               ],
             ],
           },
@@ -259,80 +184,58 @@ export const de: Messages = {
             title: 'Der Serverbetreiber entscheidet',
             body: [
               [
-                'Der Server schreibt beim ersten Start ',
-                { code: 'config/livinghorizon-server.json' },
-                ': wie weit Spieler geteilt werden, nur mit Teamkameraden, welche Spieler und Dimensionen verborgen bleiben. ',
-                { code: '"sharePlayers": false' },
-                ' schaltet es ab. Änderungen gelten nach ein paar Sekunden, ohne Neustart (siehe die ',
+                'Der Betreiber legt fest, wie weit Spieler zu sehen sind, ob sich nur Teamkameraden sehen und welche Spieler oder Dimensionen verborgen bleiben. Ferne Spieler lassen sich auch ganz abschalten (siehe die ',
                 { link: 'serverSettings', text: 'Servereinstellungen' },
                 ').',
               ],
             ],
           },
           {
-            title: 'Nie geteilt',
+            title: 'Nie zu sehen',
             body: [
               [
-                'Spieler im Zuschauermodus und unsichtbare Spieler. Schleichende Spieler vorerst schon (',
+                'Spieler im Zuschauermodus und unsichtbare Spieler werden in der Ferne nie gezeigt. Schleichende Spieler vorerst schon (',
                 { link: 'sneaking', text: '#269' },
-                '). Innerhalb der Sichtweite sehen sich Spieler wie gewohnt.',
+                ').',
               ],
             ],
           },
           {
-            title: 'Einstellungen',
+            title: 'In den Einstellungen',
             body: [
-              {
-                list: [
-                  [{ em: 'Spieler anzeigen' }, ': schaltet sie ein oder aus.'],
-                  [{ em: 'Spieler‐Sichtweite' }, ': wie weit sie erscheinen.'],
-                  [{ em: 'Reittiere & Fahrmittel' }, ': worauf sie reiten.'],
-                ],
-              },
+              [
+                { em: 'Spieler‐Sichtweite' },
+                ' legt fest, wie weit Spieler erscheinen, und ',
+                { em: 'Spieler anzeigen' },
+                ' schaltet sie ab.',
+              ],
             ],
           },
         ]),
       },
       offline: {
         title: 'Abgemeldete Spieler leben weiter',
-        text: 'Meldet sich jemand ab, bleibt eine Kopie mit seinem Namen dort, wo er gegangen ist. Sie spaziert, sitzt, angelt, öffnet Truhen und schläft nachts, bis er zurückkommt.',
+        text: 'Meldet sich jemand ab, bleibt eine Kopie von ihm dort, wo er gegangen ist. Sie spaziert, sitzt, angelt und schläft nachts, bis er zurückkommt.',
         points: [
-          '(offline) hinter dem Namen, dazu wann er zuletzt gesehen wurde',
+          'Ihr Name, mit (offline) und wann sie zuletzt gesehen wurden',
           'Auch Spieler, die gegangen sind, bevor du kamst',
           'Nur zur Zierde: Lauf in sie hinein, um sie beiseitezuschieben',
         ],
         where: 'Überall. Auf einem Server mit der Mod jeder Spieler, der dort je gespielt hat.',
         details: details([
           {
-            title: 'Ein Tag in ihrem Leben',
+            title: 'Ein eigenes Leben',
             body: [
-              {
-                list: [
-                  [
-                    'Tagsüber spazieren sie, setzen sich oder stehen an einer Truhe, einer Werkbank oder einem Arbeitsblock.',
-                  ],
-                  [
-                    'Nachts gehen sie zu einem freien Bett und schlafen darin, oder sie bleiben auf den Beinen.',
-                  ],
-                  [
-                    'In der Nähe von Wasser bleibt einer von ihnen am Ufer stehen und angelt eine Weile.',
-                  ],
-                  [
-                    'Bei Regen gehen manche unter ein Dach oder einen Baum und warten, bis er aufhört.',
-                  ],
-                  ['Abends versammeln sie sich vor einem Lagerfeuer oder einem Ofen.'],
-                  [
-                    'Zwei, die nah beieinander sind, gehen aufeinander zu und plaudern, von Angesicht zu Angesicht.',
-                  ],
-                ],
-              },
+              [
+                'Tagsüber spazieren sie, setzen sich oder machen sich an einer Truhe zu schaffen. Nachts gehen sie ins Bett. Sie angeln am Wasser, stellen sich bei Regen unter, versammeln sich abends am Lagerfeuer und plaudern zu zweit.',
+              ],
             ],
           },
           {
             title: 'Sie bemerken dich',
             body: [
               [
-                'Schau einen aus der Nähe an, und er schaut zurück. Geh vor ihm in die Hocke, und er tut es dir nach. Kommen Monster näher, ziehen sie ein Schwert und heben ihren Schild, aber sie kämpfen nie.',
+                'Schau einen aus der Nähe an, und er schaut zurück. Gehst du in die Hocke, tut er es dir nach. Kommen Monster näher, heben sie ihren Schild, aber sie kämpfen nie.',
               ],
             ],
           },
@@ -340,171 +243,123 @@ export const de: Messages = {
             title: 'Nur zur Zierde',
             body: [
               [
-                'Die Welt weiß nicht, dass es sie gibt: Kreaturen ignorieren sie, und sie blockieren oder schubsen dich nie. Lauf in sie hinein, um sie beiseitezuschieben. Fern von dir spazieren sie weiter dort umher, wo sie sind.',
+                'Die Welt weiß nicht, dass es sie gibt: Kreaturen ignorieren sie, und sie stehen dir nie im Weg. Lauf in sie hinein, um sie beiseitezuschieben.',
               ],
             ],
           },
           {
-            title: 'Woher sie kommen',
+            title: 'Auf einem Server mit der Mod',
             body: [
               [
-                'Dein Spiel merkt sich die Spieler, die es gehen gesehen hat. Ein Server mit der Mod teilt jeden Spieler, der dort je gespielt hat, so wie er aussah, auch die, die gegangen sind, bevor du kamst.',
+                'Du siehst jeden Spieler, der dort je gespielt hat, so wie er aussah, auch die, die gegangen sind, bevor du kamst. Anderswo siehst du die Spieler, die du hast gehen sehen.',
               ],
             ],
           },
           {
-            title: 'Einstellungen',
+            title: 'In den Einstellungen',
             body: [
-              {
-                list: [
-                  [
-                    { em: 'Offline‐Spieler' },
-                    ' und ',
-                    { em: 'Max. Offline' },
-                    ': ob sie erscheinen und wie viele.',
-                  ],
-                  [{ em: 'Offline‐Aktivität' }, ': ihr Leben rund um ihren Platz.'],
-                  [
-                    { em: 'Bewegungsradius' },
-                    ': wie weit sie umherstreifen, standardmäßig 50 Blöcke.',
-                  ],
-                ],
-              },
+              [
+                { em: 'Offline‐Spieler' },
+                ' blendet sie ein oder aus, und ',
+                { em: 'Offline‐Aktivität' },
+                ' schaltet ihr Leben rund um ihren Platz ein oder aus.',
+              ],
             ],
           },
         ]),
       },
       birds: {
         title: 'Vögel am Himmel',
-        text: 'Schwärme, Gänse in V-Formation, Greifvögel, Möwen, Enten und Fledermäuse fliegen über das Land, und du siehst sie schon von Weitem.',
+        text: 'Schwärme, Gänse in V-Formation, Greifvögel, Möwen und Enten beleben den Himmel, und du siehst sie schon von Weitem.',
         points: [
           'Sie landen auf Bäumen, Dächern, Feldern und Stränden',
-          'Enten schwimmen auf ihrem Teich umher',
-          'Kleine 3D-Modelle aus der Nähe, flache Bilder aus der Ferne',
+          'Enten schwimmen auf Teichen und Flüssen',
+          'Deiner Welt wird nichts hinzugefügt',
         ],
         where: 'Überall, nichts einzurichten.',
         details: details([
           {
-            title: 'Wer wo fliegt',
+            title: 'Vögel aller Art',
             body: [
-              {
-                list: [
-                  [
-                    'Schwärme ziehen über den Himmel, Gänse fliegen in V-Formation, Greifvögel kreisen.',
-                  ],
-                  ['Möwen folgen der Küste und landen ab und zu am Strand.'],
-                  [
-                    'Tauben sitzen auf hohen Gebäuden, Rotkehlchen hüpfen über Felder, Meisen bleiben in den Bäumen.',
-                  ],
-                  ['Enten schwimmen auf Seen und Flüssen. Fledermäuse kommen nachts heraus.'],
-                ],
-              },
+              [
+                'Von Gänsen in V-Formation bis zu Enten auf dem Teich lebt jede Art dort, wo sie hingehört: in den Bäumen, über der Küste, auf den Dächern, auf den Feldern. Nachts kommen Fledermäuse heraus.',
+              ],
             ],
           },
           {
             title: 'Sie reagieren auf dich',
             body: [
               [
-                'Kleine Vögel fliegen auf, wenn du näher kommst, und landen etwas weiter weg. Enten lassen dich nie heran. Vögel, die davonfliegen, verschwinden nie auf einen Schlag: Sie zerstreuen sich und werden immer kleiner.',
+                'Kommst du näher, fliegen sie auf und landen etwas weiter weg. Sie verschwinden nie auf einen Schlag: Sie zerstreuen sich und fliegen davon.',
               ],
             ],
           },
           {
-            title: 'Am Gelände abgelesen',
+            title: 'Nur auf deinem Bildschirm',
             body: [
               [
-                'Wohin jede Art fliegt, wird am Gelände abgelesen, bis auf das ferne Gelände von Voxy und Distant Horizons: Feldfrüchte für Rotkehlchen, Laub für Meisen, Wasser für Enten, Strände für Möwen. Sie sind nur Bilder in deinem Spiel: In der Welt wird nichts gespawnt.',
+                'Die Vögel zeichnet allein dein Spiel: Deiner Welt wird nichts hinzugefügt, und sie kosten kaum Leistung.',
               ],
             ],
           },
           {
-            title: 'Einstellungen',
+            title: 'In den Einstellungen',
             body: [
-              {
-                list: [
-                  [{ em: 'Vögel anzeigen' }, ': schaltet sie ein oder aus.'],
-                  [{ em: 'Vogelarten …' }, ': Art für Art auswählen.'],
-                  [
-                    { em: 'Vogeldichte' },
-                    ' und ',
-                    { em: 'Vogelreichweite' },
-                    ': wie viele und wie weit.',
-                  ],
-                ],
-              },
+              [
+                { em: 'Vögel anzeigen' },
+                ' schaltet sie ein oder aus, und mit ',
+                { em: 'Vogelarten …' },
+                ' wählst du, welche Arten fliegen.',
+              ],
             ],
           },
         ]),
       },
       light: {
         title: 'Von Grund auf leicht',
-        text: 'Ferne Kreaturen haben keine KI: Sie spielen fertige Animationen ab, die zum Boden passen. In sehr weiter Ferne werden sie zu flachen Bildern ihrer selbst.',
+        text: 'Ferne Kreaturen denken nicht: Sie spielen einfache, fertige Animationen ab. In sehr weiter Ferne werden sie zu leichten Bildern ihrer selbst.',
         points: [
           'Hinter Hügeln verborgene Kreaturen werden nicht gezeichnet',
-          'Senk deine Simulationsdistanz und behalte trotzdem eine lebendige Welt',
-          'Vereinfachte Kreaturen: viel mehr Kreaturen für denselben Aufwand',
+          'Senke deine Simulationsdistanz und behalte eine lebendige Welt',
+          'Viel mehr Kreaturen für denselben Aufwand',
         ],
         where: 'Alles läuft in deinem Spiel. Der Server teilt nur Positionen.',
         details: details([
           {
-            title: 'Keine KI in der Ferne',
+            title: 'Einfache Animationen in der Ferne',
             body: [
               [
-                'Ferne Kreaturen laufen, grasen und schauen sich um, mit fertigen Animationen, die zum Boden um sie herum passen. Abgemeldete Spieler und Vögel handeln nur in deiner Nähe von selbst.',
+                'Ferne Kreaturen haben keine KI: Sie laufen, grasen und schauen sich um, mit Animationen, die zum Boden passen. Dein Spiel muss sie nicht steuern, so bleibt es flüssig.',
               ],
             ],
           },
           {
-            title: 'Flache Bilder in der Ferne',
+            title: 'Vereinfachte Bilder',
             body: [
               [
-                'Viele Spiele zeichnen ferne Objekte als Impostors: ein flaches Bild statt eines 3D-Modells. Living Horizon macht dasselbe für ferne Kreaturen, Fahrzeuge und Spieler (',
-                { em: 'Vereinfachte Kreaturen' },
-                ', ',
-                { em: 'Vereinfachte Objekte' },
-                ', ',
-                { em: 'Vereinfachte Spieler' },
-                '). In dieser Größe sehen sie gleich aus, für einen Bruchteil des Aufwands. Mit einem Shaderpaket, das Normal Maps liest, etwa Photon, werden die Bilder vom Paket beleuchtet (',
-                { em: 'Shader-Beleuchtung' },
-                ').',
+                'Wie viele Spiele zeichnet Living Horizon ferne Kreaturen, Fahrzeuge und Spieler als leichte Bilder statt als vollständige 3D-Modelle. Auf diese Entfernung sehen sie gleich aus, für einen Bruchteil des Aufwands. Mit einem Shaderpaket wie Photon werden die Bilder beleuchtet wie der Rest der Welt.',
               ],
             ],
           },
           {
-            title: 'Verdeckt heißt übersprungen',
+            title: 'Lebendige Welt, wenig Aufwand',
             body: [
               [
-                'Kreaturen hinter Hügeln oder dem fernen Gelände werden gar nicht gezeichnet, und Animationen stoppen, sobald eine Figur zu klein ist, um aufzufallen.',
+                'Kreaturen hinter Hügeln oder fernem Gelände werden gar nicht erst gezeichnet. Senke deine Simulationsdistanz, um FPS zu gewinnen, und sieh trotzdem eine lebendige Welt um dich herum. Ein Server mit der Mod hat sehr wenig zu tun: Dein Spiel übernimmt alles, was du siehst.',
               ],
             ],
           },
           {
-            title: 'Alles in deinem Spiel',
+            title: 'Voreinstellungen',
             body: [
               [
-                'Dein Spiel übernimmt die Animationen, die abgemeldeten Spieler und die Vögel. Ein Server mit der Mod teilt nur Positionen, das kostet ihn also wenig. Zwei Spieler können sogar dieselbe ferne Kreatur verschiedene Dinge tun sehen.',
-              ],
-            ],
-          },
-          {
-            title: 'Voreinstellungen und Einstellungen',
-            body: [
-              [
-                'Eine ',
+                'Wähle eine ',
                 { em: 'Voreinstellung' },
-                ' (',
+                ', von ',
                 { em: 'Niedrig' },
-                ', ',
-                { em: 'Normal' },
-                ', ',
-                { em: 'Hoch' },
-                ', ',
+                ' bis ',
                 { em: 'Ultra' },
-                ') stellt alles auf einmal ein. Die Standardwerte sind die ausgewogene Wahl, und ',
-                { em: 'Auf Standard zurücksetzen' },
-                ' stellt sie wieder her. Die Einstellungen findest du in den Optionen, in Mod Menu, in den Grafikeinstellungen von Sodium oder mit ',
-                { code: '/livinghorizon config' },
-                ', in 14 Sprachen.',
+                ', um alles auf einmal einzustellen; die Standardwerte sind die ausgewogene Wahl. Die Einstellungen findest du in den Optionen, in Mod Menu und in den Grafikeinstellungen von Sodium, in 14 Sprachen.',
               ],
               [
                 'Vorsicht: Stehen ',
@@ -585,7 +440,7 @@ export const de: Messages = {
       mobs: 'Kreaturen am Horizont',
       players: 'Spieler in jeder Entfernung',
       offline: 'Abgemeldete Spieler',
-      unexplored: 'Herden in unerkundetem Land',
+      unexplored: 'Aus dem Startwert erratene Kreaturen',
       birds: 'Vögel',
     },
     cells: {
@@ -671,30 +526,6 @@ export const de: Messages = {
       neoforge: 'Ab Minecraft 1.20.6, sonst nichts nötig.',
       forge: 'Sonst nichts nötig.',
     },
-  },
-
-  performance: {
-    eyebrow: 'Leistung',
-    title: 'Ein lebendiger Horizont,',
-    accent: 'der dir FPS zurückgibt.',
-    numbers: 'In Zahlen',
-    measured: 'Gemessen von Spielern und vom Autor; das Setup steht unter jedem Wert.',
-    noNumbers: {
-      before:
-        'Hier gibt es keine erfundenen Zahlen: Die Werte füllen sich, sobald echte Benchmarks eintreffen. Das eingebaute Debug-Panel (',
-      after: ') zeigt die eigenen Kosten der Mod pro Tick und pro Bild.',
-    },
-    slots: {
-      fps: { label: 'FPS-Gewinn', hint: 'die Mod zeichnet die Ferne statt des Spiels' },
-      mobs: { label: 'Kreaturen am Horizont', hint: 'gleichzeitig gezeichnet' },
-      distance: { label: 'Abgedeckte Entfernung', hint: 'jenseits der Sichtweite' },
-      frame: { label: 'Kosten pro Bild', hint: 'aus dem Debug-Panel' },
-    },
-    setups: {
-      fps: '120 → 150 FPS bei gleicher Sicht in die Ferne: eine kürzere Sichtweite, bei der Living Horizon die Kreaturen dahinter zeichnet, gegenüber dem Spiel, das selbst so weit zeichnet. Vom Autor gemessen.',
-    },
-    pending: (hint: string) => `Benchmark ausstehend · ${hint}`,
-    share: 'Auf deinem Setup gemessen? Teil es',
   },
 
   help: {
@@ -1070,10 +901,9 @@ export const de: Messages = {
     status: { works: 'Funktioniert', issue: 'Bekanntes Problem', untested: 'Noch nicht getestet' },
     /** The heading of the shader packs, after the mods. */
     shaders: 'Shaderpakete',
-    /** The note of every mod still waiting for a tester, next to the link to its issue. */
-    untested:
-      'Noch hat uns niemand erzählt, wie es läuft. Schon ausprobiert? Sag es uns in seinem Issue.',
     issue: (n: number) => `Issue #${n}`,
+    /** A link that only shows the platform's logo. */
+    page: (platform: string) => `${platform}-Seite`,
     none: 'Keine Mod passt zu deiner Suche.',
     missing: {
       title: 'Fehlt eine Mod?',

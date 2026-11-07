@@ -68,7 +68,7 @@ export const en = {
   hero: {
     scene:
       'Illustration: a dusk horizon of blocky hills where villagers, animals, riders and other players are still alive far away, under a flight of geese.',
-    news: 'New: herds in land nobody has explored',
+    news: 'Now on Lodistance, Far View and Ecstatic terrain',
     tagline: 'Gives life to',
     taglineAccent: 'the distance.',
     /** Around the Distant Horizons and Voxy logos. */
@@ -107,233 +107,149 @@ export const en = {
     eyebrow: 'Features',
     title: 'Everything that lives',
     accent: 'past your render distance.',
-    text: 'Mobs, the herds of land nobody has explored, players, players who logged off and birds, drawn by your own game and kept light enough to leave on.',
+    text: 'Mobs, players, players who logged off and birds, drawn by your own game and kept light enough to leave on.',
     /** The mod's `livinghorizon.offline.tag`. */
     offline: '(offline)',
     near: 'Up close: the full mob',
     far: 'Far away: a flat picture',
-    /** The button of each card, and the window it opens. */
+    /** The button of each card: it spreads the card across the section, and folds it back. */
     more: 'More details',
-    close: 'Close',
-    previous: 'Previous feature',
-    next: 'Next feature',
+    less: 'Fewer details',
     items: {
       mobs: {
         title: 'Every mob, out to the horizon',
-        text: "Animals graze, villagers wander around far-off villages, golems keep watch. Any mob the game can draw, other mods' mobs and vehicles included.",
+        text: "Animals graze on the far hills, villagers wander around distant villages, golems keep watch. Every mob the game can draw, other mods' mobs included.",
         points: [
           'On Voxy, Distant Horizons and other far terrain, or in vanilla',
-          'Hidden behind far hills, shader packs included',
-          'Choose which ones in Mobs & Entities',
+          'Even in land nobody has explored yet',
+          'Hidden behind far hills, shaders included',
         ],
         where: 'Everywhere. On a server with the mod, even mobs you never met.',
         details: details([
           {
-            title: 'Where they come from',
+            title: 'Real mobs, where they were seen',
             body: [
               [
-                'They are real mobs, where your game or the server last saw them. Your game remembers every mob it meets, and a server with the mod shares the mobs around every player, so you also see herds you never met. One that died or despawned since can still show until you come near it. Then it is forgotten.',
+                'Each distant mob is a real one, shown where your game or the server last saw it. As you come near, the real mob simply takes over. Distant mobs are only for show: they cannot be hit, and farms and spawning work as without the mod.',
               ],
             ],
           },
           {
-            title: 'On the far terrain',
+            title: 'At home on your far terrain',
             body: [
               [
-                "With Voxy, Distant Horizons, Lodistance, Far View or Ecstatic, they walk on its ground, hide behind its hills like behind any block, and fade into its fog. With Bobby, they stay on the terrain it keeps. Without any of them, they show on the game's own terrain. See ",
+                "With Voxy, Distant Horizons, Lodistance, Far View or Ecstatic, distant mobs walk on its ground, disappear behind its hills and fade into its fog. Without a far-terrain mod, they show past your render distance on the game's own terrain (see ",
                 { link: 'compatibilitySection', text: 'Compatibility' },
-                '.',
+                ').',
               ],
             ],
           },
           {
-            title: 'Up close, the real mob takes over',
+            title: 'Even where nobody has been',
             body: [
               [
-                'As you come near, the copy walks back to where the mob was last seen, and the real mob takes its place when the server sends it. Far mobs are only for show: farms, spawning and the mob cap work as without the mod, and you cannot hit them.',
+                "Land you have never visited has its herds too. Living Horizon estimates them from the world's seed, so they may differ, or be gone, once you get there. Look through a spyglass to see them as far as you aim.",
               ],
             ],
           },
           {
-            title: "Other mods' mobs",
+            title: 'On a server with the mod',
             body: [
               [
-                "Anything that uses Minecraft's own entity system shows far away: modded mobs, and vehicles such as Immersive Aircraft's planes or Shippy Ships' ships, where you left them.",
-              ],
-            ],
-          },
-          {
-            title: 'Settings',
-            body: [
-              {
-                list: [
-                  [{ em: 'Show Mobs' }, ' and ', { em: 'Show Entities' }, ': turn them on or off.'],
-                  [{ em: 'Mobs & Entities...' }, ': choose mob by mob.'],
-                  [
-                    { em: 'Mob Render Distance' },
-                    ' and ',
-                    { em: 'Max Mobs' },
-                    ': how far, and how many at once.',
-                  ],
-                ],
-              },
-            ],
-          },
-        ]),
-      },
-      unexplored: {
-        title: 'Herds in land nobody has explored',
-        text: "Land you have never visited has its animals too. The mod works out from the world's seed which ones the game will put there, and where.",
-        points: [
-          'The same draws the game makes for each new chunk',
-          'Through a spyglass, as far as you aim',
-          'Guess Nearby Mobs: up to 1,024 chunks around you',
-        ],
-        where: 'In single player, and on servers with the mod.',
-        details: details([
-          {
-            title: 'How it guesses',
-            body: [
-              [
-                "When the game generates a chunk, it places its first animals with random draws made from the world's seed and the chunk's position. Living Horizon makes the same draws for the chunks not generated yet, with the biome and terrain the world generator gives: horses on the plains, sheep on the hills, about where the game will put them.",
-              ],
-            ],
-          },
-          {
-            title: 'A guess, not a promise',
-            body: [
-              [
-                'The terrain it reads has no grass and no trees yet. Where the game turns a spot down for that, its herd is missing or elsewhere: about half of the guessed animals stand within two blocks of the real ones. A guessed mob may not be there when you arrive.',
-              ],
-            ],
-          },
-          {
-            title: 'Spyglass and Guess Nearby Mobs',
-            body: [
-              [
-                'Look through a spyglass to see the guessed mobs wherever you aim, however far. ',
-                { em: 'Guess Nearby Mobs' },
-                ' shows them up to 1,024 chunks around you at once, and keeps them for your next sessions.',
-              ],
-            ],
-          },
-          {
-            title: 'On a server',
-            body: [
-              [
-                'The server guesses them around each player with the mod, 512 blocks by default (',
-                { code: 'seedMobRange' },
-                ', up to 2,048). The spyglass and ',
-                { em: 'Guess Nearby Mobs' },
-                " need the world's seed: the server only shares it if its owner turns on ",
-                { code: 'shareSeed' },
-                ', since whoever has the seed knows the whole world (see the ',
+                "You also see the mobs around every other player, even herds you never met. To show estimated mobs farther away, the server's owner can share the world's seed. This is off by default, as the seed reveals the whole world (see the ",
                 { link: 'serverSettings', text: 'server settings' },
                 ').',
               ],
             ],
           },
           {
-            title: 'Settings',
+            title: 'In the settings',
             body: [
-              {
-                list: [
-                  [{ em: 'Show Guessed Mobs' }, ': show or hide them.'],
-                  [{ em: 'Guess Radius' }, ': how far ', { em: 'Guess Nearby Mobs' }, ' reaches.'],
-                ],
-              },
+              [
+                'Choose which mobs show in ',
+                { em: 'Mobs & Entities...' },
+                ', and hide the estimated ones with ',
+                { em: 'Show Guessed Mobs' },
+                '.',
+              ],
             ],
           },
         ]),
       },
       players: {
         title: 'Players at any distance',
-        text: 'See every other player, wherever they are on the map, with their skin, armour, held items and whatever they ride.',
+        text: 'See every other player, wherever they are on the map, with their skin, their gear and whatever they ride.',
         points: [
-          'Horses, boats, minecarts, elytra and happy ghasts',
-          'Smooth: the server shares positions five times a second',
+          'On horseback, in a boat or gliding with an elytra',
+          'They move smoothly, even far away',
           'Players without the mod can still join',
         ],
         where: 'On LAN, and on servers with the mod.',
         details: details([
           {
-            title: 'How it works',
+            title: 'Everyone, everywhere',
             body: [
               [
-                'A server with the mod shares where every player is five times a second, with what they ride and whether they glide with an elytra. Every five seconds it adds how the nearest ones look: skin, armour and what they hold. Your game draws them past the view distance, name tag and mount included.',
+                'On a server with the mod, you see every other player, wherever they are, moving smoothly on their mount, name tag included. In a world opened to LAN, it works with nothing to install.',
               ],
             ],
           },
           {
-            title: 'The server owner chooses',
+            title: 'The server owner decides',
             body: [
               [
-                'The server writes ',
-                { code: 'config/livinghorizon-server.json' },
-                ' the first time it starts: how far players are shared, with teammates only, which players and dimensions stay hidden. ',
-                { code: '"sharePlayers": false' },
-                ' turns it off. Changes apply after a few seconds, without a restart (see the ',
+                'The owner chooses how far players are shown, whether only teammates see each other, and which players or dimensions stay hidden. Showing distant players can also be turned off entirely (see the ',
                 { link: 'serverSettings', text: 'server settings' },
                 ').',
               ],
             ],
           },
           {
-            title: 'Never shared',
+            title: 'Never shown',
             body: [
               [
-                'Players in spectator mode and invisible players. Sneaking players are, for now (',
+                'Players in spectator mode and invisible players are never shown far away. Sneaking players still are, for now (',
                 { link: 'sneaking', text: '#269' },
-                '). Within the view distance, players see each other as usual.',
+                ').',
               ],
             ],
           },
           {
-            title: 'Settings',
+            title: 'In the settings',
             body: [
-              {
-                list: [
-                  [{ em: 'Show Players' }, ': turn them on or off.'],
-                  [{ em: 'Player Render Distance' }, ': how far they show.'],
-                  [{ em: 'Mounts & Vehicles' }, ': what they ride.'],
-                ],
-              },
+              [
+                { em: 'Player Render Distance' },
+                ' sets how far players show, and ',
+                { em: 'Show Players' },
+                ' turns them off.',
+              ],
             ],
           },
         ]),
       },
       offline: {
         title: 'Players who logged off live on',
-        text: 'When someone logs off, a copy with their name stays where they left. It strolls, sits, fishes, opens chests and sleeps at night, until they come back.',
+        text: 'When someone logs off, a copy of them stays where they left. It strolls, sits, fishes and sleeps at night, until they come back.',
         points: [
-          '(offline) after their name, and when they were last seen',
+          'Their name, with (offline) and when they were last seen',
           'Even players who left before you joined',
           'Only for show: walk into them to push them aside',
         ],
         where: 'Everywhere. On a server with the mod, every player who ever played there.',
         details: details([
           {
-            title: 'A day in their life',
+            title: 'A life of their own',
             body: [
-              {
-                list: [
-                  [
-                    'By day, they stroll, sit down, or stand at a chest, a crafting table or a workstation.',
-                  ],
-                  ['At night, they walk to a free bed and sleep in it, or stay on their feet.'],
-                  ['Near water, one of them stops at the shore to fish for a while.'],
-                  ['In the rain, some walk under a roof or a tree and wait for it to stop.'],
-                  ['In the evening, they gather in front of a campfire or a furnace.'],
-                  ['Two of them close to each other walk up and chat, face to face.'],
-                ],
-              },
+              [
+                'By day they stroll, sit down or busy themselves at a chest. At night they go to bed. They fish by the water, take shelter from the rain, gather by a campfire in the evening and chat in pairs.',
+              ],
             ],
           },
           {
             title: 'They notice you',
             body: [
               [
-                'Look at one from close by and it looks back. Crouch in front of it and it crouches too. When monsters come near, they draw a sword and raise their shield, but they never fight.',
+                'Look at one from close by and it looks back at you. Crouch, and it crouches too. When monsters come near, they raise their shield, but they never fight.',
               ],
             ],
           },
@@ -341,164 +257,123 @@ export const en = {
             title: 'Only for show',
             body: [
               [
-                'The world does not know they exist: mobs ignore them, and they never block or push you. Walk into them to push them aside. Far from you, they keep strolling where they are.',
+                'The world does not know they exist: mobs ignore them and they never block your way. Walk into them to push them aside.',
               ],
             ],
           },
           {
-            title: 'Where they come from',
+            title: 'On a server with the mod',
             body: [
               [
-                'Your game remembers the players it saw leave. A server with the mod shares every player who ever played there, as they looked, even those who left before you joined.',
+                'You see every player who ever played there, as they looked, even those who left before you joined. Elsewhere, you see the players you saw leave.',
               ],
             ],
           },
           {
-            title: 'Settings',
+            title: 'In the settings',
             body: [
-              {
-                list: [
-                  [
-                    { em: 'Offline Players' },
-                    ' and ',
-                    { em: 'Max Offline' },
-                    ': whether they show, and how many.',
-                  ],
-                  [{ em: 'Offline Player Activity' }, ': their life around their spot.'],
-                  [{ em: 'Roaming Radius' }, ': how far they wander, 50 blocks by default.'],
-                ],
-              },
+              [
+                { em: 'Offline Players' },
+                ' shows or hides them, and ',
+                { em: 'Offline Player Activity' },
+                ' turns their life around their spot on or off.',
+              ],
             ],
           },
         ]),
       },
       birds: {
         title: 'Birds in the sky',
-        text: 'Flocks, geese in a V, birds of prey, gulls, ducks and bats fly over the land, and you see them from far away.',
+        text: 'Flocks, geese in a V, birds of prey, gulls and ducks fill the sky, and you see them from far away.',
         points: [
           'They land on trees, roofs, fields and beaches',
-          'Ducks swim around their pond',
-          'Small 3D models up close, flat pictures far away',
+          'Ducks swim on ponds and rivers',
+          'Nothing added to your world',
         ],
         where: 'Everywhere, nothing to set up.',
         details: details([
           {
-            title: 'Who flies where',
+            title: 'Birds of every kind',
             body: [
-              {
-                list: [
-                  ['Flocks cross the sky, geese fly in a V, birds of prey circle.'],
-                  ['Gulls follow the coast and land on the beach now and then.'],
-                  ['Pigeons sit on tall buildings, robins hop in fields, tits stay in the trees.'],
-                  ['Ducks swim on lakes and rivers. Bats come out at night.'],
-                ],
-              },
+              [
+                'From geese flying in a V to ducks on the ponds, each kind lives where it belongs: in the trees, over the coast, on the roofs, in the fields. Bats come out at night.',
+              ],
             ],
           },
           {
             title: 'They react to you',
             body: [
               [
-                'Small birds fly off when you come close and land a little farther. Ducks never let you near. Birds that leave never vanish at once: they scatter and shrink away.',
+                'Come close and they fly off to land a little farther away. They never vanish at once: they scatter and fly off.',
               ],
             ],
           },
           {
-            title: 'Read off the terrain',
+            title: 'Only on your screen',
             body: [
               [
-                'Where each kind goes is read off the terrain, out to the far terrain of Voxy and Distant Horizons: crops for robins, leaves for tits, water for ducks, beaches for gulls. They are only pictures on your game: nothing is spawned in the world.',
+                'Birds are drawn by your game alone: nothing is added to your world, and they cost very little.',
               ],
             ],
           },
           {
-            title: 'Settings',
+            title: 'In the settings',
             body: [
-              {
-                list: [
-                  [{ em: 'Show Birds' }, ': turn them on or off.'],
-                  [{ em: 'Bird Types...' }, ': choose kind by kind.'],
-                  [
-                    { em: 'Bird Density' },
-                    ' and ',
-                    { em: 'Bird Distance' },
-                    ': how many, and how far.',
-                  ],
-                ],
-              },
+              [
+                { em: 'Show Birds' },
+                ' turns them on or off, and ',
+                { em: 'Bird Types...' },
+                ' lets you choose which kinds fly.',
+              ],
             ],
           },
         ]),
       },
       light: {
         title: 'Built to stay light',
-        text: 'Far mobs have no AI: they play ready-made animations that fit the ground. Very far away, they become flat pictures of themselves.',
+        text: 'Distant mobs play simple ready-made animations instead of thinking, and very far away they become light images of themselves.',
         points: [
           'Mobs hidden behind hills are not drawn',
           'Lower your simulation distance and keep a living world',
-          'Simplified Mobs: many more mobs for the same cost',
+          'Many more mobs for the same cost',
         ],
         where: 'Everything runs on your game. The server only shares positions.',
         details: details([
           {
-            title: 'No AI far away',
+            title: 'Simple animations far away',
             body: [
               [
-                'Far mobs walk, graze and look around with ready-made animations that fit the ground around them. Players who logged off and birds only act on their own close to you.',
+                'Distant mobs have no AI: they walk, graze and look around with animations that fit the ground. Your game does not have to run them, so it stays fast.',
               ],
             ],
           },
           {
-            title: 'Flat pictures far away',
+            title: 'Simplified images',
             body: [
               [
-                'Many games draw far objects as impostors: a flat picture instead of a 3D model. Living Horizon does the same for far mobs, vehicles and players (',
-                { em: 'Simplified Mobs' },
-                ', ',
-                { em: 'Simplified Entities' },
-                ', ',
-                { em: 'Simplified Players' },
-                '). At that size they look the same, for a fraction of the cost. With a shader pack that reads normal maps, such as Photon, the pictures are lit by the pack (',
-                { em: 'Shader Lighting' },
-                ').',
+                'Like many games, Living Horizon draws distant mobs, vehicles and players as light images instead of full 3D models. At that distance they look the same, for a fraction of the cost. With a shader pack such as Photon, the images are lit like the rest of the world.',
               ],
             ],
           },
           {
-            title: 'Hidden means skipped',
+            title: 'A living world for less',
             body: [
               [
-                'Mobs behind hills or the far terrain are not drawn at all, and animations stop once a figure is too small to notice.',
+                'Mobs hidden behind hills or far terrain are not drawn at all. Lower your simulation distance to gain frames, and still see a living world around you. A server with the mod has very little to do: your game handles everything you see.',
               ],
             ],
           },
           {
-            title: 'Everything on your game',
+            title: 'Presets',
             body: [
               [
-                'Your game handles the animations, the players who logged off and the birds. A server with the mod only shares positions, so it costs it little. Two players can even see the same far mob doing different things.',
-              ],
-            ],
-          },
-          {
-            title: 'Presets and settings',
-            body: [
-              [
-                'A ',
+                'Pick a ',
                 { em: 'Preset' },
-                ' (',
+                ', from ',
                 { em: 'Low' },
-                ', ',
-                { em: 'Normal' },
-                ', ',
-                { em: 'High' },
-                ', ',
+                ' to ',
                 { em: 'Ultra' },
-                ') sets everything at once. The defaults are the balanced choice, and ',
-                { em: 'Restore Defaults' },
-                " puts them back. The settings are in the Options screen, Mod Menu, Sodium's Video Settings or ",
-                { code: '/livinghorizon config' },
-                ', in 14 languages.',
+                ", to set everything at once; the defaults are the balanced choice. The settings are in the Options screen, Mod Menu and Sodium's Video Settings, in 14 languages.",
               ],
               [
                 'Careful: ',
@@ -581,7 +456,7 @@ export const en = {
       mobs: 'Mobs on the horizon',
       players: 'Players at any distance',
       offline: 'Players who logged off',
-      unexplored: 'Herds in unexplored land',
+      unexplored: 'Mobs guessed from the seed',
       birds: 'Birds',
     },
     /** Cells of the table that say more than yes or no. */
@@ -664,33 +539,6 @@ export const en = {
       neoforge: 'From Minecraft 1.20.6, nothing else needed.',
       forge: 'Nothing else needed.',
     },
-  },
-
-  performance: {
-    eyebrow: 'Performance',
-    title: 'A living horizon that',
-    accent: 'gives you frames back.',
-    numbers: 'By the numbers',
-    measured: 'Measured by players and the author; the setup is under each value.',
-    /** Around `/livinghorizon debug`. */
-    noNumbers: {
-      before:
-        'No made-up numbers here: these fill in as real benchmarks come in. The built-in debug panel (',
-      after: ") shows the mod's own cost per tick and per frame.",
-    },
-    /** The measurements the section is laid out for (`SITE.benchmarks` fills them). */
-    slots: {
-      fps: { label: 'FPS gain', hint: 'the mod drawing the distance instead of the game' },
-      mobs: { label: 'Mobs on the horizon', hint: 'drawn at once' },
-      distance: { label: 'Distance covered', hint: 'past the render distance' },
-      frame: { label: 'Frame cost', hint: 'from the debug panel' },
-    },
-    /** How each benchmark of `SITE.benchmarks` was measured, by slot. */
-    setups: {
-      fps: '120 → 150 FPS for the same view of the distance: a shorter render distance with Living Horizon drawing the mobs beyond it, against the game drawing that far itself. Measured by the author.',
-    },
-    pending: (hint: string) => `Benchmark pending · ${hint}`,
-    share: 'Measured it on your setup? Share it',
   },
 
   /** Testing, contributing and the Discord, in one section. */
@@ -1071,9 +919,9 @@ export const en = {
     status: { works: 'Works', issue: 'Known issue', untested: 'Not tested yet' },
     /** The heading of the shader packs, after the mods. */
     shaders: 'Shader packs',
-    /** The note of every mod still waiting for a tester, next to the link to its issue. */
-    untested: 'Nobody has told us how it runs yet. Tried it? Tell us on its issue.',
     issue: (n: number) => `Issue #${n}`,
+    /** A link that only shows the platform's logo. */
+    page: (platform: string) => `${platform} page`,
     none: 'No mod matches your search.',
     missing: {
       title: 'A mod missing from the list?',

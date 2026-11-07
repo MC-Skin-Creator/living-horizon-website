@@ -1,12 +1,11 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
-  computed,
   inject,
   signal,
-  viewChild,
 } from '@angular/core';
 import { I18n } from '../i18n/i18n';
 import { FigureView } from '../scene/figure';
@@ -18,7 +17,7 @@ import { SectionHead } from '../shared/section-head';
 import { RichText } from '../shared/rich-text';
 import { Servers } from './servers';
 
-type Stage = 'mobs' | 'unexplored' | 'players' | 'offline' | 'birds' | 'light';
+type Stage = 'mobs' | 'players' | 'offline' | 'birds' | 'light';
 
 /** The texts are in the dictionaries, under `features.items.<stage>`. */
 interface Feature {
@@ -55,24 +54,15 @@ interface Feature {
               <lh-mob name="horse-white" [pixel]="1" [fade]="0.6" [flip]="true" />
               <lh-mob name="pig" [pixel]="1" [fade]="0.6" />
               <lh-mob name="chicken" [pixel]="1" [fade]="0.6" [flip]="true" />
+              @if (egg === 'mobs') {
+                <lh-sprite class="egg" name="herobrine" [scale]="2" />
+              }
             </div>
             <div class="ground near">
               <lh-mob name="villager-farmer" [pixel]="2" />
               <lh-mob name="cow" [pixel]="2" [flip]="true" />
               <lh-mob name="sheep" [pixel]="2" />
             </div>
-          }
-          @case ('unexplored') {
-            <div class="ground far bare">
-              <lh-mob name="horse-brown-small" [pixel]="1" [fade]="0.8" />
-              <lh-mob name="sheep-small" [pixel]="1" [fade]="0.8" [flip]="true" />
-              <lh-mob name="sheep-small" [pixel]="1" [fade]="0.8" />
-              <lh-mob name="cow-small" [pixel]="1" [fade]="0.8" [flip]="true" />
-            </div>
-            <span class="lens">
-              <lh-mob name="horse-white" [pixel]="1" [flip]="true" />
-            </span>
-            <div class="ground near"></div>
           }
           @case ('players') {
             <div class="ground far">
@@ -105,6 +95,9 @@ interface Feature {
               <lh-sprite name="tree" [scale]="12" />
             </div>
             <span class="moon"></span>
+            @if (egg === 'offline') {
+              <lh-sprite class="egg ghostly" name="ghost" [scale]="3" />
+            }
           }
           @case ('birds') {
             <span class="flock v">
@@ -112,6 +105,9 @@ interface Feature {
                 <lh-sprite name="bird" [scale]="3" />
               }
             </span>
+            @if (egg === 'birds') {
+              <lh-sprite class="egg ufo" name="ufo" [scale]="2" />
+            }
             <span class="flock loose">
               @for (b of [0, 1, 2]; track b) {
                 <lh-sprite name="bird" [scale]="2" />
@@ -144,25 +140,50 @@ interface Feature {
       <div class="container">
         <header lhHead [texts]="t" [text]="t.text" lhReveal></header>
 
-        <div class="grid">
+        <div class="grid" [class.has-open]="opened() !== null">
           @for (f of features; track f.stage; let i = $index) {
             @let item = t.items[f.stage];
-            <article class="card feature" [class]="'f-' + f.stage" [lhReveal]="(i % 3) * 80">
+            @let open = opened() === i;
+            <article
+              class="card feature"
+              [class]="'f-' + f.stage"
+              [class.open]="open"
+              [lhReveal]="(i % 3) * 80"
+              [style.view-transition-name]="'feature-' + f.stage"
+            >
               <ng-container *ngTemplateOutlet="stageOf; context: { $implicit: f.stage }" />
 
               <div class="body">
-                <h3><lh-icon [name]="f.icon" /> {{ item.title }}</h3>
+                <h3 [id]="'feature-' + f.stage"><lh-icon [name]="f.icon" /> {{ item.title }}</h3>
                 <p>{{ item.text }}</p>
-                <ul>
-                  @for (p of item.points; track $index) {
-                    <li><lh-icon name="check" /> {{ p }}</li>
-                  }
-                </ul>
+                @if (!open) {
+                  <ul>
+                    @for (p of item.points; track $index) {
+                      <li><lh-icon name="check" /> {{ p }}</li>
+                    }
+                  </ul>
+                }
                 <p class="where" [class.everywhere]="f.everywhere">
                   <lh-icon [name]="f.everywhere ? 'sparkles' : 'users'" /> {{ item.where }}
                 </p>
-                <button type="button" class="more" (click)="open(i)" aria-haspopup="dialog">
-                  {{ t.more }} <lh-icon name="arrow-right" />
+                @if (open) {
+                  <div class="parts" [id]="'feature-details-' + f.stage">
+                    @for (d of item.details; track $index) {
+                      <section class="part">
+                        <h4>{{ d.title }}</h4>
+                        <lh-rich [blocks]="d.body" />
+                      </section>
+                    }
+                  </div>
+                }
+                <button
+                  type="button"
+                  class="more"
+                  [attr.aria-expanded]="open"
+                  [attr.aria-controls]="open ? 'feature-details-' + f.stage : null"
+                  (click)="toggle(i)"
+                >
+                  {{ open ? t.less : t.more }} <lh-icon [name]="open ? 'close' : 'arrow-right'" />
                 </button>
               </div>
             </article>
@@ -173,93 +194,47 @@ interface Feature {
       <!-- Part of the features: multiplayer. -->
       <lh-servers />
     </section>
-
-    <dialog
-      #dialog
-      class="details"
-      [attr.aria-labelledby]="'feature-' + (current()?.stage ?? '')"
-      (click)="backdrop($event)"
-      (close)="selected.set(null)"
-    >
-      @if (current(); as f) {
-        @let item = t.items[f.stage];
-        <div class="sheet" [class]="'f-' + f.stage">
-          <ng-container *ngTemplateOutlet="stageOf; context: { $implicit: f.stage }" />
-          <button type="button" class="close" (click)="close()" [attr.aria-label]="t.close">
-            <lh-icon name="close" />
-          </button>
-
-          <div class="content">
-            <h3 [id]="'feature-' + f.stage"><lh-icon [name]="f.icon" /> {{ item.title }}</h3>
-            <p class="lede">{{ item.text }}</p>
-            <p class="where" [class.everywhere]="f.everywhere">
-              <lh-icon [name]="f.everywhere ? 'sparkles' : 'users'" /> {{ item.where }}
-            </p>
-
-            <div class="parts">
-              @for (d of item.details; track $index) {
-                <section class="part">
-                  <h4>{{ d.title }}</h4>
-                  <lh-rich [blocks]="d.body" />
-                </section>
-              }
-            </div>
-          </div>
-
-          <nav class="steps">
-            <button type="button" class="btn small" (click)="step(-1)">
-              <lh-icon name="arrow-right" class="back" /> {{ t.previous }}
-            </button>
-            <span class="count">{{ (selected() ?? 0) + 1 }} / {{ features.length }}</span>
-            <button type="button" class="btn small" (click)="step(1)">
-              {{ t.next }} <lh-icon name="arrow-right" />
-            </button>
-          </nav>
-        </div>
-      }
-    </dialog>
   `,
   styleUrl: './features.scss',
 })
 export class Features {
   protected readonly i18n = inject(I18n);
-  private readonly dialog = viewChild.required<ElementRef<HTMLDialogElement>>('dialog');
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly changes = inject(ChangeDetectorRef);
 
   protected readonly features: Feature[] = [
     { stage: 'mobs', icon: 'eye', everywhere: true },
-    { stage: 'unexplored', icon: 'search' },
     { stage: 'players', icon: 'users' },
     { stage: 'offline', icon: 'calendar', everywhere: true },
     { stage: 'birds', icon: 'feather', everywhere: true },
     { stage: 'light', icon: 'gauge', everywhere: true },
   ];
 
-  /** The feature whose details are open. */
-  protected readonly selected = signal<number | null>(null);
-  protected readonly current = computed(() => {
-    const i = this.selected();
-    return i === null ? null : this.features[i];
-  });
+  /** On some visits, a card hides a figure of the mod's own surprises; never named. */
+  protected readonly egg =
+    Math.random() < 0.3
+      ? (['mobs', 'offline', 'birds'] as const)[Math.floor(Math.random() * 3)]
+      : null;
 
-  protected open(index: number) {
-    this.selected.set(index);
-    const dialog = this.dialog().nativeElement;
-    if (!dialog.open) dialog.showModal();
-    dialog.scrollTop = 0;
-  }
+  /**
+   * The card spread across the section, its details shown, the others below it; `null`
+   * when every card is folded.
+   */
+  protected readonly opened = signal<number | null>(null);
 
-  protected close() {
-    this.dialog().nativeElement.close();
-  }
-
-  /** The previous or next feature, going round. */
-  protected step(by: number) {
-    const n = this.features.length;
-    this.open(((this.selected() ?? 0) + by + n) % n);
-  }
-
-  /** A click outside the sheet lands on the dialog itself: it closes it. */
-  protected backdrop(event: MouseEvent) {
-    if (event.target === this.dialog().nativeElement) this.close();
+  protected toggle(index: number) {
+    const next = this.opened() === index ? null : index;
+    const apply = () => {
+      this.opened.set(next);
+      this.changes.detectChanges();
+    };
+    // The cards slide to their new places where the browser can animate it.
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const transition = still ? undefined : document.startViewTransition?.(apply);
+    if (!transition) apply();
+    void (transition?.finished ?? Promise.resolve()).then(() => {
+      const card = this.host.nativeElement.querySelectorAll('.feature')[next ?? index];
+      card?.scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: 'start' });
+    });
   }
 }

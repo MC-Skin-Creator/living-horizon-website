@@ -58,7 +58,7 @@ export const tr: Messages = {
   hero: {
     scene:
       'Çizim: köşeli tepelerle dolu, alacakaranlıkta bir ufuk; çok uzakta köylüler, hayvanlar, biniciler ve diğer oyuncular hâlâ yaşıyor, üstlerinden bir kaz sürüsü geçiyor.',
-    news: 'Yeni: kimsenin keşfetmediği topraklarda sürüler',
+    news: 'Artık Lodistance, Far View ve Ecstatic arazisinde',
     tagline: 'Uzaklara',
     taglineAccent: 'hayat verir.',
     lede: {
@@ -96,243 +96,148 @@ export const tr: Messages = {
     eyebrow: 'Özellikler',
     title: 'Görüş mesafenizin ötesinde',
     accent: 'yaşayan her şey.',
-    text: 'Canlılar, kimsenin keşfetmediği toprakların sürüleri, oyuncular, oyundan çıkmış oyuncular ve kuşlar; hepsini kendi oyununuz çizer ve açık bırakabileceğiniz kadar hafif kalır.',
+    text: 'Canlılar, oyuncular, oyundan çıkmış oyuncular ve kuşlar; hepsini kendi oyununuz çizer ve açık bırakabileceğiniz kadar hafif kalır.',
     offline: '(çevrim dışı)',
     near: 'Yakında: canlının tamamı',
     far: 'Uzakta: düz bir resim',
+    /** The button of each card: it spreads the card across the section, and folds it back. */
     more: 'Daha fazla ayrıntı',
-    close: 'Kapat',
-    previous: 'Önceki özellik',
-    next: 'Sonraki özellik',
+    less: 'Daha az ayrıntı',
     items: {
       mobs: {
         title: 'Ufka kadar her canlı',
-        text: 'Hayvanlar otlar, köylüler uzak köylerde dolaşır, golemler nöbet tutar. Oyunun çizebildiği her canlı, diğer modların canlıları ve araçları dahil.',
+        text: 'Hayvanlar uzak tepelerde otlar, köylüler uzak köylerde dolaşır, golemler nöbet tutar. Oyunun çizebildiği her canlı, diğer modların canlıları da dahil.',
         points: [
           'Voxy, Distant Horizons ve diğer uzak arazilerde ya da vanilla oyunda',
-          'Uzak tepelerin arkasında gizlenirler, gölgelendirici paketleriyle de',
-          "Hangilerinin görüneceğini Canlılar ve Varlıklar'dan seçin",
+          'Henüz kimsenin keşfetmediği topraklarda bile',
+          'Uzak tepelerin arkasında gizlenirler, gölgelendiricilerle de',
         ],
         where: 'Her yerde. Modlu bir sunucuda, hiç karşılaşmadığınız canlılar bile.',
         details: details([
           {
-            title: 'Nereden geliyorlar',
+            title: 'Görüldükleri yerde gerçek canlılar',
             body: [
               [
-                'Gerçek canlılardır; oyununuzun ya da sunucunun onları en son gördüğü yerdedirler. Oyununuz karşılaştığı her canlıyı hatırlar ve modlu bir sunucu her oyuncunun çevresindeki canlıları paylaşır; böylece hiç karşılaşmadığınız sürüleri de görürsünüz. O zamandan beri ölen ya da kaybolan bir canlı, siz yanına gelene kadar görünmeye devam edebilir. Sonra unutulur.',
+                'Her uzak canlı gerçektir ve oyununuzun ya da sunucunun onu en son gördüğü yerde durur. Yaklaştığınızda yerini doğrudan gerçek canlı alır. Uzak canlılar yalnızca görüntüdür: onlara vurulamaz, çiftlikler ve canlıların doğması mod yokmuş gibi çalışır.',
               ],
             ],
           },
           {
-            title: 'Uzak arazide',
+            title: 'Uzak arazinizde evlerindeymiş gibi',
             body: [
               [
-                'Voxy, Distant Horizons, Lodistance, Far View ya da Ecstatic ile onun zemininde yürür, herhangi bir bloğun arkasındaymış gibi tepelerinin arkasında gizlenir ve sisinde kaybolurlar. Bobby ile onun sakladığı arazide kalırlar. Hiçbiri yoksa oyunun kendi arazisinde görünürler. Bkz. ',
+                'Voxy, Distant Horizons, Lodistance, Far View ya da Ecstatic ile uzak canlılar onun zemininde yürür, tepelerinin arkasında kaybolur ve sisine karışır. Uzak arazi modu yoksa görüş mesafenizin ötesinde, oyunun kendi arazisinde görünürler (bkz. ',
                 { link: 'compatibilitySection', text: 'Uyumluluk' },
-                '.',
+                ').',
               ],
             ],
           },
           {
-            title: 'Yaklaşınca gerçek canlı devralır',
+            title: 'Kimsenin gitmediği yerlerde bile',
             body: [
               [
-                'Siz yaklaştıkça kopya, canlının en son görüldüğü yere geri yürür ve sunucu gerçek canlıyı gönderdiğinde onun yerini gerçek canlı alır. Uzak canlılar yalnızca görüntüdür: çiftlikler, canlıların doğması ve canlı sınırı mod yokmuş gibi çalışır ve onlara vuramazsınız.',
+                'Hiç gitmediğiniz toprakların da kendi sürüleri vardır. Living Horizon onları dünyanın tohumundan tahmin eder; bu yüzden oraya vardığınızda farklı olabilir ya da gitmiş olabilirler. Nişan aldığınız yere kadar görmek için dürbünle bakın.',
               ],
             ],
           },
           {
-            title: 'Diğer modların canlıları',
+            title: 'Modlu bir sunucuda',
             body: [
               [
-                "Minecraft'ın kendi varlık sistemini kullanan her şey uzaktan görünür: modlu canlılar ve Immersive Aircraft'ın uçakları ya da Shippy Ships'in gemileri gibi araçlar, onları bıraktığınız yerde.",
-              ],
-            ],
-          },
-          {
-            title: 'Ayarlar',
-            body: [
-              {
-                list: [
-                  [
-                    { em: 'Canlıları Göster' },
-                    ' ve ',
-                    { em: 'Varlıkları Göster' },
-                    ': onları açar ya da kapatır.',
-                  ],
-                  [{ em: 'Canlılar ve Varlıklar...' }, ': canlıları tek tek seçin.'],
-                  [
-                    { em: 'Canlı Görüş Mesafesi' },
-                    ' ve ',
-                    { em: 'En Fazla Canlı' },
-                    ': ne kadar uzağa kadar ve aynı anda kaç tane.',
-                  ],
-                ],
-              },
-            ],
-          },
-        ]),
-      },
-      unexplored: {
-        title: 'Kimsenin keşfetmediği topraklarda sürüler',
-        text: 'Hiç gitmediğiniz toprakların da hayvanları var. Mod, oyunun oraya hangilerini ve nereye koyacağını dünyanın tohumundan hesaplar.',
-        points: [
-          'Oyunun her yeni yığın için yaptığı rastgele çekimlerin aynısı',
-          'Dürbünle, nişan aldığınız kadar uzağa',
-          'Canlıları Tahmin Et: çevrenizde 1.024 yığına kadar',
-        ],
-        where: 'Tek oyunculu oyunda ve modlu sunucularda.',
-        details: details([
-          {
-            title: 'Nasıl tahmin eder',
-            body: [
-              [
-                'Oyun bir yığın oluşturduğunda, ilk hayvanlarını dünyanın tohumundan ve yığının konumundan yapılan rastgele çekimlerle yerleştirir. Living Horizon, henüz oluşturulmamış yığınlar için aynı çekimleri dünya oluşturucunun verdiği biyom ve araziyle yapar: ovalarda atlar, tepelerde koyunlar, aşağı yukarı oyunun onları koyacağı yerde.',
-              ],
-            ],
-          },
-          {
-            title: 'Bir tahmin, bir söz değil',
-            body: [
-              [
-                'Okuduğu arazide henüz ne çimen ne de ağaç vardır. Oyun bu yüzden bir yeri uygun bulmadığında, oradaki sürü eksik ya da başka bir yerdedir: tahmin edilen hayvanların yaklaşık yarısı gerçeklerine iki blok mesafede durur. Tahmin edilen bir canlı, siz vardığınızda orada olmayabilir.',
-              ],
-            ],
-          },
-          {
-            title: 'Dürbün ve Canlıları Tahmin Et',
-            body: [
-              [
-                'Tahmin edilen canlıları, ne kadar uzak olursa olsun nişan aldığınız her yerde görmek için dürbünle bakın. ',
-                { em: 'Canlıları Tahmin Et' },
-                ' onları çevrenizde 1.024 yığına kadar tek seferde gösterir ve sonraki oturumlarınız için saklar.',
-              ],
-            ],
-          },
-          {
-            title: 'Sunucuda',
-            body: [
-              [
-                'Sunucu onları modu olan her oyuncunun çevresinde, varsayılan olarak 512 blokta tahmin eder (',
-                { code: 'seedMobRange' },
-                ', en fazla 2.048). Dürbün ve ',
-                { em: 'Canlıları Tahmin Et' },
-                ' dünyanın tohumunu gerektirir: sunucu onu ancak sahibi ',
-                { code: 'shareSeed' },
-                ' ayarını açarsa paylaşır, çünkü tohuma sahip olan herkes tüm dünyayı bilir (bkz. ',
+                'Diğer her oyuncunun çevresindeki canlıları, hiç karşılaşmadığınız sürüleri bile görürsünüz. Tahmini canlıları daha da uzakta göstermek için sunucunun sahibi dünyanın tohumunu paylaşabilir. Tohum tüm dünyayı ortaya çıkardığı için bu varsayılan olarak kapalıdır (bkz. ',
                 { link: 'serverSettings', text: 'sunucu ayarları' },
                 ').',
               ],
             ],
           },
           {
-            title: 'Ayarlar',
+            title: 'Ayarlarda',
             body: [
-              {
-                list: [
-                  [{ em: 'Tahmini Canlılar' }, ': onları gösterir ya da gizler.'],
-                  [
-                    { em: 'Tahmin Yarıçapı' },
-                    ': ',
-                    { em: 'Canlıları Tahmin Et' },
-                    "'in ne kadar uzağa ulaştığı.",
-                  ],
-                ],
-              },
+              [
+                'Hangi canlıların görüneceğini ',
+                { em: 'Canlılar ve Varlıklar...' },
+                ' içinden seçin, tahmini olanları ise ',
+                { em: 'Tahmini Canlılar' },
+                ' ile gizleyin.',
+              ],
             ],
           },
         ]),
       },
       players: {
         title: 'Her mesafede oyuncular',
-        text: 'Diğer tüm oyuncuları, haritanın neresinde olurlarsa olsunlar, görünümleri, zırhları, ellerindeki eşyalar ve bindikleri şeyle birlikte görün.',
+        text: 'Haritanın neresinde olurlarsa olsunlar diğer tüm oyuncuları; görünümleri, teçhizatları ve bindikleri şeyle birlikte görün.',
         points: [
-          'Atlar, tekneler, vagonlar, elitralar ve mutlu ghastlar',
-          'Akıcı: sunucu konumları saniyede beş kez paylaşır',
-          'Modu olmayan oyuncular yine de katılabilir',
+          'At sırtında, teknede ya da elitrayla süzülürken',
+          'Uzakta bile akıcı hareket ederler',
+          'Modu olmayan oyuncular da katılabilir',
         ],
-        where: "LAN'da ve modlu sunucularda.",
+        where: 'LAN üzerinde ve modlu sunucularda.',
         details: details([
           {
-            title: 'Nasıl çalışır',
+            title: 'Herkes, her yerde',
             body: [
               [
-                'Modlu bir sunucu, her oyuncunun nerede olduğunu, neye bindiğini ve elitrayla süzülüp süzülmediğini saniyede beş kez paylaşır. Her beş saniyede bir, en yakındakilerin nasıl göründüğünü de ekler: görünüm, zırh ve ellerinde tuttukları. Oyununuz onları görüş mesafesinin ötesinde, ad etiketleri ve binekleriyle birlikte çizer.',
+                "Modlu bir sunucuda diğer tüm oyuncuları, nerede olurlarsa olsunlar, bineklerinin üstünde akıcı biçimde hareket ederken ve adlarıyla birlikte görürsünüz. LAN'a açılmış bir dünyada hiçbir şey kurmadan çalışır.",
               ],
             ],
           },
           {
-            title: 'Seçim sunucu sahibinin',
+            title: 'Karar sunucu sahibinin',
             body: [
               [
-                'Sunucu ilk başladığında ',
-                { code: 'config/livinghorizon-server.json' },
-                ' dosyasını yazar: oyuncuların ne kadar uzağa kadar paylaşılacağı, yalnızca takım arkadaşlarıyla mı, hangi oyuncuların ve boyutların gizli kalacağı. ',
-                { code: '"sharePlayers": false' },
-                ' bunu kapatır. Değişiklikler yeniden başlatma gerekmeden birkaç saniye sonra uygulanır (bkz. ',
+                'Sahibi, oyuncuların ne kadar uzaktan görüneceğini, yalnızca takım arkadaşlarının birbirini görüp görmeyeceğini ve hangi oyuncuların ya da boyutların gizli kalacağını seçer. Uzak oyuncuları göstermek tamamen de kapatılabilir (bkz. ',
                 { link: 'serverSettings', text: 'sunucu ayarları' },
                 ').',
               ],
             ],
           },
           {
-            title: 'Asla paylaşılmaz',
+            title: 'Asla gösterilmez',
             body: [
               [
-                'İzleyici modundaki oyuncular ve görünmez oyuncular. Eğilen oyuncular ise şimdilik paylaşılıyor (',
+                'İzleyici modundaki ve görünmez oyuncular uzakta asla gösterilmez. Eğilen oyuncular ise şimdilik gösteriliyor (',
                 { link: 'sneaking', text: '#269' },
-                '). Görüş mesafesi içinde oyuncular birbirini her zamanki gibi görür.',
+                ').',
               ],
             ],
           },
           {
-            title: 'Ayarlar',
+            title: 'Ayarlarda',
             body: [
-              {
-                list: [
-                  [{ em: 'Oyuncuları Göster' }, ': onları açar ya da kapatır.'],
-                  [{ em: 'Oyuncu Görüş Mesafesi' }, ': ne kadar uzağa kadar görünecekleri.'],
-                  [{ em: 'Binekler ve Araçlar' }, ': bindikleri şeyler.'],
-                ],
-              },
+              [
+                { em: 'Oyuncu Görüş Mesafesi' },
+                ' oyuncuların ne kadar uzaktan görüneceğini belirler, ',
+                { em: 'Oyuncuları Göster' },
+                ' ise onları kapatır.',
+              ],
             ],
           },
         ]),
       },
       offline: {
         title: 'Oyundan çıkan oyuncular yaşamaya devam eder',
-        text: 'Biri oyundan çıktığında, adını taşıyan bir kopyası bıraktığı yerde kalır. O geri dönene kadar dolaşır, oturur, balık tutar, sandık açar ve geceleri uyur.',
+        text: 'Biri oyundan çıktığında, bir kopyası bıraktığı yerde kalır. O geri dönene kadar dolaşır, oturur, balık tutar ve geceleri uyur.',
         points: [
-          'Adının yanında (çevrim dışı) ve en son ne zaman görüldüğü',
+          'Adı, yanında (çevrim dışı) ve en son ne zaman görüldüğü',
           'Siz katılmadan önce ayrılmış oyuncular bile',
           'Yalnızca görüntü: kenara itmek için içlerine doğru yürüyün',
         ],
         where: 'Her yerde. Modlu bir sunucuda, orada oynamış her oyuncu.',
         details: details([
           {
-            title: 'Hayatlarından bir gün',
+            title: 'Kendilerine ait bir hayat',
             body: [
-              {
-                list: [
-                  [
-                    'Gündüz dolaşır, oturur ya da bir sandığın, çalışma masasının veya bir meslek bloğunun başında dururlar.',
-                  ],
-                  ['Gece boş bir yatağa yürüyüp içinde uyurlar ya da ayakta kalırlar.'],
-                  ['Su kenarında içlerinden biri kıyıda durup bir süre balık tutar.'],
-                  [
-                    'Yağmurda bazıları bir çatının ya da ağacın altına geçip yağmurun dinmesini bekler.',
-                  ],
-                  ['Akşam bir kamp ateşinin ya da ocağın önünde toplanırlar.'],
-                  ['Birbirine yakın iki kişi birbirine doğru yürür ve yüz yüze sohbet eder.'],
-                ],
-              },
+              [
+                'Gündüz dolaşır, oturur ya da bir sandığın başında oyalanırlar. Gece yatmaya giderler. Su kenarında balık tutar, yağmurdan korunur, akşamları bir kamp ateşinin çevresinde toplanır ve ikişer ikişer sohbet ederler.',
+              ],
             ],
           },
           {
             title: 'Sizi fark ederler',
             body: [
               [
-                'Yakından birine bakın, o da size bakar. Önünde eğilin, o da eğilir. Canavarlar yaklaştığında kılıç çekip kalkanlarını kaldırırlar, ama asla dövüşmezler.',
+                'Yakından birine bakın, o da size bakar. Eğilin, o da eğilir. Canavarlar yaklaştığında kalkanlarını kaldırırlar, ama asla dövüşmezler.',
               ],
             ],
           },
@@ -340,169 +245,123 @@ export const tr: Messages = {
             title: 'Yalnızca görüntü',
             body: [
               [
-                'Dünya onların var olduğunu bilmez: canlılar onları görmezden gelir ve sizi asla engellemez ya da itmezler. Kenara itmek için içlerine doğru yürüyün. Sizden uzakta, bulundukları yerde dolaşmaya devam ederler.',
+                'Dünya onların var olduğunu bilmez: canlılar onları görmezden gelir ve asla yolunuzu kesmezler. Kenara itmek için içlerine doğru yürüyün.',
               ],
             ],
           },
           {
-            title: 'Nereden geliyorlar',
+            title: 'Modlu bir sunucuda',
             body: [
               [
-                'Oyununuz, ayrılırken gördüğü oyuncuları hatırlar. Modlu bir sunucu, orada oynamış her oyuncuyu göründükleri hâliyle paylaşır; siz katılmadan önce ayrılmış olanları bile.',
+                'Orada oynamış her oyuncuyu göründüğü haliyle görürsünüz; siz katılmadan önce ayrılanları bile. Başka yerlerde, ayrıldığını gördüğünüz oyuncuları görürsünüz.',
               ],
             ],
           },
           {
-            title: 'Ayarlar',
+            title: 'Ayarlarda',
             body: [
-              {
-                list: [
-                  [
-                    { em: 'Çevrim Dışı Oyuncu' },
-                    ' ve ',
-                    { em: 'En Fazla Çevrim Dışı' },
-                    ': görünüp görünmeyecekleri ve kaç tane.',
-                  ],
-                  [{ em: 'Çevrim Dışı Etkinlik' }, ': bulundukları yerin çevresindeki hayatları.'],
-                  [
-                    { em: 'Dolaşma Yarıçapı' },
-                    ': ne kadar uzağa dolaşacakları, varsayılan olarak 50 blok.',
-                  ],
-                ],
-              },
+              [
+                { em: 'Çevrim Dışı Oyuncu' },
+                ' onları gösterir ya da gizler, ',
+                { em: 'Çevrim Dışı Etkinlik' },
+                ' ise bıraktıkları yerin çevresindeki hayatlarını açar ya da kapatır.',
+              ],
             ],
           },
         ]),
       },
       birds: {
         title: 'Gökyüzünde kuşlar',
-        text: 'Sürüler, V şeklinde uçan kazlar, yırtıcı kuşlar, martılar, ördekler ve yarasalar arazinin üzerinde uçar ve onları uzaktan görürsünüz.',
+        text: 'Sürüler, V şeklinde uçan kazlar, yırtıcı kuşlar, martılar ve ördekler gökyüzünü doldurur ve onları çok uzaktan görürsünüz.',
         points: [
           'Ağaçlara, çatılara, tarlalara ve kumsallara konarlar',
-          'Ördekler göletlerinde yüzer',
-          'Yakında küçük 3D modeller, uzakta düz resimler',
+          'Ördekler göletlerde ve nehirlerde yüzer',
+          'Dünyanıza hiçbir şey eklenmez',
         ],
-        where: 'Her yerde, ayarlanacak bir şey yok.',
+        where: 'Her yerde, hiçbir ayar gerekmez.',
         details: details([
           {
-            title: 'Kim nerede uçar',
+            title: 'Her türden kuş',
             body: [
-              {
-                list: [
-                  ['Sürüler gökyüzünü geçer, kazlar V şeklinde uçar, yırtıcı kuşlar daire çizer.'],
-                  ['Martılar kıyıyı izler ve arada bir kumsala konar.'],
-                  [
-                    'Güvercinler yüksek binalara tüner, kızılgerdanlar tarlalarda sekerek dolaşır, baştankaralar ağaçlardan ayrılmaz.',
-                  ],
-                  ['Ördekler göllerde ve nehirlerde yüzer. Yarasalar geceleri çıkar.'],
-                ],
-              },
+              [
+                'V şeklinde uçan kazlardan göletlerdeki ördeklere kadar her tür ait olduğu yerde yaşar: ağaçlarda, kıyı boyunca, çatılarda, tarlalarda. Geceleri yarasalar çıkar.',
+              ],
             ],
           },
           {
             title: 'Size tepki verirler',
             body: [
               [
-                'Küçük kuşlar siz yaklaşınca havalanır ve biraz ileriye konar. Ördekler yanlarına yaklaşmanıza asla izin vermez. Ayrılan kuşlar asla bir anda yok olmaz: dağılır ve küçülerek uzaklaşırlar.',
+                'Yaklaşın, uçup biraz ileriye konarlar. Asla bir anda kaybolmazlar: dağılıp uçup giderler.',
               ],
             ],
           },
           {
-            title: 'Araziden okunur',
+            title: 'Yalnızca ekranınızda',
             body: [
               [
-                "Her türün nereye gideceği araziden okunur, Voxy ile Distant Horizons'un uzak arazisine kadar: kızılgerdanlar için ekinler, baştankaralar için yapraklar, ördekler için su, martılar için kumsallar. Yalnızca oyununuzdaki resimlerdir: dünyada hiçbir şey oluşturulmaz.",
+                'Kuşları yalnızca sizin oyununuz çizer: dünyanıza hiçbir şey eklenmez ve maliyetleri çok azdır.',
               ],
             ],
           },
           {
-            title: 'Ayarlar',
+            title: 'Ayarlarda',
             body: [
-              {
-                list: [
-                  [{ em: 'Kuşları Göster' }, ': onları açar ya da kapatır.'],
-                  [{ em: 'Kuş Türleri...' }, ': türleri tek tek seçin.'],
-                  [
-                    { em: 'Kuş Yoğunluğu' },
-                    ' ve ',
-                    { em: 'Kuş Mesafesi' },
-                    ': ne kadar çok ve ne kadar uzağa.',
-                  ],
-                ],
-              },
+              [
+                { em: 'Kuşları Göster' },
+                ' onları açar ya da kapatır, ',
+                { em: 'Kuş Türleri...' },
+                ' ise hangi türlerin uçacağını seçmenizi sağlar.',
+              ],
             ],
           },
         ]),
       },
       light: {
         title: 'Hafif kalmak için yapıldı',
-        text: 'Uzak canlıların yapay zekâsı yoktur: zemine uyan hazır animasyonlar oynatırlar. Çok uzakta kendilerinin düz bir resmine dönüşürler.',
+        text: 'Uzak canlılar düşünmek yerine basit, hazır animasyonlar oynatır; çok uzakta ise kendilerinin hafif resimlerine dönüşürler.',
         points: [
           'Tepelerin arkasında kalan canlılar çizilmez',
           'Simülasyon mesafenizi düşürün, dünya yine canlı kalsın',
-          'Basit Canlılar: aynı maliyetle çok daha fazla canlı',
+          'Aynı maliyetle çok daha fazla canlı',
         ],
         where: 'Her şey sizin oyununuzda çalışır. Sunucu yalnızca konumları paylaşır.',
         details: details([
           {
-            title: 'Uzakta yapay zekâ yok',
+            title: 'Uzakta basit animasyonlar',
             body: [
               [
-                'Uzak canlılar, çevrelerindeki zemine uyan hazır animasyonlarla yürür, otlar ve etrafa bakınır. Oyundan çıkmış oyuncular ve kuşlar yalnızca size yakınken kendi başlarına hareket eder.',
+                'Uzak canlıların yapay zekâsı yoktur: zemine uyan animasyonlarla yürür, otlar ve etrafa bakınırlar. Oyununuzun onları çalıştırması gerekmez, böylece hızlı kalır.',
               ],
             ],
           },
           {
-            title: 'Uzakta düz resimler',
+            title: 'Basitleştirilmiş resimler',
             body: [
               [
-                'Pek çok oyun uzak nesneleri impostor olarak çizer: 3D model yerine düz bir resim. Living Horizon da uzak canlılar, araçlar ve oyuncular için aynısını yapar (',
-                { em: 'Basit Canlılar' },
-                ', ',
-                { em: 'Basit Varlıklar' },
-                ', ',
-                { em: 'Basit Oyuncular' },
-                '). O boyutta aynı görünürler, maliyetin çok küçük bir kısmıyla. Photon gibi normal haritalarını okuyan bir gölgelendirici paketiyle, resimler paket tarafından aydınlatılır (',
-                { em: 'Gölgelendirici Işığı' },
-                ').',
+                'Pek çok oyun gibi Living Horizon da uzak canlıları, araçları ve oyuncuları tam 3D modeller yerine hafif resimler olarak çizer. O mesafede aynı görünürler, maliyetin çok küçük bir kısmıyla. Photon gibi bir gölgelendirici paketiyle resimler dünyanın geri kalanı gibi aydınlatılır.',
               ],
             ],
           },
           {
-            title: 'Gizli olan atlanır',
+            title: 'Daha az maliyetle canlı bir dünya',
             body: [
               [
-                'Tepelerin ya da uzak arazinin arkasındaki canlılar hiç çizilmez ve bir figür fark edilemeyecek kadar küçüldüğünde animasyonlar durur.',
+                'Tepelerin ya da uzak arazinin arkasında kalan canlılar hiç çizilmez. Kare kazanmak için simülasyon mesafenizi düşürün, çevrenizdeki dünya yine canlı kalsın. Modlu bir sunucuya çok az iş düşer: gördüğünüz her şeyi oyununuz üstlenir.',
               ],
             ],
           },
           {
-            title: 'Her şey sizin oyununuzda',
+            title: 'Hazır ayarlar',
             body: [
               [
-                'Animasyonları, oyundan çıkmış oyuncuları ve kuşları sizin oyununuz yönetir. Modlu bir sunucu yalnızca konumları paylaşır, bu yüzden ona maliyeti azdır. İki oyuncu aynı uzak canlıyı farklı şeyler yaparken bile görebilir.',
-              ],
-            ],
-          },
-          {
-            title: 'Hazır ayarlar ve ayarlar',
-            body: [
-              [
-                'Bir ',
-                { em: 'Hazır Ayar' },
-                ' (',
+                'Her şeyi tek seferde ayarlamak için ',
                 { em: 'Düşük' },
-                ', ',
-                { em: 'Normal' },
-                ', ',
-                { em: 'Yüksek' },
-                ', ',
+                "'ten ",
                 { em: 'Ultra' },
-                ') her şeyi tek seferde ayarlar. Varsayılanlar dengeli seçimdir ve ',
-                { em: 'Varsayılana Sıfırla' },
-                " onları geri getirir. Ayarlar 14 dilde; Seçenekler ekranında, Mod Menu'de, Sodium'un Görüntü Ayarları'nda ya da ",
-                { code: '/livinghorizon config' },
-                ' komutuyla.',
+                "'ya bir ",
+                { em: 'Hazır Ayar' },
+                " seçin; varsayılanlar dengeli seçimdir. Ayarlar 14 dilde; Seçenekler ekranında, Mod Menu'de ve Sodium'un Görüntü Ayarları'nda.",
               ],
               [
                 'Dikkat: ',
@@ -582,7 +441,7 @@ export const tr: Messages = {
       mobs: 'Ufuktaki canlılar',
       players: 'Her mesafede oyuncular',
       offline: 'Oyundan çıkan oyuncular',
-      unexplored: 'Keşfedilmemiş topraklarda sürüler',
+      unexplored: 'Tohumdan tahmin edilen canlılar',
       birds: 'Kuşlar',
     },
     cells: {
@@ -664,30 +523,6 @@ export const tr: Messages = {
       neoforge: 'Minecraft 1.20.6 ve sonrası, başka bir şey gerekmez.',
       forge: 'Başka bir şey gerekmez.',
     },
-  },
-
-  performance: {
-    eyebrow: 'Performans',
-    title: 'Yaşayan bir ufuk,',
-    accent: 'üstelik size kare kazandırır.',
-    numbers: 'Rakamlarla',
-    measured: 'Oyuncular ve geliştirici tarafından ölçüldü; kurulum her değerin altında.',
-    noNumbers: {
-      before:
-        'Burada uydurma rakam yok: gerçek ölçümler geldikçe dolacak. Yerleşik hata ayıklama paneli (',
-      after: ') modun kendi maliyetini birim zaman ve kare başına gösterir.',
-    },
-    slots: {
-      fps: { label: 'FPS kazancı', hint: 'uzakları oyun yerine mod çiziyor' },
-      mobs: { label: 'Ufuktaki canlılar', hint: 'aynı anda çizilen' },
-      distance: { label: 'Kapsanan mesafe', hint: 'görüş mesafesinin ötesinde' },
-      frame: { label: 'Kare maliyeti', hint: 'hata ayıklama panelinden' },
-    },
-    setups: {
-      fps: '120 → 150 FPS, uzakların aynı görüntüsü için: daha kısa bir görüş mesafesi ve ötesindeki canlıları çizen Living Horizon, oyunun o kadar uzağı kendisinin çizmesine karşı. Geliştirici tarafından ölçüldü.',
-    },
-    pending: (hint: string) => `Ölçüm bekleniyor · ${hint}`,
-    share: 'Kendi sisteminizde ölçtünüz mü? Paylaşın',
   },
 
   help: {
@@ -1055,10 +890,9 @@ export const tr: Messages = {
     status: { works: 'Çalışıyor', issue: 'Bilinen sorun', untested: 'Henüz test edilmedi' },
     /** The heading of the shader packs, after the mods. */
     shaders: 'Gölgelendirici paketleri',
-    /** The note of every mod still waiting for a tester, next to the link to its issue. */
-    untested:
-      'Henüz kimse nasıl çalıştığını söylemedi. Denediniz mi? Issue sayfasında bize anlatın.',
     issue: (n: number) => `Issue #${n}`,
+    /** A link that only shows the platform's logo. */
+    page: (platform: string) => `${platform} sayfası`,
     none: 'Aramanızla eşleşen mod yok.',
     missing: {
       title: 'Listede olmayan bir mod mu var?',

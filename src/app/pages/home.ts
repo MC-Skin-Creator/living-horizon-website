@@ -9,7 +9,6 @@ import { Features } from '../sections/features';
 import { Help } from '../sections/help';
 import { Hero } from '../sections/hero';
 import { Modpacks } from '../sections/modpacks';
-import { Performance } from '../sections/performance';
 import { pageMeta } from './page-meta';
 
 @Component({
@@ -23,7 +22,6 @@ import { pageMeta } from './page-meta';
     Compatibility,
     Download,
     Modpacks,
-    Performance,
     Help,
     Changelog,
     Faq,
@@ -40,7 +38,6 @@ import { pageMeta } from './page-meta';
     <lh-compatibility />
     <lh-download />
     <lh-modpacks />
-    <lh-performance />
     <lh-help />
     <lh-changelog />
     <lh-faq />

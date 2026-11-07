@@ -1,21 +1,11 @@
 /**
  * Everything about the project that is not fetched: links, platform ids, and the values
- * shown when no source answers. Edit this file to change a link or add a benchmark.
+ * shown when no source answers. Edit this file to change a link.
  */
 
 import type { Messages } from '../i18n/en';
 
 const REPO = 'https://github.com/MC-Skin-Creator/living-horizon';
-
-export interface Benchmark {
-  /**
-   * The slot of the performance section it fills (`performance.slots` of the dictionaries).
-   * How it was measured (hardware, settings, mods) is `performance.setups.<slot>` there.
-   */
-  slot: keyof Messages['performance']['slots'];
-  /** The measured value, e.g. "-3 %". */
-  value: string;
-}
 
 export interface Screenshots {
   /** Its tab's name and sentence are `compare.shots.<id>` in the dictionaries. */
@@ -89,12 +79,6 @@ export const SITE = {
    */
   changelogLanguages: ['en', 'fr'] as string[],
   changelogFile: (code: string) => `${REPO}/blob/main/changelog/${code}.md`,
-
-  /**
-   * Real measurements only. While this list is empty the performance section shows
-   * empty slots inviting players to share theirs, never a made-up number.
-   */
-  benchmarks: [{ slot: 'fps', value: '+25 %' }] as Benchmark[],
 
   /**
    * Real in-game screenshots for the before / after slider. They come first, the stylised

@@ -10,7 +10,7 @@ import { pageMeta } from './page-meta';
 
 const STATUSES: readonly CompatStatus[] = ['works', 'issue', 'untested'];
 
-const STATUS_ICONS: Record<CompatStatus, IconName> = {
+const ICONS: Record<CompatStatus, IconName> = {
   works: 'check',
   issue: 'bug',
   untested: 'flask',
@@ -76,19 +76,23 @@ const PLATFORMS = [
             <section class="group" [attr.aria-labelledby]="'mods-' + group.id">
               <h2 [id]="'mods-' + group.id" [class]="group.id">
                 <lh-icon [name]="group.icon" />
-                {{ group.id === 'shaders' ? t.shaders : t.status[group.status!] }}
+                {{ group.title }}
                 <span class="n">{{ group.mods.length }}</span>
               </h2>
               <ul class="mods">
                 @for (mod of group.mods; track mod.name + mod.issue) {
-                  <li class="card mod" [class]="mod.status">
+                  <li
+                    class="mod"
+                    [title]="mod.note ?? mod.name"
+                    [attr.lang]="mod.note ? 'en' : null"
+                  >
                     <span class="icon">
                       @if (mod.icon) {
                         <img
                           [src]="mod.icon"
                           alt=""
-                          width="48"
-                          height="48"
+                          width="32"
+                          height="32"
                           loading="lazy"
                           referrerpolicy="no-referrer"
                         />
@@ -96,40 +100,35 @@ const PLATFORMS = [
                         <lh-icon name="box" />
                       }
                     </span>
-                    <h3>{{ mod.name }}</h3>
-                    @if (mod.note) {
-                      <p class="note" lang="en">{{ mod.note }}</p>
-                    } @else if (mod.status === 'untested') {
-                      <p class="note">{{ t.untested }}</p>
-                    }
-                    <div class="links">
+                    <span class="name">{{ mod.name }}</span>
+                    <span class="links">
                       @for (p of platforms; track p.key) {
                         @if (mod[p.key]; as url) {
                           <a
-                            class="btn small get"
                             [class]="p.key"
                             [href]="url"
                             target="_blank"
                             rel="noopener"
-                            [attr.aria-label]="i18n.t().modpacks.get(p.name)"
-                            [title]="i18n.t().modpacks.get(p.name)"
+                            [attr.aria-label]="t.page(p.name) + ': ' + mod.name"
+                            [title]="t.page(p.name)"
                           >
                             <img [src]="p.logo" alt="" width="16" height="16" />
-                            {{ p.name }}
                           </a>
                         }
                       }
                       @if (mod.issue) {
                         <a
-                          class="issue-link"
+                          class="issue"
                           [href]="issueUrl(mod.issue)"
                           target="_blank"
                           rel="noopener"
+                          [attr.aria-label]="t.issue(mod.issue) + ': ' + mod.name"
+                          [title]="mod.note ?? t.issue(mod.issue)"
                         >
-                          <lh-icon name="github" /> {{ t.issue(mod.issue) }}
+                          <lh-icon name="github" />
                         </a>
                       }
-                    </div>
+                    </span>
                   </li>
                 }
               </ul>
@@ -165,7 +164,7 @@ export class ModsPage {
   protected readonly i18n = inject(I18n);
   protected readonly data = inject(ProjectData);
   protected readonly statuses = STATUSES;
-  protected readonly statusIcons = STATUS_ICONS;
+  protected readonly statusIcons = ICONS;
   protected readonly platforms = PLATFORMS;
 
   protected readonly mods = this.data.compat;
@@ -190,20 +189,21 @@ export class ModsPage {
    * issues, then the mods waiting for a tester.
    */
   protected readonly groups = computed(() => {
+    const t = this.i18n.t().mods;
     const only = this.status();
     const shown = this.searched().filter((m) => !only || m.status === only);
     const mods = shown.filter((m) => m.kind !== 'shader');
-    const byStatus = (status: CompatStatus) => ({
-      id: status as string,
-      status: status as CompatStatus | null,
-      icon: STATUS_ICONS[status],
-      mods: mods.filter((m) => m.status === status),
+    const byStatus = (s: CompatStatus) => ({
+      id: s as string,
+      title: t.status[s],
+      icon: ICONS[s],
+      mods: mods.filter((m) => m.status === s),
     });
     return [
       byStatus('works'),
       {
         id: 'shaders',
-        status: null,
+        title: t.shaders,
         icon: 'sparkles' as IconName,
         mods: shown.filter((m) => m.kind === 'shader'),
       },

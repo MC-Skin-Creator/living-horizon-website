@@ -29,6 +29,10 @@ export const PALETTE: Record<string, RGB> = {
   L: [70, 128, 56], // leaves, light
   B: [120, 84, 50], // boat
   Y: [236, 196, 64], // chicken legs, bees
+  Q: [204, 220, 248], // ghosts
+  F: [70, 50, 38], // fur
+  M: [150, 156, 170], // metal
+  O: [140, 238, 255], // a saucer's lights
 };
 
 export type SpriteName =
@@ -53,7 +57,13 @@ export type SpriteName =
   | 'creeper'
   | 'zombie'
   | 'skeleton'
-  | 'bee';
+  | 'bee'
+  // Seen now and then, far off (`SceneSpec.eggs`).
+  | 'herobrine'
+  | 'ghost'
+  | 'ghostBoat'
+  | 'bigfoot'
+  | 'ufo';
 
 const horse = ['......ee', '.....eEE', 'eEEEEEEE', '.EEEEEE.', '.E....E.', '.e....e.'];
 
@@ -103,6 +113,12 @@ export const SPRITES: Record<SpriteName, string[]> = {
   zombie: ['ll', 'LL', 'CC', 'CC', 'UU', 'UU'],
   skeleton: ['GG', 'gg', 'GG', 'g.', 'GG'],
   bee: ['YK', 'YY'],
+  // Steve, with white eyes.
+  herobrine: ['hh', 'WW', 'CC', 'CC', 'UU', 'UU'],
+  ghost: ['QQ', 'QQ', 'QQ', 'QQ', 'QQ', 'Q.'],
+  ghostBoat: overlay(['Q.....Q', 'QQQQQQQ'], ['QQ', 'QQ', 'QQ'], 3, -2),
+  bigfoot: ['.FF', 'FFF', 'FFFF', 'FFF.', 'FFF', 'F.F', 'F.F'],
+  ufo: ['..OO..', '.MMMM.', 'MMMMMM', '.O..O.'],
 };
 
 /** Two frames of a bird's wings: up, then down. */
