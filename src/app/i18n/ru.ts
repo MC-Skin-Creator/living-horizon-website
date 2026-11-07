@@ -926,29 +926,6 @@ export const ru: Messages = {
     issue: (n: number) => `Issue #${n}`,
     /** A link that only shows the platform's logo. */
     page: (platform: string) => `Страница на ${platform}`,
-    /**
-     * The mods the modpacks that ship Living Horizon ship too: a pack runs them together, so
-     * they work with it.
-     */
-    packs: {
-      title: 'В сборках с Living Horizon',
-      chip: 'В сборках',
-      text: 'Сборки с Living Horizon запускают его и с этими модами.',
-      count: (n: number) =>
-        p(n, {
-          one: 'В {n} сборке',
-          few: 'В {n} сборках',
-          many: 'В {n} сборках',
-          other: 'В {n} сборки',
-        }),
-      more: (n: number) =>
-        p(n, {
-          one: 'Показать ещё {n} мод',
-          few: 'Показать ещё {n} мода',
-          many: 'Показать ещё {n} модов',
-          other: 'Показать ещё {n} мода',
-        }),
-    },
     none: 'Ни один мод не подходит под поиск.',
     missing: {
       title: 'Нет нужного мода?',

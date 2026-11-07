@@ -107,10 +107,6 @@
   --tone: var(--sky);
 }
 
-.packs {
-  --tone: var(--grass);
-}
-
 .group {
   margin-bottom: 44px;
 
@@ -135,12 +131,6 @@
       font: 700 0.85rem var(--font-body);
     }
   }
-}
-
-.lede {
-  max-width: 720px;
-  margin: -8px 0 18px;
-  color: var(--muted);
 }
 
 /* A small tile per mod: its icon, its name, and its pages as logos. */
@@ -190,20 +180,11 @@
 .name {
   flex: 1;
   min-width: 0;
-  display: grid;
-  line-height: 1.25;
-
-  strong {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 0.92rem;
-  }
-
-  small {
-    color: var(--dim);
-    font-size: 0.76rem;
-  }
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.92rem;
+  font-weight: 700;
 }
 
 .links {
@@ -231,10 +212,6 @@
     width: 16px;
     height: 16px;
   }
-}
-
-.all {
-  margin-top: 14px;
 }
 
 .empty {

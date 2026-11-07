@@ -922,17 +922,6 @@ export const en = {
     issue: (n: number) => `Issue #${n}`,
     /** A link that only shows the platform's logo. */
     page: (platform: string) => `${platform} page`,
-    /**
-     * The mods the modpacks that ship Living Horizon ship too: a pack runs them together, so
-     * they work with it.
-     */
-    packs: {
-      title: 'In modpacks with Living Horizon',
-      chip: 'In modpacks',
-      text: 'The modpacks that ship Living Horizon run it with these mods too.',
-      count: (n: number) => p(n, { one: 'In {n} modpack', other: 'In {n} modpacks' }),
-      more: (n: number) => p(n, { one: 'Show {n} more mod', other: 'Show {n} more mods' }),
-    },
     none: 'No mod matches your search.',
     missing: {
       title: 'A mod missing from the list?',

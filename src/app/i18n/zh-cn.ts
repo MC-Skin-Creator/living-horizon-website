@@ -868,17 +868,6 @@ export const zhCN: Messages = {
     issue: (n: number) => `Issue #${n}`,
     /** A link that only shows the platform's logo. */
     page: (platform: string) => `${platform} 页面`,
-    /**
-     * The mods the modpacks that ship Living Horizon ship too: a pack runs them together, so
-     * they work with it.
-     */
-    packs: {
-      title: '与 Living Horizon 同在整合包中',
-      chip: '在整合包中',
-      text: '收录 Living Horizon 的整合包也同时运行这些模组。',
-      count: (n: number) => p(n, { other: '在 {n} 个整合包中' }),
-      more: (n: number) => p(n, { other: '再显示 {n} 个模组' }),
-    },
     none: '没有符合搜索的模组。',
     missing: {
       title: '列表里缺了某个模组？',

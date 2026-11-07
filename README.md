@@ -48,7 +48,6 @@ lists them:
 | Nexus Mods downloads | Nexus Mods GraphQL API (`api.nexusmods.com/v2/graphql`, no key) |
 | Modpacks that ship the mod | ModpackIndex API (`/mod/<id>/modpacks`, then `/modpack/<id>` for the authors and game versions of the 30 most downloaded; its filtered search refuses browsers), credited in the footer |
 | Compatible mods | The mod's README ("Compatibility" table) and its issues labelled `mod compatibility` (GitHub API); icons and CurseForge / Modrinth links from ModpackIndex, else Modrinth's search and api.cfwidget.com |
-| Mods of the modpacks | ModpackIndex (`/modpack/<id>/mods` of each modpack that ships the mod): read by the mods page only (`packMods`, a `lazy` source, its snapshot in `public/data/packMods.json`) |
 
 The page first shows `public/data/snapshot.json`, then asks every source from the browser
 (cached 30 minutes in `localStorage`, GitHub allows 60 anonymous calls an hour). A source
@@ -123,10 +122,6 @@ starts so it never shows English first.
   and Modrinth pages come from ModpackIndex (`/api/v1/mods?name=`), else Modrinth's search
   and cfwidget. Notes stay in English, as GitHub has them; to change what the page says,
   change the README or the issue.
-- **Mods of the modpacks**: the mods page also lists the mods that the modpacks shipping
-  Living Horizon ship too (they run together), the most shipped first, without those the
-  checked list already has. Nothing to edit: ModpackIndex lists them once it has read a
-  pack. `npm run snapshot -- packMods` refreshes only that file.
 - **Modpacks**: `src/app/sections/modpacks.ts` lists the modpacks ModpackIndex finds with the
   mod (`SITE.modpackIndexModId`), how many there are, the most downloaded first: three on the
   home page, all of them on `/modpacks`. The download section has a row for them next to the platforms, with how many

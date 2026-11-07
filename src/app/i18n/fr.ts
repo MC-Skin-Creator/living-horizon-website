@@ -924,23 +924,6 @@ export const fr: Messages = {
     issue: (n: number) => `Issue #${n}`,
     /** A link that only shows the platform's logo. */
     page: (platform: string) => `Page ${platform}`,
-    /**
-     * The mods the modpacks that ship Living Horizon ship too: a pack runs them together, so
-     * they work with it.
-     */
-    packs: {
-      title: 'Dans des modpacks avec Living Horizon',
-      chip: 'Dans des modpacks',
-      text: 'Les modpacks qui embarquent Living Horizon le font aussi tourner avec ces mods.',
-      count: (n: number) =>
-        p(n, { one: 'Dans {n} modpack', many: 'Dans {n} de modpacks', other: 'Dans {n} modpacks' }),
-      more: (n: number) =>
-        p(n, {
-          one: 'Afficher {n} mod de plus',
-          many: 'Afficher {n} de mods de plus',
-          other: 'Afficher {n} mods de plus',
-        }),
-    },
     none: 'Aucun mod ne correspond à ta recherche.',
     missing: {
       title: 'Un mod manque à la liste ?',

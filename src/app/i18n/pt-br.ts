@@ -922,23 +922,6 @@ export const ptBR: Messages = {
     issue: (n: number) => `Issue #${n}`,
     /** A link that only shows the platform's logo. */
     page: (platform: string) => `Página no ${platform}`,
-    /**
-     * The mods the modpacks that ship Living Horizon ship too: a pack runs them together, so
-     * they work with it.
-     */
-    packs: {
-      title: 'Em modpacks com o Living Horizon',
-      chip: 'Em modpacks',
-      text: 'Os modpacks que incluem o Living Horizon também o rodam com estes mods.',
-      count: (n: number) =>
-        p(n, { one: 'Em {n} modpack', many: 'Em {n} de modpacks', other: 'Em {n} modpacks' }),
-      more: (n: number) =>
-        p(n, {
-          one: 'Mostrar mais {n} mod',
-          many: 'Mostrar mais {n} de mods',
-          other: 'Mostrar mais {n} mods',
-        }),
-    },
     none: 'Nenhum mod corresponde à sua busca.',
     missing: {
       title: 'Falta algum mod?',

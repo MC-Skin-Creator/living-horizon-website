@@ -868,17 +868,6 @@ export const zhTW: Messages = {
     issue: (n: number) => `Issue #${n}`,
     /** A link that only shows the platform's logo. */
     page: (platform: string) => `${platform} 頁面`,
-    /**
-     * The mods the modpacks that ship Living Horizon ship too: a pack runs them together, so
-     * they work with it.
-     */
-    packs: {
-      title: '與 Living Horizon 同在模組包中',
-      chip: '在模組包中',
-      text: '收錄 Living Horizon 的模組包也同時執行這些模組。',
-      count: (n: number) => p(n, { other: '在 {n} 個模組包中' }),
-      more: (n: number) => p(n, { other: '再顯示 {n} 個模組' }),
-    },
     none: '沒有符合搜尋的模組。',
     missing: {
       title: '清單裡少了某個模組？',

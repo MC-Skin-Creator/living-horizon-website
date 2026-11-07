@@ -893,17 +893,6 @@ export const tr: Messages = {
     issue: (n: number) => `Issue #${n}`,
     /** A link that only shows the platform's logo. */
     page: (platform: string) => `${platform} sayfası`,
-    /**
-     * The mods the modpacks that ship Living Horizon ship too: a pack runs them together, so
-     * they work with it.
-     */
-    packs: {
-      title: 'Living Horizon içeren mod paketlerinde',
-      chip: 'Mod paketlerinde',
-      text: 'Living Horizon içeren mod paketleri onu bu modlarla da çalıştırır.',
-      count: (n: number) => p(n, { other: '{n} mod paketinde' }),
-      more: (n: number) => p(n, { other: '{n} mod daha göster' }),
-    },
     none: 'Aramanızla eşleşen mod yok.',
     missing: {
       title: 'Listede olmayan bir mod mu var?',

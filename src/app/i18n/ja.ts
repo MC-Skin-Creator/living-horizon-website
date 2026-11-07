@@ -891,17 +891,6 @@ export const ja: Messages = {
     issue: (n: number) => `Issue #${n}`,
     /** A link that only shows the platform's logo. */
     page: (platform: string) => `${platform}のページ`,
-    /**
-     * The mods the modpacks that ship Living Horizon ship too: a pack runs them together, so
-     * they work with it.
-     */
-    packs: {
-      title: 'Living Horizonと同じModパックに',
-      chip: 'Modパックに収録',
-      text: 'Living Horizonを含むModパックは、これらのMODとも一緒に動かしています。',
-      count: (n: number) => p(n, { other: '{n}件のModパックに収録' }),
-      more: (n: number) => p(n, { other: 'さらに{n}件のMODを表示' }),
-    },
     none: '検索に一致するMODはありません。',
     missing: {
       title: '載っていないMODがありますか？',

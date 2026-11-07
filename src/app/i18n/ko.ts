@@ -888,17 +888,6 @@ export const ko: Messages = {
     issue: (n: number) => `이슈 #${n}`,
     /** A link that only shows the platform's logo. */
     page: (platform: string) => `${platform} 페이지`,
-    /**
-     * The mods the modpacks that ship Living Horizon ship too: a pack runs them together, so
-     * they work with it.
-     */
-    packs: {
-      title: 'Living Horizon과 같은 모드팩에',
-      chip: '모드팩 수록',
-      text: 'Living Horizon을 넣은 모드팩은 이 모드들과도 함께 돌아갑니다.',
-      count: (n: number) => p(n, { other: '모드팩 {n}개에 수록' }),
-      more: (n: number) => p(n, { other: '모드 {n}개 더 보기' }),
-    },
     none: '검색과 일치하는 모드가 없습니다.',
     missing: {
       title: '목록에 없는 모드가 있나요?',
