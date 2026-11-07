@@ -6,6 +6,7 @@ import { Sprite } from '../scene/sprite';
 import { SpriteName } from '../scene/sprites';
 import { I18n } from '../i18n/i18n';
 import { Reveal } from '../shared/reveal';
+import { SectionHead } from '../shared/section-head';
 
 interface Figure {
   sprite: SpriteName;
@@ -19,18 +20,12 @@ interface Figure {
 @Component({
   selector: 'lh-concept',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Sprite, FigureView, MobView, Reveal],
+  imports: [Sprite, FigureView, MobView, Reveal, SectionHead],
   template: `
     @let t = i18n.t().concept;
     <section class="section" id="what">
       <div class="container">
-        <header class="section-head" lhReveal>
-          <span class="eyebrow">{{ t.eyebrow }}</span>
-          <h2>
-            {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
-          </h2>
-          <p>{{ t.text }}</p>
-        </header>
+        <header lhHead [texts]="t" [text]="t.text" lhReveal></header>
 
         <div class="diagram card" lhReveal role="figure" [attr.aria-label]="t.diagram">
           <div class="axis" aria-hidden="true">

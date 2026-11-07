@@ -670,30 +670,6 @@ export const tr: Messages = {
     eyebrow: 'Performans',
     title: 'Yaşayan bir ufuk,',
     accent: 'üstelik size kare kazandırır.',
-    design: {
-      eyebrow: 'Optimize edilmiş çizim',
-      title: 'Yaşayan bir ufuk,',
-      accent: 'karelerinizi yemeden.',
-      text: 'Living Horizon baştan hafif kalacak şekilde tasarlandı: uzaktaki figürler ucuz yoldan ve yalnızca görülebildiklerinde çizilir. Böylece görüş ve simülasyon mesafenizi düşürüp dünyayı yine de canlı tutabilirsiniz.',
-      cards: {
-        pictures: {
-          title: 'Uzakta hafif resimler',
-          text: 'Belli bir mesafeden sonra uzak bir figür, tam model yerine kendisinin düz bir resmi olarak çizilir. O boyutta aynı görünür, işin çok küçük bir kısmıyla.',
-        },
-        hidden: {
-          title: 'Gizli olan atlanır',
-          text: 'Uzak arazinin arkasındaki canlılar hiç çizilmez ve bir figür fark edilemeyecek kadar küçük ya da uzak olduğunda animasyonlar durur.',
-        },
-        presets: {
-          title: 'Kalite hazır ayarları',
-          text: 'Düşük, Normal, Yüksek ve Ultra; canlı sayısını, menzillerini ve kuşları tek seferde ayarlar. Varsayılanlar dengeli seçimdir.',
-        },
-        server: {
-          title: 'Sunucuyu yormaz',
-          text: 'Her animasyon oyuncuların oyunlarında çalışır. Modlu bir sunucu yalnızca konumları paylaşır.',
-        },
-      },
-    },
     numbers: 'Rakamlarla',
     measured: 'Oyuncular ve geliştirici tarafından ölçüldü; kurulum her değerin altında.',
     noNumbers: {

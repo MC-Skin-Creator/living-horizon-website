@@ -4,6 +4,7 @@ import { I18n } from '../i18n/i18n';
 import { BeforeAfter, SliderScene } from './before-after';
 import { Icon } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
+import { SectionHead } from '../shared/section-head';
 
 /** The stylised illustrations, after the real screenshots; texts in `compare.scenes`. */
 const SCENES: SliderScene[] = ['village', 'ridge', 'coast'];
@@ -22,19 +23,13 @@ const TABS: Tab[] = [
 @Component({
   selector: 'lh-compare',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BeforeAfter, Icon, Reveal],
+  imports: [BeforeAfter, Icon, Reveal, SectionHead],
   template: `
     @let t = i18n.t().compare;
     <section class="section" id="compare">
       <div class="glow" aria-hidden="true"></div>
       <div class="container">
-        <header class="section-head center" lhReveal>
-          <span class="eyebrow">{{ t.eyebrow }}</span>
-          <h2>
-            {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
-          </h2>
-          <p>{{ t.text }}</p>
-        </header>
+        <header lhHead [texts]="t" [text]="t.text" [center]="true" lhReveal></header>
 
         <div class="tabs" role="tablist" [attr.aria-label]="t.tabs" lhReveal>
           @for (s of tabs; track s.id) {

@@ -679,30 +679,6 @@ export const pl: Messages = {
     eyebrow: 'Wydajność',
     title: 'Żywy horyzont, który',
     accent: 'oddaje ci klatki.',
-    design: {
-      eyebrow: 'Zoptymalizowane rysowanie',
-      title: 'Żywy horyzont, który',
-      accent: 'nie zjada ci klatek.',
-      text: 'Living Horizon od początku projektowano tak, by był lekki: dalekie postacie są rysowane tanim sposobem i tylko wtedy, gdy je widać. Dzięki temu możesz zmniejszyć zasięg renderowania i symulacji, a świat nadal żyje.',
-      cards: {
-        pictures: {
-          title: 'Lekkie obrazy z daleka',
-          text: 'Od pewnej odległości daleka postać jest rysowana jako płaski obraz samej siebie zamiast pełnego modelu. W tym rozmiarze wygląda tak samo, a kosztuje ułamek pracy.',
-        },
-        hidden: {
-          title: 'Ukryte znaczy pominięte',
-          text: 'Stworzenia za dalekim terenem w ogóle nie są rysowane, a animacje zatrzymują się, gdy postać jest za mała lub za daleko, by to zauważyć.',
-        },
-        presets: {
-          title: 'Poziomy jakości',
-          text: 'Niski, Normalny, Wysoki i Ultra jednym ruchem ustawiają liczbę stworzeń, ich zasięg i ptaki. Wartości domyślne to wyważony wybór.',
-        },
-        server: {
-          title: 'Lekki dla serwera',
-          text: 'Każda animacja działa w grach graczy. Serwer z modem tylko udostępnia pozycje.',
-        },
-      },
-    },
     numbers: 'W liczbach',
     measured: 'Zmierzone przez graczy i autora; konfiguracja jest pod każdą wartością.',
     noNumbers: {

@@ -5,22 +5,18 @@ import { I18n } from '../i18n/i18n';
 import { Icon } from '../shared/icon';
 import { compatibilityReport } from '../shared/report';
 import { Reveal } from '../shared/reveal';
+import { SectionHead } from '../shared/section-head';
 
 /** Testing, contributing and the Discord: one short section near the end of the page. */
 @Component({
   selector: 'lh-help',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, Reveal],
+  imports: [Icon, Reveal, SectionHead],
   template: `
     @let t = i18n.t().help;
     <section class="section" id="help">
       <div class="container">
-        <header class="section-head" lhReveal>
-          <span class="eyebrow">{{ t.eyebrow }}</span>
-          <h2>
-            {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
-          </h2>
-        </header>
+        <header lhHead [texts]="t" lhReveal></header>
 
         <div class="ways">
           <article class="card way test" lhReveal>

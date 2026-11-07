@@ -9,6 +9,7 @@ import { I18n } from '../i18n/i18n';
 import { DayPipe } from '../shared/format';
 import { Icon } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
+import { SectionHead } from '../shared/section-head';
 
 /** Versions shown on the home page; the changelog page shows them all. */
 const HOME_VERSIONS = 1;
@@ -20,7 +21,7 @@ const HOME_ENTRIES = 6;
 @Component({
   selector: 'lh-changelog',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, Reveal, DayPipe, NgTemplateOutlet, RouterLink],
+  imports: [Icon, Reveal, DayPipe, NgTemplateOutlet, RouterLink, SectionHead],
   template: `
     <ng-template #inline let-parts>
       @for (p of asInline(parts); track $index) {
@@ -45,17 +46,7 @@ const HOME_ENTRIES = 6;
     @let t = i18n.t().changelog;
     <section class="section" id="changelog" [class.page-top]="page()">
       <div class="container">
-        <header class="section-head" lhReveal>
-          <span class="eyebrow">{{ t.eyebrow }}</span>
-          @if (page()) {
-            <h1>
-              {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
-            </h1>
-          } @else {
-            <h2>
-              {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
-            </h2>
-          }
+        <header lhHead [texts]="t" [page]="page()" lhReveal>
           <p>{{ data.changelogLang() === i18n.lang() ? t.text : t.textEnglish }}</p>
         </header>
 

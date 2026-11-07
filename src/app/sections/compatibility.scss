@@ -295,36 +295,6 @@ tbody tr:hover {
   font-variant-numeric: tabular-nums;
 }
 
-.st {
-  display: inline-grid;
-  place-items: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 7px;
-  font-weight: 800;
-  font-size: 0.9rem;
-
-  lh-icon {
-    width: 15px;
-    height: 15px;
-  }
-
-  &.tested {
-    color: #0f2a15;
-    background: var(--grass);
-  }
-
-  &.untested {
-    color: var(--sun);
-    background: rgb(255 179 94 / 0.14);
-    border: 1px dashed rgb(255 179 94 / 0.6);
-  }
-
-  &.none {
-    color: var(--dim);
-  }
-}
-
 .empty {
   color: var(--muted);
 

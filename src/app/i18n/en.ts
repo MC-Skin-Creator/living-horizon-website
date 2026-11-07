@@ -670,31 +670,6 @@ export const en = {
     eyebrow: 'Performance',
     title: 'A living horizon that',
     accent: 'gives you frames back.',
-    /** The "Optimized rendering" explanation, hidden for now (`SHOW_DESIGN`). */
-    design: {
-      eyebrow: 'Optimized rendering',
-      title: 'A living horizon that',
-      accent: "doesn't eat your frames.",
-      text: 'Living Horizon is designed from the start to stay light: far figures are drawn the cheap way, and only when they can be seen. That lets you lower your render and simulation distance and still keep the world alive.',
-      cards: {
-        pictures: {
-          title: 'Light pictures far away',
-          text: 'Past a set distance, a far figure is drawn as a flat picture of itself instead of a full model. At that size it looks the same, for a fraction of the work.',
-        },
-        hidden: {
-          title: 'Hidden means skipped',
-          text: 'Mobs behind the far terrain are not drawn at all, and animations stop once a figure is too small or too far to notice.',
-        },
-        presets: {
-          title: 'Quality presets',
-          text: 'Low, Normal, High and Ultra set the number of mobs, their range and the birds in one go. The defaults are the balanced choice.',
-        },
-        server: {
-          title: 'Light on the server',
-          text: "Every animation runs on the players' games. A server with the mod only shares positions.",
-        },
-      },
-    },
     numbers: 'By the numbers',
     measured: 'Measured by players and the author; the setup is under each value.',
     /** Around `/livinghorizon debug`. */

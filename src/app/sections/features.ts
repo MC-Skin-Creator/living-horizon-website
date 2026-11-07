@@ -14,6 +14,7 @@ import { MobView } from '../scene/mob';
 import { Sprite } from '../scene/sprite';
 import { Icon, IconName } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
+import { SectionHead } from '../shared/section-head';
 import { RichText } from '../shared/rich-text';
 import { Servers } from './servers';
 
@@ -30,7 +31,17 @@ interface Feature {
 @Component({
   selector: 'lh-features',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FigureView, MobView, Sprite, Icon, Reveal, RichText, Servers, NgTemplateOutlet],
+  imports: [
+    FigureView,
+    MobView,
+    Sprite,
+    Icon,
+    Reveal,
+    RichText,
+    Servers,
+    NgTemplateOutlet,
+    SectionHead,
+  ],
   template: `
     @let t = i18n.t().features;
 
@@ -131,13 +142,7 @@ interface Feature {
 
     <section class="section" id="features">
       <div class="container">
-        <header class="section-head" lhReveal>
-          <span class="eyebrow">{{ t.eyebrow }}</span>
-          <h2>
-            {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
-          </h2>
-          <p>{{ t.text }}</p>
-        </header>
+        <header lhHead [texts]="t" [text]="t.text" lhReveal></header>
 
         <div class="grid">
           @for (f of features; track f.stage; let i = $index) {

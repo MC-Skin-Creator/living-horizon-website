@@ -65,6 +65,11 @@ starts so it never shows English first.
 
 ## Editing
 
+- **Sections**: each section of `src/app/sections/` opens with `<header lhHead>`
+  (`src/app/shared/section-head.ts`): its eyebrow, title and highlighted end from the
+  dictionary, and a sentence. Rich paragraphs (the FAQ's answers, the features' details) go
+  through `<lh-rich>` (`src/app/shared/rich-text.ts`). Shared pieces of style (buttons, cards,
+  the ✓ / ✗ / ? cells of the tables) are in `src/styles.scss`.
 - Links, platform ids, fallbacks: `src/app/config/site.ts`. Texts: `src/app/i18n/`, in every
   language.
 - **FAQ**: the questions of the mod's README, in `faq.questions` of every dictionary, grouped

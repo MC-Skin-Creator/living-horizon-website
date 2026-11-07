@@ -14,6 +14,7 @@ import { I18n } from '../i18n/i18n';
 import { CountPipe, DayPipe } from '../shared/format';
 import { Icon } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
+import { SectionHead } from '../shared/section-head';
 
 interface Platform {
   name: string;
@@ -30,16 +31,12 @@ interface Platform {
 @Component({
   selector: 'lh-download',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, Reveal, CountPipe, DayPipe],
+  imports: [Icon, Reveal, CountPipe, DayPipe, SectionHead],
   template: `
     @let t = i18n.t().download;
     <section class="section" id="download">
       <div class="container">
-        <header class="section-head center" lhReveal>
-          <span class="eyebrow">{{ t.eyebrow }}</span>
-          <h2>
-            {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
-          </h2>
+        <header lhHead [texts]="t" [center]="true" lhReveal>
           <p>{{ t.text.before }} <code>mods</code> {{ t.text.after }}</p>
         </header>
 

@@ -3,6 +3,7 @@ import { Messages } from '../i18n/en';
 import { I18n } from '../i18n/i18n';
 import { Icon, IconName } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
+import { SectionHead } from '../shared/section-head';
 
 type ServerTexts = Messages['servers'];
 
@@ -15,20 +16,14 @@ const WITH_MOD = 2;
 @Component({
   selector: 'lh-servers',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, Reveal],
+  imports: [Icon, Reveal, SectionHead],
   template: `
     @let t = i18n.t().servers;
     <div class="part" id="servers">
       <div class="glow" aria-hidden="true"></div>
       <div class="container">
         <div class="intro">
-          <header class="section-head sub" lhReveal>
-            <span class="eyebrow">{{ t.eyebrow }}</span>
-            <h2>
-              {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
-            </h2>
-            <p>{{ t.text }}</p>
-          </header>
+          <header lhHead [texts]="t" [text]="t.text" lhReveal></header>
 
           <figure class="cover" [lhReveal]="80">
             <img

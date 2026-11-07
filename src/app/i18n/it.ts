@@ -679,30 +679,6 @@ export const it: Messages = {
     eyebrow: 'Prestazioni',
     title: 'Un orizzonte vivo che',
     accent: 'ti restituisce FPS.',
-    design: {
-      eyebrow: 'Rendering ottimizzato',
-      title: 'Un orizzonte vivo che',
-      accent: 'non ti mangia gli FPS.',
-      text: "Living Horizon è pensata fin dall'inizio per restare leggera: le figure lontane vengono disegnate nel modo più economico, e solo quando si possono vedere. Così puoi abbassare la distanza visiva e di simulazione e tenere comunque vivo il mondo.",
-      cards: {
-        pictures: {
-          title: 'Immagini leggere in lontananza',
-          text: "Oltre una certa distanza, una figura lontana viene disegnata come un'immagine piatta di sé stessa invece che come un modello completo. A quella dimensione sembra identica, per una frazione del lavoro.",
-        },
-        hidden: {
-          title: 'Nascosto vuol dire saltato',
-          text: 'Le creature dietro il terreno lontano non vengono disegnate affatto, e le animazioni si fermano quando una figura è troppo piccola o lontana per notarla.',
-        },
-        presets: {
-          title: 'Livelli di qualità',
-          text: 'Bassa, Normale, Alta e Ultra impostano in un colpo il numero di creature, la loro distanza e gli uccelli. I valori predefiniti sono la scelta equilibrata.',
-        },
-        server: {
-          title: 'Leggera per il server',
-          text: 'Ogni animazione gira nel gioco dei giocatori. Un server con la mod condivide solo le posizioni.',
-        },
-      },
-    },
     numbers: 'In numeri',
     measured: "Misurati dai giocatori e dall'autore; la configurazione è sotto ogni valore.",
     noNumbers: {

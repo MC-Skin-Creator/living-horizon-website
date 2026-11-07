@@ -8,6 +8,7 @@ import { Messages } from '../i18n/en';
 import { I18n } from '../i18n/i18n';
 import { Icon, IconName } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
+import { SectionHead } from '../shared/section-head';
 import { compatibilityReport } from '../shared/report';
 
 type CompatibilityTexts = Messages['compatibility'];
@@ -15,18 +16,12 @@ type CompatibilityTexts = Messages['compatibility'];
 @Component({
   selector: 'lh-compatibility',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, Reveal, RouterLink, NgTemplateOutlet],
+  imports: [Icon, Reveal, RouterLink, NgTemplateOutlet, SectionHead],
   template: `
     @let t = i18n.t().compatibility;
     <section class="section" id="compatibility">
       <div class="container">
-        <header class="section-head" lhReveal>
-          <span class="eyebrow">{{ t.eyebrow }}</span>
-          <h2>
-            {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
-          </h2>
-          <p>{{ t.text }}</p>
-        </header>
+        <header lhHead [texts]="t" [text]="t.text" lhReveal></header>
 
         <ul class="works">
           @for (w of works; track w.tone; let i = $index) {
@@ -106,7 +101,7 @@ type CompatibilityTexts = Messages['compatibility'];
 
           <ul class="key">
             <li>
-              <span class="st tested"><lh-icon name="check" /></span>
+              <span class="st yes"><lh-icon name="check" /></span>
               {{ i18n.t().common.seenWorking }}
             </li>
             <li>
@@ -136,7 +131,7 @@ type CompatibilityTexts = Messages['compatibility'];
                         <td>
                           @switch (row.loaders[l]) {
                             @case ('tested') {
-                              <span class="st tested" [title]="i18n.t().common.seenWorking"
+                              <span class="st yes" [title]="i18n.t().common.seenWorking"
                                 ><lh-icon name="check" /><span class="visually-hidden">{{
                                   i18n.t().common.tested
                                 }}</span></span

@@ -4,6 +4,7 @@ import { Messages } from '../i18n/en';
 import { I18n } from '../i18n/i18n';
 import { Icon } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
+import { SectionHead } from '../shared/section-head';
 import { RichText } from '../shared/rich-text';
 
 type Groups = Messages['faq']['groups'];
@@ -22,18 +23,12 @@ const GROUPS: { key: keyof Groups; questions: (keyof Questions)[] }[] = [
 @Component({
   selector: 'lh-faq',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, Reveal, RichText],
+  imports: [Icon, Reveal, RichText, SectionHead],
   template: `
     @let t = i18n.t().faq;
     <section class="section" id="faq">
       <div class="container">
-        <header class="section-head" lhReveal>
-          <span class="eyebrow">{{ t.eyebrow }}</span>
-          <h2>
-            {{ t.title }}{{ i18n.gap() }}<span class="accent">{{ t.accent }}</span>
-          </h2>
-          <p>{{ t.text }}</p>
-        </header>
+        <header lhHead [texts]="t" [text]="t.text" lhReveal></header>
 
         <div class="groups">
           @for (g of groups; track g.key) {
