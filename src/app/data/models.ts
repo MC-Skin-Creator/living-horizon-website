@@ -12,6 +12,26 @@ export interface RawData {
   modpacks?: Modpack[];
   /** The mods Living Horizon was checked with, from the mod's README and issues. */
   compat?: CompatMod[];
+  /** The mods of the modpacks that ship Living Horizon. Only loaded by the mods page. */
+  packMods?: PackMods;
+}
+
+/** The mods that modpacks ship with Living Horizon: they run together. */
+export interface PackMods {
+  /** The modpacks read, by name. */
+  packs: string[];
+  /** The most shipped first. */
+  mods: PackMod[];
+}
+
+export interface PackMod {
+  name: string;
+  icon: string | null;
+  /** Its slugs: `modrinth.com/mod/<slug>`, `curseforge.com/minecraft/mc-mods/<slug>`. */
+  modrinth: string | null;
+  curseforge: string | null;
+  /** The modpacks that ship it, as indexes of `PackMods.packs`. */
+  packs: number[];
 }
 
 /** `works`: seen working. `issue`: a known problem. `untested`: waits for a tester. */
@@ -162,4 +182,5 @@ export interface ChangelogVersion {
   groups: ChangeGroup[];
 }
 
-export type SourceState = 'live' | 'snapshot' | 'none';
+/** `failed`: a lazy source neither its snapshot nor the live answer could give. */
+export type SourceState = 'live' | 'snapshot' | 'none' | 'failed';

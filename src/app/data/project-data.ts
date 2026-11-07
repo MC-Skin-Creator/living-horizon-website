@@ -34,6 +34,7 @@ export class ProjectData {
     nexus: 'none',
     modpacks: 'none',
     compat: 'none',
+    packMods: 'none',
   });
   readonly settled = signal(false);
   /** When the bundled snapshot was taken. */
@@ -105,6 +106,8 @@ export class ProjectData {
   readonly modpacks = computed(() => this.raw().modpacks);
   /** The mods Living Horizon was checked with, by name. `undefined` until a source answers. */
   readonly compat = computed(() => this.raw().compat);
+  /** The mods of the modpacks that ship it, the most shipped first; after `need('packMods')`. */
+  readonly packMods = computed(() => this.raw().packMods);
 
   /** `undefined`: not known yet; `null`: the platform has no page for the mod yet. */
   readonly modrinthListed = computed(() =>
@@ -144,8 +147,34 @@ export class ProjectData {
 
   private async load() {
     await this.loadSnapshot();
-    await Promise.all((Object.keys(SOURCES) as SourceKey[]).map((key) => this.loadLive(key)));
+    const keys = (Object.keys(SOURCES) as SourceKey[]).filter((key) => !SOURCES[key].lazy);
+    await Promise.all(keys.map((key) => this.loadLive(key)));
     this.settled.set(true);
+  }
+
+  private readonly needed = new Set<SourceKey>();
+
+  /** Loads a source only one page reads (`lazy`): its own snapshot, then the live answer. */
+  need(key: SourceKey) {
+    if (this.needed.has(key)) return;
+    this.needed.add(key);
+    void (async () => {
+      try {
+        const res = await fetch(`data/${key}.json`);
+        if (res.ok) {
+          const value = await res.json();
+          if (this.state()[key] === 'none') {
+            this.raw.update((r) => ({ ...r, [key]: value }));
+            this.state.update((s) => ({ ...s, [key]: 'snapshot' }));
+          }
+        }
+      } catch {
+        // No snapshot of it: the live answer may still come.
+      }
+      await this.loadLive(key);
+      // Neither answered: the page says it could not be read.
+      if (this.state()[key] === 'none') this.state.update((s) => ({ ...s, [key]: 'failed' }));
+    })();
   }
 
   private async loadSnapshot() {

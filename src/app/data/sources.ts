@@ -11,6 +11,8 @@ import type {
   ModpackLink,
   MrProject,
   NxMod,
+  PackMod,
+  PackMods,
   RawData,
 } from './models';
 
@@ -33,8 +35,21 @@ export interface Source<K extends SourceKey> {
   /** A 404 that means "nothing there yet" rather than a failure. */
   notFoundValue?: RawData[K];
   trim: (body: any) => RawData[K];
-  /** Further calls that fill in the trimmed answer; each one that fails leaves it as it is. */
-  complete?: (value: RawData[K], project: ProjectRef, init: RequestInit) => Promise<RawData[K]>;
+  /**
+   * Further calls that fill in the trimmed answer, given the whole answer too; each one that
+   * fails leaves it as it is.
+   */
+  complete?: (
+    value: RawData[K],
+    project: ProjectRef,
+    init: RequestInit,
+    body: any,
+  ) => Promise<RawData[K]>;
+  /**
+   * Only read for a page that asks for it (`ProjectData.need`): its snapshot is a file of its
+   * own, `data/<key>.json`, that the other pages never load.
+   */
+  lazy?: boolean;
 }
 
 const MPI = 'https://www.modpackindex.com/api/v1';
@@ -202,6 +217,61 @@ export const SOURCES: { [K in SourceKey]: Source<K> } = {
       );
       if (!res.ok) throw new Error(`GitHub issues: ${res.status}`);
       return compatFromGitHub(rows ?? [], await res.json());
+    },
+  },
+  packMods: {
+    key: 'packMods',
+    kind: 'json',
+    lazy: true,
+    // The modpacks that ship the mod (as `modpacks`), then the mods of each one, as
+    // ModpackIndex has read them: a pack that ships them with Living Horizon runs them with it.
+    url: (p) => `${MPI}/mod/${p.modpackIndexModId}/modpacks?limit=100`,
+    trim: (): PackMods => ({ packs: [], mods: [] }),
+    complete: async (_none, p, _init, body) => {
+      const packs: any[] = [...(body?.data ?? [])]
+        .sort((a, b) => (b.download_count ?? 0) - (a.download_count ?? 0))
+        .slice(0, MODPACK_DETAILS);
+      let failed = 0;
+      const lists = await pool(packs, 4, async (pack): Promise<any[]> => {
+        try {
+          const res = await fetch(`${MPI}/modpack/${pack.id}/mods?limit=1000`, {
+            signal: AbortSignal.timeout(15_000),
+          });
+          if (!res.ok) throw new Error(`ModpackIndex: ${res.status}`);
+          const list = (await res.json()).data;
+          return Array.isArray(list) ? list : [];
+        } catch {
+          failed++;
+          return [];
+        }
+      });
+      // Nothing read at all: keep what was there rather than an empty list.
+      if (packs.length && failed === packs.length) throw new Error('ModpackIndex: no mod list');
+      const mods = new Map<number, PackMod>();
+      lists.forEach((list, i) => {
+        for (const m of list) {
+          if (m.id === p.modpackIndexModId || m.type !== 'mod') continue;
+          const known = mods.get(m.id);
+          if (known) {
+            if (!known.packs.includes(i)) known.packs.push(i);
+            continue;
+          }
+          const mr = Array.isArray(m.modrinth_info) ? m.modrinth_info[0] : null;
+          mods.set(m.id, {
+            name: String(m.name),
+            icon: mr?.icon_url || m.thumbnail_url || null,
+            modrinth: lastSegment(m.links?.modrinth ?? mr?.url) ?? null,
+            curseforge: lastSegment(m.links?.curseforge) ?? null,
+            packs: [i],
+          });
+        }
+      });
+      return {
+        packs: packs.map((pack) => String(pack.name)),
+        mods: [...mods.values()].sort(
+          (a, b) => b.packs.length - a.packs.length || a.name.localeCompare(b.name),
+        ),
+      };
     },
   },
 };
@@ -645,7 +715,7 @@ export async function fetchSource<K extends SourceKey>(
     if (!res.ok) return undefined;
     const body = source.kind === 'json' ? await res.json() : await res.text();
     const value = source.trim(body);
-    return source.complete ? await source.complete(value, project, init) : value;
+    return source.complete ? await source.complete(value, project, init, body) : value;
   } catch {
     return undefined;
   }

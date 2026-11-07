@@ -58,7 +58,7 @@ export const pl: Messages = {
   hero: {
     scene:
       'Ilustracja: horyzont o zmierzchu, kanciaste wzgórza, a na nich, daleko, wciąż żyją osadnicy, zwierzęta, jeźdźcy i inni gracze, a nad nimi leci klucz gęsi.',
-    news: 'Nowość: stada na ziemiach, których nikt nie zbadał',
+    news: 'Teraz na terenie Lodistance, Far View i Ecstatic',
     tagline: 'Ożywia',
     taglineAccent: 'dal.',
     lede: {
@@ -95,164 +95,89 @@ export const pl: Messages = {
     eyebrow: 'Funkcje',
     title: 'Wszystko, co żyje',
     accent: 'poza twoim zasięgiem renderowania.',
-    text: 'Stworzenia, stada z ziem, których nikt nie zbadał, gracze, także ci wylogowani, i ptaki. Rysuje je twoja własna gra, a całość jest na tyle lekka, że możesz ją zostawić włączoną.',
+    text: 'Stworzenia, gracze, także ci wylogowani, i ptaki. Rysuje je twoja własna gra, a całość jest na tyle lekka, że możesz ją zostawić włączoną.',
     offline: '(offline)',
     near: 'Z bliska: pełne stworzenie',
     far: 'Z daleka: płaski obraz',
-    /** The button of each card, and the window it opens. */
+    /** The button of each card: it spreads the card across the section, and folds it back. */
     more: 'Więcej szczegółów',
-    close: 'Zamknij',
-    previous: 'Poprzednia funkcja',
-    next: 'Następna funkcja',
+    less: 'Mniej szczegółów',
     items: {
       mobs: {
         title: 'Każde stworzenie, aż po horyzont',
-        text: 'Zwierzęta się pasą, osadnicy krążą po odległych wioskach, golemy trzymają wartę. Każde stworzenie, które gra potrafi narysować, także stworzenia i pojazdy z innych modów.',
+        text: 'Zwierzęta pasą się na dalekich wzgórzach, osadnicy krążą po odległych wioskach, golemy trzymają wartę. Każde stworzenie, które gra potrafi narysować, także te z innych modów.',
         points: [
-          'Na terenie Voxy, Distant Horizons i innych modów dalekiego terenu albo w samej grze',
-          'Ukrywają się za dalekimi wzgórzami, także z paczkami shaderów',
-          'Wybierz je w „Stworzenia i byty”',
+          'Na Voxy, Distant Horizons i innym dalekim terenie albo w samej grze',
+          'Nawet na ziemiach, których nikt jeszcze nie zbadał',
+          'Chowają się za dalekimi wzgórzami, także z shaderami',
         ],
-        where: 'Wszędzie. Na serwerze z modem nawet te, których jeszcze nie spotkano.',
+        where: 'Wszędzie. Na serwerze z modem nawet stworzenia, których nigdy nie spotkałeś.',
         details: details([
           {
-            title: 'Skąd się biorą',
+            title: 'Prawdziwe stworzenia, tam, gdzie je widziano',
             body: [
               [
-                'To prawdziwe stworzenia, tam, gdzie twoja gra lub serwer ostatnio je widziały. Twoja gra pamięta każde stworzenie, które spotka, a serwer z modem udostępnia stworzenia wokół każdego gracza, więc widzisz też stada, których nigdy nie spotkałeś. Takie, które od tego czasu zginęło lub zniknęło, może być nadal widoczne, dopóki się do niego nie zbliżysz. Wtedy zostaje zapomniane.',
+                'Każde dalekie stworzenie istnieje naprawdę i stoi tam, gdzie twoja gra lub serwer ostatnio je widziały. Gdy podchodzisz bliżej, po prostu zastępuje je prawdziwe stworzenie. Dalekie stworzenia są tylko na pokaz: nie można ich uderzyć, a farmy i pojawianie się stworzeń działają tak jak bez moda.',
               ],
             ],
           },
           {
-            title: 'Na dalekim terenie',
+            title: 'Jak u siebie na dalekim terenie',
             body: [
               [
-                'Z Voxy, Distant Horizons, Lodistance, Far View lub Ecstatic chodzą po jego gruncie, chowają się za jego wzgórzami jak za każdym innym blokiem i znikają w jego mgle. Z Bobby zostają na terenie, który on przechowuje. Bez żadnego z nich są widoczne na terenie samej gry. Zobacz ',
+                'Z Voxy, Distant Horizons, Lodistance, Far View lub Ecstatic dalekie stworzenia chodzą po jego gruncie, chowają się za jego wzgórzami i znikają w jego mgle. Bez moda dalekiego terenu widać je poza twoim zasięgiem renderowania, na terenie samej gry (zobacz ',
                 { link: 'compatibilitySection', text: 'Kompatybilność' },
-                '.',
+                ').',
               ],
             ],
           },
           {
-            title: 'Z bliska zastępuje je prawdziwe stworzenie',
+            title: 'Nawet tam, gdzie nikt nie był',
             body: [
               [
-                'Gdy się zbliżasz, kopia wraca tam, gdzie stworzenie widziano ostatnio, a prawdziwe stworzenie zajmuje jej miejsce, gdy serwer je wyśle. Dalekie stworzenia są tylko na pokaz: farmy, pojawianie się stworzeń i ich limit działają tak jak bez moda, a ty nie możesz ich uderzyć.',
+                'Ziemie, na których nigdy nie byłeś, też mają swoje stada. Living Horizon szacuje je na podstawie ziarna świata, więc gdy tam dotrzesz, mogą wyglądać inaczej albo zniknąć. Spójrz przez lunetę, aby widzieć je tak daleko, jak celujesz.',
               ],
             ],
           },
           {
-            title: 'Stworzenia z innych modów',
+            title: 'Na serwerze z modem',
             body: [
               [
-                'Wszystko, co korzysta z systemu bytów samego Minecrafta, jest widoczne z daleka: stworzenia z modów i pojazdy, takie jak samoloty z Immersive Aircraft czy statki z Shippy Ships, tam, gdzie je zostawiłeś.',
-              ],
-            ],
-          },
-          {
-            title: 'Ustawienia',
-            body: [
-              {
-                list: [
-                  [
-                    { em: 'Pokazuj stworzenia' },
-                    ' i ',
-                    { em: 'Pokazuj byty' },
-                    ': włączają je lub wyłączają.',
-                  ],
-                  [{ em: 'Stworzenia i byty…' }, ': wybór stworzenie po stworzeniu.'],
-                  [
-                    { em: 'Zasięg render. stworzeń' },
-                    ' i ',
-                    { em: 'Maks. stworzeń' },
-                    ': jak daleko i ile naraz.',
-                  ],
-                ],
-              },
-            ],
-          },
-        ]),
-      },
-      unexplored: {
-        title: 'Stada na ziemiach, których nikt nie zbadał',
-        text: 'Ziemie, na których nigdy nie byłeś, też mają swoje zwierzęta. Mod wylicza z ziarna świata, które z nich gra tam umieści i gdzie.',
-        points: [
-          'Te same losowania, które gra robi dla każdego nowego chunka',
-          'Przez lunetę, tak daleko, jak celujesz',
-          'Zgadnij stworzenia: do 1024 chunków wokół ciebie',
-        ],
-        where: 'W grze jednoosobowej i na serwerach z modem.',
-        details: details([
-          {
-            title: 'Jak zgaduje',
-            body: [
-              [
-                'Gdy gra generuje chunk, rozmieszcza jego pierwsze zwierzęta za pomocą losowań opartych na ziarnie świata i położeniu chunka. Living Horizon wykonuje te same losowania dla chunków, które nie zostały jeszcze wygenerowane, z biomem i terenem, które podaje generator świata: konie na równinach, owce na wzgórzach, mniej więcej tam, gdzie umieści je gra.',
-              ],
-            ],
-          },
-          {
-            title: 'Przypuszczenie, nie obietnica',
-            body: [
-              [
-                'Teren, który odczytuje, nie ma jeszcze trawy ani drzew. Tam, gdzie gra z tego powodu odrzuca dane miejsce, stada brakuje albo stoi ono gdzie indziej: mniej więcej połowa zgadniętych zwierząt stoi najwyżej dwa bloki od prawdziwych. Zgadniętego stworzenia może tam nie być, gdy dotrzesz.',
-              ],
-            ],
-          },
-          {
-            title: 'Luneta i Zgadnij stworzenia',
-            body: [
-              [
-                'Spójrz przez lunetę, aby zobaczyć zgadnięte stworzenia tam, gdzie celujesz, bez względu na odległość. ',
-                { em: 'Zgadnij stworzenia' },
-                ' pokazuje je naraz do 1024 chunków wokół ciebie i zachowuje je na kolejne sesje.',
-              ],
-            ],
-          },
-          {
-            title: 'Na serwerze',
-            body: [
-              [
-                'Serwer zgaduje je wokół każdego gracza z modem, domyślnie w promieniu 512 bloków (',
-                { code: 'seedMobRange' },
-                ', maksymalnie 2048). Luneta i ',
-                { em: 'Zgadnij stworzenia' },
-                ' wymagają ziarna świata: serwer udostępnia je tylko wtedy, gdy jego właściciel włączy ',
-                { code: 'shareSeed' },
-                ', bo kto zna ziarno, ten zna cały świat (zobacz ',
+                'Widzisz też stworzenia wokół każdego innego gracza, nawet stada, których nigdy nie spotkałeś. Aby szacowane stworzenia były widoczne jeszcze dalej, właściciel serwera może udostępnić ziarno świata. Domyślnie jest to wyłączone, bo ziarno zdradza cały świat (zobacz ',
                 { link: 'serverSettings', text: 'ustawienia serwera' },
                 ').',
               ],
             ],
           },
           {
-            title: 'Ustawienia',
+            title: 'W ustawieniach',
             body: [
-              {
-                list: [
-                  [{ em: 'Zgadnięte stworzenia' }, ': pokazuje je lub ukrywa.'],
-                  [{ em: 'Zgadywanie' }, ': jak daleko sięga ', { em: 'Zgadnij stworzenia' }, '.'],
-                ],
-              },
+              [
+                'Wybierz w ',
+                { em: 'Stworzenia i byty…' },
+                ', które stworzenia są widoczne, a szacowane ukryj opcją ',
+                { em: 'Zgadnięte stworzenia' },
+                '.',
+              ],
             ],
           },
         ]),
       },
       players: {
         title: 'Gracze w każdej odległości',
-        text: 'Widzisz każdego innego gracza, gdziekolwiek jest na mapie, z jego skórką, zbroją, przedmiotami w ręku i tym, na czym jedzie.',
+        text: 'Widzisz każdego innego gracza, gdziekolwiek jest na mapie, z jego skórką, wyposażeniem i tym, na czym jedzie.',
         points: [
-          'Konie, łódki, wagoniki, elytry i wesołe ghasty',
-          'Płynnie: serwer udostępnia pozycje pięć razy na sekundę',
+          'Na koniu, w łódce albo szybujący na elytrze',
+          'Poruszają się płynnie, nawet daleko',
           'Gracze bez moda nadal mogą dołączyć',
         ],
         where: 'W sieci LAN i na serwerach z modem.',
         details: details([
           {
-            title: 'Jak to działa',
+            title: 'Wszyscy, wszędzie',
             body: [
               [
-                'Serwer z modem pięć razy na sekundę udostępnia, gdzie jest każdy gracz, na czym jedzie i czy szybuje na elytrze. Co pięć sekund dodaje, jak wyglądają najbliżsi: skórkę, zbroję i to, co trzymają w ręku. Twoja gra rysuje ich poza zasięgiem widzenia, razem z nazwą i wierzchowcem.',
+                'Na serwerze z modem widzisz każdego innego gracza, gdziekolwiek jest, płynnie poruszającego się na swoim wierzchowcu, razem z nazwą nad głową. W świecie otwartym w sieci LAN działa to bez instalowania czegokolwiek.',
               ],
             ],
           },
@@ -260,74 +185,58 @@ export const pl: Messages = {
             title: 'Decyduje właściciel serwera',
             body: [
               [
-                'Serwer tworzy ',
-                { code: 'config/livinghorizon-server.json' },
-                ' przy pierwszym uruchomieniu: jak daleko gracze są udostępniani, czy tylko członkom drużyny, którzy gracze i które wymiary pozostają ukryte. ',
-                { code: '"sharePlayers": false' },
-                ' wyłącza udostępnianie. Zmiany działają po kilku sekundach, bez restartu (zobacz ',
+                'Właściciel wybiera, jak daleko widać graczy, czy widzą się tylko członkowie drużyny oraz którzy gracze i wymiary pozostają ukryci. Może też całkiem wyłączyć pokazywanie dalekich graczy (zobacz ',
                 { link: 'serverSettings', text: 'ustawienia serwera' },
                 ').',
               ],
             ],
           },
           {
-            title: 'Nigdy nieudostępniani',
+            title: 'Nigdy niewidoczni',
             body: [
               [
-                'Gracze w trybie obserwatora i niewidzialni gracze. Skradający się gracze na razie tak (',
+                'Gracze w trybie obserwatora i niewidzialni gracze nigdy nie są widoczni z daleka. Skradający się gracze na razie są (',
                 { link: 'sneaking', text: '#269' },
-                '). W zasięgu widzenia gracze widzą się nawzajem jak zwykle.',
+                ').',
               ],
             ],
           },
           {
-            title: 'Ustawienia',
+            title: 'W ustawieniach',
             body: [
-              {
-                list: [
-                  [{ em: 'Pokazuj graczy' }, ': włącza ich lub wyłącza.'],
-                  [{ em: 'Zasięg render. graczy' }, ': jak daleko są widoczni.'],
-                  [{ em: 'Wierzchowce i pojazdy' }, ': to, na czym jadą.'],
-                ],
-              },
+              [
+                { em: 'Zasięg render. graczy' },
+                ' określa, jak daleko widać graczy, a ',
+                { em: 'Pokazuj graczy' },
+                ' ich wyłącza.',
+              ],
             ],
           },
         ]),
       },
       offline: {
         title: 'Wylogowani gracze żyją dalej',
-        text: 'Gdy ktoś się wyloguje, kopia z jego nazwą zostaje tam, gdzie skończył grę. Spaceruje, siedzi, łowi ryby, otwiera skrzynie i śpi nocą, dopóki on nie wróci.',
+        text: 'Gdy ktoś się wyloguje, jego kopia zostaje tam, gdzie skończył grę. Spaceruje, siada, łowi ryby i śpi nocą, dopóki on nie wróci.',
         points: [
-          '(offline) przy nazwie i to, kiedy był ostatnio online',
+          'Ich nazwa z dopiskiem (offline) i to, kiedy byli ostatnio widziani',
           'Nawet gracze, którzy wyszli przed twoim dołączeniem',
-          'Tylko na pokaz: wystarczy w nich wejść, by ich odsunąć',
+          'Tylko na pokaz: wejdź w nich, by ich odsunąć',
         ],
         where: 'Wszędzie. Na serwerze z modem każdy gracz, który kiedykolwiek tam grał.',
         details: details([
           {
-            title: 'Dzień z ich życia',
+            title: 'Własne życie',
             body: [
-              {
-                list: [
-                  [
-                    'Za dnia spacerują, siadają albo stoją przy skrzyni, stole rzemieślniczym lub stanowisku pracy.',
-                  ],
-                  ['Nocą idą do wolnego łóżka i w nim śpią albo zostają na nogach.'],
-                  ['Przy wodzie jeden z nich zatrzymuje się na brzegu i przez chwilę łowi ryby.'],
-                  [
-                    'W deszczu niektórzy chowają się pod dachem lub drzewem i czekają, aż przestanie padać.',
-                  ],
-                  ['Wieczorem zbierają się przy ognisku lub piecu.'],
-                  ['Dwaj stojący blisko siebie podchodzą do siebie i rozmawiają twarzą w twarz.'],
-                ],
-              },
+              [
+                'Za dnia spacerują, siadają albo krzątają się przy skrzyni. Nocą idą spać. Łowią ryby nad wodą, chowają się przed deszczem, wieczorem zbierają się przy ognisku i rozmawiają we dwóch.',
+              ],
             ],
           },
           {
             title: 'Zauważają cię',
             body: [
               [
-                'Spójrz na jednego z bliska, a odwzajemni spojrzenie. Kucnij przed nim, a on też kucnie. Gdy zbliżają się potwory, dobywają miecza i unoszą tarczę, ale nigdy nie walczą.',
+                'Spójrz na jednego z bliska, a odwzajemni spojrzenie. Kucnij, a on też kucnie. Gdy zbliżają się potwory, unoszą tarczę, ale nigdy nie walczą.',
               ],
             ],
           },
@@ -335,178 +244,132 @@ export const pl: Messages = {
             title: 'Tylko na pokaz',
             body: [
               [
-                'Świat nie wie, że istnieją: stworzenia ich ignorują, a oni nigdy cię nie blokują ani nie popychają. Wejdź w nich, aby ich odsunąć. Daleko od ciebie dalej spacerują tam, gdzie są.',
+                'Świat nie wie, że istnieją: stworzenia ich ignorują, a oni nigdy nie zagradzają ci drogi. Wejdź w nich, aby ich odsunąć.',
               ],
             ],
           },
           {
-            title: 'Skąd się biorą',
+            title: 'Na serwerze z modem',
             body: [
               [
-                'Twoja gra pamięta graczy, którzy wylogowali się na twoich oczach. Serwer z modem udostępnia każdego gracza, który kiedykolwiek tam grał, tak jak wyglądał, nawet tych, którzy wyszli przed twoim dołączeniem.',
+                'Widzisz każdego gracza, który kiedykolwiek tam grał, tak jak wyglądał, nawet tych, którzy wyszli przed twoim dołączeniem. Gdzie indziej widzisz graczy, których wylogowanie widziałeś.',
               ],
             ],
           },
           {
-            title: 'Ustawienia',
+            title: 'W ustawieniach',
             body: [
-              {
-                list: [
-                  [
-                    { em: 'Gracze offline' },
-                    ' i ',
-                    { em: 'Maks. offline' },
-                    ': czy są widoczni i ilu ich jest.',
-                  ],
-                  [
-                    { em: 'Aktywność offline' },
-                    ': ich życie wokół miejsca, w którym się wylogowali.',
-                  ],
-                  [{ em: 'Promień wędrówki' }, ': jak daleko chodzą, domyślnie 50 bloków.'],
-                ],
-              },
+              [
+                { em: 'Gracze offline' },
+                ' pokazuje ich lub ukrywa, a ',
+                { em: 'Aktywność offline' },
+                ' włącza lub wyłącza ich życie wokół miejsca, w którym zostali.',
+              ],
             ],
           },
         ]),
       },
       birds: {
         title: 'Ptaki na niebie',
-        text: 'Stada, gęsi w kluczu, ptaki drapieżne, mewy, kaczki i nietoperze latają nad okolicą, a ty widzisz je z daleka.',
+        text: 'Stada, gęsi w kluczu, ptaki drapieżne, mewy i kaczki wypełniają niebo, a ty widzisz je z daleka.',
         points: [
           'Siadają na drzewach, dachach, polach i plażach',
-          'Kaczki pływają po swoim stawie',
-          'Z bliska małe modele 3D, z daleka płaskie obrazki',
+          'Kaczki pływają po stawach i rzekach',
+          'Nic nie trafia do twojego świata',
         ],
         where: 'Wszędzie, bez żadnej konfiguracji.',
         details: details([
           {
-            title: 'Kto gdzie lata',
+            title: 'Ptaki wszelkiego rodzaju',
             body: [
-              {
-                list: [
-                  ['Stada przecinają niebo, gęsi lecą kluczem, ptaki drapieżne krążą.'],
-                  ['Mewy lecą wzdłuż wybrzeża i co jakiś czas siadają na plaży.'],
-                  [
-                    'Gołębie siedzą na wysokich budynkach, rudziki skaczą po polach, sikory trzymają się drzew.',
-                  ],
-                  ['Kaczki pływają po jeziorach i rzekach. Nocą wylatują nietoperze.'],
-                ],
-              },
+              [
+                'Od gęsi lecących kluczem po kaczki na stawach, każdy rodzaj żyje tam, gdzie jego miejsce: wśród drzew, nad wybrzeżem, na dachach, na polach. Nocą wylatują nietoperze.',
+              ],
             ],
           },
           {
             title: 'Reagują na ciebie',
             body: [
               [
-                'Małe ptaki odlatują, gdy się zbliżasz, i siadają trochę dalej. Kaczki nigdy nie dają ci podejść. Odlatujące ptaki nigdy nie znikają nagle: rozpraszają się i maleją w oddali.',
+                'Podejdź bliżej, a odlecą i usiądą trochę dalej. Nigdy nie znikają nagle: rozpraszają się i odlatują.',
               ],
             ],
           },
           {
-            title: 'Odczytane z terenu',
+            title: 'Tylko na twoim ekranie',
             body: [
               [
-                'To, dokąd leci każdy rodzaj, jest odczytywane z terenu, aż po daleki teren Voxy i Distant Horizons: uprawy dla rudzików, liście dla sikor, woda dla kaczek, plaże dla mew. To tylko obrazy w twojej grze: w świecie nic się nie pojawia.',
+                'Ptaki rysuje wyłącznie twoja gra: nic nie trafia do twojego świata, a kosztują bardzo mało.',
               ],
             ],
           },
           {
-            title: 'Ustawienia',
+            title: 'W ustawieniach',
             body: [
-              {
-                list: [
-                  [{ em: 'Pokazuj ptaki' }, ': włącza je lub wyłącza.'],
-                  [{ em: 'Rodzaje ptaków…' }, ': wybór rodzaj po rodzaju.'],
-                  [
-                    { em: 'Gęstość ptaków' },
-                    ' i ',
-                    { em: 'Zasięg ptaków' },
-                    ': ile ich jest i jak daleko.',
-                  ],
-                ],
-              },
+              [
+                { em: 'Pokazuj ptaki' },
+                ' je włącza lub wyłącza, a w ',
+                { em: 'Rodzaje ptaków…' },
+                ' wybierasz, które rodzaje latają.',
+              ],
             ],
           },
         ]),
       },
       light: {
         title: 'Lekki z założenia',
-        text: 'Dalekie stworzenia nie mają AI: odtwarzają gotowe animacje dopasowane do terenu. Bardzo daleko zmieniają się w płaskie obrazy samych siebie.',
+        text: 'Dalekie stworzenia zamiast myśleć odtwarzają proste, gotowe animacje, a bardzo daleko zmieniają się w lekkie obrazy samych siebie.',
         points: [
           'Stworzenia ukryte za wzgórzami nie są rysowane',
           'Zmniejsz zasięg symulacji i zachowaj żywy świat',
-          'Uproszczone stworzenia: dużo więcej stworzeń za tę samą cenę',
+          'Dużo więcej stworzeń za tę samą cenę',
         ],
         where: 'Wszystko działa w twojej grze. Serwer tylko udostępnia pozycje.',
         details: details([
           {
-            title: 'Bez AI w oddali',
+            title: 'Proste animacje w oddali',
             body: [
               [
-                'Dalekie stworzenia chodzą, pasą się i rozglądają dzięki gotowym animacjom dopasowanym do terenu wokół nich. Wylogowani gracze i ptaki działają samodzielnie tylko blisko ciebie.',
+                'Dalekie stworzenia nie mają AI: chodzą, pasą się i rozglądają dzięki animacjom dopasowanym do terenu. Twoja gra nie musi ich obsługiwać, więc działa szybko.',
               ],
             ],
           },
           {
-            title: 'Płaskie obrazy z daleka',
+            title: 'Uproszczone obrazy',
             body: [
               [
-                'Wiele gier rysuje dalekie obiekty jako impostory: płaski obraz zamiast modelu 3D. Living Horizon robi to samo z dalekimi stworzeniami, pojazdami i graczami (',
-                { em: 'Uproszczone stworzenia' },
-                ', ',
-                { em: 'Uproszczone byty' },
-                ', ',
-                { em: 'Uproszczeni gracze' },
-                '). W tym rozmiarze wyglądają tak samo, a kosztują ułamek tego. Z paczką shaderów, która czyta mapy normalnych, taką jak Photon, obrazy oświetla paczka (',
-                { em: 'Oświetlenie shaderów' },
-                ').',
+                'Jak wiele gier, Living Horizon rysuje dalekie stworzenia, pojazdy i graczy jako lekkie obrazy zamiast pełnych modeli 3D. Z tej odległości wyglądają tak samo, a kosztują ułamek tego. Z paczką shaderów, taką jak Photon, obrazy są oświetlone jak reszta świata.',
               ],
             ],
           },
           {
-            title: 'Ukryte znaczy pominięte',
+            title: 'Żywy świat mniejszym kosztem',
             body: [
               [
-                'Stworzenia za wzgórzami lub dalekim terenem w ogóle nie są rysowane, a animacje zatrzymują się, gdy postać jest za mała, by to zauważyć.',
+                'Stworzenia ukryte za wzgórzami lub dalekim terenem w ogóle nie są rysowane. Zmniejsz zasięg symulacji, aby zyskać klatki, a i tak zobaczysz wokół siebie żywy świat. Serwer z modem ma bardzo mało pracy: wszystko, co widzisz, obsługuje twoja gra.',
               ],
             ],
           },
           {
-            title: 'Wszystko w twojej grze',
+            title: 'Poziomy jakości',
             body: [
               [
-                'Twoja gra zajmuje się animacjami, wylogowanymi graczami i ptakami. Serwer z modem tylko udostępnia pozycje, więc niewiele go to kosztuje. Dwaj gracze mogą nawet widzieć to samo dalekie stworzenie robiące różne rzeczy.',
-              ],
-            ],
-          },
-          {
-            title: 'Poziomy jakości i ustawienia',
-            body: [
-              [
-                'Opcja ',
+                'Wybierz w opcji ',
                 { em: 'Domyślne' },
-                ' (',
+                ' poziom od ',
                 { em: 'Niski' },
-                ', ',
-                { em: 'Normalny' },
-                ', ',
-                { em: 'Wysoki' },
-                ', ',
+                ' do ',
                 { em: 'Ultra' },
-                ') ustawia wszystko naraz. Wartości domyślne to wyważony wybór, a ',
-                { em: 'Przywróć domyślne' },
-                ' je przywraca. Ustawienia są na ekranie Opcje, w Mod Menu, w Ustawieniach grafiki Sodium lub pod komendą ',
-                { code: '/livinghorizon config' },
-                ', w 14 językach.',
+                ', aby ustawić wszystko naraz; wartości domyślne to wyważony wybór. Ustawienia są na ekranie Opcje, w Mod Menu i w Ustawieniach grafiki Sodium, w 14 językach.',
               ],
               [
-                'Uwaga: ustawienie zarówno ',
+                'Uwaga: ',
                 { em: 'Maks. stworzeń' },
-                ', jak i ',
+                ' i ',
                 { em: 'Zasięg render. stworzeń' },
-                ' na ',
+                ' ustawione naraz na ',
                 { em: 'Bez limitu' },
-                ' może spowodować awarię gry.',
+                ' mogą spowodować awarię gry.',
               ],
             ],
           },
@@ -578,7 +441,7 @@ export const pl: Messages = {
       mobs: 'Stworzenia na horyzoncie',
       players: 'Gracze w każdej odległości',
       offline: 'Wylogowani gracze',
-      unexplored: 'Stada na niezbadanych ziemiach',
+      unexplored: 'Stworzenia zgadnięte z ziarna',
       birds: 'Ptaki',
     },
     cells: {
@@ -673,30 +536,6 @@ export const pl: Messages = {
       neoforge: 'Od Minecraft 1.20.6, nic więcej nie trzeba.',
       forge: 'Nic więcej nie trzeba.',
     },
-  },
-
-  performance: {
-    eyebrow: 'Wydajność',
-    title: 'Żywy horyzont, który',
-    accent: 'oddaje ci klatki.',
-    numbers: 'W liczbach',
-    measured: 'Zmierzone przez graczy i autora; konfiguracja jest pod każdą wartością.',
-    noNumbers: {
-      before:
-        'Żadnych zmyślonych liczb: wartości pojawią się, gdy spłyną prawdziwe pomiary. Wbudowany panel debugowania (',
-      after: ') pokazuje własny koszt moda na tik i na klatkę.',
-    },
-    slots: {
-      fps: { label: 'Zysk FPS', hint: 'mod rysuje dal zamiast gry' },
-      mobs: { label: 'Stworzenia na horyzoncie', hint: 'rysowane naraz' },
-      distance: { label: 'Pokryty dystans', hint: 'poza zasięgiem renderowania' },
-      frame: { label: 'Koszt klatki', hint: 'z panelu debugowania' },
-    },
-    setups: {
-      fps: '120 → 150 FPS przy tym samym widoku w dal: krótszy zasięg renderowania, a dalej stworzenia rysuje Living Horizon, w porównaniu z grą, która sama rysuje tak daleko. Zmierzone przez autora.',
-    },
-    pending: (hint: string) => `Pomiar wkrótce · ${hint}`,
-    share: 'Masz pomiar ze swojego sprzętu? Podziel się nim',
   },
 
   /** Testing, contributing and the Discord, in one section. */
@@ -1096,9 +935,32 @@ export const pl: Messages = {
     status: { works: 'Działa', issue: 'Znany problem', untested: 'Jeszcze nietestowany' },
     /** The heading of the shader packs, after the mods. */
     shaders: 'Paczki shaderów',
-    /** The note of every mod still waiting for a tester, next to the link to its issue. */
-    untested: 'Nikt nam jeszcze nie powiedział, jak działa. Sprawdziłeś? Napisz w jego zgłoszeniu.',
     issue: (n: number) => `Zgłoszenie #${n}`,
+    /** A link that only shows the platform's logo. */
+    page: (platform: string) => `Strona na ${platform}`,
+    /**
+     * The mods the modpacks that ship Living Horizon ship too: a pack runs them together, so
+     * they work with it.
+     */
+    packs: {
+      title: 'W modpackach z Living Horizon',
+      chip: 'W modpackach',
+      text: 'Modpacki zawierające Living Horizon uruchamiają go także z tymi modami.',
+      count: (n: number) =>
+        p(n, {
+          one: 'W {n} modpacku',
+          few: 'W {n} modpackach',
+          many: 'W {n} modpackach',
+          other: 'W {n} modpacka',
+        }),
+      more: (n: number) =>
+        p(n, {
+          one: 'Pokaż jeszcze {n} mod',
+          few: 'Pokaż jeszcze {n} mody',
+          many: 'Pokaż jeszcze {n} modów',
+          other: 'Pokaż jeszcze {n} moda',
+        }),
+    },
     none: 'Żaden mod nie pasuje do wyszukiwania.',
     missing: {
       title: 'Brakuje moda?',

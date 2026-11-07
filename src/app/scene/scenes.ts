@@ -51,6 +51,24 @@ export interface LayerSpec {
   mobs?: MobGroup[];
 }
 
+/**
+ * A figure seen now and then, far off, never named on the page: a nod to the mod's own
+ * surprises. A scene shows one of its eggs on some visits only (`EGG_CHANCE`).
+ */
+export interface EggSpec {
+  sprite: SpriteName;
+  /** The layer it stands on: a far one, so that it only shows with the mod. */
+  layer: number;
+  spread: [number, number];
+  onPeak?: boolean;
+  /** Pixels above the ground, for what flies (at the layer's scale). */
+  hover?: number;
+  /** Drifts from side to side, as far as this many pixels. */
+  wander?: number;
+  /** See-through, as a ghost is. */
+  ghostly?: boolean;
+}
+
 export interface BirdFlock {
   count: number;
   y: number;
@@ -70,6 +88,7 @@ export interface SceneSpec {
   clouds?: { count: number; speed: number; color: RGB; alpha: number };
   layers: LayerSpec[];
   birds?: BirdFlock[];
+  eggs?: EggSpec[];
 }
 
 export type SceneId = 'hero' | 'village' | 'ridge' | 'coast';
@@ -185,6 +204,12 @@ export const SCENES: Record<SceneId, SceneSpec> = {
       { count: 7, y: 0.3, speed: 5, formation: 'v', color: GOOSE },
       { count: 4, y: 0.44, speed: 3.5, formation: 'loose', color: GOOSE },
     ],
+    eggs: [
+      { sprite: 'herobrine', layer: 1, spread: [0.86, 0.98], onPeak: true },
+      { sprite: 'ghost', layer: 1, spread: [0.6, 0.72], ghostly: true, wander: 3 },
+      { sprite: 'bigfoot', layer: 2, spread: [0.88, 0.97], wander: 4 },
+      { sprite: 'ufo', layer: 0, spread: [0.55, 0.85], hover: 34, wander: 40 },
+    ],
   },
 
   village: {
@@ -286,6 +311,11 @@ export const SCENES: Record<SceneId, SceneSpec> = {
       },
     ],
     birds: [{ count: 5, y: 0.3, speed: 4, formation: 'loose', color: [60, 60, 70] }],
+    eggs: [
+      { sprite: 'ghost', layer: 2, spread: [0.3, 0.6], ghostly: true, wander: 5 },
+      { sprite: 'herobrine', layer: 1, spread: [0.05, 0.4], onPeak: true },
+      { sprite: 'ufo', layer: 1, spread: [0.6, 0.9], hover: 30, wander: 30 },
+    ],
   },
 
   ridge: {
@@ -378,6 +408,11 @@ export const SCENES: Record<SceneId, SceneSpec> = {
       },
     ],
     birds: [{ count: 7, y: 0.34, speed: 5, formation: 'v', color: GOOSE }],
+    eggs: [
+      { sprite: 'herobrine', layer: 1, spread: [0.4, 0.75], onPeak: true },
+      { sprite: 'bigfoot', layer: 1, spread: [0.78, 0.95], wander: 4 },
+      { sprite: 'ufo', layer: 1, spread: [0.2, 0.6], hover: 32, wander: 30 },
+    ],
   },
 
   coast: {
@@ -462,6 +497,10 @@ export const SCENES: Record<SceneId, SceneSpec> = {
     birds: [
       { count: 6, y: 0.48, speed: 3.5, formation: 'loose', color: GULL, scale: 1 },
       { count: 3, y: 0.3, speed: 4.5, formation: 'loose', color: GULL, scale: 1 },
+    ],
+    eggs: [
+      { sprite: 'ghostBoat', layer: 1, spread: [0.25, 0.55], ghostly: true, wander: 6 },
+      { sprite: 'herobrine', layer: 0, spread: [0.05, 0.3], onPeak: true },
     ],
   },
 };

@@ -2,7 +2,8 @@
  * Refreshes public/data/snapshot.json: the copy of every source the page shows first, and
  * keeps when a source cannot be reached from the visitor's browser. Run by the deploy
  * workflow before each build (and daily), or by hand: `npm run snapshot` (Node 24).
- * A source that fails keeps its previous value.
+ * A source that fails keeps its previous value. A `lazy` source is written to a file of its
+ * own, `public/data/<key>.json`.
  */
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
@@ -19,7 +20,11 @@ const token = process.env['GITHUB_TOKEN'];
 const next: Record<string, unknown> = { ...previous };
 let failures = 0;
 
-for (const key of Object.keys(SOURCES) as SourceKey[]) {
+// `npm run snapshot -- packMods` refreshes only the sources named.
+const only = process.argv.slice(2);
+const keys = (Object.keys(SOURCES) as SourceKey[]).filter((k) => !only.length || only.includes(k));
+
+for (const key of keys) {
   const source = SOURCES[key];
   // GitHub's API: the releases, and the issues the compatible mods are read from.
   const init =
@@ -32,11 +37,22 @@ for (const key of Object.keys(SOURCES) as SourceKey[]) {
     console.warn(`snapshot: ${key} unreachable, keeping the previous value`);
     continue;
   }
-  next[key] = value;
+  // A source only one page reads has a file of its own, out of the snapshot every page loads.
+  if (source.lazy) {
+    await writeFile(
+      new URL(`../public/data/${key}.json`, import.meta.url),
+      JSON.stringify(value) + '\n',
+    );
+  } else {
+    next[key] = value;
+  }
   console.log(`snapshot: ${key} ok`);
 }
 
-next['fetchedAt'] = new Date().toISOString();
-await mkdir(dirname(OUT.pathname), { recursive: true });
-await writeFile(OUT, JSON.stringify(next) + '\n');
+// Only the lazy sources asked for: the shared snapshot stays as it was.
+if (keys.some((k) => !SOURCES[k].lazy)) {
+  next['fetchedAt'] = new Date().toISOString();
+  await mkdir(dirname(OUT.pathname), { recursive: true });
+  await writeFile(OUT, JSON.stringify(next) + '\n');
+}
 console.log(`snapshot: written, ${failures} source(s) kept from before`);
