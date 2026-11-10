@@ -76,9 +76,10 @@ starts so it never shows English first.
   and ordered by `GROUPS` in `src/app/sections/faq.ts`. An answer is a list of paragraphs and
   lists made of pieces (`src/app/i18n/rich.ts`): text, a setting's name, code, or a link of
   `LINKS`. When the mod's README FAQ changes, change it here too.
-- **Benchmarks**: add real measurements to `SITE.benchmarks` (`slot` of the performance
-  section and the value), and how it was measured to `performance.setups` of every dictionary.
-  Until then the slots say "Benchmark pending" — never invent numbers.
+- **Rare figures**: on some visits (`EGG_CHANCE`), an illustration hides one figure of the
+  mod's own surprises far off: Herobrine on a ridge, a ghost, Bigfoot, a saucer
+  (`eggs` of each scene in `src/app/scene/scenes.ts`, `egg` in `features.ts`). The page never
+  names them, as the mod never does.
 - **Players**: the people in the illustrations are skins made with
   [MC Skin Creator](https://mcskincreator.app/) (sources in `art/skins/`), exported there as
   avatars (transparent, 512 px): *Mascot* (animated GIF) for players standing in the
@@ -131,10 +132,11 @@ starts so it never shows English first.
 - **Features and servers**: the feature cards are in `src/app/sections/features.ts`, the
   multiplayer section and its table (what works in single player, on LAN, on a server with or
   without the mod) in `src/app/sections/servers.ts`, their texts under `features` and `servers`
-  in the dictionaries. Each card has a *More details* button that opens a window with how the
-  feature works, part by part: `features.items.<feature>.details`, a list of headings and
-  rich blocks like the FAQ's answers (`details()` in `src/app/i18n/rich.ts`). Keep both in step
-  with the mod's README, changelog and `docs/technical.md`.
+  in the dictionaries. Each card has a *More details* button: the card spreads across the
+  whole row, above the others, and shows how the feature works, part by part:
+  `features.items.<feature>.details`, a list of headings and rich blocks like the FAQ's
+  answers (`details()` in `src/app/i18n/rich.ts`). Keep both in step with the mod's README,
+  changelog and `docs/technical.md`.
 - **Get involved**: `src/app/sections/help.ts`, three cards (test, contribute, Discord) under
   `help` in the dictionaries. The compatibility report it opens is prefilled by
   `src/app/shared/report.ts`, also linked from the versions table.

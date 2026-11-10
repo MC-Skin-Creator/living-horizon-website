@@ -19,7 +19,7 @@ import {
   MASCOT_FRAME_MS,
 } from './figures';
 import { MOB_FRAMES, MOB_SIZES, SADDLE, SADDLE_SMALL } from './mob-sheets';
-import { SceneSpec } from './scenes';
+import { EggSpec, SceneSpec } from './scenes';
 
 type Canvas = HTMLCanvasElement;
 
@@ -48,6 +48,8 @@ interface Mob {
   figure: number;
   /** The mob sheet drawn for it (a rider's horse), or null for a pixel sprite. */
   sheet: string | null;
+  /** One of the scene's eggs: how high it floats, and whether it is see-through. */
+  egg?: { hover: number; ghostly: boolean };
 }
 
 interface Bird {
@@ -140,6 +142,26 @@ function spriteCanvas(rows: string[], scale: number, fog: RGB, haze: number, fli
   return c;
 }
 
+/** How often a scene shows one of its eggs. */
+const EGG_CHANCE = 0.35;
+
+/**
+ * The egg a scene shows on this visit, or none: drawn once per page load and per scene, so
+ * that the two sides of the before / after slider agree.
+ */
+const eggs = new Map<number, EggSpec | null>();
+function eggFor(spec: SceneSpec): EggSpec | null {
+  if (!eggs.has(spec.seed)) {
+    const list = spec.eggs ?? [];
+    const pick =
+      list.length && Math.random() < EGG_CHANCE
+        ? list[Math.floor(Math.random() * list.length)]
+        : null;
+    eggs.set(spec.seed, pick);
+  }
+  return eggs.get(spec.seed)!;
+}
+
 export class HorizonRenderer {
   private readonly sky: Canvas;
   private readonly layers: BuiltLayer[] = [];
@@ -163,6 +185,7 @@ export class HorizonRenderer {
     this.buildClouds(rand);
     spec.layers.forEach((layer, i) => this.layers.push(this.buildLayer(i, rand)));
     this.placeMobs(rand);
+    this.placeEgg(rand);
     this.placeBirds(rand);
   }
 
@@ -401,6 +424,29 @@ export class HorizonRenderer {
     });
   }
 
+  /** One of the scene's eggs, on the visits that get one (`eggFor`). */
+  private placeEgg(rand: () => number) {
+    const egg = eggFor(this.spec);
+    if (!egg) return;
+    const layer = this.layers[egg.layer];
+    const [from, to] = egg.spread;
+    const x0 = egg.onPeak
+      ? this.peak(egg.layer, this.width * from, this.width * to)
+      : this.width * (from + rand() * (to - from));
+    this.mobs.push({
+      layer: egg.layer,
+      sprite: egg.sprite,
+      x0,
+      wander: (egg.wander ?? 0) * layer.scale,
+      speed: 0.05 + rand() * 0.1,
+      phase: rand() * Math.PI * 2,
+      floats: false,
+      figure: -1,
+      sheet: null,
+      egg: { hover: (egg.hover ?? 0) * layer.scale, ghostly: !!egg.ghostly },
+    });
+  }
+
   private peak(index: number, from: number, to: number): number {
     const surface = this.layers[index].surface;
     let best = Math.round(from);
@@ -465,6 +511,16 @@ export class HorizonRenderer {
     const flip = mob.wander > 0 ? Math.cos(angle) < 0 : mob.phase > Math.PI;
     const xi = Math.max(0, Math.min(this.width - 1, Math.round(x)));
     const bob = mob.floats ? Math.round(Math.sin(t * 1.6 + mob.phase) * 0.6) : 0;
+    if (mob.egg) {
+      // Barely touched by the haze: the white eyes still catch the light far off.
+      const img = this.sprite(mob.sprite, layer.scale, layer.haze * 0.3, flip);
+      const float = mob.egg.hover ? Math.sin(t * 1.2 + mob.phase) * layer.scale : 0;
+      const top = Math.round(layer.surface[xi] - img.height - mob.egg.hover + float);
+      band.globalAlpha = mob.egg.ghostly ? 0.55 : 1;
+      band.drawImage(img, Math.round(xi - img.width / 2), top);
+      band.globalAlpha = 1;
+      return;
+    }
     if (mob.figure >= 0) {
       this.drawFigure(band, target, k, mob, layer, xi, flip, t, bob, players);
       return;

@@ -9,6 +9,15 @@ picture is made; read it before changing a section or adding a page.
 Everything in the repository (code, comments, docs, commits) is in **English**. The texts
 the visitor reads are the exception: they live in the dictionaries of `src/app/i18n/`.
 
+## Texts about the mod: written for players
+
+Every text that tells players what the mod does, how it works, where it works or how to set
+it up (feature cards and details, multiplayer, compatibility, FAQ, hero, help) follows the
+**`player-writing`** skill (`.claude/skills/player-writing/SKILL.md`), the site's version of
+the mod's `changelog-writing` skill: benefit first, the player's side never the code's, no
+list a player does not need, estimates called estimates. Use it for every such text, even
+one sentence, and whenever a text reads too technical.
+
 ## Localization: every change updates every language
 
 The site is translated into the 14 languages the mod ships in (`src/app/i18n/languages.ts`):
@@ -35,8 +44,8 @@ the nav; the browser's language is the default, and `?lang=fr` forces one.
   order. Numbers go through functions, plurals through `plural()` (`src/app/i18n/plural.ts`).
   Dates and numbers are formatted by the pipes of `src/app/shared/format.ts` in the page's
   language: never `Intl` with a fixed `'en'`.
-- New screenshots (`SITE.screenshots`) and benchmarks (`SITE.benchmarks`) take their texts from
-  `compare.shots` and `performance.setups` of the dictionaries: add them in every language.
+- New screenshots (`SITE.screenshots`) take their texts from `compare.shots` of the
+  dictionaries: add them in every language.
 - Text that comes from the mod repository (the changelog) is shown in the visitor's language
   when the mod has it (`SITE.changelogLanguages`, `changelog/<code>.md`), else in English.
 - A new language: add it to `LANGUAGES` and `DICTIONARIES` (`src/app/i18n/i18n.ts`) and write

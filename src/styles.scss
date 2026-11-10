@@ -374,6 +374,13 @@ p {
   }
 }
 
+/* What a View Transition animates (a feature's card opening): a short slide. */
+
+::view-transition-group(*) {
+  animation-duration: 0.35s;
+  animation-timing-function: var(--ease-out);
+}
+
 /* Reveal on scroll (see RevealDirective) */
 
 .reveal {

@@ -18,7 +18,7 @@ import { Icon } from '../shared/icon';
       <div class="shade" aria-hidden="true"></div>
 
       <div class="container inner">
-        <a class="pill news" href="#features">
+        <a class="pill news" href="#compatibility">
           <span class="tag">{{ t.common.new }}</span>
           {{ t.hero.news }}
           <lh-icon name="arrow-right" />
