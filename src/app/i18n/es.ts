@@ -160,6 +160,10 @@ export const es: Messages = {
                 { em: 'Criaturas adivinadas' },
                 '.',
               ],
+              [
+                { em: 'Ocultar subterráneas' },
+                ' deja de mostrar las criaturas de cuevas y minas, que nadie ve desde lejos.',
+              ],
             ],
           },
         ]),
@@ -340,7 +344,7 @@ export const es: Messages = {
             title: 'Imágenes simplificadas',
             body: [
               [
-                'Como muchos juegos, Living Horizon dibuja las criaturas, los vehículos y los jugadores lejanos como imágenes ligeras en lugar de modelos 3D completos. A esa distancia se ven igual, por una fracción del coste. Con un paquete de shaders como Photon, las imágenes se iluminan como el resto del mundo.',
+                'Como muchos juegos, Living Horizon dibuja las criaturas, los vehículos, los jugadores y las aves lejanos como imágenes ligeras en lugar de modelos 3D completos. A esa distancia se ven igual, por una fracción del coste. Con un paquete de shaders como Photon, las imágenes se iluminan como el resto del mundo.',
               ],
             ],
           },
@@ -856,6 +860,8 @@ export const es: Messages = {
       },
     }),
     ask: 'Pregunta en Discord',
+    copyLink: 'Copiar enlace',
+    copied: 'Enlace copiado',
     issue: 'Abrir un issue',
   },
 

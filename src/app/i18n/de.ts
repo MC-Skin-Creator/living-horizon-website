@@ -158,6 +158,10 @@ export const de: Messages = {
                 { em: 'Erratene Kreaturen' },
                 ' aus.',
               ],
+              [
+                { em: 'Unter Tage ausblenden' },
+                ' blendet die Kreaturen in Höhlen und Minen aus, die aus der Ferne ohnehin niemand sieht.',
+              ],
             ],
           },
         ]),
@@ -337,7 +341,7 @@ export const de: Messages = {
             title: 'Vereinfachte Bilder',
             body: [
               [
-                'Wie viele Spiele zeichnet Living Horizon ferne Kreaturen, Fahrzeuge und Spieler als leichte Bilder statt als vollständige 3D-Modelle. Auf diese Entfernung sehen sie gleich aus, für einen Bruchteil des Aufwands. Mit einem Shaderpaket wie Photon werden die Bilder beleuchtet wie der Rest der Welt.',
+                'Wie viele Spiele zeichnet Living Horizon ferne Kreaturen, Fahrzeuge, Spieler und Vögel als leichte Bilder statt als vollständige 3D-Modelle. Auf diese Entfernung sehen sie gleich aus, für einen Bruchteil des Aufwands. Mit einem Shaderpaket wie Photon werden die Bilder beleuchtet wie der Rest der Welt.',
               ],
             ],
           },
@@ -843,6 +847,8 @@ export const de: Messages = {
       },
     }),
     ask: 'Auf Discord fragen',
+    copyLink: 'Link kopieren',
+    copied: 'Link kopiert',
     issue: 'Issue eröffnen',
   },
 

@@ -4,8 +4,12 @@
  */
 
 import type { Messages } from '../i18n/en';
+import { LANGUAGES } from '../i18n/languages';
 
 const REPO = 'https://github.com/MC-Skin-Creator/living-horizon';
+
+/** The mod's changelog file name for a language of the site: `pt-BR` → `pt_br`. */
+const changelogName = (code: string) => code.toLowerCase().replace('-', '_');
 
 export interface Screenshots {
   /** Its tab's name and sentence are `compare.shots.<id>` in the dictionaries. */
@@ -74,11 +78,12 @@ export const SITE = {
   },
 
   /**
-   * The languages the mod's changelog is written in (`changelog/<code>.md`). The page shows
-   * the visitor's when there is one, else the English one.
+   * The languages the mod's changelog is written in (`changelog/languages.json` of the mod):
+   * all of the site's. The page shows the visitor's when there is one, else the English one.
    */
-  changelogLanguages: ['en', 'fr'] as string[],
-  changelogFile: (code: string) => `${REPO}/blob/main/changelog/${code}.md`,
+  changelogLanguages: LANGUAGES.map((l) => l.code) as string[],
+  changelogName,
+  changelogFile: (code: string) => `${REPO}/blob/main/changelog/${changelogName(code)}.md`,
 
   /**
    * Real in-game screenshots for the before / after slider. They come first, the stylised

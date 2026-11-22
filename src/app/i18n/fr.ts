@@ -159,6 +159,10 @@ export const fr: Messages = {
                 { em: 'Créatures devinées' },
                 '.',
               ],
+              [
+                { em: 'Masquer sous terre' },
+                " cesse d'afficher les créatures des grottes et des mines, que personne ne voit de loin.",
+              ],
             ],
           },
         ]),
@@ -338,7 +342,7 @@ export const fr: Messages = {
             title: 'Des images simplifiées',
             body: [
               [
-                "Comme beaucoup de jeux, Living Horizon affiche les créatures, les véhicules et les joueurs lointains sous forme d'images légères plutôt qu'en modèles 3D complets. À cette distance, on ne voit pas la différence, pour une fraction du coût. Avec un pack de shaders comme Photon, ces images sont éclairées comme le reste du monde.",
+                "Comme beaucoup de jeux, Living Horizon affiche les créatures, les véhicules, les joueurs et les oiseaux lointains sous forme d'images légères plutôt qu'en modèles 3D complets. À cette distance, on ne voit pas la différence, pour une fraction du coût. Avec un pack de shaders comme Photon, ces images sont éclairées comme le reste du monde.",
               ],
             ],
           },
@@ -852,6 +856,8 @@ export const fr: Messages = {
       },
     }),
     ask: 'Demander sur Discord',
+    copyLink: 'Copier le lien',
+    copied: 'Lien copié',
     issue: 'Ouvrir une issue',
   },
 

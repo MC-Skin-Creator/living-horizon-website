@@ -132,7 +132,10 @@ export function jarName(version: string, row: TargetRow, loader: Loader): string
   return `livinghorizon-${version}+mc${row.fileVersion}${loader === 'fabric' ? '' : '-' + loader}.jar`;
 }
 
-/** Group headings of every language the changelog is written in (`SITE.changelogLanguages`). */
+/**
+ * Group and part headings of every language the changelog is written in, as the mod's
+ * `changelog/languages.json` names them (`kinds` and `parts`).
+ */
 const GROUP_KINDS: Record<string, ChangeGroup['kind']> = {
   new: 'new',
   improved: 'improved',
@@ -140,12 +143,64 @@ const GROUP_KINDS: Record<string, ChangeGroup['kind']> = {
   nouveautés: 'new',
   améliorations: 'improved',
   corrections: 'fixed',
+  neu: 'new',
+  verbessert: 'improved',
+  behoben: 'fixed',
+  novedades: 'new',
+  mejoras: 'improved',
+  correcciones: 'fixed',
+  novità: 'new',
+  miglioramenti: 'improved',
+  correzioni: 'fixed',
+  novidades: 'new',
+  melhorias: 'improved',
+  correções: 'fixed',
+  nowości: 'new',
+  ulepszenia: 'improved',
+  poprawki: 'fixed',
+  yenilikler: 'new',
+  i̇yileştirmeler: 'improved',
+  düzeltmeler: 'fixed',
+  новое: 'new',
+  улучшения: 'improved',
+  исправления: 'fixed',
+  нове: 'new',
+  покращення: 'improved',
+  виправлення: 'fixed',
+  新内容: 'new',
+  改进: 'improved',
+  修复: 'fixed',
+  新內容: 'new',
+  改進: 'improved',
+  修正: 'fixed',
+  新機能: 'new',
+  改善: 'improved',
+  '새로운 기능': 'new',
+  개선: 'improved',
+  수정: 'fixed',
 };
 
 const SIDES: Record<string, ChangeSide> = {
   server: 'server',
-  serveur: 'server',
   client: 'client',
+  serveur: 'server',
+  servidor: 'server',
+  cliente: 'client',
+  serwer: 'server',
+  klient: 'client',
+  sunucu: 'server',
+  i̇stemci: 'client',
+  сервер: 'server',
+  клиент: 'client',
+  клієнт: 'client',
+  服务器: 'server',
+  客户端: 'client',
+  伺服器: 'server',
+  用戶端: 'client',
+  サーバー: 'server',
+  クライアント: 'client',
+  서버: 'server',
+  클라이언트: 'client',
 };
 
 /** `## Unreleased`, `## Prochaine version`…: a heading that is not a version number. */

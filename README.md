@@ -41,7 +41,7 @@ lists them:
 | Data | Source |
 |---|---|
 | Latest version, date, release files, GitHub downloads | GitHub releases API (`-dev.N` builds skipped) |
-| Changelog | `changelog/en.md` of the mod repository, or `changelog/<lang>.md` when the mod has the visitor's language |
+| Changelog | `changelog/en.md` of the mod repository, or the visitor's language (`changelog/<lang>.md`, `pt_br` for `pt-BR`: the mod writes it in all 14) |
 | Minecraft versions, loaders, tested / needs testers | `stonecutter.properties.toml` of the mod (`mod.release_type = "alpha"` = needs testers) |
 | CurseForge downloads | api.cfwidget.com |
 | Modrinth downloads | Modrinth API (shows "Coming soon" while the project does not exist) |
@@ -76,6 +76,9 @@ starts so it never shows English first.
   and ordered by `GROUPS` in `src/app/sections/faq.ts`. An answer is a list of paragraphs and
   lists made of pieces (`src/app/i18n/rich.ts`): text, a setting's name, code, or a link of
   `LINKS`. When the mod's README FAQ changes, change it here too.
+  Each question has a link of its own, `#faq-` and its key in kebab case (`frameRate` →
+  `/#faq-frame-rate`): opened, the page scrolls to the question and opens it. Its *Copy link*
+  button, under the answer, copies it, to share a question on Discord.
 - **Rare figures**: on some visits (`EGG_CHANCE`), an illustration hides one figure of the
   mod's own surprises far off: Herobrine on a ridge, a ghost, Bigfoot, a saucer
   (`eggs` of each scene in `src/app/scene/scenes.ts`, `egg` in `features.ts`). The page never

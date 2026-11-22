@@ -59,10 +59,35 @@
   &[open] summary lh-icon {
     transform: rotate(45deg);
   }
+
+  // The question a link opened.
+  &.linked {
+    border-color: var(--sun);
+  }
 }
 
 .answer {
-  padding: 0 20px 18px;
+  padding: 0 20px 12px;
+}
+
+.share {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 20px 16px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-decoration: none;
+
+  lh-icon {
+    width: 15px;
+    height: 15px;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: var(--sun);
+  }
 }
 
 .actions {
@@ -88,7 +113,11 @@
   }
 
   .answer {
-    padding: 0 16px 16px;
+    padding: 0 16px 10px;
+  }
+
+  .share {
+    margin: 0 16px 14px;
   }
 
   .actions .btn {

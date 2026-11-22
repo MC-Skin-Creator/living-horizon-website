@@ -160,6 +160,10 @@ export const tr: Messages = {
                 { em: 'Tahmini Canlılar' },
                 ' ile gizleyin.',
               ],
+              [
+                { em: 'Yeraltındakileri Gizle' },
+                ', mağara ve madenlerde kalan, uzaktan kimsenin göremeyeceği canlıları göstermez.',
+              ],
             ],
           },
         ]),
@@ -339,7 +343,7 @@ export const tr: Messages = {
             title: 'Basitleştirilmiş resimler',
             body: [
               [
-                'Pek çok oyun gibi Living Horizon da uzak canlıları, araçları ve oyuncuları tam 3D modeller yerine hafif resimler olarak çizer. O mesafede aynı görünürler, maliyetin çok küçük bir kısmıyla. Photon gibi bir gölgelendirici paketiyle resimler dünyanın geri kalanı gibi aydınlatılır.',
+                'Pek çok oyun gibi Living Horizon da uzak canlıları, araçları, oyuncuları ve kuşları tam 3D modeller yerine hafif resimler olarak çizer. O mesafede aynı görünürler, maliyetin çok küçük bir kısmıyla. Photon gibi bir gölgelendirici paketiyle resimler dünyanın geri kalanı gibi aydınlatılır.',
               ],
             ],
           },
@@ -832,6 +836,8 @@ export const tr: Messages = {
       },
     }),
     ask: "Discord'da sorun",
+    copyLink: 'Bağlantıyı kopyala',
+    copied: 'Bağlantı kopyalandı',
     issue: 'Sorun kaydı açın',
   },
 

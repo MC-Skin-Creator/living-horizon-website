@@ -172,6 +172,10 @@ export const en = {
                 { em: 'Show Guessed Mobs' },
                 '.',
               ],
+              [
+                { em: 'Hide Underground Mobs' },
+                ' stops drawing the mobs in caves and mines, which nobody sees from afar.',
+              ],
             ],
           },
         ]),
@@ -351,7 +355,7 @@ export const en = {
             title: 'Simplified images',
             body: [
               [
-                'Like many games, Living Horizon draws distant mobs, vehicles and players as light images instead of full 3D models. At that distance they look the same, for a fraction of the cost. With a shader pack such as Photon, the images are lit like the rest of the world.',
+                'Like many games, Living Horizon draws distant mobs, vehicles, players and birds as light images instead of full 3D models. At that distance they look the same, for a fraction of the cost. With a shader pack such as Photon, the images are lit like the rest of the world.',
               ],
             ],
           },
@@ -860,6 +864,9 @@ export const en = {
       },
     }),
     ask: 'Ask on Discord',
+    /** Under an open answer: copies the link that opens this question. */
+    copyLink: 'Copy link',
+    copied: 'Link copied',
     issue: 'Open an issue',
   },
 
