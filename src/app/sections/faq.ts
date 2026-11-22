@@ -11,31 +11,18 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { SITE } from '../config/site';
-import { Messages } from '../i18n/en';
 import { I18n } from '../i18n/i18n';
 import { Icon } from '../shared/icon';
 import { Reveal } from '../shared/reveal';
 import { SectionHead } from '../shared/section-head';
 import { RichText } from '../shared/rich-text';
-
-type Groups = Messages['faq']['groups'];
-type Questions = Messages['faq']['questions'];
-
-/** The groups and their questions, in the order of the mod's README. */
-const GROUPS: { key: keyof Groups; questions: (keyof Questions)[] }[] = [
-  { key: 'how', questions: ['visual', 'real', 'simulation', 'range'] },
-  { key: 'compatibility', questions: ['mods', 'modMobs', 'farTerrain'] },
-  { key: 'performance', questions: ['frameRate', 'choose', 'world'] },
-  { key: 'multiplayer', questions: ['server', 'paper', 'nothing', 'cheat'] },
-  { key: 'downloads', questions: ['bedrock', 'version', 'modpack', 'abandoned'] },
-  { key: 'ai', questions: ['ai', 'modrinth'] },
-];
+import { FAQ_GROUPS, faqPage, faqSlug } from './faq-groups';
 
 /** What tells that the visitor scrolls on their own. */
 const USER_SCROLL = ['wheel', 'touchstart', 'keydown', 'mousedown'];
 
-/** The id of a question, and the end of its link: `frameRate` → `faq-frame-rate`. */
-const anchor = (key: string) => 'faq-' + key.replace(/[A-Z]/g, (c) => '-' + c.toLowerCase());
+/** The id of a question on the page: `frameRate` → `faq-frame-rate`. */
+const anchor = (key: string) => 'faq-' + faqSlug(key);
 
 @Component({
   selector: 'lh-faq',
@@ -62,7 +49,7 @@ const anchor = (key: string) => 'faq-' + key.replace(/[A-Z]/g, (c) => '-' + c.to
                     </summary>
                     <lh-rich class="answer" [blocks]="item.a" />
                     <!-- The link that opens this question, to share it (on Discord…). -->
-                    <a class="share" [href]="link(id)" (click)="copy($event, id)">
+                    <a class="share" [href]="link(key)" (click)="copy($event, key)">
                       <lh-icon [name]="copied() === id ? 'check' : 'link'" />
                       <span aria-live="polite">{{ copied() === id ? t.copied : t.copyLink }}</span>
                     </a>
@@ -89,7 +76,7 @@ const anchor = (key: string) => 'faq-' + key.replace(/[A-Z]/g, (c) => '-' + c.to
 export class Faq {
   protected readonly site = SITE;
   protected readonly i18n = inject(I18n);
-  protected readonly groups = GROUPS;
+  protected readonly groups = FAQ_GROUPS;
   protected readonly anchor = anchor;
   /** The question whose link was just copied. */
   protected readonly copied = signal<string | null>(null);
@@ -108,16 +95,20 @@ export class Faq {
       });
   }
 
-  /** The question's link: the home page, with its id. */
-  protected link(id: string): string {
-    return new URL('#' + id, this.document.baseURI).href;
+  /**
+   * The question's link, in the page's language: its own page (`faq/fr/frame-rate/`), whose
+   * preview on Discord and elsewhere shows the question and its answer, and which opens it.
+   */
+  protected link(key: string): string {
+    return new URL(faqPage(this.i18n.lang(), key), this.document.baseURI).href;
   }
 
   /** Copies the question's link; where the browser refuses, the address bar shows it. */
-  protected async copy(event: Event, id: string) {
+  protected async copy(event: Event, key: string) {
     event.preventDefault();
+    const id = anchor(key);
     try {
-      await navigator.clipboard.writeText(this.link(id));
+      await navigator.clipboard.writeText(this.link(key));
     } catch {
       this.document.location.hash = id;
       return;
