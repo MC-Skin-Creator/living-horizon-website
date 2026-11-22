@@ -60,7 +60,6 @@ export const zhTW: Messages = {
     taglineAccent: '充滿生機。',
     lede: {
       before: '動物、村民、鳥類與其他玩家在地平線上繼續生活，遠遠超出您的顯示距離，就在',
-      between: '與',
       after: '的遠景地形上，原版也一樣。單人遊戲、區域網路與伺服器都支援。',
     },
     facts: '專案概覽',

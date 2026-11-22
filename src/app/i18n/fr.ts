@@ -64,7 +64,6 @@ export const fr: Messages = {
     lede: {
       before:
         "Animaux, villageois, oiseaux et autres joueurs continuent de vivre à l'horizon, bien au-delà de ta distance d'affichage, directement sur le terrain lointain de",
-      between: 'et',
       after: ', ou en vanilla. En solo, en LAN et sur serveur.',
     },
     facts: 'Le projet en bref',

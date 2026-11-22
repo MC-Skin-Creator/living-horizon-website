@@ -64,7 +64,6 @@ export const es: Messages = {
     lede: {
       before:
         'Animales, aldeanos, pájaros y otros jugadores siguen viviendo en el horizonte, mucho más allá de tu distancia de renderizado, justo sobre el terreno lejano de',
-      between: 'y',
       after: ', o en vanilla. En un jugador, en LAN y en servidores.',
     },
     facts: 'El proyecto de un vistazo',

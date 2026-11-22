@@ -71,11 +71,10 @@ export const en = {
     news: 'Now on Lodistance, Far View and Ecstatic terrain',
     tagline: 'Gives life to',
     taglineAccent: 'the distance.',
-    /** Around the Distant Horizons and Voxy logos. */
+    /** Around the name of a far-terrain mod and its logo (Voxy, Distant Horizons…, in turn). */
     lede: {
       before:
         'Animals, villagers, birds and other players keep living on the horizon, far past your render distance, right on the far terrain of',
-      between: 'and',
       after: ', or in vanilla. In single player, on LAN, and on servers.',
     },
     facts: 'Project at a glance',

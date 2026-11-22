@@ -60,7 +60,6 @@ export const ko: Messages = {
     taglineAccent: '생명을 불어넣다.',
     lede: {
       before: '동물, 주민, 새, 다른 플레이어가 렌더 거리 훨씬 너머의 지평선에서 계속 살아갑니다.',
-      between: '또는',
       after:
         '의 원거리 지형 위에서도, 바닐라에서도 마찬가지입니다. 싱글플레이, LAN, 서버 모두에서 작동합니다.',
     },

@@ -64,7 +64,6 @@ export const tr: Messages = {
     lede: {
       before:
         'Hayvanlar, köylüler, kuşlar ve diğer oyuncular, görüş mesafenizin çok ötesinde, ufukta yaşamaya devam eder:',
-      between: 've',
       after:
         " ile gelen uzak arazide de, vanilla oyunda da. Tek oyunculu oyunda, LAN'da ve sunucularda.",
     },

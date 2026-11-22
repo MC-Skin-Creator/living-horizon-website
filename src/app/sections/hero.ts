@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ElementRef,
+  afterNextRender,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { SITE } from '../config/site';
 import { LOADER_NAMES } from '../data/models';
 import { ProjectData } from '../data/project-data';
@@ -6,6 +15,18 @@ import { I18n } from '../i18n/i18n';
 import { HorizonScene } from '../scene/horizon-scene';
 import { AgoPipe, CountPipe } from '../shared/format';
 import { Icon } from '../shared/icon';
+
+/** The far-terrain mods the hero names in turn, with their logo in `img/logos/`. */
+const FAR_MODS = [
+  { name: 'Voxy', logo: 'voxy' },
+  { name: 'Distant Horizons', logo: 'distant-horizons' },
+  { name: 'Lodistance', logo: 'lodistance' },
+  { name: 'Far View', logo: 'far-view' },
+  { name: 'Ecstatic', logo: 'ecstatic' },
+];
+
+/** How long each mod stays, in milliseconds. */
+const TURN = 2600;
 
 @Component({
   selector: 'lh-hero',
@@ -43,13 +64,22 @@ import { Icon } from '../shared/icon';
 
         <p class="lede">
           {{ t.hero.lede.before }}
-          <strong class="mod"
-            ><img src="img/logos/distant-horizons.webp" alt="" width="20" height="20" />Distant
-            Horizons</strong
+          <span class="visually-hidden">{{ farModList() }}</span>
+          <!-- One far-terrain mod after the other, its logo with it. -->
+          <span
+            class="rotator"
+            aria-hidden="true"
+            [style.width.px]="width()"
+            (mouseenter)="paused.set(true)"
+            (mouseleave)="paused.set(false)"
           >
-          {{ t.hero.lede.between }}
-          <strong class="mod"
-            ><img src="img/logos/voxy.webp" alt="" width="20" height="20" />Voxy</strong
+            @for (mod of farMods; track mod.name; let i = $index) {
+              <strong class="mod" [class.current]="i === current()" [class.gone]="i === previous()">
+                <img [src]="'img/logos/' + mod.logo + '.webp'" alt="" width="20" height="20" />{{
+                  mod.name
+                }}
+              </strong>
+            }</span
           >{{ t.hero.lede.after }}
         </p>
 
@@ -101,6 +131,42 @@ export class Hero {
   protected readonly site = SITE;
   protected readonly data = inject(ProjectData);
   protected readonly i18n = inject(I18n);
+
+  protected readonly farMods = FAR_MODS;
+  /** Every mod at once, for screen readers: "Voxy, Distant Horizons… or Ecstatic". */
+  protected readonly farModList = computed(() =>
+    new Intl.ListFormat(this.i18n.lang(), { type: 'disjunction' }).format(
+      FAR_MODS.map((m) => m.name),
+    ),
+  );
+  protected readonly current = signal(0);
+  /** The mod sliding out, while the next slides in. */
+  protected readonly previous = signal<number | null>(null);
+  /** The width of the mod shown, so the sentence closes up around it. */
+  protected readonly width = signal<number | null>(null);
+  protected readonly paused = signal(false);
+
+  constructor() {
+    const host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+    const destroyRef = inject(DestroyRef);
+    const measure = () => {
+      const shown = host.querySelectorAll<HTMLElement>('.rotator .mod')[this.current()];
+      if (shown) this.width.set(Math.ceil(shown.getBoundingClientRect().width));
+    };
+    afterNextRender(() => {
+      measure();
+      void document.fonts?.ready.then(measure);
+      // Shown one by one only where motion is welcome; else the first stays.
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const timer = setInterval(() => {
+        if (this.paused() || document.hidden) return;
+        this.previous.set(this.current());
+        this.current.set((this.current() + 1) % FAR_MODS.length);
+        measure();
+      }, TURN);
+      destroyRef.onDestroy(() => clearInterval(timer));
+    });
+  }
 
   protected loaderNames() {
     return this.data

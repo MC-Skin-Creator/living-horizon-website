@@ -64,7 +64,6 @@ export const ptBR: Messages = {
     lede: {
       before:
         'Animais, aldeões, pássaros e outros jogadores continuam vivendo no horizonte, muito além da sua distância de renderização, direto no terreno distante do',
-      between: 'e do',
       after: ', ou no vanilla. Em um jogador, em LAN e em servidores.',
     },
     facts: 'O projeto em resumo',

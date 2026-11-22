@@ -60,7 +60,6 @@ export const zhCN: Messages = {
     taglineAccent: '充满生机。',
     lede: {
       before: '动物、村民、鸟类和其他玩家在地平线上继续生活，远远超出你的渲染距离，就在',
-      between: '和',
       after: '的远景地形上，原版也一样。单人游戏、局域网和服务器都支持。',
     },
     facts: '项目概览',

@@ -64,7 +64,6 @@ export const it: Messages = {
     lede: {
       before:
         "Animali, villici, uccelli e altri giocatori continuano a vivere all'orizzonte, ben oltre la tua distanza visiva, direttamente sul terreno lontano di",
-      between: 'e',
       after: ', o nel gioco vanilla. In giocatore singolo, in LAN e sui server.',
     },
     facts: 'Il progetto in breve',

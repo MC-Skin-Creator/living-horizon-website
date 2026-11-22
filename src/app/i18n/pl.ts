@@ -64,7 +64,6 @@ export const pl: Messages = {
     lede: {
       before:
         'Zwierzęta, osadnicy, ptaki i inni gracze żyją dalej na horyzoncie, daleko poza twoim zasięgiem renderowania, prosto na dalekim terenie',
-      between: 'i',
       after: ', albo w samej grze. W grze jednoosobowej, w sieci LAN i na serwerach.',
     },
     facts: 'Projekt w skrócie',

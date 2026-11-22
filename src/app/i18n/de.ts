@@ -64,7 +64,6 @@ export const de: Messages = {
     lede: {
       before:
         'Tiere, Dorfbewohner, Vögel und andere Spieler leben am Horizont weiter, weit über deine Sichtweite hinaus, direkt auf dem fernen Gelände von',
-      between: 'und',
       after: ', oder in Vanilla. Im Einzelspieler, im LAN und auf Servern.',
     },
     facts: 'Das Projekt auf einen Blick',
