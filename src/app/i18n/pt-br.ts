@@ -64,7 +64,6 @@ export const ptBR: Messages = {
     lede: {
       before:
         'Animais, aldeões, pássaros e outros jogadores continuam vivendo no horizonte, muito além da sua distância de renderização, direto no terreno distante do',
-      between: 'e do',
       after: ', ou no vanilla. Em um jogador, em LAN e em servidores.',
     },
     facts: 'O projeto em resumo',
@@ -158,6 +157,10 @@ export const ptBR: Messages = {
                 ' e esconda as estimadas com ',
                 { em: 'Criaturas adivinhadas' },
                 '.',
+              ],
+              [
+                { em: 'Ocultar subterrâneas' },
+                ' deixa de mostrar as criaturas de cavernas e minas, que ninguém vê de longe.',
               ],
             ],
           },
@@ -338,7 +341,7 @@ export const ptBR: Messages = {
             title: 'Imagens simplificadas',
             body: [
               [
-                'Como muitos jogos, o Living Horizon desenha criaturas, veículos e jogadores distantes como imagens leves em vez de modelos 3D completos. Àquela distância, eles parecem iguais, por uma fração do custo. Com um pacote de shaders como o Photon, as imagens são iluminadas como o resto do mundo.',
+                'Como muitos jogos, o Living Horizon desenha criaturas, veículos, jogadores e aves distantes como imagens leves em vez de modelos 3D completos. Àquela distância, eles parecem iguais, por uma fração do custo. Com um pacote de shaders como o Photon, as imagens são iluminadas como o resto do mundo.',
               ],
             ],
           },
@@ -855,6 +858,8 @@ export const ptBR: Messages = {
       },
     }),
     ask: 'Pergunte no Discord',
+    copyLink: 'Copiar link',
+    copied: 'Link copiado',
     issue: 'Abrir uma issue',
   },
 

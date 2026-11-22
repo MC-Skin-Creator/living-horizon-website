@@ -64,7 +64,6 @@ export const it: Messages = {
     lede: {
       before:
         "Animali, villici, uccelli e altri giocatori continuano a vivere all'orizzonte, ben oltre la tua distanza visiva, direttamente sul terreno lontano di",
-      between: 'e',
       after: ', o nel gioco vanilla. In giocatore singolo, in LAN e sui server.',
     },
     facts: 'Il progetto in breve',
@@ -158,6 +157,10 @@ export const it: Messages = {
                 ' e nascondi quelle stimate con ',
                 { em: 'Creature indovinate' },
                 '.',
+              ],
+              [
+                { em: 'Nascondi sotterranee' },
+                ' smette di mostrare le creature di grotte e miniere, che nessuno vede da lontano.',
               ],
             ],
           },
@@ -338,7 +341,7 @@ export const it: Messages = {
             title: 'Immagini semplificate',
             body: [
               [
-                'Come molti giochi, Living Horizon disegna creature, veicoli e giocatori lontani come immagini leggere invece che come modelli 3D completi. A quella distanza sembrano identici, per una frazione del costo. Con un pacchetto di shader come Photon, le immagini sono illuminate come il resto del mondo.',
+                'Come molti giochi, Living Horizon disegna creature, veicoli, giocatori e uccelli lontani come immagini leggere invece che come modelli 3D completi. A quella distanza sembrano identici, per una frazione del costo. Con un pacchetto di shader come Photon, le immagini sono illuminate come il resto del mondo.',
               ],
             ],
           },
@@ -851,6 +854,8 @@ export const it: Messages = {
       },
     }),
     ask: 'Chiedi su Discord',
+    copyLink: 'Copia link',
+    copied: 'Link copiato',
     issue: 'Apri una issue',
   },
 

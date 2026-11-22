@@ -64,7 +64,6 @@ export const pl: Messages = {
     lede: {
       before:
         'Zwierzęta, osadnicy, ptaki i inni gracze żyją dalej na horyzoncie, daleko poza twoim zasięgiem renderowania, prosto na dalekim terenie',
-      between: 'i',
       after: ', albo w samej grze. W grze jednoosobowej, w sieci LAN i na serwerach.',
     },
     facts: 'Projekt w skrócie',
@@ -158,6 +157,10 @@ export const pl: Messages = {
                 ', które stworzenia są widoczne, a szacowane ukryj opcją ',
                 { em: 'Zgadnięte stworzenia' },
                 '.',
+              ],
+              [
+                { em: 'Ukryj pod ziemią' },
+                ' przestaje pokazywać stworzenia w jaskiniach i kopalniach, których i tak nikt nie widzi z daleka.',
               ],
             ],
           },
@@ -338,7 +341,7 @@ export const pl: Messages = {
             title: 'Uproszczone obrazy',
             body: [
               [
-                'Jak wiele gier, Living Horizon rysuje dalekie stworzenia, pojazdy i graczy jako lekkie obrazy zamiast pełnych modeli 3D. Z tej odległości wyglądają tak samo, a kosztują ułamek tego. Z paczką shaderów, taką jak Photon, obrazy są oświetlone jak reszta świata.',
+                'Jak wiele gier, Living Horizon rysuje dalekie stworzenia, pojazdy, graczy i ptaki jako lekkie obrazy zamiast pełnych modeli 3D. Z tej odległości wyglądają tak samo, a kosztują ułamek tego. Z paczką shaderów, taką jak Photon, obrazy są oświetlone jak reszta świata.',
               ],
             ],
           },
@@ -860,6 +863,8 @@ export const pl: Messages = {
       },
     }),
     ask: 'Zapytaj na Discordzie',
+    copyLink: 'Kopiuj link',
+    copied: 'Skopiowano link',
     issue: 'Otwórz zgłoszenie',
   },
 

@@ -40,7 +40,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # The site's address, for link previews: the FAQ pages' pictures need a full address.
+      - name: Read the Pages address
+        id: pages
+        uses: actions/configure-pages@v5
+        continue-on-error: true
+
       - run: npm run build
+        env:
+          SITE_URL: ${{ steps.pages.outputs.base_url }}
 
       - uses: actions/upload-pages-artifact@v3
         if: github.event_name != 'pull_request'

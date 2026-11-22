@@ -129,7 +129,7 @@ export class ProjectData {
       const { owner, name, branch } = SITE.repo;
       try {
         const res = await fetch(
-          `https://raw.githubusercontent.com/${owner}/${name}/${branch}/changelog/${lang}.md`,
+          `https://raw.githubusercontent.com/${owner}/${name}/${branch}/changelog/${SITE.changelogName(lang)}.md`,
           { signal: AbortSignal.timeout(10_000) },
         );
         if (!res.ok) return;

@@ -71,11 +71,10 @@ export const en = {
     news: 'Now on Lodistance, Far View and Ecstatic terrain',
     tagline: 'Gives life to',
     taglineAccent: 'the distance.',
-    /** Around the Distant Horizons and Voxy logos. */
+    /** Around the name of a far-terrain mod and its logo (Voxy, Distant Horizons…, in turn). */
     lede: {
       before:
         'Animals, villagers, birds and other players keep living on the horizon, far past your render distance, right on the far terrain of',
-      between: 'and',
       after: ', or in vanilla. In single player, on LAN, and on servers.',
     },
     facts: 'Project at a glance',
@@ -171,6 +170,10 @@ export const en = {
                 ', and hide the estimated ones with ',
                 { em: 'Show Guessed Mobs' },
                 '.',
+              ],
+              [
+                { em: 'Hide Underground Mobs' },
+                ' stops drawing the mobs in caves and mines, which nobody sees from afar.',
               ],
             ],
           },
@@ -351,7 +354,7 @@ export const en = {
             title: 'Simplified images',
             body: [
               [
-                'Like many games, Living Horizon draws distant mobs, vehicles and players as light images instead of full 3D models. At that distance they look the same, for a fraction of the cost. With a shader pack such as Photon, the images are lit like the rest of the world.',
+                'Like many games, Living Horizon draws distant mobs, vehicles, players and birds as light images instead of full 3D models. At that distance they look the same, for a fraction of the cost. With a shader pack such as Photon, the images are lit like the rest of the world.',
               ],
             ],
           },
@@ -860,6 +863,9 @@ export const en = {
       },
     }),
     ask: 'Ask on Discord',
+    /** Under an open answer: copies the link that opens this question. */
+    copyLink: 'Copy link',
+    copied: 'Link copied',
     issue: 'Open an issue',
   },
 

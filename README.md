@@ -41,7 +41,7 @@ lists them:
 | Data | Source |
 |---|---|
 | Latest version, date, release files, GitHub downloads | GitHub releases API (`-dev.N` builds skipped) |
-| Changelog | `changelog/en.md` of the mod repository, or `changelog/<lang>.md` when the mod has the visitor's language |
+| Changelog | `changelog/en.md` of the mod repository, or the visitor's language (`changelog/<lang>.md`, `pt_br` for `pt-BR`: the mod writes it in all 14) |
 | Minecraft versions, loaders, tested / needs testers | `stonecutter.properties.toml` of the mod (`mod.release_type = "alpha"` = needs testers) |
 | CurseForge downloads | api.cfwidget.com |
 | Modrinth downloads | Modrinth API (shows "Coming soon" while the project does not exist) |
@@ -73,9 +73,17 @@ starts so it never shows English first.
 - Links, platform ids, fallbacks: `src/app/config/site.ts`. Texts: `src/app/i18n/`, in every
   language.
 - **FAQ**: the questions of the mod's README, in `faq.questions` of every dictionary, grouped
-  and ordered by `GROUPS` in `src/app/sections/faq.ts`. An answer is a list of paragraphs and
+  and ordered by `FAQ_GROUPS` in `src/app/sections/faq-groups.ts`. An answer is a list of paragraphs and
   lists made of pieces (`src/app/i18n/rich.ts`): text, a setting's name, code, or a link of
   `LINKS`. When the mod's README FAQ changes, change it here too.
+  Each question has an id, `#faq-` and its key in kebab case (`frameRate` →
+  `/#faq-frame-rate`): opened, the page scrolls to the question and opens it. Its *Copy link*
+  button, under the answer, gives the question's own page in the visitor's language,
+  `faq/fr/frame-rate/`, which `scripts/pages.mts` writes for every question and language at
+  build time (`faqPage()` in `src/app/sections/faq-groups.ts`). Discord and other apps read
+  no script: that page carries the question, its answer and the mod's icon in its tags for
+  their preview, and sends a visitor on to `?lang=fr#faq-frame-rate`. The order of the
+  questions is `FAQ_GROUPS` there.
 - **Rare figures**: on some visits (`EGG_CHANCE`), an illustration hides one figure of the
   mod's own surprises far off: Herobrine on a ridge, a ghost, Bigfoot, a saucer
   (`eggs` of each scene in `src/app/scene/scenes.ts`, `egg` in `features.ts`). The page never
