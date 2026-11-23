@@ -55,6 +55,26 @@ export const LINKS = {
   nuketown: 'https://steamcommunity.com/sharedfiles/filedetails/?id=2180904327',
 };
 
+/**
+ * Short addresses of the site that send straight to a page of the mod: `…/curseforge` opens
+ * its CurseForge page. `scripts/pages.mts` writes one small page for each at build time;
+ * share them anywhere. A name here must not be a page of the app (`app.routes.ts`).
+ */
+export const SHORT_LINKS: Record<string, string> = {
+  curseforge: LINKS.curseforge,
+  modrinth: LINKS.modrinth,
+  nexus: LINKS.nexus,
+  nexusmods: LINKS.nexus,
+  github: LINKS.github,
+  source: LINKS.github,
+  releases: LINKS.releases,
+  issues: LINKS.issues,
+  report: LINKS.newIssue,
+  discord: LINKS.discord,
+  wiki: LINKS.readme,
+  license: LINKS.license,
+};
+
 export const SITE = {
   name: 'Living Horizon',
   tagline: 'Gives life to the distance.',

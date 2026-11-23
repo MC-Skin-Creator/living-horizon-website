@@ -22,6 +22,18 @@ route, its path in `PAGES` of `scripts/pages.mts`, its title and description und
 of every dictionary (`pageMeta()` in its constructor), and a link in the nav or the footer.
 A link to a section of the home page from any page is a `routerLink="/"` with a `fragment`.
 
+**Short links**: `…/curseforge`, `/modrinth`, `/nexus`, `/github`, `/releases`, `/issues`,
+`/report`, `/discord`, `/wiki`, `/license` open the mod's own pages. They are `SHORT_LINKS`
+in `src/app/config/site.ts`; `scripts/pages.mts` writes a page for each that sends the
+visitor straight on (search engines read it as a redirect and do not list it).
+
+**Search engines**: the deploy workflow passes the site's address as `SITE_URL`, and the
+build writes `sitemap.xml` (every page in every language, `?lang=fr`, each naming the
+others) and `robots.txt` pointing to it. Each page also names its address in the page's
+language and in the others (`pageMeta()`, `src/app/pages/page-meta.ts`). Google reads
+`robots.txt` only at the root of a domain: on `<user>.github.io/<repo>/`, give it the
+sitemap in Search Console instead.
+
 ## Run it
 
 Node 24 (Angular 22 needs 22.22.3+ or 24.15+).
