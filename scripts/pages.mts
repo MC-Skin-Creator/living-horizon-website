@@ -9,8 +9,12 @@
  * so this page carries the question and its answer for their preview, and sends a visitor on
  * to the home page with the question open (`?lang=fr#faq-frame-rate`).
  *
+ * Each short link of `SHORT_LINKS` (`src/app/config/site.ts`) gets a page that sends the
+ * visitor straight on: `…/curseforge` opens the mod's CurseForge page.
+ *
  * `SITE_URL` (the deploy workflow sets it from GitHub Pages) makes the preview pictures'
- * addresses absolute, as some apps want them.
+ * addresses absolute, as some apps want them, and gives search engines `sitemap.xml` and its
+ * line in `robots.txt`: the pages and each of their languages (`?lang=fr`).
  */
 import { build } from 'esbuild';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
@@ -48,6 +52,7 @@ const bundle = await build({
     contents: `
       export { LANGUAGES } from './src/app/i18n/languages';
       export { FAQ_GROUPS, faqPage, faqSlug } from './src/app/sections/faq-groups';
+      export { SHORT_LINKS } from './src/app/config/site';
       import { en } from './src/app/i18n/en';
       import { fr } from './src/app/i18n/fr';
       import { de } from './src/app/i18n/de';
@@ -84,6 +89,7 @@ const i18n = (await import(
   faqPage: (lang: string, key: string) => string;
   faqSlug: (key: string) => string;
   DICTIONARIES: Record<string, Messages>;
+  SHORT_LINKS: Record<string, string>;
 };
 
 const escape = (text: string) =>
@@ -162,3 +168,62 @@ ${paragraphs.map((p) => `    <p>${escape(p)}</p>`).join('\n')}
   }
 }
 console.log(`pages: ${count} FAQ pages (faq/<lang>/<question>/index.html)`);
+
+// Short links: a page that sends on at once, which search engines read as a redirect.
+for (const [name, target] of Object.entries(i18n.SHORT_LINKS)) {
+  if (PAGES.includes(name) || name === 'faq') {
+    throw new Error(`pages: the short link "${name}" is a page of the site`);
+  }
+  const url = escape(target);
+  const page = `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Living Horizon · ${escape(name)}</title>
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href="${url}" />
+    <meta http-equiv="refresh" content="0; url=${url}" />
+    <script>location.replace(${JSON.stringify(target)});</script>
+  </head>
+  <body>
+    <p><a href="${url}">${url}</a></p>
+  </body>
+</html>
+`;
+  const dir = new URL(`${name}/`, OUT);
+  await mkdir(dir, { recursive: true });
+  await writeFile(new URL('index.html', dir), page);
+}
+console.log(`pages: short links ${Object.keys(i18n.SHORT_LINKS).join(', ')}`);
+
+// For search engines: every page, in every language, each naming the others.
+let robots = 'User-agent: *\nAllow: /\n';
+if (SITE_URL) {
+  const address = (path: string, lang: string) =>
+    `${SITE_URL}${path}${lang === 'en' ? '' : `?lang=${lang}`}`;
+  const urls = ['', ...PAGES.map((p) => `${p}/`)].flatMap((path) =>
+    i18n.LANGUAGES.map(
+      ({ code }) => `  <url>
+    <loc>${escape(address(path, code))}</loc>
+${i18n.LANGUAGES.map(
+  (l) =>
+    `    <xhtml:link rel="alternate" hreflang="${l.code}" href="${escape(address(path, l.code))}"/>`,
+).join('\n')}
+    <xhtml:link rel="alternate" hreflang="x-default" href="${escape(address(path, 'en'))}"/>
+  </url>`,
+    ),
+  );
+  await writeFile(
+    new URL('sitemap.xml', OUT),
+    `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${urls.join('\n')}
+</urlset>
+`,
+  );
+  robots += `\nSitemap: ${SITE_URL}sitemap.xml\n`;
+  console.log(`pages: sitemap.xml, ${urls.length} addresses`);
+} else {
+  console.log('pages: no SITE_URL, no sitemap.xml');
+}
+await writeFile(new URL('robots.txt', OUT), robots);
